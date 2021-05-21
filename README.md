@@ -34,8 +34,22 @@ The program can be run with:\
 python ./main.py
 
 ## Docker
+Build and run with the following commands.
+
+```
 docker build -t kasperskytte/asmc-prediction .
-docker run --gpus all -it --rm -v $(realpath .):/tf -u $(id -u):$(id -g) kasperskytte/asmc-prediction
+docker run -it --rm -v $(realpath .):/tf -u $(id -u):$(id -g) kasperskytte/asmc-prediction python main.py
+```
+
+### CUDA support
+The image has CUDA support to speed up computation if you have a modern nvidia GPU. To enable add the `--gpus all` to the docker run command above and make sure you have installed recent nvidia drivers and the nvidia-container-toolkit. With never versions of Ubuntu, you can simply run 
+
+```
+sudo apt-get update
+sudo apt-get install docker.io nvidia-container-runtime 
+```
+
+before starting the container. If this doesn't work follow the guidelines at https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#install-guide
 
 ### Explanations of the options in config.json:
 | Parameter                     | Description |
