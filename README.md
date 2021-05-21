@@ -33,6 +33,10 @@ If changing 'metadata_file' or 'functionality_file' options in 'config.json' it 
 The program can be run with:\
 python ./main.py
 
+## Docker
+docker build -t kasperskytte/asmc-prediction .
+docker run --gpus all -it --rm -v $(realpath .):/tf -u $(id -u):$(id -g) kasperskytte/asmc-prediction
+
 ### Explanations of the options in config.json:
 | Parameter                     | Description |
 | ---                           | ---         |
