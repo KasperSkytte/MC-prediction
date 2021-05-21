@@ -1,6 +1,8 @@
 #Dockerfile inspired by https://sourcery.ai/blog/python-docker/
 #exact dockerfile used for base image: https://github.com/tensorflow/tensorflow/blob/0a1c3d28aa5ecbb68b6fa8e85395b9d0127787f6/tensorflow/tools/dockerfiles/dockerfiles/gpu-jupyter.Dockerfile
-FROM tensorflow/tensorflow:2.4.1-gpu-jupyter as base
+FROM tensorflow/tensorflow:2.4.1-gpu as base
+
+WORKDIR /tf
 
 # locales
 ENV LANG C.UTF-8
@@ -24,6 +26,3 @@ RUN python3 -m pip install --upgrade pip && \
 
 # Install python dependencies system wide
 RUN pipenv install --python /usr/bin/python3 --deploy --system
-
-# Install application into container
-COPY . .
