@@ -1,0 +1,22 @@
+{
+    "data_file": "aalborg_west_ASV.csv",
+    "metadata_file": "metadata_filtered.csv",
+    "functionality_file": "MiDAS_Metadata.csv",
+    "data_dir": "data/",
+    "figures_dir": "figures/",
+    "results_dir": "results/",
+    "functionalities_used": [
+        "AOB",
+        "NOB",
+        "PAO",
+        "GAO",
+        "Filamentous"
+    ],
+    "force_preprocessing": false,
+    "only_pos_func": true,
+    "low_abundance_threshold": 0.80,
+    "num_time_series_used": 10,
+    "max_epochs_lstm": 200,
+    "window_size": 10,
+    "tolerance_idec": 0.001
+}
