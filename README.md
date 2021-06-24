@@ -38,7 +38,8 @@ Pull image with `docker pull kasperskytte/asmc-prediction` (append `-{version}` 
 
 Then run with:
 ```
-docker run -it --rm -v $(realpath .):/tf -u $(id -u):$(id -g) kasperskytte/asmc-prediction python main.py
+docker run -it --rm -v "${PWD}":/tf -u $(id -u):$(id -g) kasperskytte/asmc-prediction python main.py
+
 ```
 
 The image has CUDA support to speed up computation if you have a modern nvidia GPU. To enable add the `--gpus all` to the docker run command above and make sure you have installed recent nvidia drivers and the nvidia-container-toolkit. With never versions of Ubuntu, you can simply run 
@@ -66,4 +67,5 @@ before starting the container. If this doesn't work follow the guidelines at htt
 | num_time_series_used          | Number of ASVs/species used for the prediction. |
 | max_epochs_lstm               | The maximum number of epochs used for training the LSTM. |
 | window_size                   | The size of the windows used for the LSTM i.e. how many samples that are used to predict the following sample. |
+| idec_nclusters                | Number of IDEC clusters |
 | tolerance_idec                | The training of the IDEC model stops if less than 'tolerance_idec'\*100 percent ASVs/species change cluster each iteration. |
