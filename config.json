@@ -18,5 +18,6 @@
     "num_time_series_used": 10,
     "max_epochs_lstm": 200,
     "window_size": 10,
+    "idec_nclusters": 5,
     "tolerance_idec": 0.001
 }

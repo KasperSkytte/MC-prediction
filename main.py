@@ -160,7 +160,7 @@ if __name__ == '__main__':
     num_features = config['num_time_series_used']
 
     # Number of clusters to use.
-    num_clusters = 5
+    num_clusters = config['idec_nclusters']
 
     # Number of models to train when running find_best_idec/lstm.
     iterations = 1
