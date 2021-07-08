@@ -69,3 +69,4 @@ before starting the container. If this doesn't work follow the guidelines at htt
 | window_size                   | The size of the windows used for the LSTM i.e. how many samples that are used to predict the following sample. |
 | idec_nclusters                | Number of IDEC clusters |
 | tolerance_idec                | The training of the IDEC model stops if less than 'tolerance_idec'\*100 percent ASVs/species change cluster each iteration. |
+| splits                        | How to partition the data into training, validation, and testing sets. Must sum to <= 1 |

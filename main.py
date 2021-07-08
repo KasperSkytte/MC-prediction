@@ -166,7 +166,7 @@ if __name__ == '__main__':
     iterations = 1
 
     # Define training, validation and test splits.
-    splits = [0.80, 0.0, 0.20]
+    splits = config['splits']
 
     # Open dataset with DataHandler.
     data = DataHandler(config, num_features, window_width=config['window_size'], window_batch_size=10, splits=splits)
