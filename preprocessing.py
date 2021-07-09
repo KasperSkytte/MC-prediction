@@ -241,12 +241,6 @@ def normalize(data):
     return result, mean
 
 
-def denormalize(data, mean):
-    """Denormalize the data by multiplication with the mean."""
-    result = data * mean.reshape(-1,1)
-    return result
-
-
 def smooth(data, factor=8):
     """Smoothing factor is the number of data points to use for smoothing."""
     b = [1.0 / factor] * factor
