@@ -3,129 +3,7 @@ import pandas as pd
 from scipy.signal import lfilter
 import os
 
-
-def create_directories(figures_dir, results_dir):
-    """Creates the required output directories."""
-    os.makedirs(figures_dir, exist_ok=True)
-    os.makedirs(results_dir, exist_ok=True)
-
-
-def get_mode(data_file):
-    """Determines whether the granularity of the data is on ASV or species level."""
-    data_file_ending = data_file.split('_')[-1].lower()
-    if data_file_ending == 'asv.csv':
-        return 'ASV'
-    elif data_file_ending == 'species.csv':
-        return 'Species'
-    else:
-        raise Exception('Abundance data filename must end in either "_asv.csv" or "_species.csv"')
-
-
-def preprocess_abundance_data(data_file, meta_file, data_dir):
-        """Load the dataset and the corresponding metadata with the specified filenames.
-           The metadata is filtered so it only contains data about the samples in the dataset.
-           The data is transposed, unnecessary information is dropped 
-           and the samples are sorted by date."""
-        mode = get_mode(data_file)
-        if mode == 'ASV':
-            levels = ['ASV','Species','Genus']
-        elif mode == 'Species':
-            levels = ['Species','Genus']
-        
-        data = pd.read_csv(data_dir + data_file)
-        data = data.transpose(copy=False)
-        taxonomy = data.loc[levels]
-        taxonomy.fillna('', inplace=True)
-
-        # Remove species and genus prefix.
-        species_index = taxonomy.index.get_loc('Species')
-        genus_index = taxonomy.index.get_loc('Genus')
-        for i in range(taxonomy.shape[1]):
-                taxonomy.iloc[species_index,i] = taxonomy.iloc[species_index,i].replace('s__', '', 1)
-                taxonomy.iloc[genus_index,i] = taxonomy.iloc[genus_index,i].replace('g__', '', 1)
-
-        data.drop(levels, axis=0, inplace=True)
-        data.columns = taxonomy.loc[levels[0]]
-        data = data.astype('float32', copy=False)
-
-        meta = pd.read_csv(data_dir + meta_file, index_col=0, parse_dates=['Date'])
-        meta = meta[~meta.index.duplicated(keep='first')]
-        meta = meta.filter(data.index, axis=0)
-        meta.sort_values(by='Date', inplace=True)
-        
-        if meta.shape[0] != data.shape[0]:
-            raise Exception('Some samples are missing metadata!')
-
-        # Sort samples in data chronologically.
-        data = data.reindex(index=meta.index, copy=False)
-
-        trans_data_path = data_dir + 'transformed_' + data_file
-        trans_meta_path = data_dir + 'transformed_metadata_' + data_file
-        trans_taxonomy_path = data_dir + 'transformed_taxonomy_' + data_file
-
-        data.to_csv(trans_data_path, float_format='%.3f')
-        meta.to_csv(trans_meta_path)
-        taxonomy.to_csv(trans_taxonomy_path, header=False)
-
-
-def fix_genus_names(dataframe):
-    """Makes the genus names the same across different data sources."""
-    for i in range(len(dataframe)):
-        dataframe.iloc[i,0] = dataframe.iloc[i,0].replace(' ', '_')
-        if dataframe.iloc[i,0].startswith('g__'):
-            dataframe.iloc[i,0] = dataframe.iloc[i,0][3:]
-
-
-def preprocess_functionality_data(func_file, data_dir):
-    """Preprocesses the functionality file by fix the genus naming, removing unnecessary columns 
-       and shortening functionality values."""
-    func_info = pd.read_csv(data_dir + func_file, usecols=list(range(0,41)), sep=';', dtype=str)
-    fix_genus_names(func_info)
-    func_info.replace('Variable', 'var', inplace=True)
-    func_info.replace('Negative', 'neg', inplace=True)
-    func_info.replace('Positive', 'pos', inplace=True)
-    func_info.replace('Not Assessed', 'na', inplace=True)
-    func_info.rename({'Canonical name': 'Genus'}, axis=1, inplace=True)
-    return func_info
-
-
-def concat_functionality_data(func_data, data_dir):
-    """Merges the two functionality files. Because of problems with getting filamentous 
-       functionality information from MiDAS Field Guide, the program currently relies on another 
-       source of functionality information from the file: 'MiDAS_knownfunctions.csv'. 
-       If this workaround is no longer necessary in the future, remove the call to this function."""
-    func_data_other = pd.read_csv(data_dir + 'MiDAS_knownfunctions.csv', dtype=str)
-    fix_genus_names(func_data_other)
-    return pd.concat([func_data_other, func_data], axis=0, join='inner', ignore_index=True).drop_duplicates('Genus')
-
-
-def add_functionalities_to_taxonomy_file(taxonomy_file, data_dir, func_data, functionalities):
-    """Adds functionality information to the taxonomy file."""
-    taxonomy = pd.read_csv(data_dir + taxonomy_file, index_col=0, dtype=str)
-    taxonomy = taxonomy.transpose(copy=False)
-    func_data.set_index(func_data.columns[0], inplace=True)
-    
-    # Only use ASVs/species which we have functional information about.
-    # taxonomy = taxonomy.loc[taxonomy['Genus'].isin(func_data.index)]
-
-    for func in functionalities:
-        taxonomy[func] = ['na'] * taxonomy.shape[0]
-
-    for i in range(func_data.shape[0]):
-        genus = func_data.iloc[i]
-
-        for func in functionalities:
-            in_situ = genus.loc[func + ':In situ']
-            other = genus.loc[func + ':Other']
-            if in_situ == 'na':
-                taxonomy.loc[taxonomy['Genus'] == genus.name, func] = other
-            else:
-                taxonomy.loc[taxonomy['Genus'] == genus.name, func] = in_situ
-    
-    taxonomy.to_csv(data_dir + taxonomy_file.replace('transformed', 'functional'), index_label=taxonomy.columns.name)
-
-
-def remove_time_series_with_zeroes(data, percentage):
+def filter_sparse_samples(data, percentage):
     """Removes ASV/species abundance time series consisting of more zeroes than the specified percentage."""
     num_of_samples = data.shape[0]
     zeroes_count = (data == 0.0).sum(axis=0)
@@ -134,104 +12,152 @@ def remove_time_series_with_zeroes(data, percentage):
     return data
 
 
-def assign_clusters(func_tax, functionalities):
-    """Assign labels/clusters according to functionalities.
-       Even if an ASV/species is positive in more than one functionality, it will only be assigned 
+def assign_clusters(func_tax, functions):
+    """Assign labels/clusters according to functions.
+       Even if an ASV/species is positive in more than one function, it will only be assigned 
        one cluster."""
-    # Find positive functionalities.
-    func_start_column = func_tax.shape[1] - len(functionalities)
+    # Find positive functions.
+    func_start_column = func_tax.shape[1] - len(functions)
     positives = func_tax[:,func_start_column:] == 'pos'
 
-    # Check if any ASV/species has more than one positive functionality.
+    # Check if any ASV/species has more than one positive function.
     if np.any(np.sum(positives, axis=1) > 1):
-        print('An ASV/species is positive in more than one functionality!')
+        print('An ASV/species is positive in more than one function!')
 
     # Assign clusters.
-    clusters = np.full(func_tax.shape[0], len(functionalities), dtype=int)
-    for i in range(len(functionalities)):
+    clusters = np.full(func_tax.shape[0], len(functions), dtype=int)
+    for i in range(len(functions)):
         clusters[positives[:,i]] = i
 
-    if np.any(clusters == len(functionalities)):
-        functionalities = functionalities.tolist()
-        functionalities.append('None')
+    if np.any(clusters == len(functions)):
+        functions = functions.tolist()
+        functions.append('None')
 
-    print('Cluster labels:     ', functionalities)
+    print('Cluster labels:     ', functions)
     print('Cluster sizes:      ', np.unique(clusters, axis=0, return_counts=True)[1])
-    print('Total ASVs/species: ', func_tax.shape[0])
+    print('Total taxa: ', func_tax.shape[0])
 
     return clusters
 
 
-def load_and_check_data(data_file, config):
-    """Loads the already preprocessed data files if they exists and match the options used in 
-       'config.json'. If not they are created/updated."""
-    trans_data_path = config['data_dir'] + 'transformed_' + data_file
-    func_tax_path = config['data_dir'] + 'functional_taxonomy_' + data_file
-    if config['force_preprocessing'] or \
-       (not os.path.exists(trans_data_path) or not os.path.exists(func_tax_path)):
-        statically_preprocess_data(data_file, config)
-
-    data = pd.read_csv(trans_data_path, index_col=0)
-    func_tax = pd.read_csv(func_tax_path, index_col=0, dtype=str)
-    func_start_column = func_tax.columns.get_loc('Genus') + 1
-    func_in_file = func_tax.columns[func_start_column:].to_numpy()
-
-    # Check if the functionalities in the config.json file are equal to the functionalities in the preprocessed file.
-    if not np.array_equal(func_in_file, config['functionalities_used']):
-        statically_preprocess_data(data_file, config)
-        func_tax = pd.read_csv(func_tax_path, index_col=0, dtype=str)
-        func_in_file = func_tax.columns[func_start_column:].to_numpy()
-
-    return data, func_tax, func_in_file
-
-
-def preprocess_data(data_file, config):
+def preprocess_data(config):
     """Pre-processes the data.
        
        Parameters:
-         data_file : The filename of the abundance data file.
          config : Dictionary of values from config.json."""
-    data, func_tax, functionalities = load_and_check_data(data_file, config)
+    
+    # default file paths
+    pp_dir = config['data_dir'] + '/preprocessed/'
+    pp_abund = pp_dir + config['abund_filename']
+    pp_tax_wfunctions = pp_dir + 'taxonomy_wfunctions.csv'
 
-    data = remove_time_series_with_zeroes(data, config['low_abundance_threshold'])
+    # preprocess if forced or if it hasn't been done yet
+    if config['force_preprocessing'] or \
+       (not os.path.exists(pp_abund) or not os.path.exists(pp_tax_wfunctions)):
+        do_preprocess(config)
 
-    # Only include ASVs/species with at least one positive value in the chosen functionalities.
+    abund = pd.read_csv(pp_abund, index_col=0)
+    func_tax = pd.read_csv(pp_tax_wfunctions, index_col=0, dtype=str)
+    func_start_column = func_tax.columns.get_loc('Genus') + 1
+    func_in_file = func_tax.columns[func_start_column:].to_numpy()
+
+    # preprocess if the functions in the config.json file are not equal to the functions in the preprocessed file.
+    if not np.array_equal(func_in_file, config['functions']):
+        do_preprocess(config)
+        func_tax = pd.read_csv(pp_tax_wfunctions, index_col=0, dtype=str)
+        func_in_file = func_tax.columns[func_start_column:].to_numpy()
+
+    # filter sparse samples with many zeros
+    abund = filter_sparse_samples(abund, config['max_zeros_pct'])
+
+    # Filter taxa with no positive value in any of the chosen functional groups
     if config['only_pos_func']:
         func_start_column = func_tax.columns.get_loc('Genus') + 1
         positives = func_tax.iloc[:,func_start_column:] == 'pos'
         func_tax = func_tax.loc[positives.any(axis=1)]
 
-    # Make data and taxonomy contain the same ASVs/species (calculate intersection).
-    func_tax = func_tax.filter(data.columns, axis=0)
-    data = data.filter(func_tax.index, axis=1)
+    # Make abund and taxonomy contain the same taxa (intersect).
+    func_tax = func_tax.filter(abund.columns, axis=0)
+    abund = abund.filter(func_tax.index, axis=1)
     
-    # Convert to numpy.
+    # Convert to numpy
     func_tax.reset_index(inplace=True)
     func_tax = func_tax.to_numpy().astype(str)
-    data = data.to_numpy().astype(float)
-    data = np.transpose(data)
+    abund = abund.to_numpy().astype(float)
+    abund = np.transpose(abund)
 
-    clusters = assign_clusters(func_tax, functionalities)
+    clusters = assign_clusters(func_tax, functions = config['functions'])
 
-    return data, func_tax, clusters, functionalities
+    return abund, func_tax, clusters, config['functions']
 
 
-def statically_preprocess_data(data_file, config):
-    """Does some preprocessing steps which are only necessary to run when the data files changes.
+def do_preprocess(config):
+    """Some preprocessing steps which are only necessary to run when the data files change.
         
        Parameters:
-         data_file : The filename of the abundance data file.
          config : Dictionary of values from config.json."""
-    create_directories(config['figures_dir'], config['results_dir'])
 
-    func_data = preprocess_functionality_data(config['functionality_file'], config['data_dir'])
+    # create output folders
+    os.makedirs(config['figures_dir'], exist_ok=True)
+    os.makedirs(config['results_dir'], exist_ok=True)
+    preprocessed_dir = config['data_dir'] + '/preprocessed/'
+    os.makedirs(preprocessed_dir, exist_ok=True)
 
-    # REMOVE THE FOLLOWING LINE IF ONLY ONE FILE WITH FUNTIONALITY INFORMATION IS USED.
-    func_data = concat_functionality_data(func_data, config['data_dir'])
+    # read abundance data and transpose
+    abund = pd.read_csv(config['data_dir'] + config['abund_filename'])
+    abund = abund.transpose(copy=False)
 
-    preprocess_abundance_data(data_file, config['metadata_file'], config['data_dir'])
-    add_functionalities_to_taxonomy_file('transformed_taxonomy_' + data_file, config['data_dir'], 
-                                         func_data, config['functionalities_used'])
+    # extract taxonomy, fill NA's with '', and write out
+    taxonomy = abund.loc[config['tax_cols']]
+    taxonomy.fillna('', inplace=True)
+    taxonomy.to_csv(preprocessed_dir + 'taxonomy.csv', header=False)
+
+    # remove taxonomy from abundance data
+    abund.drop(config['tax_cols'], axis=0, inplace=True)
+
+    # use the first-mentioned tax level in config->tax_cols as ID's for abund
+    abund.columns = taxonomy.loc[config['tax_cols'][0]]
+    abund = abund.astype('float32', copy=False)
+
+    # read metadata, filter duplicates, and remove any samples not present in abund, sort
+    meta = pd.read_csv(config['data_dir'] + config['metadata_filename'], index_col=0, parse_dates=['Date'])
+    meta = meta[~meta.index.duplicated(keep='first')]
+    meta = meta.filter(abund.index, axis=0)
+    meta.sort_values(by='Date', inplace=True)
+    
+    if meta.shape[0] != abund.shape[0]:
+        raise Exception('Some samples are missing metadata!')
+
+    # Sort samples in abund chronologically according to metadata
+    abund = abund.reindex(index=meta.index, copy=False)
+
+    # Read genus-level functions
+    func_data = pd.read_csv(config['data_dir'] + config['function_filename'], dtype=str)
+    func_data.set_index(func_data.columns[0], inplace=True)
+    
+    # Only use taxa which we have functional information about.
+    # taxonomy = taxonomy.loc[taxonomy['Genus'].isin(func_data.index)]
+
+    # Merge taxonomy and functions
+    taxonomy = taxonomy.transpose(copy=False)
+    for func in config['functions']:
+        taxonomy[func] = ['na'] * taxonomy.shape[0]
+
+    for i in range(func_data.shape[0]):
+        genus = func_data.iloc[i]
+
+        for func in config['functions']:
+            in_situ = genus.loc[func + ':In situ']
+            other = genus.loc[func + ':Other']
+            if in_situ == 'na':
+                taxonomy.loc[taxonomy['Genus'] == genus.name, func] = other
+            else:
+                taxonomy.loc[taxonomy['Genus'] == genus.name, func] = in_situ
+    
+    # Write out transformed/preprocessed data
+    abund.to_csv(preprocessed_dir + config['abund_filename'], float_format='%.3f')
+    meta.to_csv(preprocessed_dir + config['metadata_filename'])
+    taxonomy.to_csv(preprocessed_dir + 'taxonomy_wfunctions.csv', index_label=taxonomy.columns.name, header=False)
 
 
 def normalize(data):
@@ -253,5 +179,5 @@ if __name__ == "__main__":
     with open('config.json', 'r') as config_file:
         config = json.load(config_file)
 
-    statically_preprocess_data(config['data_file'], config)
-    preprocess_data(config['data_file'], config)
+    do_preprocess(config)
+    preprocess_data(config)
