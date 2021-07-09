@@ -107,7 +107,7 @@ if __name__ == "__main__":
     with open('config.json', 'r') as config_file:
         config = json.load(config_file)
 
-    x, func_tax, func_clusters, _ = preprocess_data(config['data_file'], config)
+    x, func_tax, func_clusters, _ = preprocess_data(config['abund_filename'], config)
     x = smooth(x)
 
     n_clusters = 5
@@ -117,7 +117,7 @@ if __name__ == "__main__":
     idec.load_weights(config['results_dir'] + 'idec/IDEC_best.h5')
     idec_clusters = idec.predict_clusters(x)
 
-    print('\nFunctionality clustering:')
+    print('\nfunction clustering:')
     cluster_sizes, r_values, p_values = calc_cluster_correlations(x, func_clusters, n_clusters)
     print_corr_results(cluster_sizes, r_values, p_values)
     create_boxplot(r_values, 'abs(r-values)', 'func')

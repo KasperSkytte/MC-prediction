@@ -11,7 +11,7 @@ from correlation import calc_cluster_correlations, calc_correlation_aggregates
 
 def create_tsne(data, num_clusters):
     data_embedded = train_tsne(data.data_raw)
-    plot_tsne(data_embedded, data.clusters_func, num_clusters, 'functionality')
+    plot_tsne(data_embedded, data.clusters_func, num_clusters, 'function')
     plot_tsne(data_embedded, data.clusters_idec, num_clusters, 'IDEC')
 
 
@@ -54,13 +54,13 @@ def find_best_idec(data, iterations, num_clusters, tolerance):
     create_tsne(data, num_clusters)
     create_boxplot(best_r_vals, 'abs(r-values)', 'idec')
 
-    # Calculate functionality cluster correlation for comparison.
+    # Calculate function cluster correlation for comparison.
     cluster_sizes, r_values, p_values = calc_cluster_correlations(data.data_raw, y, num_clusters)
     means, stds, p_means, weighted_avg = calc_correlation_aggregates(cluster_sizes, r_values, p_values)
     create_boxplot(r_values, 'abs(r-values)', 'func')
 
     with open(results_dir + 'idec_performance.txt', 'w') as outfile:
-        outfile.write('Functionality clustering:\n')
+        outfile.write('function clustering:\n')
         outfile.write('Cluster sizes: ' + str(cluster_sizes) + '\n')
         outfile.write('r (mean): ' + str(means) + '\n')
         outfile.write('r (std):  ' + str(stds) + '\n')
@@ -156,7 +156,7 @@ if __name__ == '__main__':
     
     results_dir = config['results_dir']
 
-    # Number of ASVs/species to use at the time for the prediction.
+    # Number of taxa to use at the time for the prediction.
     num_features = config['num_time_series_used']
 
     # Number of clusters to use.
