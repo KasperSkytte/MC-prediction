@@ -1,0 +1,319 @@
+Genus,Alternative names,Kingdom,Phylum,Class,Order,Family,AOB:In situ,AOB:Other,NOB:In situ,NOB:Other,Anammox:In situ,Anammox:Other,Aerobic heterotroph:In situ,Aerobic heterotroph:Other,PAO:In situ,PAO:Other,GAO:In situ,GAO:Other,Nitrite reduction:In situ,Nitrite reduction:Other,Sulfate reduction:In situ,Sulfate reduction:Other,Fermentation:In situ,Fermentation:Other,Acetogen:In situ,Acetogen:Other,Methanogen:In situ,Methanogen:Other,Short-chain fatty acids:In situ,Short-chain fatty acids:Other,Sugars:In situ,Sugars:Other,Proteins/amino acids:In situ,Proteins/amino acids:Other,Filamentous:In situ,Filamentous:Other,Hydrophobic cell surface:In situ,Hydrophobic cell surface:Other
+Ca_Amarolinea,"*Candidatus* Amarilinum,C10_SB1A",Bacteria,Chloroflexi,Anaerolineae,C10-SB1A,Amarolineaceae,na,na,na,na,na,na,pos,pos,neg,na,na,na,na,neg,na,na,pos,pos,na,na,na,na,neg,na,pos,pos,neg,na,pos,na,neg,na
+Ca_Microthrix,"",Bacteria,Actinobacteriota,Acidimicrobiia,Microtrichales,Microtrichaceae,neg,neg,na,neg,na,neg,pos,pos,neg,neg,na,neg,neg,var,neg,neg,neg,neg,na,na,na,neg,neg,pos,neg,pos,neg,var,pos,pos,pos,na
+Trichococcus,"*Nostocoida limicola* , *Lactosphaera pasteurii* , *Ruminococcus palustris* and Carnococcus allantoicus",Bacteria,Firmicutes,Bacilli,Lactobacillales,Carnobacteriaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,neg,na,na,na,pos,na,pos,na,na,na,pos,na,pos,na,var,var,var,na,na
+Tetrasphaera,"",Bacteria,Actinobacteriota,Actinobacteria,Micrococcales,Intrasporangiaceae,na,neg,na,neg,na,neg,pos,pos,pos,pos,neg,na,neg,var,neg,na,var,var,na,na,na,na,var,pos,pos,pos,pos,var,var,var,na,na
+Ferruginibacter,"",Bacteria,Bacteroidota,Bacteroidia,Chitinophagales,Chitinophagaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,neg,na,na,na,neg,na,na,na,na,na,pos,na,pos,na,pos,na,neg,na,na
+Lentimicrobium,"",Bacteria,Bacteroidota,Bacteroidia,Sphingobacteriales,Lentimicrobiaceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,neg,na,pos,na,neg,na,na,na,na
+Ca_Fermentibacter,B-1AC,Bacteria,Fermentibacterota,Fermentibacteria,Fermentibacterales,Fermentibacteraceae,na,neg,na,neg,na,neg,na,neg,na,neg,na,neg,na,neg,na,neg,na,pos,na,neg,na,neg,na,neg,na,pos,na,na,neg,na,na,na
+CL500-29 marine group,HTG5,Bacteria,Actinobacteriota,Acidimicrobiia,Microtrichales,Ilumatobacteraceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,pos,na,pos,na,na,na,na
+Ca_Epiflobacter,"",Bacteria,Bacteroidota,Bacteroidia,Chitinophagales,Saprospiraceae,na,na,na,na,na,na,pos,na,neg,na,neg,na,neg,na,neg,na,neg,na,na,na,na,na,neg,na,neg,na,pos,na,neg,na,na,na
+Rhodobacter,"",Bacteria,Proteobacteria,Alphaproteobacteria,Rhodobacterales,Rhodobacteraceae,na,na,na,na,na,na,na,var,na,na,na,na,na,var,na,na,na,neg,na,na,na,na,na,neg,na,pos,na,pos,na,neg,na,na
+Thauera,"",Bacteria,Proteobacteria,Gammaproteobacteria,Burkholderiales,Rhodocyclaceae,na,na,na,na,na,na,pos,pos,neg,na,na,na,var,pos,var,neg,na,neg,na,na,na,na,pos,pos,pos,pos,pos,pos,neg,neg,na,var
+BD1-7 clade,"",Bacteria,Proteobacteria,Gammaproteobacteria,Cellvibrionales,Spongiibacteraceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+OLB8,"",Bacteria,Bacteroidota,Bacteroidia,Chitinophagales,Saprospiraceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+Terrimonas,"LPB08,PHOS-HE31",Bacteria,Bacteroidota,Bacteroidia,Chitinophagales,Chitinophagaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,neg,na,na,na,na,na,pos,na,pos,na,pos,na,neg,na,na
+Rhodoferax,"Albidoferax, Albidiferax",Bacteria,Proteobacteria,Gammaproteobacteria,Burkholderiales,Comamonadaceae,na,na,na,na,na,na,pos,pos,neg,na,na,na,pos,var,pos,var,na,var,na,na,na,na,pos,pos,pos,pos,pos,pos,neg,var,na,na
+Romboutsia,p-55-a5,Bacteria,Firmicutes,Clostridia,Peptostreptococcales-Tissierellales,Peptostreptococcaceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,neg,na,pos,na,pos,na,na,na,na,na,pos,na,pos,na,neg,na,na
+Methanothrix,*Methanosaeta*,Archaea,Halobacterota,Methanosarcinia,Methanosarciniales,Methanosaetaceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,na,na,na,na,na,pos,pos,pos,pos,na,na,na,pos,na,var,na,pos
+Nitrospira,"",Bacteria,Nitrospirota,Nitrospiria,Nitrospirales,Nitrospiraceae,na,var,pos,pos,na,neg,pos,neg,neg,neg,neg,neg,na,pos,na,na,na,na,na,na,na,na,neg,pos,na,na,na,pos,neg,neg,na,pos
+Propionicimonas,"*Propionicicella* , Propionate-producing Actinobacteria group",Bacteria,Actinobacteriota,Actinobacteria,Propionibacteriales,Propionibacteriaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,pos,pos,na,na,na,na,na,pos,pos,pos,na,na,neg,neg,na,na
+Paracoccus,"",Bacteria,Proteobacteria,Alphaproteobacteria,Rhodobacterales,Rhodobacteraceae,na,na,na,na,na,na,na,pos,na,neg,na,na,na,var,na,na,na,neg,na,na,na,na,na,pos,na,pos,na,pos,na,neg,na,na
+Uliginosibacterium,"",Bacteria,Proteobacteria,Gammaproteobacteria,Burkholderiales,Rhodocyclaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+Christensenellaceae R-7 group,"",Bacteria,Firmicutes,Clostridia,Christensenellales,Christensenellaceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,neg,na,na,na,na,na,na
+Rikenellaceae RC9 gut group,"",Bacteria,Bacteroidota,Bacteroidia,Bacteroidales,Rikenellaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+Clostridium sensu stricto 1,"",Bacteria,Firmicutes,Clostridia,Clostridiales,Clostridiaceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,neg,na,var,na,na,na,na,na,pos,na,pos,na,pos,na,var,na,na
+Ca_Caldatribacterium,"",Bacteria,Caldatribacteriota,Caldatribacteriia,Caldatribacteriales,Caldatribacteriaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,pos,na,na,na,na,na,na
+Terrisporobacter,p-55-a5,Bacteria,Firmicutes,Clostridia,Peptostreptococcales-Tissierellales,Peptostreptococcaceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,neg,na,neg,na,pos,na,pos,na,na,na,pos,na,pos,na,pos,na,neg,na,na
+Leptothrix,"Detoniella,Chlamydothrix",Bacteria,Proteobacteria,Gammaproteobacteria,Burkholderiales,Comamonadaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,pos,na,pos,var,var,na,na
+Lacihabitans,"",Bacteria,Bacteroidota,Bacteroidia,Cytophagales,Spirosomaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,pos,na,pos,na,na,na,na
+Ca_Cloacimonas,*Ca* Cloacamonas,Bacteria,Cloacimonadota,Cloacimonadia,Cloacimonadales,Cloacimonadaceae,na,na,na,na,na,na,na,var,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,pos,na,pos,na,pos,na,na,na,na
+Ferribacterium,"",Bacteria,Proteobacteria,Gammaproteobacteria,Burkholderiales,Rhodocyclaceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,neg,na,neg,na,neg,na,na,na,na,na,pos,na,neg,na,na,neg,neg,na,na
+Dechloromonas,Includes Bet135 sub-group,Bacteria,Proteobacteria,Gammaproteobacteria,Burkholderiales,Rhodocyclaceae,na,na,na,na,na,na,pos,pos,var,na,neg,na,pos,pos,pos,pos,na,neg,na,na,na,na,pos,pos,neg,neg,pos,pos,neg,neg,na,na
+Dietzia,Rhodococcus spp,Bacteria,Actinobacteriota,Actinobacteria,Corynebacteriales,Dietziaceae,na,na,na,na,na,na,pos,pos,na,na,na,na,na,var,na,na,na,na,na,na,na,na,na,pos,na,pos,na,pos,na,var,na,pos
+Defluviicoccus,"*Candidatus* Monolibacter batavus, Nostocoida limicola ,Defluvicoccus",Bacteria,Proteobacteria,Alphaproteobacteria,Defluviicoccales,Defluviicoccaceae,na,neg,na,neg,na,neg,pos,pos,neg,neg,pos,pos,neg,pos,neg,na,na,var,na,na,na,na,pos,pos,var,pos,pos,pos,var,neg,neg,na
+Propioniciclava,"",Bacteria,Actinobacteriota,Actinobacteria,Propionibacteriales,Propionibacteriaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,pos,na,pos,na,na,na,neg,na,na
+Acetomicrobium,Anaerobaculum,Bacteria,Synergistota,Synergistia,Synergistales,Synergistaceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,neg,na,pos,na,pos,na,na,na,neg,na,pos,na,pos,na,neg,na,na
+Hyphomicrobium,"",Bacteria,Proteobacteria,Alphaproteobacteria,Rhizobiales,Hyphomicrobiaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,var,na,na,na,neg,na,na,na,na,na,pos,na,pos,na,pos,na,neg,pos,pos
+Dokdonella,"",Bacteria,Proteobacteria,Gammaproteobacteria,Xanthomonadales,Rhodanobacteraceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,neg,na,na,na,na,na,pos,na,pos,na,pos,na,neg,na,neg
+Ca_Competibacter,GB1,Bacteria,Proteobacteria,Gammaproteobacteria,Competibacterales,Competibacteraceae,na,neg,na,neg,na,neg,pos,pos,neg,neg,pos,pos,neg,pos,neg,na,var,pos,na,na,na,neg,pos,pos,neg,pos,neg,na,neg,na,na,na
+Leucobacter,"",Bacteria,Actinobacteriota,Actinobacteria,Micrococcales,Microbacteriaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,var,na,na,na,neg,na,na,na,na,na,pos,na,pos,na,pos,na,neg,na,pos
+Lautropia,GZKB25,Bacteria,Proteobacteria,Gammaproteobacteria,Burkholderiales,Burkholderiaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,var,na,na,na,pos,na,na,na,na,na,na,na,pos,na,na,na,neg,na,na
+Smithella,"",Bacteria,Desulfobacterota,Syntrophia,Syntrophales,Smithellaceae,na,na,na,na,na,na,neg,neg,na,na,na,na,na,na,na,neg,na,na,neg,neg,neg,neg,pos,pos,neg,na,na,na,neg,neg,na,na
+Nitrosomonas,Nitrosococcus mobilis,Bacteria,Proteobacteria,Gammaproteobacteria,Burkholderiales,Nitrosomonadaceae,pos,pos,neg,neg,na,na,na,pos,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,pos,na,pos,na,na,neg,neg,na,na
+Proteiniclasticum,"",Bacteria,Firmicutes,Clostridia,Clostridiales,Clostridiaceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,neg,na,pos,na,neg,na,na
+Marmoricola,"",Bacteria,Actinobacteriota,Actinobacteria,Propionibacteriales,Nocardioidaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na
+Streptococcus,*Nostocoida limicola*,Bacteria,Firmicutes,Bacilli,Lactobacillales,Streptococcaceae,na,na,na,na,na,na,pos,pos,na,na,na,na,na,var,na,na,pos,pos,na,na,na,na,neg,na,pos,pos,var,pos,var,var,na,var
+Legionella,"",Bacteria,Proteobacteria,Gammaproteobacteria,Legionellales,Legionellaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,neg,na,pos,na,var,na,na
+Intestinibacter,p-55-a5,Bacteria,Firmicutes,Clostridia,Peptostreptococcales-Tissierellales,Peptostreptococcaceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,pos,na,pos,na,pos,na,var,na,na
+Defluviimonas,"",Bacteria,Proteobacteria,Alphaproteobacteria,Rhodobacterales,Rhodobacteraceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,var,na,neg,na,pos,na,na,na,na,na,pos,na,pos,na,pos,na,neg,na,na
+Gordonia,"Gordonia amarae-like organisms (GALO),Nocardia amarae,Gordona",Bacteria,Actinobacteriota,Actinobacteria,Corynebacteriales,Nocardiaceae,na,na,na,na,na,na,pos,pos,na,na,na,na,var,na,var,na,na,na,na,na,na,na,pos,pos,var,pos,pos,neg,pos,var,pos,pos
+Methylorosula,"",Bacteria,Proteobacteria,Alphaproteobacteria,Rhizobiales,Beijerinckiaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,neg,na,na,na,na,na,neg,na,pos,na,pos,na,neg,na,na
+Ca_Accumulibacter,"Rhodocyclus-related PAO, CAP",Bacteria,Proteobacteria,Gammaproteobacteria,Burkholderiales,Rhodocyclaceae,na,neg,na,neg,na,neg,pos,pos,pos,pos,var,pos,var,pos,var,na,neg,na,na,na,na,neg,pos,na,neg,na,var,na,neg,na,na,na
+JGI 0001001-H03,"",Bacteria,Acidobacteriota,Blastocatellia,Blastocatellales,Blastocatellaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+Haliangium,"",Bacteria,Myxococcota,Polyangia,Haliangiales,Haliangiaceae,na,na,na,na,na,na,pos,pos,na,na,na,na,pos,na,pos,na,na,na,na,na,na,na,neg,na,na,na,var,pos,neg,neg,na,na
+Ca_Promineofilum,"Eikelboom type 0092, Brachythrix,B45",Bacteria,Chloroflexi,Anaerolineae,Ardenticatenales,Ca Promineofilaceae,na,neg,na,neg,na,neg,pos,pos,neg,na,neg,na,na,pos,na,neg,pos,pos,na,neg,na,neg,neg,na,pos,pos,neg,na,pos,na,neg,na
+Hydrogenophaga,Hydrogeniphaga,Bacteria,Proteobacteria,Gammaproteobacteria,Burkholderiales,Comamonadaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,var,na,na,na,na,na,na,na,na,na,pos,na,pos,na,pos,na,na,na,na
+Brooklawnia,"",Bacteria,Actinobacteriota,Actinobacteria,Propionibacteriales,Propionibacteriaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,pos,na,na,na,na,na,na
+Syntrophus,"",Bacteria,Desulfobacterota,Syntrophia,Syntrophales,Syntrophaceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,neg,na,neg,na,pos,na,na,na,na,na,neg,na,neg,na,neg,na,na,na,na
+Acidibacter,"",Bacteria,Proteobacteria,Gammaproteobacteria,midas_o_26,midas_f_98,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,neg,na,pos,na,na,na,na,na,na
+Geothrix,"",Bacteria,Acidobacteriota,Holophagae,Holophagales,Holophagaceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,neg,na,pos,na,na,na,na,na,pos,na,neg,na,na,na,neg,na,na
+Thermomonas,"",Bacteria,Proteobacteria,Gammaproteobacteria,Xanthomonadales,Xanthomonadaceae,na,na,na,na,na,na,pos,pos,na,na,na,na,na,var,na,na,na,neg,na,na,na,na,pos,pos,na,pos,pos,pos,neg,var,na,pos
+Enterococcus,"",Bacteria,Firmicutes,Bacilli,Lactobacillales,Enterococcaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,pos,na,pos,na,pos,na,var,na,var
+AAP99,"",Bacteria,Proteobacteria,Gammaproteobacteria,Burkholderiales,Sutterellaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+Haliscomenobacter,H. hydrossis,Bacteria,Bacteroidota,Bacteroidia,Chitinophagales,Saprospiraceae,na,na,na,na,na,na,pos,pos,neg,na,neg,neg,neg,na,neg,na,neg,neg,na,na,na,na,neg,neg,pos,pos,neg,pos,pos,pos,neg,na
+Ca_Brevefilum,A6,Bacteria,Chloroflexi,Anaerolineae,Anaerolineales,Anaerolineaceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,neg,na,pos,na,na,na,na,na,na,na,na,na,na,pos,na,na,na
+Novosphingobium,Sphingomonas,Bacteria,Proteobacteria,Alphaproteobacteria,Sphingomonadales,Sphingomonadaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,neg,na,na,na,neg,na,na,na,na,na,pos,na,pos,na,pos,neg,neg,na,pos
+Aquabacterium,"",Bacteria,Proteobacteria,Gammaproteobacteria,Burkholderiales,Comamonadaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,neg,na,na,na,na,na,pos,na,var,na,var,na,na,na,na
+Bradyrhizobium,"*Rhizobium japonicum* , *Blastobacter denitrificans* , *Rhizobium lupini* , *Agrimonas oligotrophica*",Bacteria,Proteobacteria,Alphaproteobacteria,Rhizobiales,Xanthobacteraceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,pos,na,na,na,pos,na,na,na,na,na,na,na,pos,na,na,na,neg,na,var
+Ideonella,"",Bacteria,Proteobacteria,Gammaproteobacteria,Burkholderiales,Comamonadaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,pos,na,pos,na,na,na,na
+Ellin6067,"",Bacteria,Proteobacteria,Gammaproteobacteria,Burkholderiales,Nitrosomonadaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+Iamia,"",Bacteria,Actinobacteriota,Acidimicrobiia,Microtrichales,Iamiaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,neg,na,neg,na,na,na,neg,na,na
+Micropruina,"",Bacteria,Actinobacteriota,Actinobacteria,Propionibacteriales,Propionibacteriaceae,na,na,na,na,na,na,pos,pos,neg,neg,pos,pos,na,var,na,na,pos,pos,na,na,na,na,pos,pos,pos,pos,pos,pos,neg,neg,na,na
+Tessaracoccus,"",Bacteria,Actinobacteriota,Actinobacteria,Propionibacteriales,Propionibacteriaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,var,na,na,na,na,na,pos,na,pos,na,pos,na,neg,na,na
+Aestuariimicrobium,"",Bacteria,Actinobacteriota,Actinobacteria,Propionibacteriales,Propionibacteriaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na
+Subdoligranulum,"",Bacteria,Firmicutes,Clostridia,Oscillospirales,Ruminococcaceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,pos,na,na,na,neg,na,na
+Nocardioides,"",Bacteria,Actinobacteriota,Actinobacteria,Propionibacteriales,Nocardioidaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,var,na,na,na,na,na,na,na,pos,na,pos,na,var,na,pos
+Denitratisoma,"",Bacteria,Proteobacteria,Gammaproteobacteria,Burkholderiales,Rhodocyclaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+Sphingopyxis,Sphingomonas,Bacteria,Proteobacteria,Alphaproteobacteria,Sphingomonadales,Sphingomonadaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,neg,na,na,na,neg,na,na,na,na,na,pos,na,pos,na,pos,na,neg,na,na
+Coprothermobacter,*Thermobacterioides proteolyticus*,Bacteria,Coprothermobacterota,Coprothermobacteria,Coprothermobacterales,Coprothermobacteraceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,neg,pos,pos,na,var,na,na,na,na,na,pos,pos,pos,neg,var,na,na
+Limnohabitans,"",Bacteria,Proteobacteria,Gammaproteobacteria,Burkholderiales,Comamonadaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,pos,na,pos,na,neg,na,na
+Propionivibrio,*Propionibacter pelophilus*,Bacteria,Proteobacteria,Gammaproteobacteria,Burkholderiales,Rhodocyclaceae,na,neg,na,neg,na,neg,na,var,neg,neg,pos,var,na,var,na,neg,na,var,na,neg,na,na,na,var,na,var,na,var,neg,neg,na,na
+Ca_Sarcinithrix,Eikelboom type 0914,Bacteria,Chloroflexi,Anaerolineae,C10-SB1A,Amarolineaceae,na,na,na,na,na,na,pos,na,neg,na,neg,na,na,na,na,na,pos,na,na,na,na,na,neg,na,pos,na,neg,na,pos,na,neg,na
+Piscinibacter,"",Bacteria,Proteobacteria,Gammaproteobacteria,Burkholderiales,Comamonadaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,pos,na,na,na,na
+Proteiniphilum,"",Bacteria,Bacteroidota,Bacteroidia,Bacteroidales,Dysgonomonadaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,pos,na,pos,na,pos,na,var,na,na
+Pirellula,"",Bacteria,Planctomycetota,Planctomycetes,Pirellulales,Pirellulaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na
+Ca_Villigracilis,"*Candidatus* Villogracilis ,SBR1029",Bacteria,Chloroflexi,Anaerolineae,Anaerolineales,Anaerolineaceae,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,neg,na,pos,na,neg,na,pos,na,na,na
+Ottowia,"",Bacteria,Proteobacteria,Gammaproteobacteria,Burkholderiales,Comamonadaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,var,na,na,na,na,na,na,na,na,na,pos,na,na,na,pos,na,na,na,na
+Gemmobacter,"",Bacteria,Proteobacteria,Alphaproteobacteria,Rhodobacterales,Rhodobacteraceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,pos,na,pos,na,na,na,na
+Thiothrix,"Eikelboom Type 021N group I, II, III",Bacteria,Proteobacteria,Gammaproteobacteria,Thiotrichales,Thiotrichaceae,na,na,na,na,na,na,pos,pos,na,na,na,na,na,pos,na,neg,na,na,na,na,na,na,pos,pos,neg,pos,na,pos,pos,pos,neg,na
+Thermovirga,"",Bacteria,Synergistota,Synergistia,Synergistales,Synergistaceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,neg,na,neg,na,pos,na,neg,na,na
+Caldicoprobacter,*Acetomicrobium faecale*,Bacteria,Firmicutes,Clostridia,Caldicoprobacterales,Caldicoprobacteraceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,neg,na,neg,na,pos,na,na,na,na,na,neg,na,pos,na,neg,na,var,na,na
+Neomegalonema,"Eikelboom type 021N-like,Meganema",Bacteria,Proteobacteria,Alphaproteobacteria,Rhodobacterales,Rhodobacteraceae,na,neg,na,neg,na,neg,pos,pos,neg,neg,neg,na,var,neg,var,neg,neg,neg,na,na,na,neg,pos,na,pos,pos,pos,na,pos,pos,pos,na
+Lactococcus,"*Streptococcus lactis* , *S. garvieae* , *S. plantarum* , S. raffinolactis *,* Lactobacillus xylosus *,L. hordniae*",Bacteria,Firmicutes,Bacilli,Lactobacillales,Streptococcaceae,na,na,na,na,na,na,na,var,na,na,na,na,na,neg,na,na,pos,pos,na,na,na,na,na,na,pos,pos,na,pos,var,var,na,var
+Phreatobacter,Rasbo,Bacteria,Proteobacteria,Alphaproteobacteria,Rhodobacterales,Rhodobacteraceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,neg,na,na,na,na,na,neg,na,pos,na,pos,na,neg,na,na
+IMCC26207,*Candida* Limnosphaera aquatica,Bacteria,Actinobacteriota,Acidimicrobiia,Microtrichales,Microtrichaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na
+Mycobacterium,"",Bacteria,Actinobacteriota,Actinobacteria,Corynebacteriales,Mycobacteriaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,pos,pos,na,na,na,var,na,pos
+Comamonas,"",Bacteria,Proteobacteria,Gammaproteobacteria,Burkholderiales,Comamonadaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,var,na,na,na,na,na,na,na,na,na,pos,na,neg,na,pos,na,na,na,na
+Mesorhizobium,"",Bacteria,Proteobacteria,Alphaproteobacteria,Rhizobiales,Rhizobiaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,pos,na,na,na,na
+Sphingobium,"",Bacteria,Proteobacteria,Alphaproteobacteria,Sphingomonadales,Sphingomonadaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,pos,na,na,na,na
+Amaricoccus,Tetracoccus,Bacteria,Proteobacteria,Alphaproteobacteria,Rhodobacterales,Rhodobacteraceae,na,na,na,na,na,na,na,pos,na,neg,na,neg,na,na,na,na,na,neg,na,na,na,na,na,pos,na,pos,na,pos,neg,neg,na,na
+Sedimentibacter,*Clostridium hydroxybenzoicum*,Bacteria,Firmicutes,Clostridia,Peptostreptococcales-Tissierellales,Sedimentibacteraceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,neg,na,neg,na,pos,na,na,na,na,na,pos,na,neg,na,pos,na,var,na,na
+Ca_Saccharimonas,"",Bacteria,Patescibacteria,Saccharimonadia,Saccharimonadales,Saccharimonadaceae,na,neg,na,neg,na,neg,na,neg,na,neg,na,neg,na,neg,na,neg,na,pos,na,na,na,neg,na,neg,na,pos,na,na,neg,na,na,na
+Sulfuritalea,"",Bacteria,Proteobacteria,Gammaproteobacteria,Burkholderiales,Rhodocyclaceae,na,na,na,na,na,na,pos,pos,na,na,na,na,pos,pos,pos,neg,na,na,na,na,na,na,var,pos,var,neg,pos,na,neg,neg,na,na
+Zoogloea,"",Bacteria,Proteobacteria,Gammaproteobacteria,Burkholderiales,Rhodocyclaceae,na,na,na,na,na,na,pos,pos,na,na,na,na,pos,var,na,na,na,var,na,na,na,na,pos,pos,na,pos,na,pos,neg,na,na,var
+Cereibacter,"",Bacteria,Proteobacteria,Alphaproteobacteria,Rhodobacterales,Rhodobacteraceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,neg,na,na,na,na,na,neg,na,pos,na,var,na,na,na,na
+Afipia,"",Bacteria,Proteobacteria,Alphaproteobacteria,Rhizobiales,Xanthobacteraceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+OM27 clade,"",Bacteria,Bdellovibrionota,Bdellovibrionia,Bdellovibrionales,Bdellovibrionaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+Leptolinea,"",Bacteria,Chloroflexi,Anaerolineae,Anaerolineales,Anaerolineaceae,na,na,na,na,na,na,na,var,na,na,na,na,na,na,na,neg,na,pos,na,neg,na,na,na,neg,na,pos,na,pos,na,pos,na,na
+Diaphorobacter,"",Bacteria,Proteobacteria,Gammaproteobacteria,Burkholderiales,Comamonadaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,pos,na,neg,na,pos,na,na,na,na
+Aeromicrobium,"",Bacteria,Actinobacteriota,Actinobacteria,Propionibacteriales,Nocardioidaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,pos,na,na,na,na,na,na
+Ca_Contendobacter,"GB5 + GB6 + GB7 , *Ca.* Competibacter",Bacteria,Proteobacteria,Gammaproteobacteria,Competibacterales,Competibacteraceae,na,neg,na,neg,na,neg,pos,pos,neg,neg,pos,pos,var,neg,var,na,neg,neg,na,na,na,neg,pos,pos,neg,pos,neg,na,neg,na,na,na
+Devosia,"",Bacteria,Proteobacteria,Alphaproteobacteria,Rhizobiales,Devosiaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,na,na,na,na,var,na,na,na,na,na,na
+Methanoculleus,"*Methanoculleus* , *Methanogenium marisnigri* , *M. thermophilicum* , *M. olentangyi* , *M. frittonii*",Archaea,Halobacterota,Methanomicrobia,Methanomicrobiales,Methanomicrobiaceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,pos,pos,na,na,na,pos,na,neg,na,na
+Simplicispira,"*Simplicispira metamorpha* , *S. psychrophila*",Bacteria,Proteobacteria,Gammaproteobacteria,Burkholderiales,Comamonadaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,pos,na,pos,na,neg,na,pos
+Blastocatella,AK1DE1,Bacteria,Acidobacteriota,Blastocatellia,Blastocatellales,Blastocatellaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,neg,na,neg,na,neg,na,na,na,na,na,neg,na,var,na,pos,na,var,na,na
+Dethiobacter,"",Bacteria,Firmicutes,Dethiobacteria,Dethiobacterales,Dethiobacteraceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,pos,na,pos,na,na,na,na,na,na
+Limnobacter,"",Bacteria,Proteobacteria,Gammaproteobacteria,Burkholderiales,Burkholderiaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,var,na,neg,na,pos,na,neg,na,pos
+Nannocystis,"",Bacteria,Myxococcota,Polyangia,Nannocystales,Nannocystaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,neg,na,pos,na,neg,na,na
+Brachymonas,"",Bacteria,Proteobacteria,Gammaproteobacteria,Burkholderiales,Comamonadaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,neg,na,na,na,na,na,na
+Leptonema,"",Bacteria,Spirochaetota,Leptospirae,Leptospirales,Leptospiraceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+Pedomicrobium,"",Bacteria,Proteobacteria,Alphaproteobacteria,Rhizobiales,Hyphomicrobiaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,neg,na,na,na,na,na,pos,na,pos,na,pos,na,neg,na,na
+Phaeodactylibacter,"",Bacteria,Bacteroidota,Bacteroidia,Chitinophagales,Saprospiraceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,var,na,neg,na,pos,na,na,na,na,na,na,na,neg,na,na,na,na,na,na
+Hahella,"",Bacteria,Proteobacteria,Gammaproteobacteria,Oceanospirillales,Hahellaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,pos,na,na,na,na,na,na
+SC103,"",Bacteria,Thermotogota,Thermotogae,Petrotogales,Petrotogaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+Phenylobacterium,"",Bacteria,Proteobacteria,Alphaproteobacteria,Caulobacterales,Caulobacteraceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,neg,na,na,na,na,na,na,na,na,na,var,na,var,na,var,na,na,na,na
+Ilumatobacter,"",Bacteria,Actinobacteriota,Acidimicrobiia,Microtrichales,Ilumatobacteraceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+Petrimonas,"",Bacteria,Bacteroidota,Bacteroidia,Bacteroidales,Dysgonomonadaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,neg,na,pos,na,na,na,na,na,pos,na,pos,na,pos,na,var,na,na
+Acinetobacter,Eikelboom Type 1863,Bacteria,Proteobacteria,Gammaproteobacteria,Pseudomonadales,Moraxellaceae,na,na,na,na,na,na,pos,pos,neg,neg,neg,neg,na,na,na,na,na,neg,na,na,na,na,na,pos,na,pos,na,pos,var,var,na,pos
+Caenimonas,"",Bacteria,Proteobacteria,Gammaproteobacteria,Burkholderiales,Comamonadaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,pos,na,na,na,na
+Bryobacter,"",Bacteria,Acidobacteriota,Acidobacteriae,Bryobacterales,Bryobacteraceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,neg,na,na,na,na,na,neg,na,pos,na,pos,na,na,na,na
+Methanolinea,"",Archaea,Halobacterota,Methanomicrobia,Methanomicrobiales,Methanoregulaceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,pos,na,na,na,na,na,var,na,na
+Anaeromyxobacter,"",Bacteria,Myxococcota,Myxococcia,Myxococcales,Anaeromyxobacteraceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+Gallionella,"",Bacteria,Proteobacteria,Gammaproteobacteria,Burkholderiales,Gallionellaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na
+Kouleothrix,Eikelboom type 1851,Bacteria,Chloroflexi,Chloroflexia,Chloroflexales,Roseiflexaceae,na,na,na,na,na,na,pos,pos,neg,na,neg,na,neg,var,neg,na,neg,pos,na,na,na,na,var,pos,pos,pos,neg,neg,pos,pos,neg,neg
+Gemmatimonas,"",Bacteria,Gemmatimonadota,Gemmatimonadetes,Gemmatimonadales,Gemmatimonadaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,pos,na,na,na,na,na,na
+Flavobacterium,"",Bacteria,Bacteroidota,Bacteroidia,Flavobacteriales,Flavobacteriaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,var,na,na,na,na,na,pos,na,pos,na,pos,na,var,pos,var
+Desulfobulbus,"",Bacteria,Desulfobacterota,Desulfobulbia,Desulfobulbales,Desulfobulbaceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,pos,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+Ca_Soleaferrea,"",Bacteria,Firmicutes,Clostridia,Oscillospirales,Ruminococcaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+Arcobacter,"*Campylobacter nitrofigilis* , *C. cryaerophila*",Bacteria,Campilobacterota,Campylobacteria,Campylobacterales,Arcobacteraceae,na,na,na,na,na,na,na,var,na,na,na,na,na,na,na,neg,na,pos,na,na,na,na,na,pos,na,pos,na,pos,neg,var,na,neg
+Azospira,"",Bacteria,Proteobacteria,Gammaproteobacteria,Burkholderiales,Rhodocyclaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,pos,na,na,na,neg,na,na,na,na,na,pos,na,neg,na,neg,na,na,na,na
+Ca_Alysiosphaera,*Candidatus* Halyseosphaera,Bacteria,Proteobacteria,Alphaproteobacteria,Tistrellales,Geminicoccaceae,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,pos,na,pos,na,pos,na,pos,na
+Anaerovorax,"",Bacteria,Firmicutes,Clostridia,Peptostreptococcales-Tissierellales,Anaerovoracaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,pos,na,na,na,na
+Pseudorhodobacter,"",Bacteria,Proteobacteria,Alphaproteobacteria,Rhodobacterales,Rhodobacteraceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,neg,na,na,na,na,na,na,na,na,na,pos,na,pos,na,neg,na,neg,na,na
+Lewinella,"",Bacteria,Bacteroidota,Bacteroidia,Chitinophagales,Saprospiraceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,pos,na,pos,na,na
+Microbacterium,"",Bacteria,Actinobacteriota,Actinobacteria,Micrococcales,Microbacteriaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,pos,na,pos,na,na,na,na
+Leptospira,"",Bacteria,Spirochaetota,Leptospirae,Leptospirales,Leptospiraceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+Ca_Obscuribacter,"",Bacteria,Cyanobacteria,Vampirivibrionia,Obscuribacterales,Obscuribacteraceae,na,na,na,na,na,na,na,pos,na,pos,na,na,na,neg,na,na,na,pos,na,na,na,na,na,pos,na,pos,na,na,na,na,na,na
+Amphiplicatus,"",Bacteria,Proteobacteria,Alphaproteobacteria,Caulobacterales,Parvularculaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,pos,na,na,na,na,na,na
+Halomonas,"Halomonas-related PAO, *Ca* Accumulimonas",Bacteria,Proteobacteria,Gammaproteobacteria,Oceanospirillales,Halomonadaceae,na,na,na,na,na,na,pos,na,pos,na,neg,na,neg,na,neg,na,neg,na,na,na,na,na,pos,na,neg,na,neg,na,neg,na,na,na
+OLB12,"",Bacteria,Bacteroidota,Bacteroidia,Cytophagales,Microscillaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+Chitinivorax,"",Bacteria,Proteobacteria,Gammaproteobacteria,Burkholderiales,Chitinimonadaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,pos,na,na,na,na
+SH-PL14,"",Bacteria,Planctomycetota,Planctomycetes,Planctomycetales,Rubinisphaeraceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+Exilispira,"",Bacteria,Spirochaetota,Brachyspirae,Brachyspirales,midas_f_1454,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+Falsirhodobacter,"",Bacteria,Proteobacteria,Alphaproteobacteria,Rhodobacterales,Rhodobacteraceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na
+Galbitalea,"",Bacteria,Actinobacteriota,Actinobacteria,Micrococcales,Microbacteriaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+Aquimonas,"",Bacteria,Proteobacteria,Gammaproteobacteria,Xanthomonadales,Rhodanobacteraceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,neg,na,na,na,na,na,na
+Alysiella,"",Bacteria,Proteobacteria,Gammaproteobacteria,Burkholderiales,Neisseriaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,na,na,pos,na,na
+Acidovorax,Acidivorax,Bacteria,Proteobacteria,Gammaproteobacteria,Burkholderiales,Comamonadaceae,na,na,na,na,na,na,na,pos,na,na,na,na,pos,var,pos,na,na,neg,na,na,na,na,pos,pos,na,pos,na,pos,neg,neg,na,var
+Lachnospiraceae AC2044 group,"",Bacteria,Firmicutes,Clostridia,Lachnospirales,Lachnospiraceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,pos,na,pos,na,na,na,na
+Phaselicystis,"",Bacteria,Myxococcota,Polyangia,Polyangiales,Phaselicystidaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na
+Rhizobacter,"",Bacteria,Proteobacteria,Gammaproteobacteria,Burkholderiales,Comamonadaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,pos,na,na,na,na
+Conexibacter,"",Bacteria,Actinobacteriota,Thermoleophilia,Solirubrobacterales,Solirubrobacteraceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,pos,na,na,na,na,na,na
+Blastopirellula,"",Bacteria,Planctomycetota,Planctomycetes,Pirellulales,Pirellulaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,neg,na,pos,na,pos,na,na,na,na
+Altererythrobacter,"",Bacteria,Proteobacteria,Alphaproteobacteria,Sphingomonadales,Sphingomonadaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,var,na,pos,na,na,na,na
+Methanosarcina,"",Archaea,Halobacterota,Methanosarcinia,Methanosarciniales,Methanosarcinaceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,na,na,neg,na,na,na,pos,na,pos,na,pos,na,na,neg,neg,na,pos
+Crocinitomix,"",Bacteria,Bacteroidota,Bacteroidia,Flavobacteriales,Crocinitomicaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,var,na,na,na,var,na,na
+Ignavibacterium,"",Bacteria,Bacteroidota,Ignavibacteria,Ignavibacteriales,Ignavibacteriaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,neg,na,neg,na,pos,na,na,na,na,na,neg,na,pos,na,na,na,na,na,na
+Blvii28 wastewater-sludge group,*Acetobacteroides*,Bacteria,Bacteroidota,Bacteroidia,Bacteroidales,Williamwhitmaniaceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,neg,na,pos,na,na,na,na,na,neg,na,pos,na,pos,na,neg,na,na
+Sandaracinus,"",Bacteria,Myxococcota,Polyangia,Polyangiales,Sandaracinaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,pos,na,na,na,na
+Pajaroellobacter,"",Bacteria,Myxococcota,Polyangia,Polyangiales,Polyangiaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+Aquamicrobium,"",Bacteria,Proteobacteria,Alphaproteobacteria,Rhizobiales,Rhizobiaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,var,na,na,na,na,na,na,na,na,na,pos,na,pos,na,na,na,na,na,na
+Luteococcus,"",Bacteria,Actinobacteriota,Actinobacteria,Propionibacteriales,Propionibacteriaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,pos,na,na,na,na,na,na
+Georgfuchsia,"",Bacteria,Proteobacteria,Gammaproteobacteria,Burkholderiales,Rhodocyclaceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,na,na,neg,na,na,na,na,na,neg,na,neg,na,neg,na,na,na,na
+Allorhizobium-Neorhizobium-Pararhizobium-Rhizobium,"",Bacteria,Proteobacteria,Alphaproteobacteria,Rhizobiales,Rhizobiaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,pos,na,na,na,na
+Lacunisphaera,"",Bacteria,Verrucomicrobiota,Verrucomicrobiae,Opitutales,Opitutaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na
+Eubacterium brachy group,"",Bacteria,Firmicutes,Clostridia,Peptostreptococcales-Tissierellales,Anaerovoracaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,pos,na,na,na,na,na,na
+Uruburuella,"",Bacteria,Proteobacteria,Gammaproteobacteria,Burkholderiales,Neisseriaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,pos,na,na,na,pos,na,na,na,na,na,pos,na,pos,na,na,na,na,na,na
+Ca_Ovatusbacter,"",Bacteria,Proteobacteria,Gammaproteobacteria,midas_o_147,midas_f_2362,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+Crenothrix,"",Bacteria,Proteobacteria,Gammaproteobacteria,Methylococcales,Methylomonadaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,pos,na,pos,na,na,na,pos,na,na,na
+Caulobacter,"",Bacteria,Proteobacteria,Alphaproteobacteria,Caulobacterales,Caulobacteraceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,var,na,pos,na,pos,na,na,na,na
+Anaerosinus,"",Bacteria,Firmicutes,Negativicutes,Veillonellales-Selenomonadales,Sporomusaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,neg,na,na,na,na,na,na
+Lysinimonas,"",Bacteria,Actinobacteriota,Actinobacteria,Micrococcales,Microbacteriaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,neg,na,pos,na,neg,na,na,na,na
+Aminobacter,"",Bacteria,Proteobacteria,Alphaproteobacteria,Rhizobiales,Rhizobiaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,pos,na,pos,na,na,na,na
+Methanospirillum,"",Archaea,Halobacterota,Methanomicrobia,Methanomicrobiales,Methanospirillaceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,neg,na,na,na,na,na,pos,na,pos,na,na,na,na,na,var,na,neg
+Prevotella,*Bacteroides*,Bacteria,Bacteroidota,Bacteroidia,Bacteroidales,Prevotellaceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,pos,na,pos,na,var,na,var
+Brevundimonas,"",Bacteria,Proteobacteria,Alphaproteobacteria,Caulobacterales,Caulobacteraceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,var,na,pos,na,na,na,na
+Paludibacter,"",Bacteria,Bacteroidota,Bacteroidia,Bacteroidales,Paludibacteraceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,pos,na,na,na,na,na,na
+Sphaerotilus,"",Bacteria,Proteobacteria,Gammaproteobacteria,Burkholderiales,Comamonadaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,pos,na,pos,var,var,na,na
+Geobacter,"",Bacteria,Desulfobacterota,Desulfuromonadia,Geobacterales,Geobacteraceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na
+Herbinix,"",Bacteria,Firmicutes,Clostridia,Lachnospirales,Lachnospiraceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+oc32,"",Bacteria,Proteobacteria,Gammaproteobacteria,Burkholderiales,Nitrosomonadaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+Cloacibacterium,"",Bacteria,Bacteroidota,Bacteroidia,Flavobacteriales,Weeksellaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,neg,na,na,na,pos,na,na,na,neg,na,neg,na,pos,na,pos,na,var,na,na
+Leptotrichia,"",Bacteria,Fusobacteriota,Fusobacteriia,Fusobacteriales,Leptotrichiaceae,na,na,na,na,na,na,na,var,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,pos,na,na,na,var,na,na
+Lysobacter,"",Bacteria,Proteobacteria,Gammaproteobacteria,Xanthomonadales,Xanthomonadaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,pos,na,pos,na,na,na,na
+Methanobacterium,"",Archaea,Euryarchaeota,Methanobacteria,Methanobacteriales,Methanobacteriaceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,pos,na,na,na,na,na,var,na,neg
+Aetherobacter,"",Bacteria,Myxococcota,Polyangia,Polyangiales,Polyangiaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,pos,na,na,na,na
+Anaerolinea,"",Bacteria,Chloroflexi,Anaerolineae,Anaerolineales,Anaerolineaceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,pos,na,neg,na,pos,na,neg,na,na,na,neg,na,pos,na,pos,na,pos,na,na
+Pedobacter,"",Bacteria,Bacteroidota,Bacteroidia,Sphingobacteriales,Sphingobacteriaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,neg,na,na,na,na,na,neg,na,pos,na,var,na,na,na,na
+Roseomonas,"",Bacteria,Proteobacteria,Alphaproteobacteria,Acetobacterales,Acetobacteraceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,pos,na,pos,na,na,na,na
+Corynebacterium,Corynebacterium 1,Bacteria,Actinobacteriota,Actinobacteria,Corynebacteriales,Corynebacteriaceae,na,na,na,na,na,na,na,pos,na,pos,na,na,na,pos,na,na,na,pos,na,na,na,na,na,na,na,pos,na,na,na,neg,na,pos
+Turicibacter,"",Bacteria,Firmicutes,Bacilli,Erysipelotrichales,Erysipelotrichaceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,pos,na,na,na,pos,na,na
+Bauldia,"",Bacteria,Proteobacteria,Alphaproteobacteria,Rhodobacterales,Rhodobacteraceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na
+Jatrophihabitans,"",Bacteria,Actinobacteriota,Actinobacteria,Frankiales,Frankiaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,pos,na,pos,na,na,na,na
+Arenimonas,"",Bacteria,Proteobacteria,Gammaproteobacteria,Xanthomonadales,Xanthomonadaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,neg,na,na,na,na,na,na,na,na,na,neg,na,neg,na,pos,na,na,na,na
+Atopobium,"",Bacteria,Actinobacteriota,Coriobacteriia,Coriobacteriales,Atopobiaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,pos,na,na,na,na,na,na
+Demequina,"",Bacteria,Actinobacteriota,Actinobacteria,Micrococcales,Demequinaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,neg,na,pos,na,neg,na,na,na,na
+Dialister,"",Bacteria,Firmicutes,Negativicutes,Veillonellales-Selenomonadales,Veillonellaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,neg,na,na,na
+Eubacterium,"",Bacteria,Firmicutes,Clostridia,Eubacteriales,Eubacteriaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,pos,na,pos,na,na,na,na
+Enhydrobacter,"",Bacteria,Proteobacteria,Gammaproteobacteria,Pseudomonadales,Moraxellaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,pos,na,pos,na,pos,na,na,na,na
+Lachnospiraceae NK4A136 group,"",Bacteria,Firmicutes,Clostridia,Lachnospirales,Lachnospiraceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,pos,na,pos,na,na,na,na
+Lactivibrio,"",Bacteria,Synergistota,Synergistia,Synergistales,Synergistaceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,neg,na,pos,na,na,na,na,na,neg,na,pos,na,pos,na,na,na,na
+Acholeplasma,"",Bacteria,Firmicutes,Bacilli,Acholeplasmatales,Acholeplasmataceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,pos,na,na,na,na,na,na
+Labrys,"",Bacteria,Proteobacteria,Alphaproteobacteria,Rhizobiales,Labraceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,pos,na,pos,na,na,na,na
+Macellibacteroides,"",Bacteria,Bacteroidota,Bacteroidia,Bacteroidales,Tannerellaceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,neg,na,pos,na,na,na,na,na,na,na,pos,na,na,na,na,na,na
+Kineosporia,"",Bacteria,Actinobacteriota,Actinobacteria,Kineosporiales,Kineosporiaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na
+Lactobacillus,"",Bacteria,Firmicutes,Bacilli,Lactobacillales,Lactobacillaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,pos,na,pos,na,pos,na,na,na,na
+Methanothermobacter,*Methanobacterium*,Archaea,Euryarchaeota,Methanobacteria,Methanobacteriales,Methanothermobacteriaceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,pos,na,na,na,na,na,var,na,na
+Actinomyces,"",Bacteria,Actinobacteriota,Actinobacteria,Actinomycetales,Actinomycetaceae,na,na,na,na,na,na,na,var,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,pos,na,na,na,var,na,var
+Fusibacter,"",Bacteria,Firmicutes,Clostridia,Peptostreptococcales-Tissierellales,Fusibacteraceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,pos,na,na,na,na,na,na
+Dongia,"",Bacteria,Proteobacteria,Alphaproteobacteria,Dongiales,Dongiaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na
+Luteimonas,"",Bacteria,Proteobacteria,Gammaproteobacteria,Xanthomonadales,Xanthomonadaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,pos,na,na,na,neg,na,na,na,na,na,var,na,var,na,var,na,na,na,na
+Acidaminococcus,"",Bacteria,Firmicutes,Negativicutes,Acidaminococcales,Acidaminococcaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,neg,na,pos,na,na,na,na
+Methylotenera,"",Bacteria,Proteobacteria,Gammaproteobacteria,Burkholderiales,Methylophilaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+Cellvibrio,"",Bacteria,Proteobacteria,Gammaproteobacteria,Cellvibrionales,Cellvibrionaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na
+Georgenia,"",Bacteria,Actinobacteriota,Actinobacteria,Micrococcales,Bogoriellaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,neg,na,pos,na,neg,na,na,na,na
+Anaerostipes,*Eubacterium hadrum*,Bacteria,Firmicutes,Clostridia,Lachnospirales,Lachnospiraceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,pos,na,pos,na,na,na,var,na,na
+Gemmata,"",Bacteria,Planctomycetota,Planctomycetes,Gemmatales,Gemmataceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,neg,na,na,na,na
+Bdellovibrio,"",Bacteria,Bdellovibrionota,Bdellovibrionia,Bdellovibrionales,Bdellovibrionaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+Acetobacterium,"",Bacteria,Firmicutes,Clostridia,Eubacteriales,Eubacteriaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,pos,na,na,na,na,na,na
+Ca_Paracaedibacter,"",Bacteria,Proteobacteria,Alphaproteobacteria,Paracaedibacterales,Paracaedibacteraceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+Hyphomonas,"",Bacteria,Proteobacteria,Alphaproteobacteria,Caulobacterales,Hyphomonadaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,neg,na,neg,na,pos,na,na,na,na
+Fusicatenibacter,"",Bacteria,Firmicutes,Clostridia,Lachnospirales,Lachnospiraceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,pos,na,na,na,na,na,na
+Aeromonas,"",Bacteria,Proteobacteria,Gammaproteobacteria,Aeromonadales,Aeromonadaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,pos,na,pos,na,na,na,na,na,na
+Dorea,*Eubacterium formicigenerans*,Bacteria,Firmicutes,Clostridia,Lachnospirales,Lachnospiraceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,pos,na,pos,na,neg,na,var,na,na
+Fluviicola,"",Bacteria,Bacteroidota,Bacteroidia,Flavobacteriales,Crocinitomicaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,neg,na,na,na,na,na,na,na,na,na,na,na,pos,na,na,na,var,na,na
+Cellulosilyticum,"",Bacteria,Firmicutes,Clostridia,Lachnospirales,Lachnospiraceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na
+Kaistia,"",Bacteria,Proteobacteria,Alphaproteobacteria,Rhizobiales,Kaistiaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,neg,na,pos,na,pos,na,na,na,na
+Halioglobus,"",Bacteria,Proteobacteria,Gammaproteobacteria,Cellvibrionales,Halieaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na
+Psychrobacter,"",Bacteria,Proteobacteria,Gammaproteobacteria,Pseudomonadales,Moraxellaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,var,na,na,na,neg,na,na,na,na,na,pos,na,pos,na,pos,na,neg,na,na
+Bythopirellula,"",Bacteria,Planctomycetota,Planctomycetes,Pirellulales,Pirellulaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na
+Leifsonia,"",Bacteria,Actinobacteriota,Actinobacteria,Micrococcales,Microbacteriaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,pos,na,var,na,na
+Bosea,"",Bacteria,Proteobacteria,Alphaproteobacteria,Rhizobiales,Beijerinckiaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,neg,na,na,na,neg,na,na,na,na,na,na,na,var,na,na,na,na,na,na
+Lachnospiraceae UCG-004,"",Bacteria,Firmicutes,Clostridia,Lachnospirales,Lachnospiraceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,pos,na,pos,na,na,na,na
+Leuconostoc,"",Bacteria,Firmicutes,Bacilli,Lactobacillales,Leuconostocaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,pos,na,pos,na,na,na,na
+Ca_Desulforudis,"",Bacteria,Firmicutes,Desulfotomaculia,Ammonifexales,Desulforudaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,pos,na,pos,na,pos,na,na,na,na
+Herpetosiphon,"",Bacteria,Chloroflexi,Chloroflexia,Chloroflexales,Herpetosiphonaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,na
+Cephaloticoccus,"",Bacteria,Verrucomicrobiota,Verrucomicrobiae,Opitutales,Opitutaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,neg,na,na,na,na,na,neg,na,pos,na,neg,na,na,na,na
+Hirschia,"",Bacteria,Proteobacteria,Alphaproteobacteria,Caulobacterales,Hyphomonadaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,pos,na,pos,na,na,na,na
+Agathobacter,"",Bacteria,Firmicutes,Clostridia,Lachnospirales,Lachnospiraceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,pos,na,na,na,na,na,na
+Laribacter,"",Bacteria,Proteobacteria,Gammaproteobacteria,Burkholderiales,Aquaspirillaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,neg,na,na,na,na,na,na
+Bacteroides,"",Bacteria,Bacteroidota,Bacteroidia,Bacteroidales,Bacteroidaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,pos,na,na,na,na,na,na
+Chryseobacterium,"",Bacteria,Bacteroidota,Bacteroidia,Flavobacteriales,Weeksellaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,neg,na,na,na,neg,na,na,na,na,na,na,na,pos,na,pos,na,var,na,na
+Aridibacter,"",Bacteria,Acidobacteriota,Blastocatellia,Blastocatellales,Blastocatellaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,neg,na,pos,na,pos,na,na,na,na
+Ca_Nostocoida,Nostocoida limicola type III,Bacteria,Planctomycetota,Planctomycetes,Isosphaerales,Isosphaeraceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,na,na
+LNR A2-18,"",Bacteria,Cloacimonadota,Cloacimonadia,Cloacimonadales,Cloacimonadaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+Blastochloris,"",Bacteria,Proteobacteria,Alphaproteobacteria,Rhizobiales,Xanthobacteraceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,var,na,pos,na,na,na,na,na,na
+Diaminobutyricimonas,"",Bacteria,Actinobacteriota,Actinobacteria,Micrococcales,Microbacteriaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na
+Mariniphaga,"",Bacteria,Bacteroidota,Bacteroidia,Bacteroidales,Prolixibacteraceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,neg,na,neg,na,pos,na,na,na,na,na,na,na,pos,na,na,na,na,na,na
+Hoeflea,"",Bacteria,Proteobacteria,Alphaproteobacteria,Rhizobiales,Rhizobiaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,var,na,pos,na,na,na,na,na,na
+Curvibacter,"",Bacteria,Proteobacteria,Gammaproteobacteria,Burkholderiales,Comamonadaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na
+Flavitalea,"",Bacteria,Bacteroidota,Bacteroidia,Chitinophagales,Chitinophagaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,neg,na,pos,na,neg,na,na,na,na
+Acidipropionibacterium,*Propionibacterium*,Bacteria,Actinobacteriota,Actinobacteria,Propionibacteriales,Propionibacteriaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,pos,na,na,na,na,na,na
+Defluviitalea,"",Bacteria,Firmicutes,Clostridia,Lachnospirales,Defluviitaleaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,neg,na,neg,na,pos,na,na,na,na,na,na,na,pos,na,na,na,na,na,na
+Defluviitoga,"",Bacteria,Thermotogota,Thermotogae,Petrotogales,Petrotogaceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,neg,na,pos,na,na,na,na,na,neg,na,pos,na,neg,na,var,na,na
+Aquicella,"",Bacteria,Proteobacteria,Gammaproteobacteria,Diplorickettsiales,Diplorickettsiaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,na
+Cutibacterium,*Propionibacterium*,Bacteria,Actinobacteriota,Actinobacteria,Propionibacteriales,Propionibacteriaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,pos,na,na,na,na,na,na
+Armatimonas,"",Bacteria,Armatimonadota,Armatimonadia,Armatimonadales,Armatimonadaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,neg,na,na,na,na,na,neg,na,pos,na,neg,na,na,na,na
+Fervidobacterium,"",Bacteria,Thermotogota,Thermotogae,Thermotogales,Fervidobacteriaceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,neg,na,pos,na,na,na,na,na,pos,na,pos,na,pos,na,neg,na,na
+Desulforhabdus,"",Bacteria,Desulfobacterota,Syntrophobacteria,Syntrophobacterales,Syntrophobacteraceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,neg,na,na,na,na,na,pos,na,neg,na,neg,na,na,na,na
+Bellilinea,"",Bacteria,Chloroflexi,Anaerolineae,Anaerolineales,Anaerolineaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,neg,na,pos,na,na,na,pos,na,na
+Gaiella,"",Bacteria,Actinobacteriota,Thermoleophilia,Gaiellales,Gaiellaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,pos,na,pos,na,na,na,na
+Aquincola,"",Bacteria,Proteobacteria,Gammaproteobacteria,Burkholderiales,Comamonadaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,var,na,pos,na,na,na,na
+Lachnospiraceae NK3A20 group,"",Bacteria,Firmicutes,Clostridia,Lachnospirales,Lachnospiraceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,pos,na,pos,na,na,na,na
+Megasphaera,"",Bacteria,Firmicutes,Negativicutes,Veillonellales-Selenomonadales,Veillonellaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,var,na,na,na,na,na,na
+Flexilinea,"",Bacteria,Chloroflexi,Anaerolineae,Anaerolineales,Anaerolineaceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,neg,na,pos,na,na,na,na,na,na,na,neg,na,na,na,pos,na,na
+Levilinea,"",Bacteria,Chloroflexi,Anaerolineae,Anaerolineales,Anaerolineaceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,neg,na,neg,na,pos,na,na,na,neg,na,neg,na,pos,na,na,na,pos,na,na
+Lachnoclostridium,"*Clostridia* , *Desulfotomaculum guttoideum* , *Eubacterium contortum* , *E. fissicatena* , *Ruminococcus torques*",Bacteria,Firmicutes,Clostridia,Lachnospirales,Lachnospiraceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,neg,na,pos,na,na,na,na,na,na,na,pos,na,na,na,na,na,na
+Ca_Hydrogenedens,"",Bacteria,Hydrogenedentes,Hydrogenedentia,Hydrogenedentiales,Hydrogenedensaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+Ca_Anammoximicrobium,"",Bacteria,Planctomycetota,Planctomycetes,Pirellulales,Pirellulaceae,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+Dehalobacterium,"",Bacteria,Firmicutes,Clostridia,Peptococcales,Peptococcaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,neg,na,na,na,pos,na,na,na,na,na,neg,na,na,na,na,na,na
+Azoarcus,"",Bacteria,Proteobacteria,Gammaproteobacteria,Burkholderiales,Rhodocyclaceae,na,na,na,na,na,na,na,pos,na,na,na,na,pos,var,pos,na,na,neg,na,na,na,na,na,pos,na,var,na,pos,na,na,na,na
+Alterococcus,"",Bacteria,Verrucomicrobiota,Verrucomicrobiae,Opitutales,Opitutaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,pos,na,na,na,na,na,na
+Arthrobacter,"",Bacteria,Actinobacteriota,Actinobacteria,Micrococcales,Micrococcaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,neg,na,na,na,na,na,pos,na,pos,na,pos,na,na,na,na
+Blautia,"*Clostridium coccoides* , *Streptococcus hansenii* / *Ruminococcus hansenii* , *Ruminococcus hydrogenotrophicus* , *Ruminococcus luti* , *Peptostreptococcus productus* , *Ruminococcus schinkii* , *Ruminococcus obeum*",Bacteria,Firmicutes,Clostridia,Lachnospirales,Lachnospiraceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,na,na,pos,na,var,na,na,na,pos,na,pos,na,na,na,var,na,na
+Desulfococcus,"",Bacteria,Desulfobacterota,Desulfobacteria,Desulfobacterales,Desulfococcaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,pos,na,na,na,na,na,pos,na,na,na,na,na,na,na,na
+Fluviicoccus,"",Bacteria,Proteobacteria,Gammaproteobacteria,Pseudomonadales,Moraxellaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+Eubacterium nodatum group,"",Bacteria,Firmicutes,Clostridia,Peptostreptococcales-Tissierellales,Anaerovoracaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,pos,na,na,na,na,na,na
+Cryobacterium,"",Bacteria,Actinobacteriota,Actinobacteria,Micrococcales,Microbacteriaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na
+Aminiphilus,"",Bacteria,Synergistota,Synergistia,Synergistales,Synergistaceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,neg,na,pos,na,na,na,na
+Fimbriiglobus,"",Bacteria,Planctomycetota,Planctomycetes,Gemmatales,Gemmataceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,pos,na,na,na,na,na,na
+Ca_Methanofastidiosum,WCHA1-57,Archaea,Euryarchaeota,Thermococci,Methanofastidiosales,Methanofastidiosaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,pos,na,neg,na,na,na,na,na,na
+Flavihumibacter,"",Bacteria,Bacteroidota,Bacteroidia,Chitinophagales,Chitinophagaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,pos,na,na,na,na,na,na
+Longilinea,"",Bacteria,Chloroflexi,Anaerolineae,Anaerolineales,Anaerolineaceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,neg,na,pos,na,na,na,na,na,neg,na,pos,na,pos,na,pos,na,na
+Eggerthella,"",Bacteria,Actinobacteriota,Coriobacteriia,Coriobacteriales,Eggerthellaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+Erysipelothrix,"",Bacteria,Firmicutes,Bacilli,Erysipelotrichales,Erysipelotrichaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,neg,na,pos,na,na,na,pos,na,na
+Ca_Megaira,"",Bacteria,Proteobacteria,Alphaproteobacteria,Rickettsiales,Rickettsiaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+Ca_Solibacter,"",Bacteria,Acidobacteriota,Acidobacteriae,Solibacterales,Solibacteraceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,pos,na,pos,na,na,na,na
+Aminobacterium,"",Bacteria,Synergistota,Synergistia,Synergistales,Synergistaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,neg,na,neg,na,pos,na,na,na,na
+Nitrosospira,"Nitrosolobus,Nitrosovibrio",Bacteria,Proteobacteria,Gammaproteobacteria,Burkholderiales,Nitrosomonadaceae,na,pos,na,neg,na,na,na,neg,na,na,na,na,na,pos,na,na,na,neg,na,na,na,na,na,na,na,na,na,na,neg,neg,na,na
+Anaerofustis,"",Bacteria,Firmicutes,Clostridia,Eubacteriales,Anaerofustaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,pos,na,na,na,na,na,na
+Inquilinus,"",Bacteria,Proteobacteria,Alphaproteobacteria,Azospirillales,Inquilinaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,neg,na,na,na,neg,na,na,na,na,na,na,na,pos,na,pos,na,na,na,na
+Byssovorax,"Byssophaga, *Myxococcus cruentus*",Bacteria,Myxococcota,Polyangia,Polyangiales,Polyangiaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,neg,na,neg,na,na
+Leadbetterella,"",Bacteria,Bacteroidota,Bacteroidia,Cytophagales,Spirosomaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,pos,na,na,na,na
+Methanobrevibacter,*M. smithii*,Archaea,Euryarchaeota,Methanobacteria,Methanobacteriales,Methanobacteriaceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,pos,na,neg,na,var,neg,var,na,var
+Helicobacter,"",Bacteria,Campilobacterota,Campylobacteria,Campylobacterales,Helicobacteraceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,neg,na,pos,na,na,na,na
+Methanosphaerula,*Candidatus* Methanosphaerula,Archaea,Halobacterota,Methanomicrobia,Methanomicrobiales,Methanoregulaceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,pos,na,na,na,na,na,neg,na,na
+Methanomassiliicoccus,"",Archaea,Thermoplasmatota,Thermoplasmata,Methanomassiliicoccales,Methanomassiliicoccaceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,neg,na,na
+Ca_Bipolaricaulis,"",Bacteria,Ca Bipolaricaulota,Ca Bipolaricaulia,Ca Bipolaricaulales,Ca Bipolaricaulaceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,na,na,pos,na,pos,na,na,na,na,na,pos,na,pos,neg,na,na,na
+Nitrobacter,"",Bacteria,Proteobacteria,Alphaproteobacteria,Rhizobiales,Xanthobacteraceae,na,neg,na,pos,na,neg,na,pos,na,na,na,neg,na,var,na,na,na,na,na,na,na,na,na,pos,na,na,na,pos,neg,neg,na,na
+Ca_Brocadia,"",Bacteria,Planctomycetota,Brocadiae,Brocadiales,Brocadiaceae,pos,pos,na,pos,pos,pos,na,neg,na,na,na,na,pos,pos,pos,na,na,na,na,na,na,na,neg,pos,neg,na,na,na,neg,neg,na,na
+Skermania,"Nocadia piniformis,Pine-tree-like organisms (PTLO)",Bacteria,Actinobacteriota,Actinobacteria,Corynebacteriales,Nocardiaceae,na,na,na,na,na,na,pos,pos,na,na,na,na,pos,na,pos,neg,na,na,na,na,na,na,pos,neg,neg,pos,var,pos,pos,var,pos,pos
+Erysipelotrichaceae UCG-003,Bacterium LF-3,Bacteria,Firmicutes,Bacilli,Erysipelotrichales,Erysipelatoclostridiaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+Holdemanella,"*Bacteroides biformis* , *Eubacterium biforme*",Bacteria,Firmicutes,Bacilli,Erysipelotrichales,Erysipelotrichaceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,pos,na,na,na,var,na,na
+Catenibacterium,"",Bacteria,Firmicutes,Bacilli,Erysipelotrichales,Erysipelatoclostridiaceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,pos,na,na,na,pos,na,na
+Actinotalea,"",Bacteria,Actinobacteriota,Actinobacteria,Micrococcales,Cellulomonadaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,pos,na,var,na,na,na,na
+Sorangium,"",Bacteria,Myxococcota,Polyangia,Polyangiales,Polyangiaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,pos,na,var,na,neg,na,pos
+Faecalibacterium,"",Bacteria,Firmicutes,Clostridia,Oscillospirales,Ruminococcaceae,na,na,na,na,na,na,na,neg,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,pos,na,pos,na,pos,na,neg,na,na
+Granulicatella,"",Bacteria,Firmicutes,Bacilli,Lactobacillales,Carnobacteriaceae,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,na,na,pos,na,na,na,na,na,na,na,pos,na,na,na,na,na,na
+Ca_Symbiobacter,"",Bacteria,Proteobacteria,Gammaproteobacteria,Burkholderiales,Comamonadaceae,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na

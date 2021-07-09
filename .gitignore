@@ -131,3 +131,5 @@ dmypy.json
 figures/
 
 results/
+
+data/preprocessed/
