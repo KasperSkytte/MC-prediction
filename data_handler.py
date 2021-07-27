@@ -157,15 +157,15 @@ class DataHandler:
         return self.meta.loc[dataframe.index][attribute]
 
     def _load_and_preprocess_data(self, config):
-        abund_filename = config['abund_filename']
-        meta_path = config['data_dir'] + 'transformed_metadata_' + abund_filename
+        pp_dir = config['data_dir'] + '/preprocessed/'
+        meta = pp_dir + config['metadata_filename']
 
         data_raw, func_tax, clusters, functions = preprocess_data(config)
 
         data_raw = smooth(data_raw)
         data_raw, mean = normalize(data_raw)
 
-        meta = pd.read_csv(meta_path, index_col=0, parse_dates=['Date'])
+        meta = pd.read_csv(meta, index_col=0, parse_dates=['Date'])
 
         data = pd.DataFrame(data=np.transpose(data_raw), 
                             index=meta.index, 

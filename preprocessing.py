@@ -39,58 +39,6 @@ def assign_clusters(func_tax, functions):
 
     return clusters
 
-
-def preprocess_data(config):
-    """Pre-processes the data.
-       
-       Parameters:
-         config : Dictionary of values from config.json."""
-    
-    # default file paths
-    pp_dir = config['data_dir'] + '/preprocessed/'
-    pp_abund = pp_dir + config['abund_filename']
-    pp_tax_wfunctions = pp_dir + 'taxonomy_wfunctions.csv'
-
-    # preprocess if forced or if it hasn't been done yet
-    if config['force_preprocessing'] or \
-       (not os.path.exists(pp_abund) or not os.path.exists(pp_tax_wfunctions)):
-        do_preprocess(config)
-
-    abund = pd.read_csv(pp_abund, index_col=0)
-    func_tax = pd.read_csv(pp_tax_wfunctions, index_col=0, dtype=str)
-    func_start_column = func_tax.columns.get_loc('Genus') + 1
-    func_in_file = func_tax.columns[func_start_column:].to_numpy()
-
-    # preprocess if the functions in the config.json file are not equal to the functions in the preprocessed file.
-    if not np.array_equal(func_in_file, config['functions']):
-        do_preprocess(config)
-        func_tax = pd.read_csv(pp_tax_wfunctions, index_col=0, dtype=str)
-        func_in_file = func_tax.columns[func_start_column:].to_numpy()
-
-    # filter sparse samples with many zeros
-    abund = filter_sparse_samples(abund, config['max_zeros_pct'])
-
-    # Filter taxa with no positive value in any of the chosen functional groups
-    if config['only_pos_func']:
-        func_start_column = func_tax.columns.get_loc('Genus') + 1
-        positives = func_tax.iloc[:,func_start_column:] == 'pos'
-        func_tax = func_tax.loc[positives.any(axis=1)]
-
-    # Make abund and taxonomy contain the same taxa (intersect).
-    func_tax = func_tax.filter(abund.columns, axis=0)
-    abund = abund.filter(func_tax.index, axis=1)
-    
-    # Convert to numpy
-    func_tax.reset_index(inplace=True)
-    func_tax = func_tax.to_numpy().astype(str)
-    abund = abund.to_numpy().astype(float)
-    abund = np.transpose(abund)
-
-    clusters = assign_clusters(func_tax, functions = config['functions'])
-
-    return abund, func_tax, clusters, config['functions']
-
-
 def do_preprocess(config):
     """Some preprocessing steps which are only necessary to run when the data files change.
         
@@ -157,8 +105,52 @@ def do_preprocess(config):
     # Write out transformed/preprocessed data
     abund.to_csv(preprocessed_dir + config['abund_filename'], float_format='%.3f')
     meta.to_csv(preprocessed_dir + config['metadata_filename'])
-    taxonomy.to_csv(preprocessed_dir + 'taxonomy_wfunctions.csv', index_label=taxonomy.columns.name, header=False)
+    taxonomy.to_csv(preprocessed_dir + 'taxonomy_wfunctions.csv', index=False, header=True)
 
+def preprocess_data(config):
+    """Pre-processes the data.
+       
+       Parameters:
+         config : Dictionary of values from config.json."""
+    
+    # preprocess if forced or if it hasn't been done yet
+    if config['force_preprocessing'] or \
+       (not os.path.exists(pp_abund) or not os.path.exists(pp_tax_wfunctions)):
+        do_preprocess(config)
+
+    abund = pd.read_csv(pp_abund, index_col=0)
+    func_tax = pd.read_csv(pp_tax_wfunctions, index_col=0, dtype=str)
+    func_start_column = func_tax.columns.get_loc('Genus') + 1
+    func_in_file = func_tax.columns[func_start_column:].to_numpy()
+
+    # preprocess if the functions in the config.json file are not equal to the functions in the preprocessed file.
+    if not np.array_equal(func_in_file, config['functions']):
+        do_preprocess(config)
+        func_tax = pd.read_csv(pp_tax_wfunctions, index_col=0, dtype=str)
+        func_in_file = func_tax.columns[func_start_column:].to_numpy()
+
+    # filter sparse samples with many zeros
+    abund = filter_sparse_samples(abund, config['max_zeros_pct'])
+
+    # Filter taxa with no positive value in any of the chosen functional groups
+    if config['only_pos_func']:
+        func_start_column = func_tax.columns.get_loc('Genus') + 1
+        positives = func_tax.iloc[:,func_start_column:] == 'pos'
+        func_tax = func_tax.loc[positives.any(axis=1)]
+
+    # Make abund and taxonomy contain the same taxa (intersect).
+    func_tax = func_tax.filter(abund.columns, axis=0)
+    abund = abund.filter(func_tax.index, axis=1)
+    
+    # Convert to numpy
+    func_tax.reset_index(inplace=True)
+    func_tax = func_tax.to_numpy().astype(str)
+    abund = abund.to_numpy().astype(float)
+    abund = np.transpose(abund)
+
+    clusters = assign_clusters(func_tax, functions = config['functions'])
+
+    return abund, func_tax, clusters, config['functions']
 
 def normalize(data):
     """Normalized the data by division with the mean."""
