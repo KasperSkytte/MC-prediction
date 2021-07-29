@@ -113,6 +113,11 @@ def preprocess_data(config):
        Parameters:
          config : Dictionary of values from config.json."""
     
+    # default file paths
+    pp_dir = config['data_dir'] + '/preprocessed/'
+    pp_abund = pp_dir + config['abund_filename']
+    pp_tax_wfunctions = pp_dir + 'taxonomy_wfunctions.csv'
+
     # preprocess if forced or if it hasn't been done yet
     if config['force_preprocessing'] or \
        (not os.path.exists(pp_abund) or not os.path.exists(pp_tax_wfunctions)):
