@@ -133,3 +133,7 @@ figures/
 results/
 
 data/preprocessed/
+
+data/ASVtable.tsv
+
+data/ASVs.R1.midas48.sintax
