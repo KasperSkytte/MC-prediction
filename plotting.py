@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
 from sklearn.manifold import TSNE
-from preprocessing import smooth
+from load_data import smooth
 
 import json
 with open('config.json', 'r') as config_file:
@@ -99,7 +99,7 @@ def create_boxplot(data, label, cluster_type):
 
 
 if __name__ == "__main__":
-    from preprocessing import preprocess_data, smooth, normalize
+    from load_data import load_data, smooth, normalize
     from correlation import calc_cluster_correlations, print_corr_results
     from idec.IDEC import IDEC
 
@@ -107,7 +107,7 @@ if __name__ == "__main__":
     with open('config.json', 'r') as config_file:
         config = json.load(config_file)
 
-    x, func_tax, func_clusters, _ = preprocess_data(config['abund_filename'], config)
+    x, func_tax, func_clusters, _ = load_data(config['abund_filename'], config)
     x = smooth(x)
 
     n_clusters = 5

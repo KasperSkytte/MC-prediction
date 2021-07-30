@@ -1,15 +1,13 @@
 {
-    "abund_filename": "aalborg_west_ASV.csv",
-    "metadata_filename": "metadata_filtered.csv",
+    "abund_filename": "ASVtable.tsv",
+    "taxonomy_filename": "ASVs.R1.midas48.sintax",
+    "metadata_filename": "biobank_metadata.csv",
     "function_filename": "MiDAS_genusfunctions.csv",
     "data_dir": "data/",
     "figures_dir": "figures/",
     "results_dir": "results/",
-    "tax_cols": [
-        "ASV",
-        "Species",
-        "Genus"
-    ],
+    "metadata_date_col": "Date",
+    "tax_level": "OTU",
     "functions": [
         "AOB",
         "NOB",
@@ -17,7 +15,6 @@
         "GAO",
         "Filamentous"
     ],
-    "force_preprocessing": false,
     "only_pos_func": true,
     "max_zeros_pct": 0.80,
     "num_time_series_used": 10,

@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 import tensorflow as tf
-from preprocessing import preprocess_data, smooth, normalize
+from load_data import load_data, smooth, normalize
 
 class DataHandler:
     def __init__(self, config, num_features, window_width, window_batch_size=10, window_shift=1, splits=[0.70, 0.15, 0.15]):
@@ -16,7 +16,7 @@ class DataHandler:
         self.clusters_func = None
         self.clusters_idec = None
         
-        self._load_and_preprocess_data(config)
+        self._load_data(config)
         self.use_splits(splits)
         self.clusters_abund = self._make_abundance_clusters()
     
@@ -156,16 +156,11 @@ class DataHandler:
         """Return the specified attribute from the metadata for the samples in the dataframe."""
         return self.meta.loc[dataframe.index][attribute]
 
-    def _load_and_preprocess_data(self, config):
-        pp_dir = config['data_dir'] + '/preprocessed/'
-        meta = pp_dir + config['metadata_filename']
-
-        data_raw, func_tax, clusters, functions = preprocess_data(config)
+    def _load_data(self, config):
+        data_raw, meta, func_tax, clusters, functions = load_data(config)
 
         data_raw = smooth(data_raw)
         data_raw, mean = normalize(data_raw)
-
-        meta = pd.read_csv(meta, index_col=0, parse_dates=['Date'])
 
         data = pd.DataFrame(data=np.transpose(data_raw), 
                             index=meta.index, 
