@@ -1,5 +1,7 @@
 # ignore everything
 **
 
-#except pipenv files
-!Pipfile*
+#except env files
+!Pipfile
+!Pipfile.lock
+!renv.lock
