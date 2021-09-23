@@ -37,14 +37,14 @@ docker run -it --rm -v "${PWD}":/tf -u $(id -u):$(id -g) kasperskytte/asmc-predi
 
 ```
 
-The image has CUDA support to speed up computation if you have a modern nvidia GPU. To enable add the `--gpus all` to the docker run command above and make sure you have installed recent nvidia drivers and the nvidia-container-toolkit. With never versions of Ubuntu, you can simply run 
+The image has CUDA support to speed up computation if you have a modern nvidia GPU. To enable add the `--gpus all` to the docker run command above and make sure you have installed recent nvidia drivers and the `nvidia-container-toolkit`. With never versions of Ubuntu, you can simply run 
 
 ```
 sudo apt-get update
-sudo apt-get install docker.io nvidia-container-runtime 
+sudo apt-get install docker.io nvidia-container-toolkit 
 ```
 
-before starting the container. If this doesn't work follow the guidelines at https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#install-guide
+before starting the container. Remember to restart the docker daemon for the changes to take effect with `sudo systemctl restart dockerd`. If this doesn't work follow the guidelines at https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#install-guide
 
 ### Explanations of the options in config.json:
 | Parameter                     | Description |
