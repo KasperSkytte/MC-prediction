@@ -114,7 +114,7 @@ if __name__ == "__main__":
     plt.rcParams['figure.figsize'] = (12,8)
 
     idec = IDEC(dims=[x.shape[-1], 500, 500, 2000, 10], n_clusters=n_clusters)
-    idec.load_weights(config['results_dir'] + 'idec/IDEC_best.h5')
+    idec.load_weights(config['results_dir'] + '/idec/IDEC_best.h5')
     idec_clusters = idec.predict_clusters(x)
 
     print('\nfunction clustering:')
