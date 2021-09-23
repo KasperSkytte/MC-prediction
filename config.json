@@ -17,6 +17,7 @@
     "only_pos_func": true,
     "max_zeros_pct": 0.80,
     "num_time_series_used": 10,
+    "iterations": 1,
     "max_epochs_lstm": 200,
     "window_size": 10,
     "idec_nclusters": 5,
