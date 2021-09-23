@@ -3,9 +3,8 @@
     "taxonomy_filename": "ASVs.R1.midas48.sintax",
     "metadata_filename": "biobank_metadata.csv",
     "function_filename": "MiDAS_genusfunctions.csv",
-    "data_dir": "data/",
-    "figures_dir": "figures/",
-    "results_dir": "results/",
+    "data_dir": "data",
+    "results_dir": "results",
     "metadata_date_col": "Date",
     "tax_level": "OTU",
     "functions": [

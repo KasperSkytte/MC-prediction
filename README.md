@@ -53,7 +53,6 @@ before starting the container. Remember to restart the docker daemon for the cha
 | metadata_filename                 | Name of the metadata file. |
 | function_filename            | Name of the function file. |
 | data_dir                      | Path to the data directory. |
-| figures_dir                   | Path to a directory where figures are saved. |
 | results_dir                   | Path to a directory where results are saved. |
 | functions          | Which functions to use. |
 | force_preprocessing           | If 'true', forces preprocessing. Otherwise tries to skip some preprocessing steps which are only necessary to run when the data files changes. |

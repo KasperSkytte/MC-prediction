@@ -6,7 +6,7 @@ from load_data import smooth
 
 import json
 with open('config.json', 'r') as config_file:
-    _fig_dir = json.load(config_file)['figures_dir']
+    _fig_dir = json.load(config_file)['results_dir'] + '/figures/'
 
 def plot_results(func, prediction, dates, asv):
     """Plot the true vs. the predicted values for the specified ASV."""

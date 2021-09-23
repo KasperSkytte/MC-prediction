@@ -128,9 +128,7 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-figures/
-
-results/
+results*
 
 data/preprocessed/
 
