@@ -27,12 +27,14 @@ COPY renv.lock .
 
 #upgrade pip, install pipenv and python pkgs according to the lock file (system-wide)
 RUN python3 -m pip install --upgrade pip \
-  && pip install pipenv \
+  && pip install pipenv apt-mirror-updater \
   && pipenv install --python /usr/bin/python3 --deploy --system
 
+#also set default APT mirror to AAU mirror
+RUN apt-mirror-updater -uc https://mirrors.dotsrc.org/ubuntu
+
 #download and install R, required system dependencies, and R packages
-RUN apt-get -qqy update \
-  && export DEBIAN_FRONTEND=noninteractive \
+RUN export DEBIAN_FRONTEND=noninteractive \
   && apt-get -y install --fix-broken --no-install-recommends --no-install-suggests \
     git \
     wget \
