@@ -4,7 +4,7 @@ set -eu
 #set timezone
 export TZ="Europe/Copenhagen"
 
-rm -rf results
+rm -rf results data/preprocessed
 mkdir -p results/figures data/preprocessed
 
 timestamp=$(date '+%Y%m%d_%H%M%S')
@@ -26,6 +26,7 @@ main() {
   python main.py
 }
 
-main |& tee "$logFile"
+main |& tee results/"$logFile"
 
+chown 1000:1000 -R results
 mv results "results_${timestamp}"
