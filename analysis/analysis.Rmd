@@ -1,0 +1,91 @@
+---
+title: "analysis"
+author: "KSA"
+date: "9/28/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, error = FALSE)
+require("patchwork")
+require("data.table")
+require("ggplot2")
+```
+
+```{r}
+plot_performance <- function(path) {
+  filenames <- c("lstm_idec_performance.txt", "lstm_abund_performance.txt", "lstm_func_performance.txt")
+  list <- lapply(paste0(path, "/", filenames), function(filepath) {
+    dt <- fread(filepath)
+    colnames(dt) <- gsub("[\\['\\]]*", "", colnames(dt))
+    dt[, cluster := gsub(":.*$", "", `bray-curtis`)]
+    dt <- dt[,lapply(.SD, gsub, pattern = "^[0-9]+:.*\\[|\\]$", replacement = "")]
+    dt <- dt[,lapply(.SD, as.numeric)]
+    dt <- melt(dt, id.vars = "cluster", variable.name = "errorfunc", value.name = "value")
+    dt[, clustertype := tools::file_path_sans_ext(basename(filepath))]
+    dt
+  })
+  dt <- rbindlist(list)
+  plot <- ggplot(
+    dt,
+    aes(
+      x = cluster,
+      y = value, 
+      group = clustertype,
+      color = clustertype,
+      fill = clustertype
+    )
+  ) +
+    geom_col(position = "dodge2") +
+    facet_wrap("errorfunc", scales = "free_y", ncol = 1)
+  print(plot)
+  cli::cat_line(readLines(paste0(path, "/idec_performance.txt")))
+}
+
+```
+
+# Experiments with 1 iteration
+## Aalborg West
+```{r}
+plot_performance("../results_20211004_155259//")
+```
+
+## Aalborg East
+```{r}
+plot_performance("../results_20210928_110253_AAE/")
+```
+
+## Ribe
+```{r}
+
+```
+
+## Randers
+```{r}
+plot_performance("../results_20210929_091552_randers/")
+```
+
+# Experiments with 5 iterations
+## Aalborg West
+```{r}
+
+```
+
+## Aalborg East
+```{r}
+
+```
+
+## Ribe
+```{r}
+
+```
+
+## Randers
+```{r}
+
+```
+
+
+
+
