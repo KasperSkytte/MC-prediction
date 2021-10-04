@@ -1,5 +1,6 @@
 import pandas as pd
 import tensorflow as tf
+import numpy as np
 from tensorflow import keras
 
 from bray_curtis import BrayCurtis
@@ -62,17 +63,17 @@ def find_best_idec(data, iterations, num_clusters, tolerance):
     with open(results_dir + '/idec_performance.txt', 'w') as outfile:
         outfile.write('function clustering:\n')
         outfile.write('Cluster sizes: ' + str(cluster_sizes) + '\n')
-        outfile.write('r (mean): ' + str(means) + '\n')
-        outfile.write('r (std):  ' + str(stds) + '\n')
-        outfile.write('p (mean): ' + str(p_means) + '\n')
-        outfile.write('r (weighted avg of means): ' + str(weighted_avg) + '\n\n')
+        outfile.write('r (mean): ' + str(np.around(np.array(means), 5)) + '\n')
+        outfile.write('r (std):  ' + str(np.around(np.array(stds), 5)) + '\n')
+        outfile.write('p (mean): ' + str(np.around(np.array(p_means), 5)) + '\n')
+        outfile.write('r (weighted avg of means): ' + str(np.around(np.array(weighted_avg), 5)) + '\n\n')
 
         outfile.write('IDEC clustering:\n')
         outfile.write('Cluster sizes: ' + str(best_performance[1]) + '\n')
-        outfile.write('r (mean): ' + str(best_performance[2]) + '\n')
-        outfile.write('r (std):  ' + str(best_performance[3]) + '\n')
-        outfile.write('p (mean): ' + str(best_performance[4]) + '\n')
-        outfile.write('r (weighted avg of means): ' + str(best_performance[5]) + '\n\n')
+        outfile.write('r (mean): ' + str(np.around(np.array(best_performance[2]), 5)) + '\n')
+        outfile.write('r (std):  ' + str(np.around(np.array(best_performance[3]), 5)) + '\n')
+        outfile.write('p (mean): ' + str(np.around(np.array(best_performance[4]), 5)) + '\n')
+        outfile.write('r (weighted avg of means): ' + str(np.around(np.array(best_performance[5]), 5)) + '\n\n')
         outfile.write('IDEC: ' + str(best_performance[0]) + '\n')
 
 
