@@ -3,6 +3,8 @@ title: "analysis"
 author: "KSA"
 date: "9/28/2021"
 output: html_document
+editor_options: 
+  chunk_output_type: inline
 ---
 
 ```{r setup, include=FALSE}
@@ -42,50 +44,131 @@ plot_performance <- function(path) {
   cli::cat_line(readLines(paste0(path, "/idec_performance.txt")))
 }
 
+read_16sdata <- function(path) {
+  abund <- fread(paste0(path, "/data_preprocessed/abundances.csv"))
+  metadata <- fread(paste0(path, "/data_preprocessed/metadata.csv"))[, -c("Plant")]
+  asvtable <- metadata[abund, , on = "SampleID"]
+  melt(
+    asvtable,
+    id.vars = c("SampleID", "Date"),
+    variable.name = "ASV",
+    value.name = "abundance",
+    variable.factor = FALSE)
+}
 ```
 
-# Experiments with 1 iteration
-## Aalborg West
+# Aalborg West
+## 1 iteration
 ```{r}
-plot_performance("../results_20211004_155259//")
+plot_performance("../results_20211012_134110_1it_AAW/")
 ```
 
-## Aalborg East
+## 5 iterations
 ```{r}
-plot_performance("../results_20210928_110253_AAE/")
+plot_performance("../results_20211012_134434_5it_AAW/")
 ```
 
-## Ribe
+## Plot ASV's with poor prediction
+```{r}
+aaw_gg <- read_16sdata("../results_20211012_134110_1it_AAW")[ASV %chin% c("ASV1078", "ASV135", "ASV24", "ASV1", "ASV317")]
+aaw_plot <- ggplot(aaw_gg, aes(Date, abundance,  group = ASV, color = ASV)) +
+  geom_line() +
+  theme(
+    axis.text.x = element_text(angle = 90)
+  )
+plotly::ggplotly(aaw_plot)
+```
+
+# Aalborg East
+## 1 iteration
+```{r}
+plot_performance("../results_20211012_135551_1it_AAE/")
+```
+
+## 5 iterations
+```{r}
+plot_performance("../results_20211012_140450_5it_AAE/")
+```
+## Plot ASV's with poor prediction
+```{r}
+aae_gg <- read_16sdata("../results_20211012_135551_1it_AAE")[ASV %chin% c("ASV1078", "ASV3526", "ASV3188", "ASV131", "ASV280", "ASV251")]
+aae_plot <- ggplot(aae_gg, aes(Date, abundance,  group = ASV, color = ASV)) +
+  geom_line() +
+  theme(
+    axis.text.x = element_text(angle = 90)
+  )
+plotly::ggplotly(aae_plot)
+```
+
+# Randers
+## 1 iteration
+```{r}
+plot_performance("../results_20211011_155219_1it_Randers/")
+```
+
+Notice only 1 ASV in cluster 1 and 3
+
+### IDEC cluster 0
+```{r}
+knitr::include_graphics("../results_20211011_155219_1it_Randers/figures/lstm_idec_cluster_0.png")
+```
+
+### IDEC cluster 1
+```{r}
+knitr::include_graphics("../results_20211011_155219_1it_Randers/figures/lstm_idec_cluster_1.png")
+```
+
+### IDEC cluster 2
+```{r}
+knitr::include_graphics("../results_20211011_155219_1it_Randers/figures/lstm_idec_cluster_2.png")
+```
+
+### IDEC cluster 3
+```{r}
+knitr::include_graphics("../results_20211011_155219_1it_Randers/figures/lstm_idec_cluster_3.png")
+```
+
+What's wrong with the y-axis scale for cluster 1 and 3?
+
+### Time series
+```{r}
+ran_gg <- read_16sdata("../results_20211011_155219_1it_Randers")[ASV %chin% c("ASV201", "ASV9672", "ASV75", "ASV23")]
+ran_plot <- ggplot(ran_gg, aes(Date, abundance,  group = ASV, color = ASV)) +
+  geom_line() +
+  theme(
+    axis.text.x = element_text(angle = 90)
+  )
+plotly::ggplotly(ran_plot)
+```
+
+## 5 iterations
+```{r}
+plot_performance("../results_20211012_141947_5it_Randers/")
+```
+
+### IDEC cluster 1
+```{r}
+knitr::include_graphics("../results_20211012_141947_5it_Randers/figures/lstm_idec_cluster_1.png")
+```
+
+### IDEC cluster 3
+```{r}
+knitr::include_graphics("../results_20211012_141947_5it_Randers/figures/lstm_idec_cluster_3.png")
+```
+
+# Ribe
+Errored.
+## 1 iteration
 ```{r}
 
 ```
 
-## Randers
-```{r}
-plot_performance("../results_20210929_091552_randers/")
-```
-
-# Experiments with 5 iterations
-## Aalborg West
+## 5 iterations
 ```{r}
 
 ```
 
-## Aalborg East
 ```{r}
 
 ```
-
-## Ribe
-```{r}
-
-```
-
-## Randers
-```{r}
-
-```
-
-
-
 
