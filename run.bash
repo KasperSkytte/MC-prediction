@@ -1,11 +1,55 @@
 #!/usr/bin/env bash
 set -eu
-
 #set timezone
 export TZ="Europe/Copenhagen"
 
-rm -rf results data/preprocessed
-mkdir -p results/figures data/preprocessed
+#default error message if bad usage
+usageError() {
+  echo "Invalid usage: $1" 1>&2
+  echo ""
+  eval "bash $0 -h"
+}
+
+#fetch and check options provided by user
+#flags for required options, checked after getopts loop
+p_flag=0
+while getopts ":hp:" opt; do
+case ${opt} in
+  h )
+    echo "This script wraps things up to run both preprocessing (R) and prediction (python)"
+    echo "and saves the terminal output as a log file including settings."
+    echo "The idea is you manually preproces the amplicon data, fx"
+    echo "filtering control samples, remove outliers etc, before doing prediction"
+    echo "by inspecting and running a preprocessing R script."
+    echo "Then run this script passing on the path to the R script."
+    echo ""
+    echo "Options:"
+    echo "  -h    Display this help text and exit."
+    echo "  -p    Path to preprocessing R script."
+    exit 1
+    ;;
+  p )
+    preprocess_script="$OPTARG"
+    p_flag=1
+    ;;
+  \? )
+    usageError "Invalid Option: -$OPTARG"
+    exit 1
+    ;;
+  : )
+    usageError "Option -$OPTARG requires an argument"
+    exit 1
+    ;;
+esac
+done
+shift $((OPTIND -1)) #reset option pointer
+
+#check all required options
+if [ $p_flag -eq 0 ]
+then
+	usageError "option -p is required"
+	exit 1
+fi
 
 timestamp=$(date '+%Y%m%d_%H%M%S')
 logFile="log_${timestamp}.txt"
@@ -22,7 +66,8 @@ main() {
   cat config.json
   echo "#################################################"
   echo
-  Rscript preprocess.R
+  Rscript "$preprocess_script"
+  Rscript reformat.R
   python main.py
 }
 

@@ -46,7 +46,7 @@ def load_data(config):
          config : Dictionary of values from config.json."""
     
     # default file paths
-    pp_dir = config['data_dir'] + '/preprocessed/'
+    pp_dir = config['results_dir'] + '/data_preprocessed/'
     pp_abund = pp_dir + 'abundances.csv'
     pp_tax_wfunctions = pp_dir + 'taxonomy_wfunctions.csv'
 

@@ -44,9 +44,9 @@ sudo apt-get update
 sudo apt-get install docker.io nvidia-container-toolkit 
 ```
 
-before starting the container. Remember to restart the docker daemon for the changes to take effect with `sudo systemctl restart dockerd`. If this doesn't work follow the guidelines at https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#install-guide
+before starting the container. Remember to restart the docker daemon for the changes to take effect with `sudo systemctl restart dockerd`. If this doesn't work follow the guidelines at https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#install-guide. The container has been developed using CUDA version 11.4.
 
-### Explanations of the options in config.json:
+## Explanations of the options in config.json:
 | Parameter                     | Description |
 | ---                           | ---         |
 | abund_filename                     | Name of the abundance data file. |
