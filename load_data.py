@@ -18,7 +18,7 @@ def assign_clusters(func_tax, functions):
        one cluster."""
     # Find positive functions.
     func_start_column = func_tax.shape[1] - len(functions)
-    positives = func_tax[:,func_start_column:] == 'pos'
+    positives = func_tax[:,func_start_column:] == 'POS'
 
     # Check if any ASV/species has more than one positive function.
     if np.any(np.sum(positives, axis=1) > 1):
@@ -29,13 +29,13 @@ def assign_clusters(func_tax, functions):
     for i in range(len(functions)):
         clusters[positives[:,i]] = i
 
-    if np.any(clusters == len(functions)):
-        functions = functions.tolist()
-        functions.append('None')
+    # if np.any(clusters == len(functions)):
+    #     functions = functions.tolist()
+    #     functions.append('None')
 
-    print('Cluster labels:     ', functions)
-    print('Cluster sizes:      ', np.unique(clusters, axis=0, return_counts=True)[1])
-    print('Total taxa: ', func_tax.shape[0])
+    # print('Cluster labels:     ', functions)
+    # print('Cluster sizes:      ', np.unique(clusters, axis=0, return_counts=True)[1])
+    # print('Total taxa: ', func_tax.shape[0])
 
     return clusters
 
@@ -46,7 +46,7 @@ def load_data(config):
          config : Dictionary of values from config.json."""
     
     # default file paths
-    pp_dir = config['results_dir'] + '/data_preprocessed/'
+    pp_dir = config['results_dir'] + '/data_reformatted/'
     pp_abund = pp_dir + 'abundances.csv'
     pp_tax_wfunctions = pp_dir + 'taxonomy_wfunctions.csv'
 
@@ -72,7 +72,7 @@ def load_data(config):
     # Filter taxa with no positive value in any of the chosen functional groups
     if config['only_pos_func']:
         func_start_column = func_tax.columns.get_loc('Genus') + 1
-        positives = func_tax.iloc[:,func_start_column:] == 'pos'
+        positives = func_tax.iloc[:,func_start_column:] == 'POS'
         func_tax = func_tax.loc[positives.any(axis=1)]
 
     # Make abund and taxonomy contain the same taxa (intersect).

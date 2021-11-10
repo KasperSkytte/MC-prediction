@@ -3,56 +3,19 @@ set -eu
 #set timezone
 export TZ="Europe/Copenhagen"
 
-#default error message if bad usage
-usageError() {
-  echo "Invalid usage: $1" 1>&2
-  echo ""
-  eval "bash $0 -h"
-}
-
-#fetch and check options provided by user
-#flags for required options, checked after getopts loop
-p_flag=0
-while getopts ":hp:" opt; do
-case ${opt} in
-  h )
-    echo "This script wraps things up to run both preprocessing (R) and prediction (python)"
-    echo "and saves the terminal output as a log file including settings."
-    echo "The idea is you manually preproces the amplicon data, fx"
-    echo "filtering control samples, remove outliers etc, before doing prediction"
-    echo "by inspecting and running a preprocessing R script."
-    echo "Then run this script passing on the path to the R script."
-    echo ""
-    echo "Options:"
-    echo "  -h    Display this help text and exit."
-    echo "  -p    Path to preprocessing R script."
-    exit 1
-    ;;
-  p )
-    preprocess_script="$OPTARG"
-    p_flag=1
-    ;;
-  \? )
-    usageError "Invalid Option: -$OPTARG"
-    exit 1
-    ;;
-  : )
-    usageError "Option -$OPTARG requires an argument"
-    exit 1
-    ;;
-esac
-done
-shift $((OPTIND -1)) #reset option pointer
-
-#check all required options
-if [ $p_flag -eq 0 ]
-then
-	usageError "option -p is required"
-	exit 1
-fi
-
 timestamp=$(date '+%Y%m%d_%H%M%S')
 logFile="log_${timestamp}.txt"
+
+results_dir=$(cat config.json | jq -r '.results_dir')
+if [ -f "$results_dir" ]
+then
+  echo "Folder ${results_dir} already exists, please clear or move, and then rerun."
+  exit 1
+fi
+mkdir -p \
+  "${results_dir}" \
+  "${results_dir}/data_reformatted" \
+  "${results_dir}/figures"
 
 main() {
   echo "#################################################"
@@ -66,12 +29,14 @@ main() {
   cat config.json
   echo "#################################################"
   echo
-  Rscript "$preprocess_script"
   Rscript reformat.R
   python main.py
 }
 
-main |& tee results/"$logFile"
+main |& tee "${results_dir}/${logFile}"
 
-chown 1000:1000 -R results
-mv results "results_${timestamp}"
+chown 1000:1000 -R ${results_dir}
+mv results "${results_dir}_${timestamp}"
+
+duration=$(printf '%02dh:%02dm:%02ds\n' $(($SECONDS/3600)) $(($SECONDS%3600/60)) $(($SECONDS%60)))
+echo "Time elapsed: $duration!"

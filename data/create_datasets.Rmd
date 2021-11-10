@@ -1,0 +1,204 @@
+---
+title: "Biobank (you need at least 32GB memory to run this)"
+output: html_document
+---
+
+# init
+```{r}
+#check for installed packages, install if missing
+if(!require("tidyverse"))
+  install.packages("tidyverse")
+if(!require("devtools"))
+  install.packages("devtools")
+if(!require("openxlsx"))
+  install.packages("openxlsx")
+if(!require("ampvis2"))
+  devtools::install_github("madsalbertsen/ampvis2")
+if(!require("data.table"))
+  install.packages("data.table")
+#load data
+library(ampvis2)
+library(data.table)
+library(tidyverse)
+```
+
+# Load metadata
+```{r}
+rm(list=ls())
+gc()
+metadata <- openxlsx::read.xlsx("metadata/metadata_BioBank_2021-11-09.xlsx", detectDates = TRUE)
+#this is hopefully FALSE, otherwise manually check which samples to remove:
+any(duplicated(metadata$Sample))
+
+#filter a few useless samples
+metadata <- filter(metadata, !Sample %chin% paste0("MQ201110-", 309:311))
+metadata$Date <- lubridate::ymd(metadata$Date)
+metadata$Year <- as.character(lubridate::year(metadata$Date))
+
+#### add seasonal period and week number ####
+#extract seasonal periods from dates
+WS <- as.Date("2012-12-15", format = "%Y-%m-%d") # Winter Solstice
+SE <- as.Date("2012-3-15",  format = "%Y-%m-%d") # Spring Equinox
+SS <- as.Date("2012-6-15",  format = "%Y-%m-%d") # Summer Solstice
+FE <- as.Date("2012-9-15",  format = "%Y-%m-%d") # Fall Equinox
+
+# Convert dates from any year to 2012 dates
+dates <- as.Date(strftime(metadata$Date, format="2012-%m-%d"))
+#extract periods and set factors for correct chronological order
+metadata$Period <- ifelse (dates >= WS | dates < SE, "Winter", #winter
+                              ifelse (dates >= SE & dates < SS, "Spring", #spring
+                                      ifelse (dates >= SS & dates < FE, "Summer", "Fall"))) #summer, fall
+metadata$Period <- factor(metadata$Period, levels = c("Spring", "Summer", "Fall", "Winter"))
+
+metadata <- tibble::add_column(metadata,
+                               Week = as.character(lubridate::isoweek(metadata$Date)),
+                               .after = "Date")
+
+setDT(metadata)
+#### fix Plant and ID columns ####
+# controls
+metadata[grepl("extneg", tolower(LibID)), ID := "EXTNEG"]
+metadata[grepl("extneg", tolower(LibID)), Plant := "CTRL"]
+metadata[grepl("pcrpor", tolower(LibID)), ID := "PCRPOS"]
+metadata[grepl("pcrpos", tolower(LibID)), Plant := "CTRL"]
+metadata[grepl("pcrneg", tolower(LibID)), ID := "PCRNEG"]
+metadata[grepl("pcrneg", tolower(LibID)), Plant := "CTRL"]
+metadata <- metadata[!is.na(Plant)] #this removes the weird LibID samples: MQ181023-148, MQ181203-218, MQ181214-138, MQ190919-270
+metadata <- metadata[!Sample %chin% "MQ201110-248"]
+metadata[grepl("^Dam", ID) & !grepl("CTRL", Plant), Plant := paste0("Damhusåen-", Line)]
+metadata[Plant %chin% "Damhusåen", Plant := paste0("Damhusåen-", Line)]
+metadata[ID == "Lynetten", Plant := "Lynetten"]
+metadata[ID == "Avedøre", Plant := "Avedøre"]
+#metadata[is.na(Plant) & is.na(Line), Plant := ID]
+
+
+#make sure date column is parsed correctly (year-month-day prefered) and
+#sort chronologically, abundances will be sorted according to metadata by amp_load
+metadata <- arrange(metadata, Plant, Date)
+```
+
+# merge Aalborg West+East temperatures (by weekly average) with metadata
+```{r}
+# Aalborg East
+AAEtemps <- data.table::fread("metadata/AalborgEastTemperatures.csv")
+colnames(AAEtemps) <- c("DateTime.Temperature", "Temperature")
+AAEtemps <- AAEtemps[!is.na(DateTime.Temperature) & !is.na(Temperature)] #filter empty ones
+AAEtemps[,DateTime.Temperature := lubridate::mdy_hm(DateTime.Temperature)] #parse dates
+AAEtemps[,DateTime.Temperature := lubridate::floor_date(DateTime.Temperature, unit = "day")] #floor to day (remove HM)
+AAEtemps[,Year := as.character(lubridate::year(DateTime.Temperature))] #extract year
+AAEtemps[,Week := as.character(lubridate::isoweek(DateTime.Temperature))] #extract week (ISO standard)
+AAEtemps[,DateTime.Temperature := as.character(DateTime.Temperature)] #coerce back to character
+AAEtemps <- AAEtemps[,.(week_mean_temperature = mean(Temperature)),keyby=.(Year, Week)] #sometimes multiple measurements per week
+AAEtemps[,Plant := "Aalborg E"]
+
+# Aalborg West
+AAWtemps <- data.table::fread("metadata/AalborgWestTemperatures.csv")
+colnames(AAWtemps) <- c("DateTime.Temperature", "Temperature")
+AAWtemps <- AAWtemps[!is.na(DateTime.Temperature) & !is.na(Temperature)] #filter empty ones
+AAWtemps[,DateTime.Temperature := lubridate::mdy_hm(DateTime.Temperature)] #parse dates
+AAWtemps[,DateTime.Temperature := lubridate::floor_date(DateTime.Temperature, unit = "day")] #floor to day (remove HM)
+AAWtemps[,Year := as.character(lubridate::year(DateTime.Temperature))] #extract year
+AAWtemps[,Week := as.character(lubridate::isoweek(DateTime.Temperature))] #extract week (ISO standard)
+AAWtemps[,DateTime.Temperature := as.character(DateTime.Temperature)] #coerce back to character
+AAWtemps <- AAWtemps[,.(week_mean_temperature = mean(Temperature)),keyby=.(Year, Week)] #sometimes multiple measurements per week
+AAWtemps[,Plant := "Aalborg W"]
+
+temps <- data.table::rbindlist(list(AAEtemps, AAWtemps))
+
+metadata_merged <- dplyr::left_join(metadata, temps, by = c("Plant", "Year", "Week"))
+setDT(metadata_merged)
+metadata_out <- metadata_merged[!Plant %chin% c("EXTNEG", "PCRPOS", "PCRNEG", "", "CTRL")]
+data.table::fwrite(metadata_out, "metadata.csv")
+```
+
+# load amplicon data
+```{r}
+d <- amp_load(
+  otutable = "raw/ASVtable.tsv",
+  metadata = metadata_out,
+  taxonomy = "raw/ASVs.R1.sintax")
+```
+
+# overview of samples over time
+```{r}
+m <- metadata_out
+m[, Plant := paste0(Plant, " (", .N, " samples)"), by = Plant]
+m[, processed := ifelse(Sample %chin% colnames(d$abund), "processed", "not processed")]
+samples_overview <- ggplot(
+  m,
+  aes(x = Date,
+      y = Plant,
+      color = processed)) +
+  geom_point() +
+  scale_x_date(date_breaks = "year", date_labels = "%Y") +
+  scale_color_manual(values = c("black", "red")) +
+  theme(
+    axis.title = element_blank(),
+    axis.text.x = element_text(angle = 90))
+samples_overview
+ggsave("nsamples_overview.png", plot = samples_overview, width = 12, height = 8)
+```
+
+# remove samples with few reads, and normalise reads to sample total
+```{r}
+ds <- d %>% 
+  amp_subset_samples(minreads = 1000, removeAbsents = TRUE, normalise = TRUE)
+```
+
+# create data subsets
+```{r}
+datasets <- c(
+  "Aalborg W",
+  "Aalborg E",
+  "Ribe",
+  "Randers",
+  "Mariagerfjord",
+  "Hirtshals",
+  "Esbjerg E",
+  "Damhusåen-A",
+  "Damhusåen-B",
+  "Damhusåen-C",
+  "Damhusåen-D",
+  "Avedøre"
+)
+
+dlist <- lapply(
+  datasets,
+  function(wwtp) {
+    #filter
+    dataset <- amp_subset_samples(
+      ds,
+      Plant %chin% wwtp,
+      normalise = FALSE
+    ) %>% 
+      ampvis2:::filter_species(filter_species = 0.1)
+    
+    dataset_folder <- paste0("datasets/", wwtp)
+    dir.create(dataset_folder, recursive = TRUE, showWarnings = FALSE)
+    
+    #write out abundance table
+    fwrite(
+      data.table(
+        ASV = rownames(dataset$abund),
+        dataset$abund
+      ),
+      file = paste0(dataset_folder, "/ASVtable.csv")
+    )
+    
+    #write out taxonomy
+    fwrite(
+      dataset$tax,
+      file = paste0(dataset_folder, "/taxonomy.csv")
+    )
+    
+    #write out metadata
+    fwrite(
+      dataset$metadata,
+      file = paste0(dataset_folder, "/metadata.csv")
+    )
+    
+    dataset
+  }
+)
+
+```

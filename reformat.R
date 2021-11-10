@@ -1,17 +1,27 @@
 #!/usr/bin/env Rscript
-#############################
-# The rest from here shouldn't require any adjustment
-#############################
-
 #load pkgs
-require(ampvis2)
-require(tidyverse)
-require(data.table)
+suppressPackageStartupMessages({
+  require(ampvis2)
+  require(tidyverse)
+  require(data.table)
+})
 
 #load config
 config <- jsonlite::read_json("config.json", simplifyVector = TRUE)
 
-thedata <- readRDS(paste0(config$results_dir, "/data_preprocessed/ampvis2object.rds"))
+#create output dir for reformatted data
+dir.create(
+  paste0(config$results_dir, "/data_reformatted"),
+  recursive = TRUE,
+  showWarnings = FALSE
+)
+
+#verify and combine data using amp_load
+thedata <- amp_load(
+  otutable = paste0(config$data_dir, "/", config$abund_filename),
+  metadata = paste0(config$data_dir, "/", config$metadata_filename),
+  taxonomy = paste0(config$data_dir, "/", config$taxonomy_filename)
+)
 
 #aggregate data at chosen taxonomic level, must not be higher than Genus level
 #as functional info is at genus level, so one of: OTU, Species, Genus
@@ -43,7 +53,7 @@ taxonomy <- data.frame(tax = rownames(otutable), check.names = FALSE, stringsAsF
 taxonomy <- separate(taxonomy, col = "tax", into = tax_aggregate, sep = "; ")
 # fwrite(
 #   transpose(taxonomy, keep.names = "names"), 
-#   paste0(config$results_dir, "/data_preprocessed/taxonomy.csv"),
+#   paste0(config$results_dir, "/data_reformatted/taxonomy.csv"),
 #   col.names = FALSE,
 #   quote = FALSE
 # )
@@ -52,12 +62,12 @@ taxonomy <- separate(taxonomy, col = "tax", into = tax_aggregate, sep = "; ")
 rownames(otutable) <- taxonomy[[tax_aggregate[1]]]
 #transpose abundances and write out
 abund_t <- rownames_to_column(as.data.frame(t(otutable)), colnames(thedata$metadata)[1])
-fwrite(abund_t, file = paste0(config$results_dir, "/data_preprocessed/abundances.csv"))
+fwrite(abund_t, file = paste0(config$results_dir, "/data_reformatted/abundances.csv"))
 
 #Download or read MiDAS field guide functional data
 #midasgenusfunctions <- ampvis2:::extractFunctions(ampvis2:::getMiDASFGData())
 #setDT(midasgenusfunctions)
-midasgenusfunctions <- data.table::fread("data/genusfunctions_20201201.csv")
+midasgenusfunctions <- data.table::fread("data/MiDAS_genusfunctions_20211109.csv") #this is hardcoded, remove before committing. Pull from field guide instead
 
 #reformat
 knownfuncs <- midasgenusfunctions[
@@ -75,25 +85,27 @@ knownfuncs <- filter(knownfuncs, Genus %chin% unique(taxonomy$Genus))
 
 #extract chosen functions
 knownfuncs <- knownfuncs %>% select(Genus, starts_with(config$functions))
+# 
+# #Aggregate ":In situ" and ":Other" columns for each function
+# #In situ always wins if not "na", otherwise that in "Other" is used
+# #melt, do groupwise operation per genus and function, then cast back
+# knownfuncs <- melt(knownfuncs, id.vars = "Genus")
+# knownfuncs[, func := gsub(":.*$", "", variable)]
+# knownfuncs <- knownfuncs[
+#   ,
+#   .(
+#     newvalue = if(all(value %chin% "na")) 
+#       "na"
+#     else if(.SD[grepl(":In situ$", variable), value] != "na")
+#       .SD[grepl(":In situ$", variable), value]
+#     else if(.SD[grepl(":In situ$", variable), value] == "na")
+#       .SD[grepl(":Other$", variable), value]
+#   ),
+#   by = .(Genus, func)
+# ]
+# knownfunctions <- dcast(knownfuncs, Genus~func, value.var = "newvalue")
 
-#Aggregate ":In situ" and ":Other" columns for each function
-#In situ always wins if not "na", otherwise that in "Other" is used
-#melt, do groupwise operation per genus and function, then cast back
-knownfuncs <- melt(knownfuncs, id.vars = "Genus")
-knownfuncs[, func := gsub(":.*$", "", variable)]
-knownfuncs <- knownfuncs[
-  ,
-  .(
-    newvalue = if(all(value %chin% "na")) 
-      "na"
-    else if(.SD[grepl(":In situ$", variable), value] != "na")
-      .SD[grepl(":In situ$", variable), value]
-    else if(.SD[grepl(":In situ$", variable), value] == "na")
-      .SD[grepl(":Other$", variable), value]
-  ),
-  by = .(Genus, func)
-]
-knownfunctions <- dcast(knownfuncs, Genus~func, value.var = "newvalue")
+knownfunctions <- knownfuncs
 
 ###merge with otutable (incl taxonomy)
 #first make a DF with ALL Genera in both otutable and function data
@@ -107,4 +119,7 @@ func_genus[is.na(func_genus)] <- "na"
 #merge 
 func_tax <- left_join(taxonomy, func_genus, by = "Genus")
 
-fwrite(func_tax, file = paste0(config$results_dir, "/data_preprocessed/taxonomy_wfunctions.csv"))
+fwrite(func_tax, file = paste0(config$results_dir, "/data_reformatted/taxonomy_wfunctions.csv"))
+
+#dont forget the metadata
+fwrite(thedata$metadata, paste0(config$results_dir, "/data_reformatted/metadata.csv"))
