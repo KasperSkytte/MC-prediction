@@ -6,16 +6,21 @@ suppressPackageStartupMessages({
   require(data.table)
 })
 
+functions_file <- "MiDAS_genusfunctions_20211109.csv"
+
 #load config
+cli::cat_line("reformat.R: Reading config.json file")
 config <- jsonlite::read_json("config.json", simplifyVector = TRUE)
 
 #create output dir for reformatted data
+cli::cat_line("reformat.R: Creating data_reformatted/ subfolder")
 dir.create(
   paste0(config$results_dir, "/data_reformatted"),
   recursive = TRUE,
   showWarnings = FALSE
 )
 
+cli::cat_line("reformat.R: Loading community data with amp_load")
 #verify and combine data using amp_load
 thedata <- amp_load(
   otutable = config$abund_file,
@@ -25,6 +30,7 @@ thedata <- amp_load(
 
 #aggregate data at chosen taxonomic level, must not be higher than Genus level
 #as functional info is at genus level, so one of: OTU, Species, Genus
+cli::cat_line("reformat.R: Aggregating abundance data at the chosen taxonomic level")
 if(length(config$tax_level) != 1L)
   stop("Please only supply a single taxonomic level")
 
@@ -62,14 +68,24 @@ taxonomy <- separate(taxonomy, col = "tax", into = tax_aggregate, sep = "; ")
 rownames(otutable) <- taxonomy[[tax_aggregate[1]]]
 #transpose abundances and write out
 abund_t <- rownames_to_column(as.data.frame(t(otutable)), colnames(thedata$metadata)[1])
+cli::cat_line("reformat.R: Writing aggregated abundance data to file")
 fwrite(abund_t, file = paste0(config$results_dir, "/data_reformatted/abundances.csv"))
 
 #Download or read MiDAS field guide functional data
-#midasgenusfunctions <- ampvis2:::extractFunctions(ampvis2:::getMiDASFGData())
-#setDT(midasgenusfunctions)
-midasgenusfunctions <- data.table::fread("data/MiDAS_genusfunctions_20211109.csv") #this is hardcoded, remove before committing. Pull from field guide instead
+cli::cat_line("reformat.R: Loading genus-level functional information")
+if(file.exists(functions_file)) {
+  cli::cat_line(paste0("   Using local file: ", functions_file))
+  midasgenusfunctions <- data.table::fread(functions_file)
+} else {
+  cli::cat_line(paste0("   Local file not found, retrieving from midasfieldguide.org"))
+  midasgenusfunctions <- ampvis2:::extractFunctions(ampvis2:::getMiDASFGData())
+  setDT(midasgenusfunctions)
+  cli::cat_line(paste0("   Writing to local file for use next time: ", functions_file))
+  data.table::fwrite(midasgenusfunctions, file = functions_file)
+}
 
-#reformat
+cli::cat_line("reformat.R: Filtering genus-level functional information")
+#append "g__" genus prefix and remove special characters
 knownfuncs <- midasgenusfunctions[
     ,
     Genus := paste0("g__", stringr::str_replace_all(
@@ -119,7 +135,11 @@ func_genus[is.na(func_genus)] <- "na"
 #merge 
 func_tax <- left_join(taxonomy, func_genus, by = "Genus")
 
+cli::cat_line("reformat.R: Append functional information to taxonomy and write to file")
 fwrite(func_tax, file = paste0(config$results_dir, "/data_reformatted/taxonomy_wfunctions.csv"))
 
 #dont forget the metadata
+cli::cat_line("reformat.R: Copy metadata along")
 fwrite(thedata$metadata, paste0(config$results_dir, "/data_reformatted/metadata.csv"))
+
+cli::cat_line("reformat.R: Done reformatting")
