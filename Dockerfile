@@ -64,8 +64,10 @@ RUN export DEBIAN_FRONTEND=noninteractive \
   && sed -i s/^R_LIBS_USER=/#R_LIBS_USER=/g /opt/R/${R_VERSION}/lib/R/etc/Renviron \
   #install renv + required R packages according to the lock file
   && R -e "install.packages('renv')" \
-  && R -e "renv::consent(provided = TRUE)" \
-  && R -e "renv::restore(library = '/opt/R/${R_VERSION}/lib/R/site-library/', clean = TRUE, lockfile = '/opt/renv.lock', prompt = FALSE)" \
+  && R -e "renv::consent(provided = TRUE)"
+
+#install R pkgs from lock file
+RUN R -e "renv::restore(library = '/opt/R/${R_VERSION}/lib/R/site-library/', clean = TRUE, lockfile = '/opt/renv.lock', prompt = FALSE)" \
   # clean up after yourself, mommy doesn't work here
   && apt-get clean -y \
   && rm -rf /var/lib/apt/lists/* \
