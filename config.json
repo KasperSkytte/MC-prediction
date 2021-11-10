@@ -1,8 +1,7 @@
 {
-    "abund_filename": "datasets/Aalborg W/ASVtable.csv",
-    "taxonomy_filename": "datasets/Aalborg W/taxonomy.csv",
-    "metadata_filename": "metadata.csv",
-    "data_dir": "data",
+    "abund_file": "data/datasets/Damhusåen-B/ASVtable.csv",
+    "taxonomy_file": "data/datasets/Damhusåen-B/taxonomy.csv",
+    "metadata_file": "data/metadata.csv",
     "results_dir": "results",
     "metadata_date_col": "Date",
     "tax_level": "OTU",

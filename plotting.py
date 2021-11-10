@@ -108,7 +108,7 @@ if __name__ == "__main__":
     with open('config.json', 'r') as config_file:
         config = json.load(config_file)
 
-    x, func_tax, func_clusters, _ = load_data(config['abund_filename'], config)
+    x, func_tax, func_clusters, _ = load_data(config['abund_file'], config)
     x = smooth(x)
 
     n_clusters = 5

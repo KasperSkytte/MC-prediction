@@ -24,7 +24,7 @@ One of the requirements is 'TensorFlow 2' which is currently supported on Python
 
 ## Usage
 Some settings/parameters can be tweaked in the file 'config.json' including which data files to use (see the list below).
-If changing 'metadata_filename' or 'function_filename' options in 'config.json' it can be necessary to also set 'force_preprocessing' to 'true' for the next run. This will force recalculation of some of the preprocessing steps using the new data.\
+If changing 'metadata_file' or 'functions_file' options in 'config.json' it can be necessary to also set 'force_preprocessing' to 'true' for the next run. This will force recalculation of some of the preprocessing steps using the new data.\
 The program can be run with:\
 python ./main.py
 
@@ -49,9 +49,8 @@ before starting the container. Remember to restart the docker daemon for the cha
 ## Explanations of the options in config.json:
 | Parameter                     | Description |
 | ---                           | ---         |
-| abund_filename                     | Name of the abundance data file. |
-| metadata_filename                 | Name of the metadata file. |
-| data_dir                      | Path to the data directory. |
+| abund_file                     | Name of the abundance data file. |
+| metadata_file                 | Name of the metadata file. |
 | results_dir                   | Path to a directory where results are saved. |
 | functions          | Which functions to use. |
 | force_preprocessing           | If 'true', forces preprocessing. Otherwise tries to skip some preprocessing steps which are only necessary to run when the data files changes. |

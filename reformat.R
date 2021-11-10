@@ -18,9 +18,9 @@ dir.create(
 
 #verify and combine data using amp_load
 thedata <- amp_load(
-  otutable = paste0(config$data_dir, "/", config$abund_filename),
-  metadata = paste0(config$data_dir, "/", config$metadata_filename),
-  taxonomy = paste0(config$data_dir, "/", config$taxonomy_filename)
+  otutable = config$abund_file,
+  metadata = config$metadata_file,
+  taxonomy = config$taxonomy_file
 )
 
 #aggregate data at chosen taxonomic level, must not be higher than Genus level
