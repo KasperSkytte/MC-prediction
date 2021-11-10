@@ -27,17 +27,16 @@ COPY renv.lock .
 
 #upgrade pip, install pipenv and python pkgs according to the lock file (system-wide)
 RUN python3 -m pip install --upgrade pip \
-  && pip install pipenv apt-mirror-updater \
+  && pip install pipenv \
   && pipenv install --python /usr/bin/python3 --deploy --system
-
-#also set default APT mirror to AAU mirror
-RUN apt-mirror-updater -uc https://mirrors.dotsrc.org/ubuntu
 
 #download and install R, required system dependencies, and R packages
 RUN export DEBIAN_FRONTEND=noninteractive \
+  && apt-get update -qqy \
   && apt-get -y install --fix-broken --no-install-recommends --no-install-suggests \
     git \
     wget \
+    jq \
     gdebi-core \
     libcurl4-openssl-dev \
     libssl-dev \
@@ -56,8 +55,8 @@ RUN export DEBIAN_FRONTEND=noninteractive \
   #enable multithreaded compilation of packages
   && mkdir -p ~/.R \
   && echo "MAKEFLAGS = -j" > ~/.R/Makevars \
-  #set AAU CRAN mirror as default CRAN repo
-  && echo "options(repos = c(CRAN = 'https://mirrors.dotsrc.org/cran'), download.file.method = 'libcurl')" >> /opt/R/${R_VERSION}/lib/R/etc/Rprofile.site \
+  #set CRAN repo to RSPM snapshot on Oct 23, 2021 for ubuntu18
+  && echo "options(repos = c(CRAN = 'https://packagemanager.rstudio.com/all/__linux__/bionic/2021-10-23+MTo1NzcxNDc0LDI6NDUyNjIxNTs3NjlEQzc0OQ'), download.file.method = 'libcurl')" >> /opt/R/${R_VERSION}/lib/R/etc/Rprofile.site \
   #set default renv package cache for all users
   && echo "RENV_PATHS_CACHE=/opt/R/${R_VERSION}/lib/R/renv-cache/" >> /opt/R/${R_VERSION}/lib/R/etc/Renviron \
   #remove user library from .libPaths() as it will be used if present in home directory (and mounted)

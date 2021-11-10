@@ -5,6 +5,7 @@ from sklearn.manifold import TSNE
 from load_data import smooth
 
 import json
+
 with open('config.json', 'r') as config_file:
     _fig_dir = json.load(config_file)['results_dir'] + '/figures/'
 

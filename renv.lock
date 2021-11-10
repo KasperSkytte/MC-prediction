@@ -4,7 +4,7 @@
     "Repositories": [
       {
         "Name": "CRAN",
-        "URL": "https://mirrors.dotsrc.org/cran"
+        "URL": "https://packagemanager.rstudio.com/all/__linux__/bionic/2021-10-23+MTo1NzcxNDc0LDI6NDUyNjIxNTs3NjlEQzc0OQ"
       }
     ]
   },
@@ -605,7 +605,7 @@
     },
     "renv": {
       "Package": "renv",
-      "Version": "0.13.2",
+      "Version": "0.14.0",
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "079cb1f03ff972b30401ed05623cbe92"
