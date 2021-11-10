@@ -51,7 +51,6 @@ before starting the container. Remember to restart the docker daemon for the cha
 | ---                           | ---         |
 | abund_filename                     | Name of the abundance data file. |
 | metadata_filename                 | Name of the metadata file. |
-| function_filename            | Name of the function file. |
 | data_dir                      | Path to the data directory. |
 | results_dir                   | Path to a directory where results are saved. |
 | functions          | Which functions to use. |
