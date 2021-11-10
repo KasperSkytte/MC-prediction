@@ -14,8 +14,9 @@
         "GAO",
         "Filamentous"
     ],
-    "only_pos_func": true,
-    "max_zeros_pct": 0.80,
+    "only_pos_func": false,
+    "pseudo_zero": 0.01,
+    "max_zeros_pct": 0.60,
     "num_time_series_used": 10,
     "iterations": 1,
     "max_epochs_lstm": 200,

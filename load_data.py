@@ -3,10 +3,10 @@ import pandas as pd
 from scipy.signal import lfilter
 import os
 
-def filter_sparse_samples(data, percentage):
+def filter_sparse_samples(data, percentage, pseudo_zero):
     """Removes ASV/species abundance time series consisting of more zeroes than the specified percentage."""
     num_of_samples = data.shape[0]
-    zeroes_count = (data == 0.0).sum(axis=0)
+    zeroes_count = (data < pseudo_zero).sum(axis=0)
     to_remove = zeroes_count > num_of_samples * percentage
     data = data.drop(columns=to_remove[to_remove == True].index)
     return data
@@ -67,7 +67,7 @@ def load_data(config):
     func_in_file = func_tax.columns[func_start_column:].to_numpy()
 
     # filter sparse samples with many zeros
-    abund = filter_sparse_samples(abund, config['max_zeros_pct'])
+    abund = filter_sparse_samples(abund, config['max_zeros_pct'], config['pseudo_zero'])
 
     # Filter taxa with no positive value in any of the chosen functional groups
     if config['only_pos_func']:
