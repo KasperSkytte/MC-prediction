@@ -1,9 +1,0 @@
-// For format details, see https://aka.ms/devcontainer.json
-{
-	"name": "rstudio",
-	"build": {
-		"dockerfile": "../Dockerfile",
-	},
-	"forwardPorts": [ 8787 ],
-	"postStartCommand": "screen -d -m /init; bash /opt/startmsg.sh"
-}

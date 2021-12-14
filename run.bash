@@ -22,7 +22,7 @@ main() {
   echo "Script: $(realpath "$0")"
   echo "System time: $(date '+%Y-%m-%d %H:%M:%S')"
   echo "Current user name: $(whoami)"
-  echo "Running in docker container:" $(if [ -f '/.dockerenv' ]; then echo yes; else echo no; fi)
+  echo "Running in docker container: $(if [ -f '/.dockerenv' ]; then echo yes; else echo no; fi)"
   echo "Current working directory: $(pwd)"
   echo "Log file: $(realpath -m "$logFile")"
   echo "Configuration:"
