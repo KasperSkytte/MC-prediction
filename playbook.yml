@@ -1,0 +1,27 @@
+---
+# run once on a fresh VM, just uncomment
+- hosts:
+  - mlnode
+  become: yes
+  tasks:
+    - name: "apt full-upgrade"
+      apt:
+        update_cache: yes
+        upgrade: full
+
+# separate play as roles are run before tasks
+- hosts:
+  - mlnode
+  become: yes
+  vars:
+    pip_install_packages:
+      - stormssh
+      - docker
+    docker_users:
+      - ubuntu
+    nvidia_driver_ubuntu_install_from_cuda_repo: yes
+  roles:
+    - geerlingguy.pip
+    - geerlingguy.docker
+    - nvidia.nvidia_driver
+    - nvidia.nvidia_docker
