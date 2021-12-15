@@ -2,11 +2,12 @@ import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
 from sklearn.manifold import TSNE
-from preprocessing import smooth
+from load_data import smooth
 
 import json
+
 with open('config.json', 'r') as config_file:
-    _fig_dir = json.load(config_file)['figures_dir']
+    _fig_dir = json.load(config_file)['results_dir'] + '/figures/'
 
 def plot_results(func, prediction, dates, asv):
     """Plot the true vs. the predicted values for the specified ASV."""
@@ -99,7 +100,7 @@ def create_boxplot(data, label, cluster_type):
 
 
 if __name__ == "__main__":
-    from preprocessing import preprocess_data, smooth, normalize
+    from load_data import load_data, smooth, normalize
     from correlation import calc_cluster_correlations, print_corr_results
     from idec.IDEC import IDEC
 
@@ -107,17 +108,17 @@ if __name__ == "__main__":
     with open('config.json', 'r') as config_file:
         config = json.load(config_file)
 
-    x, func_tax, func_clusters, _ = preprocess_data(config['data_file'], config)
+    x, func_tax, func_clusters, _ = load_data(config['abund_file'], config)
     x = smooth(x)
 
     n_clusters = 5
     plt.rcParams['figure.figsize'] = (12,8)
 
     idec = IDEC(dims=[x.shape[-1], 500, 500, 2000, 10], n_clusters=n_clusters)
-    idec.load_weights(config['results_dir'] + 'idec/IDEC_best.h5')
+    idec.load_weights(config['results_dir'] + '/idec/IDEC_best.h5')
     idec_clusters = idec.predict_clusters(x)
 
-    print('\nFunctionality clustering:')
+    print('\nfunction clustering:')
     cluster_sizes, r_values, p_values = calc_cluster_correlations(x, func_clusters, n_clusters)
     print_corr_results(cluster_sizes, r_values, p_values)
     create_boxplot(r_values, 'abs(r-values)', 'func')

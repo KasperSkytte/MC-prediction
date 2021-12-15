@@ -2,7 +2,7 @@ from scipy.stats import pearsonr
 import numpy as np
 
 def calc_cluster_correlations(abundances, clusters, n_clusters):
-    """Calculates the pairwise Pearson correlation between all ASVs/species in each cluster."""
+    """Calculates the pairwise Pearson correlation between all taxa in each cluster."""
     r_values = [[] for _ in range(n_clusters)]
     p_values = [[] for _ in range(n_clusters)]
     cluster_sizes = []

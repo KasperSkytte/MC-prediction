@@ -1,5 +1,6 @@
 import pandas as pd
 import tensorflow as tf
+import numpy as np
 from tensorflow import keras
 
 from bray_curtis import BrayCurtis
@@ -11,7 +12,7 @@ from correlation import calc_cluster_correlations, calc_correlation_aggregates
 
 def create_tsne(data, num_clusters):
     data_embedded = train_tsne(data.data_raw)
-    plot_tsne(data_embedded, data.clusters_func, num_clusters, 'functionality')
+    plot_tsne(data_embedded, data.clusters_func, num_clusters, 'function')
     plot_tsne(data_embedded, data.clusters_idec, num_clusters, 'IDEC')
 
 
@@ -21,7 +22,7 @@ def create_idec_model(input_dim, num_clusters):
 
 def load_idec_model(input_dim, num_clusters):
     idec_model = create_idec_model(input_dim, num_clusters)
-    idec_model.load_weights(results_dir + 'idec/IDEC_best.h5')
+    idec_model.load_weights(results_dir + '/idec/IDEC_best.h5')
     return idec_model
 
 
@@ -49,30 +50,30 @@ def find_best_idec(data, iterations, num_clusters, tolerance):
             best_performance = test_performance
             best_r_vals = r_values
     
-    best_model.model.save_weights(results_dir + 'idec/IDEC_best.h5')
+    best_model.model.save_weights(results_dir + '/idec/IDEC_best.h5')
     data.clusters_idec = best_model.y_pred
     create_tsne(data, num_clusters)
     create_boxplot(best_r_vals, 'abs(r-values)', 'idec')
 
-    # Calculate functionality cluster correlation for comparison.
+    # Calculate function cluster correlation for comparison.
     cluster_sizes, r_values, p_values = calc_cluster_correlations(data.data_raw, y, num_clusters)
     means, stds, p_means, weighted_avg = calc_correlation_aggregates(cluster_sizes, r_values, p_values)
     create_boxplot(r_values, 'abs(r-values)', 'func')
 
-    with open(results_dir + 'idec_performance.txt', 'w') as outfile:
-        outfile.write('Functionality clustering:\n')
+    with open(results_dir + '/idec_performance.txt', 'w') as outfile:
+        outfile.write('function clustering:\n')
         outfile.write('Cluster sizes: ' + str(cluster_sizes) + '\n')
-        outfile.write('r (mean): ' + str(means) + '\n')
-        outfile.write('r (std):  ' + str(stds) + '\n')
-        outfile.write('p (mean): ' + str(p_means) + '\n')
-        outfile.write('r (weighted avg of means): ' + str(weighted_avg) + '\n\n')
+        outfile.write('r (mean): ' + str(np.around(np.array(means), 5)) + '\n')
+        outfile.write('r (std):  ' + str(np.around(np.array(stds), 5)) + '\n')
+        outfile.write('p (mean): ' + str(np.around(np.array(p_means), 5)) + '\n')
+        outfile.write('r (weighted avg of means): ' + str(np.around(np.array(weighted_avg), 5)) + '\n\n')
 
         outfile.write('IDEC clustering:\n')
         outfile.write('Cluster sizes: ' + str(best_performance[1]) + '\n')
-        outfile.write('r (mean): ' + str(best_performance[2]) + '\n')
-        outfile.write('r (std):  ' + str(best_performance[3]) + '\n')
-        outfile.write('p (mean): ' + str(best_performance[4]) + '\n')
-        outfile.write('r (weighted avg of means): ' + str(best_performance[5]) + '\n\n')
+        outfile.write('r (mean): ' + str(np.around(np.array(best_performance[2]), 5)) + '\n')
+        outfile.write('r (std):  ' + str(np.around(np.array(best_performance[3]), 5)) + '\n')
+        outfile.write('p (mean): ' + str(np.around(np.array(best_performance[4]), 5)) + '\n')
+        outfile.write('r (weighted avg of means): ' + str(np.around(np.array(best_performance[5]), 5)) + '\n\n')
         outfile.write('IDEC: ' + str(best_performance[0]) + '\n')
 
 
@@ -101,7 +102,7 @@ def create_lstm_model(num_features):
 
 def load_lstm_model(num_features, cluster, cluster_type):
     lstm_model = create_lstm_model(num_features)
-    lstm_model.load_weights(f'{results_dir}lstm_{cluster_type}_weights/cluster_{cluster}')
+    lstm_model.load_weights(f'{results_dir}/lstm_{cluster_type}_weights/cluster_{cluster}')
     return lstm_model
 
 
@@ -126,7 +127,7 @@ def find_best_lstm(data, iterations, num_clusters, max_epochs, early_stopping, c
                 best_performance = test_performance
 
         best_performances.append(best_performance)
-        best_model.save_weights(f'{results_dir}lstm_{cluster_type}_weights/cluster_{c}')
+        best_model.save_weights(f'{results_dir}/lstm_{cluster_type}_weights/cluster_{c}')
 
         prediction = make_prediction(data, best_model)
 
@@ -141,13 +142,12 @@ def find_best_lstm(data, iterations, num_clusters, max_epochs, early_stopping, c
 
         metric_names = best_model.metrics_names
     metric_names[0] = 'bray-curtis'
-    with open(f'{results_dir}lstm_{cluster_type}_performance.txt', 'w') as outfile:
+    with open(f'{results_dir}/lstm_{cluster_type}_performance.txt', 'w') as outfile:
         c = 0
         outfile.write(str(metric_names) + '\n')
         for performance in best_performances:
             outfile.write(str(c) + ': ' + str(performance) + '\n')
             c += 1
-
 
 if __name__ == '__main__':
     import json
@@ -156,17 +156,17 @@ if __name__ == '__main__':
     
     results_dir = config['results_dir']
 
-    # Number of ASVs/species to use at the time for the prediction.
+    # Number of taxa to use at the time for the prediction.
     num_features = config['num_time_series_used']
 
     # Number of clusters to use.
     num_clusters = config['idec_nclusters']
 
     # Number of models to train when running find_best_idec/lstm.
-    iterations = 1
+    iterations = config['iterations']
 
     # Define training, validation and test splits.
-    splits = [0.80, 0.0, 0.20]
+    splits = config['splits']
 
     # Open dataset with DataHandler.
     data = DataHandler(config, num_features, window_width=config['window_size'], window_batch_size=10, splits=splits)
@@ -209,4 +209,4 @@ if __name__ == '__main__':
     dates_pred_test_start = [dates_test.iloc[0], dates_test.iloc[data.window_width]]
 
     # # Plot prediction results.
-    # plot_four_results(data.all, prediction, dates, data.all.columns[:4], dates_pred_test_start)
+    #plot_four_results(data.all, prediction, dates, data.all.columns[:4], dates_pred_test_start)

@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 import tensorflow as tf
-from preprocessing import preprocess_data, smooth, normalize, denormalize
+from load_data import load_data, smooth, normalize
 
 class DataHandler:
     def __init__(self, config, num_features, window_width, window_batch_size=10, window_shift=1, splits=[0.70, 0.15, 0.15]):
@@ -16,7 +16,7 @@ class DataHandler:
         self.clusters_func = None
         self.clusters_idec = None
         
-        self._load_and_preprocess_data(config)
+        self._load_data(config)
         self.use_splits(splits)
         self.clusters_abund = self._make_abundance_clusters()
     
@@ -111,8 +111,8 @@ class DataHandler:
         """Cluster type is which type of cluster to use:
              abund: means that the x most abundant are in the first cluster, 
                     the next x most abundant are in second cluster and so forth.
-             func:  means that the functionalities are used to cluster the ASVs/species i.e. 
-                    having a positive value in the same functionality means being in the same cluster.
+             func:  means that the functions are used to cluster the taxa i.e. 
+                    having a positive value in the same function means being in the same cluster.
              idec:  means using the clusters found with IDEC. An IDEC model has to be trained first to use this."""
         if number is None:
             self._clusters = None
@@ -131,7 +131,7 @@ class DataHandler:
                 raise Exception('Unknown cluster type.')
             
     def _only_mark_first_max_num_features(self):
-        """Only use the x most abundant ASVs/species in a given cluster."""
+        """Only use the x most abundant taxa in a given cluster."""
         if self.max_num_features is None:
             return
         count = 0
@@ -156,16 +156,11 @@ class DataHandler:
         """Return the specified attribute from the metadata for the samples in the dataframe."""
         return self.meta.loc[dataframe.index][attribute]
 
-    def _load_and_preprocess_data(self, config):
-        data_file = config['data_file']
-        meta_path = config['data_dir'] + 'transformed_metadata_' + data_file
-
-        data_raw, func_tax, clusters, functionalities = preprocess_data(data_file, config)
+    def _load_data(self, config):
+        data_raw, meta, func_tax, clusters, functions = load_data(config)
 
         data_raw = smooth(data_raw)
         data_raw, mean = normalize(data_raw)
-
-        meta = pd.read_csv(meta_path, index_col=0, parse_dates=['Date'])
 
         data = pd.DataFrame(data=np.transpose(data_raw), 
                             index=meta.index, 
@@ -177,5 +172,5 @@ class DataHandler:
         self.meta = meta
         self._normalization_mean = mean
         self.clusters_func = clusters
-        self.functionalities = functionalities
+        self.functions = functions
         self.num_samples = data_raw.shape[-1]

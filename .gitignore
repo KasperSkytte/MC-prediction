@@ -128,6 +128,21 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-figures/
+results*
 
-results/
+data/preprocessed/
+
+data/ASVtable.tsv
+
+data/ASVs.R1.midas48.sintax
+.Rproj.user
+
+ignore/
+
+analysis/analysis.html
+
+data/raw/ASVs.R1.sintax
+
+data/raw/ASVtable.tsv
+
+analysis_Rproj/analysis_files/

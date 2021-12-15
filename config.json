@@ -1,23 +1,29 @@
 {
-    "data_file": "aalborg_west_ASV.csv",
-    "metadata_file": "metadata_filtered.csv",
-    "functionality_file": "MiDAS_Metadata.csv",
-    "data_dir": "data/",
-    "figures_dir": "figures/",
-    "results_dir": "results/",
-    "functionalities_used": [
+    "abund_file": "data/datasets/Damhusåen-B/ASVtable.csv",
+    "taxonomy_file": "data/datasets/Damhusåen-B/taxonomy.csv",
+    "metadata_file": "data/metadata.csv",
+    "results_dir": "results",
+    "metadata_date_col": "Date",
+    "tax_level": "OTU",
+    "functions": [
         "AOB",
         "NOB",
         "PAO",
         "GAO",
         "Filamentous"
     ],
-    "force_preprocessing": false,
-    "only_pos_func": true,
-    "low_abundance_threshold": 0.80,
+    "only_pos_func": false,
+    "pseudo_zero": 0.01,
+    "max_zeros_pct": 0.60,
     "num_time_series_used": 10,
+    "iterations": 1,
     "max_epochs_lstm": 200,
     "window_size": 10,
     "idec_nclusters": 5,
-    "tolerance_idec": 0.001
+    "tolerance_idec": 0.001,
+    "splits": [
+        0.80,
+        0.0,
+        0.20
+    ]
 }

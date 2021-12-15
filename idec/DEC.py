@@ -308,7 +308,7 @@ if __name__ == "__main__":
 
     # load dataset
     optimizer = 'adam'  # SGD(lr=0.01, momentum=0.99)
-    from .datasets import load_mnist, load_reuters, load_usps, load_pendigits, load_bacteria_with_functionality
+    from .datasets import load_mnist, load_reuters, load_usps, load_pendigits, load_bacteria_with_function
 
     if args.dataset == 'mnist':  # recommends: n_clusters=10, update_interval=140
         x, y = load_mnist()
@@ -319,7 +319,7 @@ if __name__ == "__main__":
     elif args.dataset == 'reutersidf10k':  # recommends: n_clusters=4, update_interval=20
         x, y = load_reuters('data/reuters')
     elif args.dataset == 'bacteria_func':
-        x, y = load_bacteria_with_functionality('data/bacteria')
+        x, y = load_bacteria_with_function('data/bacteria')
 
     if args.update_interval == 0:  # one epoch. A smaller value may correspond to higher performance
         args.update_interval = int(x.shape[0]/args.batch_size)

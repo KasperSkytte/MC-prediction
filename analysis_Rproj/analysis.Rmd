@@ -1,0 +1,274 @@
+---
+title: "analysis"
+author: "KSA"
+date: "9/28/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, error = FALSE)
+require("patchwork")
+require("data.table")
+require("ampvis2")
+require("magrittr")
+```
+
+```{r}
+tablename <- "performance_table"
+
+plot_performance <- function(path) {
+  filenames <- c("lstm_idec_performance.txt", "lstm_abund_performance.txt", "lstm_func_performance.txt")
+  list <- lapply(paste0(path, "/", filenames), function(filepath) {
+    dt <- fread(filepath)
+    colnames(dt) <- gsub("[\\['\\]]*", "", colnames(dt))
+    dt[, cluster := gsub(":.*$", "", `bray-curtis`)]
+    dt <- dt[,lapply(.SD, gsub, pattern = "^[0-9]+:.*\\[|\\]$", replacement = "")]
+    dt <- dt[,lapply(.SD, as.numeric)]
+    dt <- melt(dt, id.vars = "cluster", variable.name = "errorfunc", value.name = "value")
+    dt[, clustertype := tools::file_path_sans_ext(basename(filepath))]
+    dt[, name := basename(path)]
+    dt
+  })
+  dt <- rbindlist(list)
+  if(!exists(tablename, .GlobalEnv)) {
+    assign(tablename, dt, .GlobalEnv)
+  } else {
+    assign(tablename, rbindlist(list(get(tablename, .GlobalEnv), dt)), .GlobalEnv)
+  }
+  plot <- ggplot(
+    dt,
+    aes(
+      x = cluster,
+      y = value, 
+      group = clustertype,
+      color = clustertype,
+      fill = clustertype
+    )
+  ) +
+    geom_col(position = "dodge2") +
+    facet_wrap("errorfunc", scales = "free_y", ncol = 1) +
+    ylim(0, 1)
+  print(plot)
+  cli::cat_line(readLines(paste0(path, "/idec_performance.txt")))
+}
+
+read_16sdata <- function(path) {
+  abund <- fread(paste0(path, "/data_reformatted/abundances.csv"))
+  metadata <- fread(paste0(path, "/data_reformatted/metadata.csv"))[, -c("Plant")]
+  asvtable <- metadata[abund, , on = "SampleID"]
+  melt(
+    asvtable,
+    id.vars = c("SampleID", "Date"),
+    variable.name = "ASV",
+    value.name = "abundance",
+    variable.factor = FALSE)
+}
+```
+
+# Aalborg West
+## 1 iteration
+```{r}
+plot_performance("../results_20211012_134110_1it_AAW/")
+```
+
+## 5 iterations
+```{r}
+plot_performance("../results_20211012_134434_5it_AAW/")
+```
+
+## Plot ASV's with poor prediction
+```{r}
+aaw_gg <- read_16sdata("../results_20211012_134110_1it_AAW")[ASV %chin% c("ASV1078", "ASV135", "ASV24", "ASV1", "ASV317")]
+aaw_plot <- ggplot(aaw_gg, aes(Date, abundance,  group = ASV, color = ASV)) +
+  geom_line() +
+  theme(
+    axis.text.x = element_text(angle = 90)
+  )
+plotly::ggplotly(aaw_plot)
+```
+
+## Max. 60% zeros
+```{r}
+plot_performance("../results_20211026_103354_1it_AAW_60pctzeros/")
+```
+
+# Aalborg East
+## 1 iteration
+```{r}
+plot_performance("../results_20211012_135551_1it_AAE/")
+```
+
+## 5 iterations
+```{r}
+plot_performance("../results_20211012_140450_5it_AAE/")
+```
+## Plot ASV's with poor prediction
+```{r}
+aae_gg <- read_16sdata("../results_20211012_135551_1it_AAE")[ASV %chin% c("ASV1078", "ASV3526", "ASV3188", "ASV131", "ASV280", "ASV251")]
+aae_plot <- ggplot(aae_gg, aes(Date, abundance,  group = ASV, color = ASV)) +
+  geom_line() +
+  theme(
+    axis.text.x = element_text(angle = 90)
+  )
+plotly::ggplotly(aae_plot)
+```
+
+## Max. 60% zeros
+```{r}
+plot_performance("../results_20211026_105016_1it_AAE_60pctzeros/")
+```
+
+### abund cluster 3
+
+```{r}
+knitr::include_graphics("../results_20211026_105016_1it_AAE_60pctzeros/figures/lstm_abund_cluster_3.png")
+```
+
+### abund cluster 3
+
+```{r}
+knitr::include_graphics("../results_20211026_105016_1it_AAE_60pctzeros/figures/lstm_idec_cluster_4.png")
+```
+
+# Randers
+## 1 iteration
+```{r}
+plot_performance("../results_20211011_155219_1it_Randers/")
+```
+
+Notice only 1 ASV in cluster 1 and 3
+
+### IDEC cluster 0
+```{r}
+knitr::include_graphics("../results_20211011_155219_1it_Randers/figures/lstm_idec_cluster_0.png")
+```
+
+### IDEC cluster 1
+```{r}
+knitr::include_graphics("../results_20211011_155219_1it_Randers/figures/lstm_idec_cluster_1.png")
+```
+
+### IDEC cluster 2
+```{r}
+knitr::include_graphics("../results_20211011_155219_1it_Randers/figures/lstm_idec_cluster_2.png")
+```
+
+### IDEC cluster 3
+```{r}
+knitr::include_graphics("../results_20211011_155219_1it_Randers/figures/lstm_idec_cluster_3.png")
+```
+
+What's wrong with the y-axis scale for cluster 1 and 3?
+
+### Time series
+```{r}
+ran_gg <- read_16sdata("../results_20211011_155219_1it_Randers")[ASV %chin% c("ASV201", "ASV9672", "ASV75", "ASV23")]
+ran_plot <- ggplot(ran_gg, aes(Date, abundance,  group = ASV, color = ASV)) +
+  geom_line() +
+  theme(
+    axis.text.x = element_text(angle = 90)
+  )
+plotly::ggplotly(ran_plot)
+```
+
+## 5 iterations
+```{r}
+plot_performance("../results_20211012_141947_5it_Randers/")
+```
+
+### IDEC cluster 1
+```{r}
+knitr::include_graphics("../results_20211012_141947_5it_Randers/figures/lstm_idec_cluster_1.png")
+```
+
+### IDEC cluster 3
+```{r}
+knitr::include_graphics("../results_20211012_141947_5it_Randers/figures/lstm_idec_cluster_3.png")
+```
+
+## max 60% zeros
+```{r}
+plot_performance("../results_20211026_105416_1it_randers_60pctzeros/")
+```
+
+Notice only 1 ASV in IDEC cluster 3
+
+### IDEC cluster 3
+```{r}
+knitr::include_graphics("../results_20211026_105416_1it_randers_60pctzeros/figures/lstm_idec_cluster_3.png")
+```
+
+## time series ASV75
+```{r}
+randers60pct <- readRDS("../results_20211026_105416_1it_randers_60pctzeros/data_reformatted/ampvis2object.rds")
+ASV75plot <- randers60pct %>% amp_subset_taxa("ASV75", normalise = FALSE) %>% amp_timeseries(time_variable = "Date", normalise = FALSE)
+ASV75plot %>% plotly::ggplotly()
+ASV75plot + ylim(0, 0.05)
+```
+
+# Randers max 60% pseudo-zeros (0.01%)
+```{r}
+plot_performance("../results_20211026_112112_1it_randers_60pctpseudozeros/")
+```
+
+Notice only 1 ASV in IDEC cluster 3
+```{r}
+knitr::include_graphics("../results_20211026_112112_1it_randers_60pctpseudozeros/figures/lstm_idec_cluster_3.png")
+```
+
+# Aalborg West max 60% pseudo-zeros (0.01%)
+```{r}
+plot_performance("../results_20211026_113546_1it_AAW_60pctpseudozeros/")
+```
+
+# Aalborg East max 60% pseudo-zeros (0.01%)
+```{r}
+plot_performance("../results_20211026_113756_1it_AAE_60pctpseudozeros/")
+```
+
+# Aalborg West, allow ASVs not in func guilds for IDEC
+```{r}
+plot_performance("../results_20211026_160140_1it_AAW_allASVs/")
+```
+
+# Avedøre
+```{r}
+plot_performance("../results_20211110_152241_avedore/")
+```
+
+# Damhusåen A
+```{r}
+plot_performance("../results_20211110_152531_dam-a/")
+```
+
+# Damhusåen B
+```{r}
+plot_performance("../results_20211110_163436_dam-b//")
+```
+
+# Damhusåen C (errored)
+```{r}
+
+```
+
+# Damhusåen D
+```{r}
+plot_performance("../results_20211124_155133_dam-d/")
+```
+
+# Hirtshals
+```{r}
+plot_performance("../results_20211124_155612_hirtshals/")
+```
+
+# Mariager
+```{r}
+plot_performance("../results_20211124_160138_mari/")
+```
+
+# Randers, again
+```{r}
+plot_performance("../results_20211124_160545_randers/")
+```
+
+
