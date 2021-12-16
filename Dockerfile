@@ -1,6 +1,6 @@
 #Dockerfile inspired by https://sourcery.ai/blog/python-docker/
 #exact dockerfile used for base image: https://github.com/tensorflow/tensorflow/blob/0a1c3d28aa5ecbb68b6fa8e85395b9d0127787f6/tensorflow/tools/dockerfiles/dockerfiles/gpu-jupyter.Dockerfile
-FROM tensorflow/tensorflow:2.4.1-gpu as base
+FROM tensorflow/tensorflow:2.7.0-gpu as base
 
 WORKDIR /opt
 
@@ -18,7 +18,7 @@ ENV PYTHONFAULTHANDLER 1
 ENV MPLCONFIGDIR /tmp
 
 #set R version
-ENV R_VERSION 4.1.0
+ENV R_VERSION 4.1.2
 
 #lock files to manage python and R packages
 COPY Pipfile .
@@ -47,7 +47,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     libfribidi-dev \
     libtiff5-dev \
   #install R from pre-compiled binary
-  && curl -O https://cdn.rstudio.com/r/ubuntu-1804/pkgs/r-${R_VERSION}_1_amd64.deb \
+  && curl -O https://cdn.rstudio.com/r/ubuntu-2004/pkgs/r-${R_VERSION}_1_amd64.deb \
   && gdebi --non-interactive r-${R_VERSION}_1_amd64.deb \
   #create symlinks
   && ln -s /opt/R/${R_VERSION}/bin/R /usr/local/bin/R \
@@ -56,7 +56,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
   && mkdir -p ~/.R \
   && echo "MAKEFLAGS = -j" > ~/.R/Makevars \
   #set CRAN repo to RSPM snapshot on Oct 23, 2021 for ubuntu18
-  && echo "options(repos = c(CRAN = 'https://packagemanager.rstudio.com/all/__linux__/bionic/2021-10-23+MTo1NzcxNDc0LDI6NDUyNjIxNTs3NjlEQzc0OQ'), download.file.method = 'libcurl')" >> /opt/R/${R_VERSION}/lib/R/etc/Rprofile.site \
+  && echo "options(repos = c(CRAN = 'https://packagemanager.rstudio.com/cran/__linux__/focal/2021-11-30'), download.file.method = 'libcurl')" >> /opt/R/${R_VERSION}/lib/R/etc/Rprofile.site \
   #set default renv package cache for all users
   && echo "RENV_PATHS_CACHE=/opt/R/${R_VERSION}/lib/R/renv-cache/" >> /opt/R/${R_VERSION}/lib/R/etc/Renviron \
   #remove user library from .libPaths() as it will be used if present in home directory (and mounted)
