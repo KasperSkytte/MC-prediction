@@ -139,10 +139,10 @@ data/ASVs.R1.midas48.sintax
 
 ignore/
 
-analysis/analysis.html
-
 data/raw/ASVs.R1.sintax
 
 data/raw/ASVtable.tsv
 
 analysis_Rproj/analysis_files/
+
+*.html
