@@ -146,3 +146,5 @@ data/raw/ASVtable.tsv
 analysis_Rproj/analysis_files/
 
 *.html
+
+renv/

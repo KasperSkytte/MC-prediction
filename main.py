@@ -8,6 +8,7 @@ from data_handler import DataHandler
 from idec.IDEC import IDEC
 from plotting import plot_four_results, train_tsne, plot_tsne, create_boxplot
 from correlation import calc_cluster_correlations, calc_correlation_aggregates
+import pickle
 
 
 def create_tsne(data, num_clusters):
@@ -139,8 +140,15 @@ def find_best_lstm(data, iterations, num_clusters, max_epochs, early_stopping, c
 
         # Plot prediction results.
         plot_four_results(data.all, prediction, dates, data.all.columns[:4], dates_pred_test_start, f'lstm_{cluster_type}_cluster_{c}.png')
+        with open(f'{results_dir}/lstm_{cluster_type}_cluster_{c}.data', 'wb') as datafile:
+            pickle.dump(data.all, datafile)
+        with open(f'{results_dir}/lstm_{cluster_type}_cluster_{c}.prediction', 'wb') as predfile:
+            pickle.dump(prediction, predfile)
+        with open(f'{results_dir}/lstm_{cluster_type}_cluster_{c}.dates', 'wb') as datesfile:
+            pickle.dump(dates, datesfile)
 
         metric_names = best_model.metrics_names
+
     metric_names[0] = 'bray-curtis'
     with open(f'{results_dir}/lstm_{cluster_type}_performance.txt', 'w') as outfile:
         c = 0
