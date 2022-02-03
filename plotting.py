@@ -23,13 +23,13 @@ def plot_results(func, prediction, dates, asv):
     plt.xticks(x_labels_spacing, labels=x_labels, rotation=45, ha='right')
     plt.show()
 
-def plot_four_results(func, prediction, dates, asvs, higlight_dates=None, save_filename=None):
+def plot_four_results(func, prediction, dates, asvs, highlight_dates=None, save_filename=None):
     """Create four subplots of the true vs. the predicted values of the four specified ASVs."""
     x_labels_spacing = np.arange(0, func.shape[0], step=1+(func.shape[0] // 20))
     x_labels = [dates[i] for i in x_labels_spacing]
 
-    if higlight_dates:
-        vertical_lines = np.where(np.isin(dates, higlight_dates))
+    if highlight_dates:
+        vertical_lines = np.where(np.isin(dates, highlight_dates))
 
     fig, axes = plt.subplots(2, 2, sharex=True)
     fig.set_size_inches(14, 8)
@@ -49,7 +49,7 @@ def plot_four_results(func, prediction, dates, asvs, higlight_dates=None, save_f
             axis.plot(prediction[asv], label='Prediction')
             axis.set_ylim(ymin=0)
             axis.legend()
-            if higlight_dates:
+            if highlight_dates:
                 axis.vlines(vertical_lines, -100, 100, colors='r')
 
     if save_filename:
