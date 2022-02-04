@@ -148,3 +148,5 @@ analysis_Rproj/analysis_files/
 *.html
 
 renv/
+
+.Rprofile
