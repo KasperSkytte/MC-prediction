@@ -1,4 +1,5 @@
 # ASMC-prediction
+!THIS README NEEDS AN UPDATE!
 Predicting Activated Sludge Microbial Communities based on time series of continuous sludge samples by using deep learning, mainly LSTM and IDEC for pre-clustering
 
 ## IDEC
