@@ -46,6 +46,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     libharfbuzz-dev \
     libfribidi-dev \
     libtiff5-dev \
+    pandoc \
   #install R from pre-compiled binary
   && curl -O https://cdn.rstudio.com/r/ubuntu-2004/pkgs/r-${R_VERSION}_1_amd64.deb \
   && gdebi --non-interactive r-${R_VERSION}_1_amd64.deb \
