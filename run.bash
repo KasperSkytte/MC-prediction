@@ -15,7 +15,8 @@ fi
 mkdir -p \
   "${results_dir}" \
   "${results_dir}/data_reformatted" \
-  "${results_dir}/figures"
+  "${results_dir}/figures" \
+  "${results_dir}/data_predicted"
 
 main() {
   echo "#################################################"

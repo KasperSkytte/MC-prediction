@@ -20,10 +20,10 @@
 		"r.lsp.debug": true,
 		"r.lsp.diagnostics": true,
 		"r.rterm.option": [
-		"--no-save",
-		"--no-restore",
-		"--r-binary=/usr/local/bin/R"
-],
+			"--no-save",
+			"--no-restore",
+			"--r-binary=/usr/local/bin/R"
+	  ],
 	},
 
 	// Add the IDs of extensions you want installed when the container is created.
