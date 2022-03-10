@@ -14,6 +14,73 @@ require("magrittr")
 ```
 
 ```{r}
+library(data.table)
+library(stringi)
+
+read_results <- function(results_dir) {
+  parse_performance <- function(file) {
+    if(!file.exists(file)) {
+      warning("file ", file, " doesn't exist, skipping...")
+      return(NULL)
+    }
+    
+    dt <- fread(file)
+    colnames(dt) <- stringi::stri_replace_all_regex(
+      colnames(dt),
+      pattern = "[\\[\\'\\]]",
+      replacement = ""
+    )
+    
+    dt[] <- lapply(
+      dt,
+      stringi::stri_replace_all_regex,
+      pattern = "^[^\\[]*\\[|\\]$",
+      replacement = ""
+    )
+    dt[] <- lapply(dt, as.numeric)
+
+    dt <- melt(
+      dt,
+      id.vars = NULL,
+      measure.vars = 1:3,
+      variable.name = "error_metric",
+      value = "value"
+    )
+
+    return(dt)
+  }
+  filenames <- c("lstm_idec_performance.txt", "lstm_abund_performance.txt", "lstm_func_performance.txt")
+  
+  results_list <- lapply(
+    paste0(results_dir, "/", filenames),
+    parse_performance
+  )
+  names(results_list) <- gsub("_performance.txt$", "", filenames)
+  
+  dt <- rbindlist(results_list, idcol = "cluster_type")
+  
+  logfile <- fread(
+    list.files(results_dir, pattern = "log_[0-9]*_[0-9]*\\.txt", full.names = T), 
+    sep = "\n",
+    header = FALSE,
+    col.names = "line"
+  )
+  
+  dt[, dataset := basename(gsub("\\/ASVtable.*$", "", logfile[grepl(".*ASVtable.*", line), line]))]
+  
+  return(dt)
+}
+
+#list results folder and gogo
+runs <- list.files(".", pattern = "^results_.*")
+d_list <- lapply(runs, read_results)
+names(d_list) <- runs
+d <- rbindlist(d_list, idcol = "results_folder")
+d
+```
+
+
+```{r}
 tablename <- "performance_table"
 
 plot_performance <- function(path) {
