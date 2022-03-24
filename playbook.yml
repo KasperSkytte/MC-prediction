@@ -13,7 +13,7 @@
 
 - hosts:
   - mlnode
-  become: yes
+  become: true
   vars:
     pip_install_packages:
       - stormssh

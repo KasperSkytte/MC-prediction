@@ -1,5 +1,5 @@
 #Dockerfile inspired by https://sourcery.ai/blog/python-docker/
-#exact dockerfile used for base image: https://github.com/tensorflow/tensorflow/blob/0a1c3d28aa5ecbb68b6fa8e85395b9d0127787f6/tensorflow/tools/dockerfiles/dockerfiles/gpu-jupyter.Dockerfile
+#exact dockerfile used for base image: https://github.com/tensorflow/tensorflow/blob/master/tensorflow/tools/dockerfiles/dockerfiles/gpu.Dockerfile
 FROM tensorflow/tensorflow:2.7.0-gpu as base
 
 WORKDIR /opt
