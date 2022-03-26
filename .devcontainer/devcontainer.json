@@ -13,9 +13,7 @@
 	// Set *default* container specific settings.json values on container create.
 	"settings": {
 		"r.bracketedPaste": true,
-		"r.rterm.windows": "*Path to radian executable*", //Use this only for Windows 
 		"r.rterm.linux": "/usr/local/bin/radian", //Use this only for Linux
-		"r.rterm.mac": "*Path to radian executable*", //Use this only for a Mac
 		"r.lsp.path": "/usr/local/bin/R",
 		"r.lsp.debug": true,
 		"r.lsp.diagnostics": true,
