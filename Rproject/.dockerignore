@@ -1,6 +1,0 @@
-# ignore everything
-**
-
-#except env files
-!rstudio-prefs.json
-!renv.lock
