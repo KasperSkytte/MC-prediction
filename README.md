@@ -38,7 +38,7 @@ docker run -it --rm -v "${PWD}":/tf -u $(id -u):$(id -g) kasperskytte/asmc-predi
 
 ```
 
-The image has CUDA support to speed up computation if you have a modern nvidia GPU. To enable add the `--gpus all` to the docker run command above and make sure you have installed recent nvidia drivers and the `nvidia-container-toolkit`. With never versions of Ubuntu, you can simply run 
+The image has CUDA support to speed up computation if you have a modern nvidia GPU. To enable add the `--gpus all` to the docker run command above and make sure you have installed recent nvidia drivers and the `nvidia-container-toolkit`. With newer versions of Ubuntu, you can simply run 
 
 ```
 sudo apt-get update

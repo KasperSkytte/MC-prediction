@@ -2,7 +2,23 @@
 #exact dockerfile used for base image: https://github.com/tensorflow/tensorflow/blob/master/tensorflow/tools/dockerfiles/dockerfiles/gpu.Dockerfile
 FROM tensorflow/tensorflow:2.7.0-gpu as base
 
-WORKDIR /opt
+# Copy library scripts to execute
+COPY .devcontainer/library-scripts/*.sh .devcontainer/library-scripts/*.env /tmp/library-scripts/
+
+# [Option] Install zsh
+ARG INSTALL_ZSH="false"
+# [Option] Upgrade OS packages to their latest versions
+ARG UPGRADE_PACKAGES="true"
+# Install needed packages and setup non-root user. Use a separate RUN statement to add your own dependencies.
+ARG USERNAME=vscode
+ARG USER_UID=1000
+ARG USER_GID=$USER_UID
+RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
+    # Remove imagemagick due to https://security-tracker.debian.org/tracker/CVE-2019-10131
+    && apt-get purge -y imagemagick imagemagick-6-common \
+    # Install common packages, non-root user
+    && bash /tmp/library-scripts/common-debian.sh "${INSTALL_ZSH}" "${USERNAME}" "${USER_UID}" "${USER_GID}" "${UPGRADE_PACKAGES}" "true" "true" \
+    && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 # locales
 ENV LANG C.UTF-8
@@ -19,6 +35,8 @@ ENV MPLCONFIGDIR /tmp
 
 #set R version
 ENV R_VERSION 4.1.2
+
+WORKDIR /opt
 
 #lock files to manage python and R packages
 COPY Pipfile .
@@ -75,5 +93,8 @@ RUN R -e "renv::restore(library = '/opt/R/${R_VERSION}/lib/R/site-library/', cle
     /opt/r-${R_VERSION}_1_amd64.deb \
     /opt/Pipfile \
     /opt/*.lock
+
+# # [Optional] Set the default user. Omit if you want to keep the default as root.
+USER $USERNAME
 
 WORKDIR /tf

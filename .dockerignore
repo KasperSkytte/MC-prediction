@@ -5,3 +5,4 @@
 !Pipfile
 !Pipfile.lock
 !renv.lock
+!.devcontainer/
