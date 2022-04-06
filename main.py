@@ -175,13 +175,21 @@ if __name__ == '__main__':
     splits = config['splits']
 
     # Open dataset with DataHandler.
-    data = DataHandler(config, num_features, window_width=config['window_size'], window_batch_size=10, splits=splits)
-    
+    data = DataHandler(
+        config,
+        num_features,
+        window_width=config['window_size'],
+        window_batch_size=10,
+        splits=splits
+    )
+            
     # Callback used in the training to stop early when the model no longer improves.
-    early_stopping = keras.callbacks.EarlyStopping(monitor = 'val_loss',
-                                                   patience = 5,
-                                                   mode = 'min',
-                                                   restore_best_weights=True)
+    early_stopping = keras.callbacks.EarlyStopping(
+        monitor = 'val_loss',
+        patience = 5,
+        mode = 'min',
+        restore_best_weights=True
+    )
 
     # Find best IDEC model.
     find_best_idec(data, iterations, num_clusters, config['tolerance_idec'])

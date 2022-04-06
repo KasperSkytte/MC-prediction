@@ -129,7 +129,7 @@ class DataHandler:
             else:
                 self._clusters = None
                 raise Exception('Unknown cluster type.')
-            
+
     def _only_mark_first_max_num_features(self):
         """Only use the x most abundant taxa in a given cluster."""
         if self.max_num_features is None:
