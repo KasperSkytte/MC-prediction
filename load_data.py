@@ -14,7 +14,7 @@ def filter_sparse_samples(data, percentage, pseudo_zero):
 
 def assign_clusters(func_tax, functions):
     """Assign labels/clusters according to functions.
-       Even if an ASV/species is positive in more than one function, it will only be assigned 
+       Even if an ASV/species is positive in more than one function, it will only be assigned
        one cluster."""
     # Find positive functions.
     func_start_column = func_tax.shape[1] - len(functions)
@@ -41,10 +41,10 @@ def assign_clusters(func_tax, functions):
 
 def load_data(config):
     """Load the data from the different files.
-       
+
        Parameters:
          config : Dictionary of values from config.json."""
-    
+
     # default file paths
     pp_dir = config['results_dir'] + '/data_reformatted/'
     pp_abund = pp_dir + 'abundances.csv'
@@ -57,7 +57,7 @@ def load_data(config):
     # read metadata and sort chronologically
     meta = pd.read_csv(pp_dir + 'metadata.csv', index_col=0, parse_dates=['Date'])
     meta.sort_values(by='Date', inplace=True)
-    
+
     # also sort samples in abund chronologically according to metadata
     abund = abund.reindex(index=meta.index, copy=False)
 
@@ -78,7 +78,7 @@ def load_data(config):
     # Make abund and taxonomy contain the same taxa (intersect).
     func_tax = func_tax.filter(abund.columns, axis=0)
     abund = abund.filter(func_tax.index, axis=1)
-    
+
     # Convert to numpy
     func_tax.reset_index(inplace=True)
     func_tax = func_tax.to_numpy().astype(str)

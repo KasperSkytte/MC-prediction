@@ -7,7 +7,7 @@ Everything in the 'idec/' folder is from:\
 https://github.com/XifengGuo/IDEC-toy
 
 IDEC is from the paper:\
-Xifeng Guo, Long Gao, Xinwang Liu, Jianping Yin. 
+Xifeng Guo, Long Gao, Xinwang Liu, Jianping Yin.
 [Improved Deep Embedded Clustering with Local Structure Preservation](https://xifengguo.github.io/papers/IJCAI17-IDEC.pdf). IJCAI 2017.
 
 ## Requirements
@@ -38,11 +38,11 @@ docker run -it --rm -v "${PWD}":/tf -u $(id -u):$(id -g) kasperskytte/asmc-predi
 
 ```
 
-The image has CUDA support to speed up computation if you have a modern nvidia GPU. To enable add the `--gpus all` to the docker run command above and make sure you have installed recent nvidia drivers and the `nvidia-container-toolkit`. With newer versions of Ubuntu, you can simply run 
+The image has CUDA support to speed up computation if you have a modern nvidia GPU. To enable add the `--gpus all` to the docker run command above and make sure you have installed recent nvidia drivers and the `nvidia-container-toolkit`. With newer versions of Ubuntu, you can simply run
 
 ```
 sudo apt-get update
-sudo apt-get install docker.io nvidia-container-toolkit 
+sudo apt-get install docker.io nvidia-container-toolkit
 ```
 
 before starting the container. Remember to restart the docker daemon for the changes to take effect with `sudo systemctl restart dockerd`. If this doesn't work follow the guidelines at https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#install-guide. The container has been developed using CUDA version 11.4.

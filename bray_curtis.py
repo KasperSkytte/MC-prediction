@@ -12,7 +12,7 @@ class BrayCurtis(tf.keras.losses.Loss):
         # Calculate the sum of each sample.
         S_i = tf.keras.backend.sum(y_true, axis=1)
         S_j = tf.keras.backend.sum(y_pred, axis=1)
-        
+
         # Calculate and return Bray-Curtis dissimilarity.
         return 1 - ((2*C_ij) / (S_i+S_j))
 

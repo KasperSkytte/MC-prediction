@@ -43,7 +43,7 @@ def plot_four_results(func, prediction, dates, asvs, highlight_dates=None, save_
         axis.set_xticklabels(x_labels, rotation=45, ha='right')
 
         if i < len(asvs):
-            asv = asvs[i]        
+            asv = asvs[i]
             axis.set_title(asv)
             axis.plot(func[asv], label='Truth')
             axis.plot(prediction[asv], label='Prediction')

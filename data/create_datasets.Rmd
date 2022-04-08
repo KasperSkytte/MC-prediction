@@ -141,7 +141,7 @@ ggsave("nsamples_overview.png", plot = samples_overview, width = 12, height = 8)
 
 # remove samples with few reads, and normalise reads to sample total
 ```{r}
-ds <- d %>% 
+ds <- d %>%
   amp_subset_samples(minreads = 1000, removeAbsents = TRUE, normalise = TRUE)
 ```
 
@@ -170,12 +170,12 @@ dlist <- lapply(
       ds,
       Plant %chin% wwtp,
       normalise = FALSE
-    ) %>% 
+    ) %>%
       ampvis2:::filter_species(filter_species = 0.1)
-    
+
     dataset_folder <- paste0("datasets/", wwtp)
     dir.create(dataset_folder, recursive = TRUE, showWarnings = FALSE)
-    
+
     #write out abundance table
     fwrite(
       data.table(
@@ -184,19 +184,19 @@ dlist <- lapply(
       ),
       file = paste0(dataset_folder, "/ASVtable.csv")
     )
-    
+
     #write out taxonomy
     fwrite(
       dataset$tax,
       file = paste0(dataset_folder, "/taxonomy.csv")
     )
-    
+
     #write out metadata
     fwrite(
       dataset$metadata,
       file = paste0(dataset_folder, "/metadata.csv")
     )
-    
+
     dataset
   }
 )

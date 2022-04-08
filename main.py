@@ -49,7 +49,7 @@ def find_best_idec(data, iterations, num_clusters, tolerance):
             best_model = idec_model
             best_performance = test_performance
             best_r_vals = r_values
-    
+
     best_model.model.save_weights(results_dir + '/idec/IDEC_best.h5')
     data.clusters_idec = best_model.y_pred
     create_tsne(data, num_clusters)
@@ -94,7 +94,7 @@ def create_lstm_model(num_features):
     # Shape [batch, time, lstm_units] => [batch, time, features]
     lstm_model.add(keras.layers.Dense(units=num_features))
 
-    lstm_model.compile(loss = BrayCurtis(name='bray_curtis'), 
+    lstm_model.compile(loss = BrayCurtis(name='bray_curtis'),
                   optimizer = keras.optimizers.Adam(learning_rate=0.001),
                   metrics = [tf.metrics.MeanSquaredError(), tf.metrics.MeanAbsoluteError()])
     return lstm_model
@@ -133,7 +133,7 @@ def find_best_lstm(data, iterations, num_clusters, max_epochs, early_stopping, c
 
         dates = data.get_metadata(data.all, 'Date').dt.date
         dates_test = data.get_metadata(data.test, 'Date').dt.date
-        # Date of the first sample in the test set and 
+        # Date of the first sample in the test set and
         # date of the first predicted result which only uses input data from the test set.
         dates_pred_test_start = [dates_test.iloc[0], dates_test.iloc[data.window_width]]
 
@@ -159,7 +159,7 @@ if __name__ == '__main__':
     import json
     with open('config.json', 'r') as config_file:
         config = json.load(config_file)
-    
+
     results_dir = config['results_dir']
 
     # Number of taxa to use at the time for the prediction.
@@ -182,7 +182,7 @@ if __name__ == '__main__':
         window_batch_size=10,
         splits=splits
     )
-            
+
     # Callback used in the training to stop early when the model no longer improves.
     early_stopping = keras.callbacks.EarlyStopping(
         monitor = 'val_loss',

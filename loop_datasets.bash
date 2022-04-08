@@ -5,7 +5,7 @@ datasets=$(find $datasets_folder/* -maxdepth 0 -type d -exec echo -n '"{}" ' \;)
 
 find data/datasets/* -maxdepth 0 -type d |\
   while read f;
-  do 
+  do
     cat << EOF > config.json
 {
     "abund_file": "$f/ASVtable.csv",

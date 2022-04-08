@@ -128,7 +128,7 @@ plot_performance <- function(path) {
     dt,
     aes(
       x = cluster,
-      y = value, 
+      y = value,
       group = clustertype,
       color = clustertype,
       fill = clustertype

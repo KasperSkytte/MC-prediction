@@ -89,7 +89,8 @@ class DataHandler:
             length=self.window_width,
             stride=self.window_shift,
             shuffle=False,
-            batch_size=self.window_batch_size)
+            batch_size=self.window_batch_size
+        )
 
     def _make_abundance_clusters(self):
         clust = np.zeros(self.clusters_func.shape, dtype=int)
@@ -106,7 +107,7 @@ class DataHandler:
             clust[i] = c
             i += 1
         return clust
-    
+
     def use_cluster(self, number, cluster_type='abund'):
         """Cluster type is which type of cluster to use:
              abund: means that the x most abundant are in the first cluster, 

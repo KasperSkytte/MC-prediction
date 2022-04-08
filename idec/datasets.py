@@ -146,4 +146,3 @@ def make_reuters_data(data_dir):
 
     assert x.shape[0] == y.shape[0]
     x = x.reshape((x.shape[0], -1))
- 

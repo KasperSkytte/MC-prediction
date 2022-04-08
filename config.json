@@ -1,6 +1,6 @@
 {
-    "abund_file": "data/datasets/Damhusåen-B/ASVtable.csv",
-    "taxonomy_file": "data/datasets/Damhusåen-B/taxonomy.csv",
+    "abund_file": "data/datasets/Aalborg W/ASVtable.csv",
+    "taxonomy_file": "data/datasets/Aalborg W/taxonomy.csv",
     "metadata_file": "data/metadata.csv",
     "results_dir": "results",
     "metadata_date_col": "Date",
@@ -15,7 +15,7 @@
     "only_pos_func": false,
     "pseudo_zero": 0.01,
     "max_zeros_pct": 0.60,
-    "num_time_series_used": 10,
+    "num_time_series_used": 2,
     "iterations": 1,
     "max_epochs_lstm": 200,
     "window_size": 10,
