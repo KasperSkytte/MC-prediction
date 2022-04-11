@@ -40,7 +40,7 @@ thedata <- amp_load(
 #aggregate data at chosen taxonomic level, must not be higher than Genus level
 #as functional info is at genus level, so one of: OTU, Species, Genus
 cli::cat_line(
-  "reformat.R: Aggregating abundance data at the chosen taxonomic level"
+  "reformat.R: Aggregating abundance data at ", config$tax_level, " level"
 )
 if(length(config$tax_level) != 1L)
   stop("Please only supply a single taxonomic level")
