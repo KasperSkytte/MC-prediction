@@ -84,12 +84,13 @@ taxonomy <- data.frame(
   stringsAsFactors = FALSE
 )
 taxonomy <- separate(taxonomy, col = "tax", into = tax_aggregate, sep = "; ")
-# fwrite(
-#   transpose(taxonomy, keep.names = "names"),
-#   paste0(config$results_dir, "/data_reformatted/taxonomy.csv"),
-#   col.names = FALSE,
-#   quote = FALSE
-# )
+taxonomy <- unite(
+  taxonomy,
+  !!paste0(tax_aggregate[1]),
+  c(tax_aggregate[1], config$tax_add),
+  sep = "; ",
+  remove = FALSE
+)
 
 #use only the chosen tax level as ID's, keep the remaining taxonomy in taxonomy
 rownames(otutable) <- taxonomy[[tax_aggregate[1]]]
@@ -159,7 +160,7 @@ knownfunctions <- knownfuncs
 ###merge with otutable (incl taxonomy)
 #first make a DF with ALL Genera in both otutable and function data
 func_genus <- full_join(
-  unique(taxonomy[,"Genus", drop = FALSE]),
+  unique(taxonomy[, "Genus", drop = FALSE]),
   knownfunctions,
   by = "Genus"
 )
