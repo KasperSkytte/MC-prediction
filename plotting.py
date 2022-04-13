@@ -9,53 +9,57 @@ import json
 with open('config.json', 'r') as config_file:
     _fig_dir = json.load(config_file)['results_dir'] + '/figures/'
 
-def plot_results(func, prediction, dates, asv):
-    """Plot the true vs. the predicted values for the specified ASV."""
-    x_labels_spacing = np.arange(0, func.shape[0], step=1+(func.shape[0] // 10))
-    x_labels = [dates[i] for i in x_labels_spacing]
-
-    plt.plot(func[asv], label='Truth')
-    plt.plot(prediction[asv], label='Prediction')
-    plt.title(asv)
-    plt.ylabel('Abundance')
-    plt.ylim(ymin=0)
-    plt.legend()
-    plt.xticks(x_labels_spacing, labels=x_labels, rotation=45, ha='right')
-    plt.show()
-
-def plot_four_results(func, prediction, dates, asvs, highlight_dates=None, save_filename=None):
+def plot_prediction(
+    data,
+    prediction,
+    dates,
+    asvs,
+    highlight_dates=None,
+    save_filename=None
+):
     """Create four subplots of the true vs. the predicted values of the four specified ASVs."""
-    x_labels_spacing = np.arange(0, func.shape[0], step=1+(func.shape[0] // 20))
-    x_labels = [dates[i] for i in x_labels_spacing]
-
     if highlight_dates:
         vertical_lines = np.where(np.isin(dates, highlight_dates))
+    x_labels_spacing = np.arange(0, data.all.shape[0], step=1+(data.all.shape[0] // 20))
+    x_labels = [dates[i] for i in x_labels_spacing]
 
-    fig, axes = plt.subplots(2, 2, sharex=True)
-    fig.set_size_inches(14, 8)
-    fig.suptitle('Truth vs. Prediction')
-    axes_flat = [x for x in axes.flat]
+    if len(asvs) > 1:
+        fig, axes = plt.subplots(2, 2, sharex=True)
+        fig.set_size_inches(14, 8)
+        fig.suptitle('Truth vs. Prediction')
+        axes_flat = [x for x in axes.flat]
 
-    for i in range(4):
-        axis = axes_flat[i]
-        axis.set(ylabel='Abundance')
-        axis.set_xticks(x_labels_spacing)
-        axis.set_xticklabels(x_labels, rotation=45, ha='right')
+        for i in range(4):
+            axis = axes_flat[i]
+            axis.set(ylabel='Abundance')
+            axis.set_xticks(x_labels_spacing)
+            axis.set_xticklabels(x_labels, rotation=45, ha='right')
 
-        if i < len(asvs):
-            asv = asvs[i]
-            axis.set_title(asv)
-            axis.plot(func[asv], label='Truth')
-            axis.plot(prediction[asv], label='Prediction')
-            axis.set_ylim(ymin=0)
-            axis.legend()
-            if highlight_dates:
-                axis.vlines(vertical_lines, -100, 100, colors='r')
+            if i < len(asvs):
+                asv = asvs[i]
+                axis.set_title(asv)
+                axis.plot(data.all[asv], label='Truth')
+                axis.plot(prediction[asv], label='Prediction')
+                axis.set_ylim(ymin=0)
+                axis.legend()
+                if highlight_dates:
+                    axis.vlines(vertical_lines, -100, 100, colors='r')
+    elif len(asvs) == 1:
+        plt.plot(data.all[asvs], label='Truth')
+        plt.plot(prediction[asvs], label='Prediction')
+        plt.title(asvs.values[0])
+        plt.ylabel('Abundance')
+        plt.ylim(ymin=0)
+        plt.legend()
+        plt.xticks(x_labels_spacing, labels=x_labels, rotation=45, ha='right')
+        if highlight_dates:
+            plt.vlines(vertical_lines, -100, 100, colors='r')
 
     if save_filename:
         plt.savefig(_fig_dir + save_filename, dpi=100, bbox_inches='tight')
     else:
         plt.show()
+    plt.close()
 
 
 def plot_abundance_within_clusters(abundances, clusters, func_tax, asvs_per_plot=10):

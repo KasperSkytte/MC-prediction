@@ -57,9 +57,9 @@ before starting the container. Remember to restart the docker daemon for the cha
 | force_preprocessing           | If 'true', forces preprocessing. Otherwise tries to skip some preprocessing steps which are only necessary to run when the data files changes. |
 | only_pos_func                 | If 'true', only uses taxa with a positive value in at least one function. |
 | max_zeros_pct       | Discards taxa which have an abundance of 0 in more than 'max_zeros_pct'\*100 percent of the samples. |
-| num_time_series_used          | Number of taxa used for the prediction. |
+| num_features          | Number of taxa used for the prediction. |
 | max_epochs_lstm               | The maximum number of epochs used for training the LSTM. |
 | window_size                   | The size of the windows used for the LSTM i.e. how many samples that are used to predict the following sample. |
-| idec_nclusters                | Number of IDEC clusters |
+| num_clusters_idec                | Number of IDEC clusters |
 | tolerance_idec                | The training of the IDEC model stops if less than 'tolerance_idec'\*100 percent taxa change cluster each iteration. |
 | splits                        | How to partition the data into training, validation, and testing sets. Must sum to <= 1 |

@@ -24,11 +24,11 @@ find data/datasets/* -maxdepth 0 -type d |\
     "only_pos_func": false,
     "pseudo_zero": 0.01,
     "max_zeros_pct": 0.60,
-    "num_time_series_used": 10,
+    "num_features": 10,
     "iterations": 1,
     "max_epochs_lstm": 200,
     "window_size": 10,
-    "idec_nclusters": 5,
+    "num_clusters_idec": 5,
     "tolerance_idec": 0.001,
     "splits": [
         0.80,

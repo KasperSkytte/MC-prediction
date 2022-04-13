@@ -7,7 +7,7 @@ from tensorflow import keras
 from bray_curtis import BrayCurtis
 from data_handler import DataHandler
 from idec.IDEC import IDEC
-from plotting import plot_four_results, train_tsne, plot_tsne, create_boxplot
+from plotting import plot_prediction, train_tsne, plot_tsne, create_boxplot
 from correlation import calc_cluster_correlations, calc_correlation_aggregates
 
 
@@ -139,7 +139,14 @@ def find_best_lstm(data, iterations, num_clusters, max_epochs, early_stopping, c
         dates_pred_test_start = [dates_test.iloc[0], dates_test.iloc[data.window_width]]
 
         # Plot prediction results.
-        plot_four_results(data.all, prediction, dates, data.all.columns[:4], dates_pred_test_start, f'lstm_{cluster_type}_cluster_{c}.png')
+        plot_prediction(
+            data,
+            prediction = prediction,
+            dates = dates,
+            asvs = data.all.columns[:4],
+            highlight_dates = dates_pred_test_start,
+            save_filename = f'lstm_{cluster_type}_cluster_{c}.png'
+        )
 
         #write predicted values to CSV files
         prediction.to_csv(f'{results_dir}/data_predicted/lstm_{cluster_type}_cluster_{c}_predicted.csv')
@@ -164,10 +171,10 @@ if __name__ == '__main__':
     results_dir = config['results_dir']
 
     # Number of taxa to use at the time for the prediction.
-    num_features = config['num_time_series_used']
+    num_features = config['num_features']
 
     # Number of clusters to use.
-    num_clusters = config['idec_nclusters']
+    num_clusters = config['num_clusters_idec']
 
     # Number of models to train when running find_best_idec/lstm.
     iterations = config['iterations']
@@ -175,6 +182,15 @@ if __name__ == '__main__':
     # Define training, validation and test splits.
     splits = config['splits']
 
+    # Callback used in the training to stop early when the model no longer improves.
+    early_stopping = keras.callbacks.EarlyStopping(
+        monitor = 'val_loss',
+        patience = 5,
+        mode = 'min',
+        restore_best_weights=True
+    )
+
+    #IDEC
     # Open dataset with DataHandler.
     data = DataHandler(
         config,
@@ -182,14 +198,6 @@ if __name__ == '__main__':
         window_width=config['window_size'],
         window_batch_size=10,
         splits=splits
-    )
-
-    # Callback used in the training to stop early when the model no longer improves.
-    early_stopping = keras.callbacks.EarlyStopping(
-        monitor = 'val_loss',
-        patience = 5,
-        mode = 'min',
-        restore_best_weights=True
     )
 
     # Find best IDEC model.
@@ -200,28 +208,29 @@ if __name__ == '__main__':
     data.clusters_idec = idec_model.predict_clusters(data.data_raw)
     create_tsne(data, num_clusters)
 
-    # Find the best LSTM models.
-    find_best_lstm(data, iterations, num_clusters, config['max_epochs_lstm'], early_stopping, 'abund')
+    # Find the best LSTM models. #data.clusters_abund.size
     find_best_lstm(data, iterations, num_clusters, config['max_epochs_lstm'], early_stopping, 'func')
     find_best_lstm(data, iterations, num_clusters, config['max_epochs_lstm'], early_stopping, 'idec')
+    data.max_num_features = 1
+    find_best_lstm(data, iterations, num_clusters, config['max_epochs_lstm'], early_stopping, 'abund')
 
-    # Load existing LSTM models. As they are trained for individual clusters, the type and 
-    # index of the cluster must be specified.
-    cluster_type = 'func'
-    cluster_index = 1
-    data.use_cluster(cluster_index, cluster_type)
-    lstm = load_lstm_model(data.num_features, cluster_index, cluster_type)
+    # # Load existing LSTM models. As they are trained for individual clusters, the type and 
+    # # index of the cluster must be specified.
+    # cluster_type = 'func'
+    # cluster_index = 1
+    # data.use_cluster(cluster_index, cluster_type)
+    # lstm = load_lstm_model(data.num_features, cluster_index, cluster_type)
 
-    # Make a prediction using a model.
-    prediction = make_prediction(data, lstm)
-    print(lstm.evaluate(data.test_batched))
+    # # Make a prediction using a model.
+    # prediction = make_prediction(data, lstm)
+    # print(lstm.evaluate(data.test_batched))
 
-    # Preparation for plotting prediction results.
-    dates = data.get_metadata(data.all, 'Date').dt.date
-    dates_test = data.get_metadata(data.test, 'Date').dt.date
-    # Date of the first sample in the test set and 
-    # date of the first predicted result which only uses input data from the test set.
-    dates_pred_test_start = [dates_test.iloc[0], dates_test.iloc[data.window_width]]
+    # # Preparation for plotting prediction results.
+    # dates = data.get_metadata(data.all, 'Date').dt.date
+    # dates_test = data.get_metadata(data.test, 'Date').dt.date
+    # # Date of the first sample in the test set and 
+    # # date of the first predicted result which only uses input data from the test set.
+    # dates_pred_test_start = [dates_test.iloc[0], dates_test.iloc[data.window_width]]
 
-    # # Plot prediction results.
-    #plot_four_results(data.all, prediction, dates, data.all.columns[:4], dates_pred_test_start)
+    # # # Plot prediction results.
+    # plot_prediction(data, prediction, dates, data.all.columns[:4], dates_pred_test_start)
