@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 set -eu
-datasets_folder="data/datasets"
+datasets_folder=data/datasets
 datasets=$(find $datasets_folder/* -maxdepth 0 -type d -exec echo -n '"{}" ' \;)
 
-find data/datasets/* -maxdepth 0 -type d |\
-  while read f;
+find ${datasets_folder}/* -maxdepth 0 -type d |\
+  while read -r f;
   do
     cat << EOF > config.json
 {
@@ -14,6 +14,7 @@ find data/datasets/* -maxdepth 0 -type d |\
     "results_dir": "results",
     "metadata_date_col": "Date",
     "tax_level": "OTU",
+    "tax_add": ["Species", "Genus"],
     "functions": [
         "AOB",
         "NOB",
@@ -29,12 +30,12 @@ find data/datasets/* -maxdepth 0 -type d |\
     "iterations": 1,
     "max_epochs_lstm": 200,
     "window_size": 10,
-    "num_clusters_idec": 5,
+    "num_clusters_idec": 10,
     "tolerance_idec": 0.001,
     "splits": [
-        0.80,
-        0.0,
-        0.20
+        0.70,
+        0.10,
+        0.15
     ]
 }
 EOF
