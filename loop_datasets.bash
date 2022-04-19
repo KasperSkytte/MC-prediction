@@ -24,6 +24,7 @@ find data/datasets/* -maxdepth 0 -type d |\
     "only_pos_func": false,
     "pseudo_zero": 0.01,
     "max_zeros_pct": 0.60,
+    "top_n_taxa": 100,
     "num_features": 10,
     "iterations": 1,
     "max_epochs_lstm": 200,

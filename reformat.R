@@ -77,6 +77,20 @@ otutable <- ampvis2:::aggregate_abund(
   calcSums = FALSE
 )
 
+#sort by decreasing abundance and keep only the top_n_taxa
+cli::cat_line(
+  "reformat.R: Sorting taxa by decreasing abundance across all samples"
+)
+otutable <- otutable[rev(order(rowSums(otutable))), ]
+cli::cat_line(
+  "reformat.R: Filtering all but the top ", config$top_n_taxa, " taxa"
+)
+if (is.integer(config$top_n_taxa)) {
+  otutable <- otutable[1:config$top_n_taxa, ]
+} else {
+  stop("top_n_taxa must be a whole, positive number", call. = FALSE)
+}
+
 #extract new taxonomy from the aggregated data
 taxonomy <- data.frame(
   tax = rownames(otutable),
