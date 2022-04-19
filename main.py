@@ -174,7 +174,7 @@ if __name__ == '__main__':
     num_features = config['num_features']
 
     # Number of clusters to use.
-    num_clusters = config['num_clusters_idec']
+    num_clusters_idec = config['num_clusters_idec']
 
     # Number of models to train when running find_best_idec/lstm.
     iterations = config['iterations']
@@ -201,18 +201,19 @@ if __name__ == '__main__':
     )
 
     # Find best IDEC model.
-    find_best_idec(data, iterations, num_clusters, config['tolerance_idec'])
+    find_best_idec(data, iterations, num_clusters_idec, config['tolerance_idec'])
 
     # Load the best existing IDEC model.
-    idec_model = load_idec_model(data.num_samples, num_clusters)
+    idec_model = load_idec_model(data.num_samples, num_clusters_idec)
     data.clusters_idec = idec_model.predict_clusters(data.data_raw)
-    create_tsne(data, num_clusters)
+    create_tsne(data, num_clusters_idec)
 
     # Find the best LSTM models. #data.clusters_abund.size
-    find_best_lstm(data, iterations, num_clusters, config['max_epochs_lstm'], early_stopping, 'func')
-    find_best_lstm(data, iterations, num_clusters, config['max_epochs_lstm'], early_stopping, 'idec')
+    find_best_lstm(data, iterations, len(config['functions']), config['max_epochs_lstm'], early_stopping, 'func')
+    find_best_lstm(data, iterations, num_clusters_idec, config['max_epochs_lstm'], early_stopping, 'idec')
+    #one taxon per group now
     data.max_num_features = 1
-    find_best_lstm(data, iterations, num_clusters, config['max_epochs_lstm'], early_stopping, 'abund')
+    find_best_lstm(data, iterations, data.clusters_abund.size, config['max_epochs_lstm'], early_stopping, 'abund')
 
     # # Load existing LSTM models. As they are trained for individual clusters, the type and 
     # # index of the cluster must be specified.
