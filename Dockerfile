@@ -85,7 +85,13 @@ RUN export DEBIAN_FRONTEND=noninteractive \
   && R -e "renv::consent(provided = TRUE)"
 
 #install R pkgs from lock file
-RUN R -e "renv::restore(library = '/opt/R/${R_VERSION}/lib/R/site-library/', clean = TRUE, lockfile = '/opt/renv.lock', prompt = FALSE)" \
+RUN R -e "renv::restore(library = '/opt/R/${R_VERSION}/lib/R/site-library/', clean = TRUE, lockfile = '/opt/renv.lock', prompt = FALSE)"
+
+#install nice-to-have system packages and clean up
+RUN export DEBIAN_FRONTEND=noninteractive \
+  && apt-get update -qqy \
+  && apt-get -y install --fix-broken --no-install-recommends --no-install-suggests \
+    tmux \
   # clean up after yourself, mommy doesn't work here
   && apt-get clean -y \
   && rm -rf /var/lib/apt/lists/* \
