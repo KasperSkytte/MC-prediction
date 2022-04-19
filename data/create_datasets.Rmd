@@ -6,15 +6,15 @@ output: html_document
 # init
 ```{r}
 #check for installed packages, install if missing
-if(!require("tidyverse"))
+if (!require("tidyverse"))
   install.packages("tidyverse")
-if(!require("devtools"))
+if (!require("devtools"))
   install.packages("devtools")
-if(!require("openxlsx"))
+if (!require("openxlsx"))
   install.packages("openxlsx")
-if(!require("ampvis2"))
+if (!require("ampvis2"))
   devtools::install_github("madsalbertsen/ampvis2")
-if(!require("data.table"))
+if (!require("data.table"))
   install.packages("data.table")
 #load data
 library(ampvis2)

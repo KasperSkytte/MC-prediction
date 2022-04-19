@@ -42,7 +42,7 @@ thedata <- amp_load(
 cli::cat_line(
   "reformat.R: Aggregating abundance data at ", config$tax_level, " level"
 )
-if(length(config$tax_level) != 1L)
+if (length(config$tax_level) != 1L)
   stop("Please only supply a single taxonomic level")
 
 valid_taxlevels <- c(
@@ -107,7 +107,7 @@ fwrite(
 
 #Download or read MiDAS field guide functional data
 cli::cat_line("reformat.R: Loading genus-level functional information")
-if(file.exists(functions_file)) {
+if (file.exists(functions_file)) {
   cli::cat_line(paste0("   Using local file: ", functions_file))
   midasgenusfunctions <- data.table::fread(functions_file)
 } else {
@@ -144,11 +144,11 @@ knownfuncs <- knownfuncs %>% select(Genus, starts_with(config$functions))
 # knownfuncs <- knownfuncs[
 #   ,
 #   .(
-#     newvalue = if(all(value %chin% "na"))
+#     newvalue = if (all(value %chin% "na"))
 #       "na"
-#     else if(.SD[grepl(":In situ$", variable), value] != "na")
+#     else if (.SD[grepl(":In situ$", variable), value] != "na")
 #       .SD[grepl(":In situ$", variable), value]
-#     else if(.SD[grepl(":In situ$", variable), value] == "na")
+#     else if (.SD[grepl(":In situ$", variable), value] == "na")
 #       .SD[grepl(":Other$", variable), value]
 #   ),
 #   by = .(Genus, func)

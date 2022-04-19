@@ -119,7 +119,7 @@ plot_performance <- function(path) {
     dt
   })
   dt <- rbindlist(list)
-  if(!exists(tablename, .GlobalEnv)) {
+  if (!exists(tablename, .GlobalEnv)) {
     assign(tablename, dt, .GlobalEnv)
   } else {
     assign(tablename, rbindlist(list(get(tablename, .GlobalEnv), dt)), .GlobalEnv)
