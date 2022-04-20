@@ -33,9 +33,9 @@ def assign_clusters(func_tax, functions):
     #     functions = functions.tolist()
     #     functions.append('None')
 
-    # print('Cluster labels:     ', functions)
-    # print('Cluster sizes:      ', np.unique(clusters, axis=0, return_counts=True)[1])
-    # print('Total taxa: ', func_tax.shape[0])
+    print('Cluster labels:     ', functions)
+    print('Cluster sizes:      ', np.unique(clusters, axis=0, return_counts=True)[1])
+    print('Total taxa: ', func_tax.shape[0])
 
     return clusters
 
