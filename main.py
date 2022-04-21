@@ -204,7 +204,6 @@ if __name__ == '__main__':
         restore_best_weights=True
     )
 
-    #IDEC
     # Open dataset with DataHandler.
     data = DataHandler(
         config,
@@ -222,12 +221,19 @@ if __name__ == '__main__':
     data.clusters_idec = idec_model.predict_clusters(data.data_raw)
     create_tsne(data, num_clusters_idec)
 
-    # Find the best LSTM models. #data.clusters_abund.size
-    find_best_lstm(data, iterations, len(config['functions']), config['max_epochs_lstm'], early_stopping, 'func')
+    # Find the best LSTM models.
     find_best_lstm(data, iterations, num_clusters_idec, config['max_epochs_lstm'], early_stopping, 'idec')
-    #one taxon per group now
-    data.max_num_features = 1
-    find_best_lstm(data, iterations, data.clusters_abund.size, config['max_epochs_lstm'], early_stopping, 'abund')
+    find_best_lstm(data, iterations, len(config['functions']), config['max_epochs_lstm'], early_stopping, 'func')
+    
+    # new dataset for per-taxon training
+    data_abund = DataHandler(
+        config,
+        num_features = 1,
+        window_width=config['window_size'],
+        window_batch_size=10,
+        splits=splits
+    )
+    find_best_lstm(data_abund, iterations, data_abund.clusters_abund.size, config['max_epochs_lstm'], early_stopping, 'abund')
 
     # # Load existing LSTM models. As they are trained for individual clusters, the type and 
     # # index of the cluster must be specified.
