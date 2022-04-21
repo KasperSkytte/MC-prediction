@@ -3,11 +3,14 @@ import numpy as np
 import seaborn as sns
 from sklearn.manifold import TSNE
 from load_data import smooth
+from os import mkdir, path
 
 import json
 
 with open('config.json', 'r') as config_file:
     _fig_dir = json.load(config_file)['results_dir'] + '/figures/'
+if not path.exists(_fig_dir):
+    mkdir(_fig_dir)
 
 def plot_prediction(
     data,

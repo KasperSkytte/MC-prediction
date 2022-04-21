@@ -19,6 +19,7 @@ mkdir -p \
   "${results_dir}/data_predicted"
 
 main() {
+  set -eu
   echo "#################################################"
   echo "Script: $(realpath "$0")"
   echo "System time: $(date '+%Y-%m-%d %H:%M:%S')"

@@ -2,14 +2,15 @@
 import pandas as pd
 import tensorflow as tf
 import numpy as np
-from tensorflow import keras
 
+from tensorflow import keras
 from bray_curtis import BrayCurtis
 from data_handler import DataHandler
 from idec.IDEC import IDEC
 from plotting import plot_prediction, train_tsne, plot_tsne, create_boxplot
 from correlation import calc_cluster_correlations, calc_correlation_aggregates
-
+from re import sub
+from os import mkdir, path
 
 def create_tsne(data, num_clusters):
     data_embedded = train_tsne(data.data_raw)
@@ -149,9 +150,12 @@ def find_best_lstm(data, iterations, num_clusters, max_epochs, early_stopping, c
         )
 
         #write predicted values to CSV files
-        prediction.to_csv(f'{results_dir}/data_predicted/lstm_{cluster_type}_cluster_{c}_predicted.csv')
-        data.all.to_csv(f'{results_dir}/data_predicted/lstm_{cluster_type}_cluster_{c}_dataall.csv')
-        dates.to_csv(f'{results_dir}/data_predicted/lstm_{cluster_type}_cluster_{c}_dates.csv')
+        _data_predicted_dir = f'{results_dir}/data_predicted'
+        if not path.exists(_data_predicted_dir):
+            mkdir(_data_predicted_dir)
+        prediction.to_csv(f'{_data_predicted_dir}/lstm_{cluster_type}_cluster_{c}_predicted.csv')
+        data.all.to_csv(f'{_data_predicted_dir}/lstm_{cluster_type}_cluster_{c}_dataall.csv')
+        dates.to_csv(f'{_data_predicted_dir}/lstm_{cluster_type}_cluster_{c}_dates.csv')
 
         metric_names = best_model.metrics_names
 

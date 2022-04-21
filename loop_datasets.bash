@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -eu
+set -u
 datasets_folder=data/datasets
 datasets=$(find $datasets_folder/* -maxdepth 0 -type d -exec echo -n '"{}" ' \;)
 
@@ -27,13 +27,13 @@ find ${datasets_folder}/* -maxdepth 0 -type d |\
     "max_zeros_pct": 0.60,
     "top_n_taxa": 100,
     "num_features": 10,
-    "iterations": 1,
+    "iterations": 10,
     "max_epochs_lstm": 200,
     "window_size": 10,
     "num_clusters_idec": 10,
     "tolerance_idec": 0.001,
     "splits": [
-        0.70,
+        0.75,
         0.10,
         0.15
     ]
