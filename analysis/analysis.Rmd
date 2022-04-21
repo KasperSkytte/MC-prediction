@@ -16,6 +16,7 @@ require("patchwork")
 require("data.table")
 require("ampvis2")
 require("magrittr")
+require("stringr")
 ```
 
 ```{r}
@@ -95,10 +96,35 @@ read_results <- function(results_dir) {
 
 #list results folder and gogo
 runs <- list.files(".", pattern = "^results_.*",  full.names = TRUE)
+if (length(runs) == 0) {
+  stop("No results folders found, wrong working directory?")
+}
 d_list <- lapply(runs, read_results)
-names(d_list) <- runs
-d <- rbindlist(d_list, idcol = "results_folder")
+names(d_list) <- basename(runs)
+d <- rbindlist(d_list, idcol = "results_folder", fill = TRUE)[!is.na(cluster_type)]
 d
+d[
+  ,
+  cluster_type := stringr::str_replace_all(
+    cluster_type,
+    pattern = c(
+      "lstm_abund" = "Single ASV",
+      "lstm_func" = "Biological function",
+      "lstm_idec" = "IDEC"
+    )
+  )
+]
+d[
+  ,
+  error_metric := stringr::str_replace_all(
+    error_metric,
+    pattern = c(
+      "bray-curtis" = "Bray Curtis",
+      "mean_squared_error" = "Mean Squared Error (MSE)",
+      "mean_absolute_error" = "Mean Absolute Error (MAE)"
+    )
+  )
+]
 ```
 
 
@@ -156,7 +182,7 @@ read_16sdata <- function(path) {
 
 ```{r, fig.width = 12, fig.height = 10}
 plot <- ggplot(
-  d,
+  d[value > 0],
   aes(
     cluster_type,
     value,
@@ -168,12 +194,122 @@ plot <- ggplot(
     rows = vars(error_metric),
     cols = vars(dataset), scales = "free_y"
   ) +
-  theme(axis.text.x = element_text(angle = 90))
+  theme(
+    axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5),
+    legend.title = element_blank(),
+    axis.title = element_blank()
+  ) +
+  scale_color_discrete(
+    labels = c(
+      lstm_idec = "IDEC",
+      lstm_func = "Metab. function",
+      lstm_abund = "Single ASV"
+    )
+  )
+
+plot
 
 ggsave(
   "results_all.png",
   plot = plot,
-  width = 12,
+  width = 14,
   height = 8
+)
+```
+
+```{r}
+#abundance tables
+read_abund <- function(dir, pattern, sample_prefix = "") {
+  predicted_abund_files <- list.files(
+    dir,
+    pattern = pattern,
+    recursive = FALSE,
+    include.dirs = FALSE,
+    full.names = TRUE
+  )
+  predicted_abund_list <- lapply(
+    predicted_abund_files,
+    function(file) {
+      #first read each file
+      file <- fread(
+        file,
+        sep = ",",
+        header = TRUE
+      )
+
+      #melt to be able to row bind all files
+      abund <- melt(
+        file,
+        id.vars = "Sample",
+        variable.name = "OTU",
+        value.name = "abundance"
+      )
+      abund[[1]] <- paste0(sample_prefix, abund[[1]])
+      return(abund)
+    }
+  )
+
+  abund <- dcast(
+    rbindlist(
+      predicted_abund_list
+    ),
+    OTU~Sample,
+    value.var = "abundance"
+  )
+
+  return(abund)
+}
+
+pred_abund <- read_abund(
+  dir = "results_20220420_163047/data_predicted/",
+  pattern = "lstm_abund.*predicted\\.csv",
+  sample_prefix = "pred_"
+)
+true_abund <- read_abund(
+  dir = "results_20220420_163047/data_predicted/",
+  pattern = "lstm_abund.*dataall\\.csv",
+  sample_prefix = "true_"
+)
+
+#metadata
+metadata_files <- list.files(
+  "results_20220420_163047/data_predicted/",
+  pattern = "lstm_abund.*dates\\.csv",
+  recursive = FALSE,
+  include.dirs = FALSE,
+  full.names = TRUE
+)
+#dates per sample are the same for all
+#just use the first file as metadata for all
+metadata <- fread(metadata_files[[1]])
+
+#load and combine data sets
+predicted_data <- amp_load(
+  otutable = pred_abund,
+  metadata = metadata[, .(Sample = paste0("pred_", Sample), Date)]
+)
+true_data <- amp_load(
+  otutable = true_abund,
+  metadata = metadata[, .(Sample = paste0("true_", Sample), Date)]
+)
+
+combined <- amp_merge
+```
+
+```{r}
+otutable <- as.data.frame(t(fread("results_20220420_163047/data_reformatted/abundances.csv", data.table = FALSE)))
+colnames(otutable) <- otutable[1, ]
+otutable <- otutable[-1, ]
+otutable[] <- lapply(otutable, as.numeric)
+
+actual <- amp_load(
+  otutable = otutable,
+  metadata = "results_20220420_163047/data_reformatted/metadata.csv",
+  taxonomy = "results_20220420_163047/data_reformatted/taxonomy_wfunctions.csv"
+)
+amp_timeseries(
+  amp_subset_taxa(actual, "ASV1; s__midas_s_5; g__Tetrasphaera", normalise = FALSE),
+  time_variable = "Date",
+  normalise = FALSE
 )
 ```
