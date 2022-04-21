@@ -109,12 +109,22 @@ def load_lstm_model(num_features, cluster, cluster_type):
 
 
 def find_best_lstm(data, iterations, num_clusters, max_epochs, early_stopping, cluster_type):
+    print(f'\nFitting {num_clusters} cluster(s) of type {cluster_type}')
     best_performances = []
     metric_names = []
     for c in range(num_clusters):
+        print(f'\nCluster: {c}')
         data.use_cluster(c, cluster_type)
         best_model = None
         best_performance = [100]
+        if data.all.shape[1] == 0:
+            print(f'Empty cluster, skipping')
+            continue
+        elif data.all.shape[1] == 1:
+            c = sub(';.*$', '', data.all.columns[0])
+        elif data.all.shape[1] > 1:
+            print(data.all.columns.values)
+
         for i in range(iterations):
             print(f'Cluster: {c}, Iteration: {i}')
             lstm_model = create_lstm_model(data.num_features)
