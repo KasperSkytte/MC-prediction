@@ -44,8 +44,7 @@ COPY Pipfile.lock .
 COPY renv.lock .
 
 #upgrade pip, install pipenv and python pkgs according to the lock file (system-wide)
-RUN python3 -m pip install --upgrade pip \
-  && pip install pipenv \
+RUN pip install pipenv==2020.11.4 \
   && pipenv install --python /usr/bin/python3 --deploy --system
 
 #download and install R, required system dependencies, and R packages

@@ -27,7 +27,8 @@
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
 		"Ikuyadeu.r",
-		"ms-python.python"
+		"ms-python.python",
+		"christian-kohler.path-intellisense"
 	],
 
 	// Enable GPU support for CUDA
@@ -48,6 +49,6 @@
 	// Uncomment to connect as a non-root user if you've added one. See https://aka.ms/vscode-remote/containers/non-root.
 	"remoteUser": "vscode",
 
-	// Uncomment to keep the container running in when disconnecting
+	// Uncomment to keep the container running when disconnecting
 	"shutdownAction": "none"
 }
