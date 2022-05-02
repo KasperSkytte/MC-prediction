@@ -53,7 +53,7 @@
     },
     "ampvis2": {
       "Package": "ampvis2",
-      "Version": "2.7.22",
+      "Version": "2.7.24",
       "Source": "GitHub",
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
