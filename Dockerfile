@@ -2,6 +2,15 @@
 #exact dockerfile used for base image: https://github.com/tensorflow/tensorflow/blob/master/tensorflow/tools/dockerfiles/dockerfiles/gpu.Dockerfile
 FROM tensorflow/tensorflow:2.7.0-gpu-jupyter as base
 
+#NVIDIA updated their signing keys for APT as of apr 27 2022, see
+#https://forums.developer.nvidia.com/t/notice-cuda-linux-repository-key-rotation/212772
+RUN rm /etc/apt/sources.list.d/cuda.list \
+  && rm /etc/apt/sources.list.d/nvidia-ml.list \
+  && apt-key del 7fa2af80 \
+  && curl -o cuda-keyring_1.0-1_all.deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-keyring_1.0-1_all.deb \
+  && dpkg -i cuda-keyring_1.0-1_all.deb \
+  && rm cuda-keyring_1.0-1_all.deb
+
 # Copy library scripts to execute
 COPY .devcontainer/library-scripts/*.sh .devcontainer/library-scripts/*.env /tmp/library-scripts/
 
@@ -13,12 +22,13 @@ ARG UPGRADE_PACKAGES="true"
 ARG USERNAME=vscode
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
-RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-    # Remove imagemagick due to https://security-tracker.debian.org/tracker/CVE-2019-10131
-    && apt-get purge -y imagemagick imagemagick-6-common \
-    # Install common packages, non-root user
-    && bash /tmp/library-scripts/common-debian.sh "${INSTALL_ZSH}" "${USERNAME}" "${USER_UID}" "${USER_GID}" "${UPGRADE_PACKAGES}" "true" "true" \
-    && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
+RUN export DEBIAN_FRONTEND=noninteractive \
+  && apt-get update \
+  # Remove imagemagick due to https://security-tracker.debian.org/tracker/CVE-2019-10131
+  && apt-get purge -y imagemagick imagemagick-6-common \
+  # Install common packages, non-root user
+  && bash /tmp/library-scripts/common-debian.sh "${INSTALL_ZSH}" "${USERNAME}" "${USER_UID}" "${USER_GID}" "${UPGRADE_PACKAGES}" "true" "true" \
+  && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 # locales
 ENV LANG C.UTF-8
