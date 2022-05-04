@@ -28,7 +28,8 @@
 	"extensions": [
 		"Ikuyadeu.r",
 		"ms-python.python",
-		"christian-kohler.path-intellisense"
+		"christian-kohler.path-intellisense",
+		"TianyiShi.rmarkdown"
 	],
 
 	// Enable GPU support for CUDA
