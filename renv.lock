@@ -60,9 +60,9 @@
       "RemoteUsername": "madsalbertsen",
       "RemoteRepo": "ampvis2",
       "RemoteRef": "main",
-      "RemoteSha": "f48b708fca4dc61269e8e09d50e11de6875aaf9c",
+      "RemoteSha": "577f55a7171ba49c2aa27ed2510907a32e7a1230",
       "Remotes": "github::kasperskytte/biomformat",
-      "Hash": "f612cb31cf574801f383ba49bf548c6b"
+      "Hash": "2e46c74291a5ec7a8c4161e5ad509137"
     },
     "ape": {
       "Package": "ape",
