@@ -30,13 +30,17 @@ if (interactive()) {
 source("functions.R")
 ```
 
+# Prediction accuracy across WWTPs
+
 ```{r}
 plot_all("results/20220420")
 plot_all("results/20220421")
 plot_all("results/20220422")
 plot_all("results/20220427")
+plot_all("results/20220429")
 ```
 
+# Aalborg West comparison of true vs predicted
 ```{r}
 results_dir <- "results/20220429/results_20220429_182545"
 AAW_20220429 <- combine_abund(
@@ -44,7 +48,7 @@ AAW_20220429 <- combine_abund(
   cluster_type = "abund"
 )
 
-AAW <- load_16sdata(results_dir)
+AAW <- load_data_reformatted(results_dir)
 ```
 
 ```{r}
@@ -62,20 +66,13 @@ amp_ordinate(
 )
 ```
 
-# Check original data
 ```{r, eval = FALSE}
-otutable <- as.data.frame(t(fread("results_20220420_163047/data_reformatted/abundances.csv", data.table = FALSE)))
-colnames(otutable) <- otutable[1, ]
-otutable <- otutable[-1, ]
-otutable[] <- lapply(otutable, as.numeric)
-
-actual <- amp_load(
-  otutable = otutable,
-  metadata = "results_20220420_163047/data_reformatted/metadata.csv",
-  taxonomy = "results_20220420_163047/data_reformatted/taxonomy_wfunctions.csv"
-)
 amp_timeseries(
-  amp_subset_taxa(actual, "ASV1; s__midas_s_5; g__Tetrasphaera", normalise = FALSE),
+  amp_subset_taxa(
+    AAW,
+    "ASV1; s__midas_s_5; g__Tetrasphaera",
+    normalise = FALSE
+  ),
   time_variable = "Date",
   normalise = FALSE
 )

@@ -1,3 +1,12 @@
+#' Title
+#'
+#' @param path 
+#' @param tablename 
+#'
+#' @return
+#'
+#' @examples
+# Function to plot prediction accuracy for each clustering type
 plot_performance <- function(path, tablename = "performance_table") {
   filenames <- c("lstm_idec_performance.txt", "lstm_abund_performance.txt", "lstm_func_performance.txt")
   list <- lapply(paste0(path, "/", filenames), function(filepath) {
@@ -34,25 +43,23 @@ plot_performance <- function(path, tablename = "performance_table") {
   cli::cat_line(readLines(paste0(path, "/idec_performance.txt")))
 }
 
-load_16sdata <- function(results_dir) {
+# read and transform reformatted amplicon data into ampvis2 object
+load_data_reformatted <- function(results_dir) {
   abund <- fread(
-    file.path(results_dir, "data_reformatted/abundances.csv")
-  )
-
-  abund_melted <- melt(
-    abund,
-    id.vars = c("Sample"),
-    variable.name = "ASV",
-    value.name = "abundance",
-    variable.factor = FALSE)
-  abund_cast <- dcast(
-    abund_melted,
-    ASV~Sample,
-    value.var = "abundance"
-  )
+    file.path(results_dir, "data_reformatted/abundances.csv"),
+    data.table = FALSE
+  ) %>%
+    t() %>%
+    as.data.frame() %>% {
+      colnames(.) <- .[1, ]
+      . <- .[-1, ]
+      .[] <- lapply(., as.numeric)
+      .[["ASV"]] <- rownames(.)
+      .
+    }
 
   amp_load(
-    otutable = abund_cast,
+    otutable = abund,
     metadata = file.path(
       results_dir,
       "data_reformatted/metadata.csv"
@@ -64,6 +71,8 @@ load_16sdata <- function(results_dir) {
   )
 }
 
+# read one of the performance summary lstm_{idec,abund,func}_performance.txt
+# files and return as data table
 parse_performance <- function(file) {
   if (!file.exists(file)) {
     warning("file ", file, " doesn't exist, skipping...")
@@ -96,6 +105,8 @@ parse_performance <- function(file) {
   return(dt)
 }
 
+# read performance summary files from a single run, reformat, prettify
+# and combine into a single data table
 read_results <- function(results_dir) {
   filenames <- c(
     "lstm_idec_performance.txt",
@@ -150,6 +161,9 @@ read_results <- function(results_dir) {
   return(dt)
 }
 
+# read all performance summary files from a batch of multiple runs (i.e. WWTPs)
+# and plot a summary boxplot of all
+# will also save the plot to a PNG file
 plot_all <- function(results_batch_dir) {
   runs <- list.files(
     results_batch_dir,
@@ -206,7 +220,7 @@ plot_all <- function(results_batch_dir) {
   return(plot)
 }
 
-#abundance tables
+# read all predicted abundance tables (across all ) for a single run and combine
 read_abund <- function(dir, pattern, sample_prefix = "") {
   abund_files <- list.files(
     dir,
@@ -257,11 +271,14 @@ read_abund <- function(dir, pattern, sample_prefix = "") {
   return(abund)
 }
 
-#abund, func, idec
+# read and combine both original and predicted abundance data
+# (incl metadata+tax) from all cluster types into a single ampvis2 object
 combine_abund <- function(results_dir, cluster_type) {
   cluster_types <- c("abund", "func", "idec")
   if (length(cluster_type) != 1L || !any(cluster_type %in% cluster_types)) {
-    stop("cluster_type must be one of: ", paste0(cluster_types, collapse = ", "))
+    stop(
+      "cluster_type must be one of: ",
+      paste0(cluster_types, collapse = ", "))
   }
 
   #read predicted abundance tables
@@ -290,14 +307,39 @@ combine_abund <- function(results_dir, cluster_type) {
   #just use the first file as metadata for all
   metadata <- fread(metadata_files[[1]])
 
-  #load predicted data
+  #load predicted and true data
   predicted_data <- amp_load(
     otutable = pred_abund,
-    metadata = metadata[, .(Sample = paste0("pred_", Sample), Date, predicted = "predicted")]
+    metadata = metadata[
+      ,
+      .(
+        Sample = paste0("pred_", Sample),
+        Date,
+        predicted = "predicted"
+      )
+    ],
+    taxonomy = file.path(
+      results_dir,
+      "data_reformatted",
+      "taxonomy_wfunctions.csv"
+    )
   )
+
   true_data <- amp_load(
     otutable = true_abund,
-    metadata = metadata[, .(Sample = paste0("true_", Sample), Date, predicted = "real")]
+    metadata = metadata[
+      ,
+      .(
+        Sample = paste0("true_", Sample),
+        Date,
+        predicted = "real"
+      )
+    ],
+    taxonomy = file.path(
+      results_dir,
+      "data_reformatted",
+      "taxonomy_wfunctions.csv"
+    )
   )
 
   combined <- amp_merge_ampvis2(
