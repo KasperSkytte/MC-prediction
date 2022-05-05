@@ -1,7 +1,6 @@
 import numpy as np
 import pandas as pd
 from scipy.signal import lfilter
-import os
 
 def filter_sparse_samples(data, percentage, pseudo_zero):
     """Removes ASV/species abundance time series consisting of more zeroes than the specified percentage."""

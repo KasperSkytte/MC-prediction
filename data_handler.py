@@ -160,7 +160,7 @@ class DataHandler:
     def _load_data(self, config):
         data_raw, meta, func_tax, clusters, functions = load_data(config)
 
-        data_raw = smooth(data_raw)
+        data_raw = smooth(data_raw, factor = config['smoothing_factor'])
         data_raw, mean = normalize(data_raw)
 
         data = pd.DataFrame(data=np.transpose(data_raw), 

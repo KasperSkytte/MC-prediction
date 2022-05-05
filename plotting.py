@@ -116,7 +116,7 @@ if __name__ == "__main__":
         config = json.load(config_file)
 
     x, func_tax, func_clusters, _ = load_data(config['abund_file'], config)
-    x = smooth(x)
+    x = smooth(x, factor = config['smoothing_factor'])
 
     n_clusters = 5
     plt.rcParams['figure.figsize'] = (12,8)
