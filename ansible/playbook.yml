@@ -4,7 +4,7 @@
 # regardless of the order
 - hosts:
   - mlnode
-  become: yes
+  become: true
   tasks:
     - name: "apt full-upgrade"
       apt:
