@@ -730,9 +730,7 @@
     "readr": {
       "Package": "readr",
       "Version": "2.1.0",
-      "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "6c825746f32a68f4d8c40f94da5b1ac5"
+      "Source": "Repository"
     },
     "readxl": {
       "Package": "readxl",
