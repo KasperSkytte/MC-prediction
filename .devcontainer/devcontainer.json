@@ -50,6 +50,6 @@
 	// Uncomment to connect as a non-root user if you've added one. See https://aka.ms/vscode-remote/containers/non-root.
 	"remoteUser": "vscode",
 
-	// Uncomment to keep the container running when disconnecting
+	// Uncomment to keep the container running when disconnecting from it
 	"shutdownAction": "none"
 }

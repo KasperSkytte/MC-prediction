@@ -3,7 +3,7 @@
 # separate play because roles are run before tasks
 # regardless of the order
 - hosts:
-  - mlnode
+  - localhost
   become: true
   tasks:
     - name: "apt full-upgrade"
@@ -12,7 +12,7 @@
         upgrade: full
 
 - hosts:
-  - mlnode
+  - localhost
   become: true
   vars:
     pip_install_packages:
@@ -21,7 +21,7 @@
     docker_users:
       - ubuntu
     #dont install from Canonicals APT repo
-    nvidia_driver_ubuntu_install_from_cuda_repo: yes
+    nvidia_driver_ubuntu_install_from_cuda_repo: no
     #skip rebooting in nvidia.nvidia_driver role
     nvidia_driver_skip_reboot: yes
   roles:
