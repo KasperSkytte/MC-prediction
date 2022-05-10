@@ -109,7 +109,10 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     /opt/Pipfile \
     /opt/*.lock
 
-# # [Optional] Set the default user. Omit if you want to keep the default as root.
+# [Optional] Set the default user. Omit if you want to keep the default as root.
 USER $USERNAME
+
+# Install (minimal) LaTeX binaries for R, for the default user only
+RUN R -e "install.packages('tinytex'); tinytex::install_tinytex()"
 
 WORKDIR /tf

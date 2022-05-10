@@ -903,9 +903,7 @@
     "tinytex": {
       "Package": "tinytex",
       "Version": "0.35",
-      "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "1d7220fe46159fb9f5c99a44354a2bff"
+      "Source": "Repository"
     },
     "tzdb": {
       "Package": "tzdb",

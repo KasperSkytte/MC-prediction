@@ -21,7 +21,7 @@
     docker_users:
       - ubuntu
     #dont install from Canonicals APT repo
-    nvidia_driver_ubuntu_install_from_cuda_repo: no
+    nvidia_driver_ubuntu_install_from_cuda_repo: yes
     #skip rebooting in nvidia.nvidia_driver role
     nvidia_driver_skip_reboot: yes
   roles:
