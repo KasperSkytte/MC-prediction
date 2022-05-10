@@ -113,6 +113,6 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 USER $USERNAME
 
 # Install (minimal) LaTeX binaries for R, for the default user only
-RUN R -e "install.packages('tinytex'); tinytex::install_tinytex()"
+RUN R -e "tinytex::install_tinytex()"
 
 WORKDIR /tf
