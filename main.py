@@ -160,12 +160,10 @@ def find_best_lstm(data, iterations, num_clusters, max_epochs, early_stopping, c
         )
 
         #write predicted values to CSV files
-        _data_predicted_dir = f'{results_dir}/data_predicted'
-        if not path.exists(_data_predicted_dir):
-            mkdir(_data_predicted_dir)
-        prediction.to_csv(f'{_data_predicted_dir}/lstm_{cluster_type}_cluster_{c}_predicted.csv')
-        data.all.to_csv(f'{_data_predicted_dir}/lstm_{cluster_type}_cluster_{c}_dataall.csv')
-        dates.to_csv(f'{_data_predicted_dir}/lstm_{cluster_type}_cluster_{c}_dates.csv')
+        if not path.exists(data_predicted_dir):
+            mkdir(data_predicted_dir)
+        prediction.to_csv(f'{data_predicted_dir}/lstm_{cluster_type}_cluster_{c}_predicted.csv')
+        data.all.to_csv(f'{data_predicted_dir}/lstm_{cluster_type}_cluster_{c}_dataall.csv')
 
         metric_names = best_model.metrics_names
 
@@ -183,6 +181,9 @@ if __name__ == '__main__':
         config = json.load(config_file)
 
     results_dir = config['results_dir']
+    data_predicted_dir = f'{results_dir}/data_predicted'
+    if not path.exists(data_predicted_dir):
+        mkdir(data_predicted_dir)
 
     # Number of taxa to use at the time for the prediction.
     num_features = config['num_features']
@@ -212,6 +213,12 @@ if __name__ == '__main__':
         window_batch_size=10,
         splits=splits
     )
+
+    #write sample names and dates for each 3-way split data set
+    data.get_metadata(data.train, 'Date').dt.date.to_csv(f'{data_predicted_dir}/dates_train.csv')
+    data.get_metadata(data.val, 'Date').dt.date.to_csv(f'{data_predicted_dir}/dates_val.csv')
+    data.get_metadata(data.test, 'Date').dt.date.to_csv(f'{data_predicted_dir}/dates_test.csv')
+    data.get_metadata(data.all, 'Date').dt.date.to_csv(f'{data_predicted_dir}/dates_all.csv')
 
     # Find best IDEC model.
     find_best_idec(data, iterations, num_clusters_idec, config['tolerance_idec'])
