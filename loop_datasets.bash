@@ -32,7 +32,7 @@ find ${datasets_folder}/* -maxdepth 0 -type d |\
     "window_size": 10,
     "num_clusters_idec": 5,
     "tolerance_idec": 0.001,
-    "smoothing_factor": 8,
+    "smoothing_factor": 4,
     "splits": [
         0.75,
         0.10,

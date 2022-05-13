@@ -29,7 +29,9 @@
 		"Ikuyadeu.r",
 		"ms-python.python",
 		"christian-kohler.path-intellisense",
-		"TianyiShi.rmarkdown"
+		"TianyiShi.rmarkdown",
+		"tomoki1207.pdf",
+		"tht13.html-preview-vscode"
 	],
 
 	// Enable GPU support for CUDA

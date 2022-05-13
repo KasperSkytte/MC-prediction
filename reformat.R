@@ -181,7 +181,7 @@ func_genus <- full_join(
 
 #remove all unclassified taxa at Genus level but one
 func_genus <- filter(func_genus, !Genus %chin% "")
-func_genus <- rbind(func_genus, c("", rep("na", ncol(func_genus)-1L)))
+func_genus <- rbind(func_genus, c("", rep("na", ncol(func_genus) - 1L)))
 func_genus[is.na(func_genus)] <- "na"
 
 #merge

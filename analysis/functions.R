@@ -1,30 +1,63 @@
-#' Title
+#' @title Function to plot prediction accuracy for each clustering type
 #'
-#' @param path 
-#' @param tablename 
+#' @param results_dir Output results folder as produced from a single run of run.bash
+#' @param tablename Name of object assigned to the global environment
 #'
 #' @return
+#' @export
 #'
 #' @examples
-# Function to plot prediction accuracy for each clustering type
-plot_performance <- function(path, tablename = "performance_table") {
-  filenames <- c("lstm_idec_performance.txt", "lstm_abund_performance.txt", "lstm_func_performance.txt")
-  list <- lapply(paste0(path, "/", filenames), function(filepath) {
-    dt <- fread(filepath)
-    colnames(dt) <- gsub("[\\['\\]]*", "", colnames(dt))
-    dt[, cluster := gsub(":.*$", "", `bray-curtis`)]
-    dt <- dt[,lapply(.SD, gsub, pattern = "^[0-9]+:.*\\[|\\]$", replacement = "")]
-    dt <- dt[,lapply(.SD, as.numeric)]
-    dt <- melt(dt, id.vars = "cluster", variable.name = "errorfunc", value.name = "value")
-    dt[, clustertype := tools::file_path_sans_ext(basename(filepath))]
-    dt[, name := basename(path)]
-    dt
-  })
+plot_performance <- function(results_dir, tablename = "performance_table") {
+  filenames <- c(
+    "lstm_idec_performance.txt",
+    "lstm_abund_performance.txt",
+    "lstm_func_performance.txt"
+  )
+  list <- lapply(
+    file.path(results_dir, filenames),
+    function(filepath) {
+      dt <- fread(filepath)
+      colnames(dt) <- gsub("[\\['\\]]*", "", colnames(dt))
+      dt[, cluster := gsub(":.*$", "", `bray-curtis`)]
+      dt <- dt[
+        ,
+        lapply(
+          .SD,
+          gsub,
+          pattern = "^[0-9]+:.*\\[|\\]$",
+          replacement = ""
+        )
+      ]
+      dt <- dt[
+        ,
+        lapply(.SD, as.numeric)
+      ]
+      dt <- melt(
+        dt,
+        id.vars = "cluster",
+        variable.name = "errorfunc",
+        value.name = "value"
+      )
+      dt[
+        ,
+        clustertype := tools::file_path_sans_ext(basename(filepath))
+      ]
+      dt[
+        ,
+        name := basename(results_dir)
+      ]
+      dt
+    }
+  )
   dt <- rbindlist(list)
   if (!exists(tablename, .GlobalEnv)) {
     assign(tablename, dt, .GlobalEnv)
   } else {
-    assign(tablename, rbindlist(list(get(tablename, .GlobalEnv), dt)), .GlobalEnv)
+    assign(
+      tablename,
+      rbindlist(list(get(tablename, .GlobalEnv), dt)),
+      .GlobalEnv
+    )
   }
   plot <- ggplot(
     dt,
@@ -43,7 +76,15 @@ plot_performance <- function(path, tablename = "performance_table") {
   cli::cat_line(readLines(paste0(path, "/idec_performance.txt")))
 }
 
-# read and transform reformatted amplicon data into ampvis2 object
+#' @title Read reformatted amplicon data from a results folder
+#' @description Read the amplicon data in the data_reformatted subfolder of a results run into an ampvis2 object
+#'
+#' @param results_dir Output results folder as produced from a single run of run.bash
+#'
+#' @return An ampvis2 class object
+#' @export
+#'
+#' @examples
 load_data_reformatted <- function(results_dir) {
   abund <- fread(
     file.path(results_dir, "data_reformatted/abundances.csv"),
@@ -71,8 +112,15 @@ load_data_reformatted <- function(results_dir) {
   )
 }
 
-# read one of the performance summary lstm_{idec,abund,func}_performance.txt
-# files and return as data table
+#' @title Read and parse model performance
+#' @description Read and parse a performance summary lstm_{idec,abund,func}_performance.txt file and return as data table
+#'
+#' @param file File path to a *_performance.txt file
+#'
+#' @return A data.table
+#' @export
+#'
+#' @examples
 parse_performance <- function(file) {
   if (!file.exists(file)) {
     warning("file ", file, " doesn't exist, skipping...")
@@ -105,8 +153,15 @@ parse_performance <- function(file) {
   return(dt)
 }
 
-# read performance summary files from a single run, reformat, prettify
-# and combine into a single data table
+#' @title Read and parse all model performance files
+#' @description Read ALL performance summary files from a single run, reformat, prettify and combine into a single data table
+#'
+#' @param results_dir Path to a results folder as produced by run.bash
+#'
+#' @return A data.table
+#' @export
+#'
+#' @examples
 read_results <- function(results_dir) {
   filenames <- c(
     "lstm_idec_performance.txt",
@@ -142,13 +197,13 @@ read_results <- function(results_dir) {
   )
 
   dt$cluster_type <- stringr::str_replace_all(
-      dt$cluster_type,
-      pattern = c(
-        "lstm_abund" = "Single ASV",
-        "lstm_func" = "Biological function",
-        "lstm_idec" = "IDEC"
-      )
+    dt$cluster_type,
+    pattern = c(
+      "lstm_abund" = "Single ASV",
+      "lstm_func" = "Biological function",
+      "lstm_idec" = "IDEC"
     )
+  )
 
   dt$error_metric <- stringr::str_replace_all(
     dt$error_metric,
@@ -161,9 +216,15 @@ read_results <- function(results_dir) {
   return(dt)
 }
 
-# read all performance summary files from a batch of multiple runs (i.e. WWTPs)
-# and plot a summary boxplot of all
-# will also save the plot to a PNG file
+#' @title Boxplot of model accuracy per batch (produced by loop_datasets.bash)
+#' @description Read all performance summary files from a batch of multiple runs (i.e. WWTPs) and plot a summary boxplot. Will also save the plot to a PNG file in each folder.
+#'
+#' @param results_batch_dir Path to a folder containing one or more subfolders, each produced by run.bash (i.e. produced by loop_datasets.bash)
+#'
+#' @return A ggplot2 object
+#' @export
+#'
+#' @examples
 plot_all <- function(results_batch_dir) {
   runs <- list.files(
     results_batch_dir,
@@ -199,16 +260,11 @@ plot_all <- function(results_batch_dir) {
     ) +
     theme(
       axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5),
-      legend.title = element_blank(),
+      legend.position = "none",
       axis.title = element_blank()
     ) +
-    scale_color_discrete(
-      labels = c(
-        lstm_idec = "IDEC",
-        lstm_func = "Metab. function",
-        lstm_abund = "Single ASV"
-      )
-    )
+    scale_y_sqrt() +
+    scale_color_brewer(palette = "Set2")
 
   ggsave(
     file.path(dirname(d[1, results_folder]), "boxplot_all.png"),
@@ -220,10 +276,20 @@ plot_all <- function(results_batch_dir) {
   return(plot)
 }
 
-# read all predicted abundance tables (across all ) for a single run and combine
-read_abund <- function(dir, pattern, sample_prefix = "") {
+#' @title Read predicted abundance files from a single run
+#' @description Read all predicted abundance tables (across all cluster types) for a single run and combine
+#'
+#' @param results_dir Path to a results folder as produced by run.bash
+#' @param pattern A regex pattern for file names to search for
+#' @param sample_prefix Prefix for sample names (i.e. true_ or predicted_)
+#'
+#' @return A data.table
+#' @export
+#'
+#' @examples
+read_abund <- function(results_dir, pattern, sample_prefix = "") {
   abund_files <- list.files(
-    dir,
+    file.path(results_dir, "data_predicted"),
     pattern = pattern,
     recursive = FALSE,
     include.dirs = FALSE,
@@ -271,8 +337,16 @@ read_abund <- function(dir, pattern, sample_prefix = "") {
   return(abund)
 }
 
-# read and combine both original and predicted abundance data
-# (incl metadata+tax) from all cluster types into a single ampvis2 object
+#' @title Read and combine both true and predicted abundance data
+#' @description read and combine both original and predicted abundance data (incl metadata+tax) from all cluster types into a single ampvis2 object
+#'
+#' @param results_dir Path to a results folder as produced by run.bash
+#' @param cluster_type From which cluster type should the predicted data be from (i.e. abund, func, or idec)
+#'
+#' @return An ampvis2 class object
+#' @export
+#'
+#' @examples
 combine_abund <- function(results_dir, cluster_type) {
   cluster_types <- c("abund", "func", "idec")
   if (length(cluster_type) != 1L || !any(cluster_type %in% cluster_types)) {
@@ -283,29 +357,56 @@ combine_abund <- function(results_dir, cluster_type) {
 
   #read predicted abundance tables
   pred_abund <- read_abund(
-    dir = file.path(results_dir, "data_predicted"),
+    dir = results_dir,
     pattern = paste0("lstm_", cluster_type, ".*predicted\\.csv"),
     sample_prefix = "pred_"
   )
 
   #read true abundance tables
   true_abund <- read_abund(
-    dir = file.path(results_dir, "data_predicted"),
+    dir = results_dir,
     pattern = paste0("lstm_", cluster_type, ".*dataall\\.csv"),
     sample_prefix = "true_"
   )
 
   #read dates and sample IDs and use as metadata
-  metadata_files <- list.files(
-    file.path(results_dir, "data_predicted"),
-    pattern = paste0("lstm_", cluster_type, ".*dates\\.csv"),
-    recursive = FALSE,
-    include.dirs = FALSE,
-    full.names = TRUE
-  )
   #dates per sample are the same for all
   #just use the first file as metadata for all
-  metadata <- fread(metadata_files[[1]])
+  metadata <- fread(
+    list.files(
+      file.path(results_dir, "data_predicted"),
+      pattern = ".*dates(_all)*\\.csv",
+      recursive = FALSE,
+      include.dirs = FALSE,
+      full.names = TRUE
+    )[[1]]
+  )
+
+  #add a split_dataset column with whether
+  #the particular dates are used for train, val, or test
+  metadata_split_datasets <- rbindlist(
+    lapply(
+      file.path(
+        results_dir,
+        "data_predicted",
+        c("dates_train.csv", "dates_val.csv", "dates_test.csv")
+      ),
+      function(file) {
+        if (file.exists(file)) {
+          dt <- fread(
+            file
+          )
+          dt[, split_dataset := gsub(".*_|\\.csv", "", file)] #train, val, or test #nolint
+          dt
+        }
+      }
+    )
+  )
+  if (sum(dim(metadata_split_datasets)) != 0L) {
+    metadata <- metadata_split_datasets[metadata, on = c("Sample", "Date")]
+  } else if (sum(dim(metadata_split_datasets)) == 0L) {
+    metadata[, split_dataset := "predicted"]
+  }
 
   #load predicted and true data
   predicted_data <- amp_load(
@@ -315,7 +416,8 @@ combine_abund <- function(results_dir, cluster_type) {
       .(
         Sample = paste0("pred_", Sample),
         Date,
-        predicted = "predicted"
+        predicted = "predicted",
+        split_dataset
       )
     ],
     taxonomy = file.path(
@@ -332,7 +434,10 @@ combine_abund <- function(results_dir, cluster_type) {
       .(
         Sample = paste0("true_", Sample),
         Date,
-        predicted = "real"
+        predicted = "real",
+        #all dates here are from the original data
+        #set before split, not train, val, or test:
+        split_dataset = "real"
       )
     ],
     taxonomy = file.path(
