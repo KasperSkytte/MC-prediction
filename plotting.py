@@ -23,6 +23,9 @@ def plot_prediction(
     """Create four subplots of the true vs. the predicted values of the four specified ASVs."""
     if highlight_dates:
         vertical_lines = np.where(np.isin(dates, highlight_dates))
+        #sometimes multiple dates, so just use min and max
+        vertical_lines = [vertical_lines[0].min(),vertical_lines[0].max()]
+
     x_labels_spacing = np.arange(0, data.all.shape[0], step=1+(data.all.shape[0] // 20))
     x_labels = [dates[i] for i in x_labels_spacing]
 
