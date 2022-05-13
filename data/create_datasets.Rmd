@@ -1,6 +1,6 @@
 ---
 title: "Biobank (you need at least 32GB memory to run this)"
-output: html_document
+output: md_document
 ---
 
 # init
@@ -20,19 +20,27 @@ if (!require("data.table"))
 library(ampvis2)
 library(data.table)
 library(tidyverse)
+
+if (interactive()) {
+  if (!grepl("data$", getwd())) {
+    setwd("data")
+  }
+}
 ```
 
 # Load metadata
 ```{r}
 rm(list=ls())
 gc()
-metadata <- openxlsx::read.xlsx("metadata/metadata_BioBank_2021-11-09.xlsx", detectDates = TRUE)
-#this is hopefully FALSE, otherwise manually check which samples to remove:
-any(duplicated(metadata$Sample))
+metadata <- fread("metadata/metadata.txt")
+
+if (any(duplicated(metadata$Sample))) {
+  stop("One or more sample name(s) are duplicated in sample metadata. Please fix manually")
+}
 
 #filter a few useless samples
 metadata <- filter(metadata, !Sample %chin% paste0("MQ201110-", 309:311))
-metadata$Date <- lubridate::ymd(metadata$Date)
+metadata$Date <- lubridate::dmy(metadata$Date)
 metadata$Year <- as.character(lubridate::year(metadata$Date))
 
 #### add seasonal period and week number ####
@@ -43,7 +51,7 @@ SS <- as.Date("2012-6-15",  format = "%Y-%m-%d") # Summer Solstice
 FE <- as.Date("2012-9-15",  format = "%Y-%m-%d") # Fall Equinox
 
 # Convert dates from any year to 2012 dates
-dates <- as.Date(strftime(metadata$Date, format="2012-%m-%d"))
+dates <- as.Date(strftime(metadata$Date, format = "2012-%m-%d"))
 #extract periods and set factors for correct chronological order
 metadata$Period <- ifelse (dates >= WS | dates < SE, "Winter", #winter
                               ifelse (dates >= SE & dates < SS, "Spring", #spring
@@ -65,6 +73,12 @@ metadata[grepl("pcrneg", tolower(LibID)), ID := "PCRNEG"]
 metadata[grepl("pcrneg", tolower(LibID)), Plant := "CTRL"]
 metadata <- metadata[!is.na(Plant)] #this removes the weird LibID samples: MQ181023-148, MQ181203-218, MQ181214-138, MQ190919-270
 metadata <- metadata[!Sample %chin% "MQ201110-248"]
+metadata[Plant == "Avedoere", Plant := "Avedøre"]
+metadata[Plant == "Damhusaaen", Plant := "Damhusåen"]
+metadata[Plant == "Ejby Moelle", Plant := "Ejby Mølle"]
+metadata[Plant == "Hjoerring", Plant := "Hjørring"]
+metadata[Plant == "Naestved", Plant := "Næstved"]
+metadata[Plant == "Egaa", Plant := "Egå"]
 metadata[grepl("^Dam", ID) & !grepl("CTRL", Plant), Plant := paste0("Damhusåen-", Line)]
 metadata[Plant %chin% "Damhusåen", Plant := paste0("Damhusåen-", Line)]
 metadata[ID == "Lynetten", Plant := "Lynetten"]
@@ -105,61 +119,54 @@ AAWtemps[,Plant := "Aalborg W"]
 
 temps <- data.table::rbindlist(list(AAEtemps, AAWtemps))
 
-metadata_merged <- dplyr::left_join(metadata, temps, by = c("Plant", "Year", "Week"))
-setDT(metadata_merged)
-metadata_out <- metadata_merged[!Plant %chin% c("EXTNEG", "PCRPOS", "PCRNEG", "", "CTRL")]
+metadata_merged <- dplyr::left_join(
+  metadata,
+  temps,
+  by = c("Plant", "Year", "Week")
+)
+metadata_out <- dplyr::filter(
+  metadata_merged,
+  !Plant %chin% c("EXTNEG", "PCRPOS", "PCRNEG", "", "CTRL")
+)
 data.table::fwrite(metadata_out, "metadata.csv")
 ```
 
 # load amplicon data
-```{r}
+```{r load_data}
 d <- amp_load(
-  otutable = "raw/ASVtable.tsv",
+  otutable = "amplicon_data/ASVtable.tsv.zip",
   metadata = metadata_out,
-  taxonomy = "raw/ASVs.R1.sintax")
-```
-
-# overview of samples over time
-```{r}
-m <- metadata_out
-m[, Plant := paste0(Plant, " (", .N, " samples)"), by = Plant]
-m[, processed := ifelse(Sample %chin% colnames(d$abund), "processed", "not processed")]
-samples_overview <- ggplot(
-  m,
-  aes(x = Date,
-      y = Plant,
-      color = processed)) +
-  geom_point() +
-  scale_x_date(date_breaks = "year", date_labels = "%Y") +
-  scale_color_manual(values = c("black", "red")) +
-  theme(
-    axis.title = element_blank(),
-    axis.text.x = element_text(angle = 90))
-samples_overview
-ggsave("nsamples_overview.png", plot = samples_overview, width = 12, height = 8)
+  taxonomy = "amplicon_data/ASVs.R1.midas481.sintax.zip")
 ```
 
 # remove samples with few reads, and normalise reads to sample total
-```{r}
+```{r normalise}
 ds <- d %>%
   amp_subset_samples(minreads = 1000, removeAbsents = TRUE, normalise = TRUE)
 ```
 
-# create data subsets
-```{r}
+# Select and create data subsets
+```{r export_datasets}
 datasets <- c(
-  "Aalborg W",
   "Aalborg E",
-  "Ribe",
-  "Randers",
-  "Mariagerfjord",
-  "Hirtshals",
-  "Esbjerg E",
+  "Aalborg W",
+  "Avedøre",
   "Damhusåen-A",
   "Damhusåen-B",
   "Damhusåen-C",
   "Damhusåen-D",
-  "Avedøre"
+  "Egå",
+  "Ejby Mølle",
+  "Esbjerg E",
+  "Hirtshals",
+  "Hjørring",
+  "Kalundborg",
+  "Lynetten",
+  "Mariagerfjord",
+  "Marselisborg",
+  "Randers",
+  "Ribe",
+  "Viby"
 )
 
 dlist <- lapply(
@@ -201,4 +208,23 @@ dlist <- lapply(
   }
 )
 
+```
+
+# overview of samples over time
+```{r samples_overview, fig.width = 12, fig.height = 8}
+m <- metadata_out
+m[, used := ifelse(Plant %chin% datasets, "used", "not used")]
+m[, Plant := paste0(Plant, " (", .N, " samples)"), by = Plant]
+samples_overview <- ggplot(
+  m,
+  aes(x = Date,
+      y = Plant,
+      color = used)) +
+  geom_point() +
+  scale_x_date(date_breaks = "year", date_labels = "%Y") +
+  scale_color_manual(values = RColorBrewer::brewer.pal(3, "Set1")[c(1, 3)]) +
+  theme(
+    axis.title = element_blank(),
+    axis.text.x = element_text(angle = 90))
+samples_overview
 ```
