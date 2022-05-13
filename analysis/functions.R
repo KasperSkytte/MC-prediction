@@ -209,8 +209,8 @@ read_results <- function(results_dir) {
     dt$error_metric,
     pattern = c(
       "bray-curtis" = "Bray Curtis",
-      "mean_squared_error" = "Mean Squared Error (MSE)",
-      "mean_absolute_error" = "Mean Absolute Error (MAE)"
+      "mean_squared_error" = "Mean Squared Error",
+      "mean_absolute_error" = "Mean Absolute Error"
     )
   )
   return(dt)
@@ -237,37 +237,83 @@ plot_all <- function(results_batch_dir) {
 
   d_list <- lapply(runs, read_results)
   names(d_list) <- runs
-  d <- rbindlist(
+  combined <- rbindlist(
     d_list,
     idcol = "results_folder",
     fill = TRUE
   )[
-    !is.na(cluster_type)
+    !is.na(cluster_type) & value > 0
   ]
 
-  plot <- ggplot(
-    d[value > 0],
-    aes(
-      cluster_type,
-      value,
-      color = cluster_type
+  # create a list of plots for each error metric
+  plot_list <- combined %>%
+    split(.[["error_metric"]]) %>%
+    lapply(
+      function(dt) {
+        ggplot(
+          dt,
+          aes(
+            cluster_type,
+            value,
+            color = cluster_type
+          )
+        ) +
+          geom_boxplot() +
+          facet_grid(
+            rows = vars(error_metric),
+            cols = vars(dataset),
+            scales = "free"
+          ) +
+          theme(
+            legend.position = "none",
+            axis.text.x = element_blank(),
+            axis.title = element_blank(),
+            axis.ticks.x = element_blank(),
+            strip.text.x = element_blank()
+          ) +
+          scale_color_brewer(palette = "Set2")
+      }
     )
-  ) +
-    geom_boxplot() +
-    facet_grid(
-      rows = vars(error_metric),
-      cols = vars(dataset), scales = "free_y"
+
+  # The first plot will be at the top and show facet strips but no x axis text
+  # Bray-Curtis axis breaks must be set between 0 - 1
+  plot_list[[1]] <- plot_list[[1]] +
+    theme(
+      axis.text.x = element_blank(),
+      axis.ticks.x = element_blank(),
+      strip.text.x = element_text(angle = 90)
     ) +
+    scale_y_continuous(trans = "sqrt", breaks = seq(0, 1, 0.2))
+
+  # Increase the number of axis breaks for the middle plot
+  plot_list[[2]] <- plot_list[[2]] +
+  scale_y_continuous(
+    trans = "sqrt",
+    breaks = scales::extended_breaks(7)
+  )
+
+  # The last plot will be at the bottom and
+  # show no facet strips but will show x axis text
+  # increase the number of axis breaks
+  plot_list[[length(plot_list)]] <- plot_list[[length(plot_list)]] +
     theme(
       axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5),
-      legend.position = "none",
-      axis.title = element_blank()
+      axis.ticks.x = element_line(),
+      strip.text.x = element_blank()
     ) +
-    scale_y_sqrt() +
-    scale_color_brewer(palette = "Set2")
+    scale_y_continuous(
+      trans = "sqrt",
+      breaks = scales::extended_breaks(7)
+    )
+
+  # Compose all plots in the list using patchwork
+  plot <- purrr::reduce(
+    plot_list,
+    `/`
+  )
 
   ggsave(
-    file.path(dirname(d[1, results_folder]), "boxplot_all.png"),
+    file.path(dirname(combined[1, results_folder]), "boxplot_all.png"),
     plot = plot,
     width = 14,
     height = 8
@@ -357,14 +403,14 @@ combine_abund <- function(results_dir, cluster_type) {
 
   #read predicted abundance tables
   pred_abund <- read_abund(
-    dir = results_dir,
+    results_dir = results_dir,
     pattern = paste0("lstm_", cluster_type, ".*predicted\\.csv"),
     sample_prefix = "pred_"
   )
 
   #read true abundance tables
   true_abund <- read_abund(
-    dir = results_dir,
+    results_dir = results_dir,
     pattern = paste0("lstm_", cluster_type, ".*dataall\\.csv"),
     sample_prefix = "true_"
   )

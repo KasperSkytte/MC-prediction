@@ -135,6 +135,36 @@ smoothing factor 4
 
 ![](analysis_files/figure-markdown_strict/run_20220506-1.png)
 
+    # "metadata_date_col": "Date",
+    # "tax_level": "OTU",
+    # "tax_add": ["Species", "Genus"],
+    # "functions": [
+    #     "AOB",
+    #     "NOB",
+    #     "PAO",
+    #     "GAO",
+    #     "Filamentous"
+    # ],
+    # "only_pos_func": false,
+    # "pseudo_zero": 0.01,
+    # "max_zeros_pct": 0.60,
+    # "top_n_taxa": 200,
+    # "num_features": 10,
+    # "iterations": 10,
+    # "max_epochs_lstm": 2000,
+    # "window_size": 10,
+    # "num_clusters_idec": 5,
+    # "tolerance_idec": 0.001,
+    # "smoothing_factor": 4,
+    # "splits": [
+    #     0.75,
+    #     0.10,
+    #     0.15
+    # ]
+    plot_all("results/20220511_updateddata")
+
+![](analysis_files/figure-markdown_strict/updated_data-1.png)
+
 Aalborg West comparison of true vs predicted (smoothing factor 8)
 =================================================================
 
