@@ -32,7 +32,6 @@ def plot_prediction(
     if len(asvs) > 1:
         fig, axes = plt.subplots(2, 2, sharex=True)
         fig.set_size_inches(14, 8)
-        fig.suptitle('Truth vs. Prediction')
         axes_flat = [x for x in axes.flat]
 
         for i in range(4):

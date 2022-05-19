@@ -183,6 +183,34 @@ plot_all("results/20220506")
 plot_all("results/20220511_updateddata")
 ```
 
+
+```{r updated_data_novalidation}
+# "functions": [
+#     "AOB",
+#     "NOB",
+#     "PAO",
+#     "GAO",
+#     "Filamentous"
+# ],
+# "only_pos_func": false,
+# "pseudo_zero": 0.01,
+# "max_zeros_pct": 0.60,
+# "top_n_taxa": 200,
+# "num_features": 10,
+# "iterations": 10,
+# "max_epochs_lstm": 2000,
+# "window_size": 10,
+# "num_clusters_idec": 5,
+# "tolerance_idec": 0.001,
+# "smoothing_factor": 4,
+# "splits": [
+#     0.85,
+#     0.0,
+#     0.15
+# ]
+plot_all("results/20220518_updateddata")
+```
+
 # Aalborg West comparison of true vs predicted (smoothing factor 8)
 ## Correspondence Analysis
 ```{r CA_AAW_8smooth}
@@ -366,7 +394,7 @@ AAW_20220510 <- combine_abund(
 
 AAW_20220510_reformatted <- load_data_reformatted(results_dir)
 
-# run data (here smoothing factor 8)
+# run data (here smoothing factor 4)
 amp_ordinate(
   AAW_20220510,
   type = "ca",
@@ -379,10 +407,118 @@ amp_ordinate(
   theme(legend.title = element_blank())
 ```
 
-```{r fivenum_reads, eval = FALSE}
+# (updated data) Aalborg West comparison of true vs predicted (smoothing factor 4)
+## Correspondence Analysis
+```{r updated_CA_AAW_4smooth}
+# Configuration:
+# {
+#     "abund_file": "data/datasets/Aalborg W/ASVtable.csv",
+#     "taxonomy_file": "data/datasets/Aalborg W/taxonomy.csv",
+#     "metadata_file": "data/metadata.csv",
+#     "results_dir": "results",
+#     "metadata_date_col": "Date",
+#     "tax_level": "OTU",
+#     "tax_add": ["Species", "Genus"],
+#     "functions": [
+#         "AOB",
+#         "NOB",
+#         "PAO",
+#         "GAO",
+#         "Filamentous"
+#     ],
+#     "only_pos_func": false,
+#     "pseudo_zero": 0.01,
+#     "max_zeros_pct": 0.60,
+#     "top_n_taxa": 200,
+#     "num_features": 10,
+#     "iterations": 10,
+#     "max_epochs_lstm": 2000,
+#     "window_size": 10,
+#     "num_clusters_idec": 5,
+#     "tolerance_idec": 0.001,
+#     "smoothing_factor": 4,
+#     "splits": [
+#         0.85,
+#         0.0,
+#         0.15
+#     ]
+# }
+results_batch_dir <- "results/20220518_updateddata"
+results_dir <- file.path(results_batch_dir, "results_20220513_200906")
+AAW_20220518 <- combine_abund(
+  results_dir,
+  cluster_type = "abund"
+)
+
+AAW_20220518_reformatted <- load_data_reformatted(results_dir)
+
+
+amp_ordinate(
+  AAW_20220518,
+  type = "ca",
+  sample_color_by = "split_dataset",
+  sample_trajectory = "Date"
+) +
+  scale_color_manual(
+    values = c("grey50", RColorBrewer::brewer.pal(6, "Paired")[c(4,6)])
+  ) +
+  theme(legend.title = element_blank())
+
+# raw reformatted data (here not smoothed)
+amp_ordinate(
+  AAW_20220518_reformatted,
+  type = "ca",
+  sample_trajectory = "Date"
+)
+```
+
+## (updated data) Time Series example ASV1
+```{r updated_TS_AAW_4smooth}
+amp_timeseries(
+  amp_subset_taxa(
+    AAW_20220518,
+    "ASV1; s__midas_s_5; g__Tetrasphaera",
+    normalise = FALSE
+  ),
+  time_variable = "Date",
+  normalise = FALSE
+)
+
+# raw reformatted data (here not smoothed)
+amp_timeseries(
+  amp_subset_taxa(
+    AAW_20220518_reformatted,
+    "ASV1; s__midas_s_5; g__Tetrasphaera",
+    normalise = FALSE
+  ),
+  time_variable = "Date",
+  normalise = FALSE
+)
+```
+
+```{r fivenum_BC_ASV}
+runs <- list.files(
+  results_batch_dir,
+  pattern = "^results_.*",
+  full.names = TRUE
+)
+
+d_list <- lapply(runs, read_results)
+names(d_list) <- runs
+combined <- rbindlist(
+  d_list,
+  idcol = "results_folder",
+  fill = TRUE
+)[
+  !is.na(cluster_type) & value > 0
+]
+combined[cluster_type == "Single ASV" & error_metric == "Bray Curtis", fivenum(value)]
+```
+
+```{r fivenum_reads}
 #five number statistics of sum of reads per data set
 list.dirs(
-  "results/20220506",
+  "results/20220518_updateddata",
   full.names = TRUE,
   recursive = FALSE
 ) %>%

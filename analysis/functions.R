@@ -258,7 +258,10 @@ plot_all <- function(results_batch_dir) {
             color = cluster_type
           )
         ) +
-          geom_boxplot() +
+          geom_boxplot(
+            outlier.shape = 1,
+            outlier.size = 1
+          ) +
           facet_grid(
             rows = vars(error_metric),
             cols = vars(dataset),
@@ -266,10 +269,13 @@ plot_all <- function(results_batch_dir) {
           ) +
           theme(
             legend.position = "none",
+            legend.title = element_blank(),
             axis.text.x = element_blank(),
             axis.title = element_blank(),
             axis.ticks.x = element_blank(),
-            strip.text.x = element_blank()
+            strip.text.x = element_blank(),
+            panel.grid.major.x = element_blank(),
+            panel.grid.minor.y = element_blank()
           ) +
           scale_color_brewer(palette = "Set2")
       }
@@ -279,11 +285,13 @@ plot_all <- function(results_batch_dir) {
   # Bray-Curtis axis breaks must be set between 0 - 1
   plot_list[[1]] <- plot_list[[1]] +
     theme(
-      axis.text.x = element_blank(),
       axis.ticks.x = element_blank(),
       strip.text.x = element_text(angle = 90)
     ) +
-    scale_y_continuous(trans = "sqrt", breaks = seq(0, 1, 0.2))
+    scale_y_continuous(
+      trans = "sqrt",
+      breaks = c(0, 0.05, 0.1, seq(0.2, 1, 0.2))
+    )
 
   # Increase the number of axis breaks for the middle plot
   plot_list[[2]] <- plot_list[[2]] +
@@ -297,9 +305,8 @@ plot_all <- function(results_batch_dir) {
   # increase the number of axis breaks
   plot_list[[length(plot_list)]] <- plot_list[[length(plot_list)]] +
     theme(
-      axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5),
-      axis.ticks.x = element_line(),
-      strip.text.x = element_blank()
+      strip.text.x = element_blank(),
+      legend.position = "bottom"
     ) +
     scale_y_continuous(
       trans = "sqrt",
@@ -315,7 +322,7 @@ plot_all <- function(results_batch_dir) {
   ggsave(
     file.path(dirname(combined[1, results_folder]), "boxplot_all.png"),
     plot = plot,
-    width = 14,
+    width = 12,
     height = 8
   )
 
@@ -448,7 +455,19 @@ combine_abund <- function(results_dir, cluster_type) {
       }
     )
   )
+
+  #checks for when data is produced by older versions of the pipeline
   if (sum(dim(metadata_split_datasets)) != 0L) {
+    #if using no validation data, it will be identical to training data
+    #remove it
+    if (
+      all(
+        metadata_split_datasets[split_dataset == "val"][["Sample"]] %chin%
+        metadata_split_datasets[split_dataset == "train"][["Sample"]]
+      )
+    ) {
+      metadata_split_datasets <- metadata_split_datasets[split_dataset != "val"]
+    }
     metadata <- metadata_split_datasets[metadata, on = c("Sample", "Date")]
   } else if (sum(dim(metadata_split_datasets)) == 0L) {
     metadata[, split_dataset := "predicted"]
