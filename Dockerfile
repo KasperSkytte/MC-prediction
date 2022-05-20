@@ -4,12 +4,12 @@ FROM tensorflow/tensorflow:2.7.0-gpu-jupyter as base
 
 #NVIDIA updated their signing keys for APT as of apr 27 2022, see
 #https://forums.developer.nvidia.com/t/notice-cuda-linux-repository-key-rotation/212772
-RUN rm /etc/apt/sources.list.d/cuda.list \
-  && rm /etc/apt/sources.list.d/nvidia-ml.list \
+RUN rm -rf /etc/apt/sources.list.d/cuda.list \
+  && rm -rf /etc/apt/sources.list.d/nvidia-ml.list \
   && apt-key del 7fa2af80 \
   && curl -o cuda-keyring_1.0-1_all.deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-keyring_1.0-1_all.deb \
   && dpkg -i cuda-keyring_1.0-1_all.deb \
-  && rm cuda-keyring_1.0-1_all.deb
+  && rm -rf cuda-keyring_1.0-1_all.deb
 
 # Copy library scripts to execute
 COPY .devcontainer/library-scripts/*.sh .devcontainer/library-scripts/*.env /tmp/library-scripts/
