@@ -53,14 +53,14 @@
     },
     "ampvis2": {
       "Package": "ampvis2",
-      "Version": "2.7.25",
+      "Version": "2.7.27",
       "Source": "GitHub",
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
       "RemoteUsername": "madsalbertsen",
       "RemoteRepo": "ampvis2",
       "RemoteRef": "main",
-      "RemoteSha": "ea608bf477b8755c4c39a9de11c1f32034101793"
+      "RemoteSha": "1e93a8bcfc4801b7d0a4daa10c959f3961ab9bcd"
     },
     "ape": {
       "Package": "ape",
