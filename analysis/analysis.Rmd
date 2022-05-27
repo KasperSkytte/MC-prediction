@@ -23,8 +23,8 @@ require("stringr")
 
 #knitting will always be done in the context of the Rmd file, otherwise not
 if (interactive()) {
-  if (!grepl("analysis$", getwd())) {
-    setwd("analysis")
+  if (!grepl("manuscript_analysis$", getwd())) {
+    setwd("manuscript_analysis")
   }
 }
 source("functions.R")
@@ -211,180 +211,8 @@ plot_all("results/20220511_updateddata")
 plot_all("results/20220518_updateddata")
 ```
 
-# Aalborg West comparison of true vs predicted (smoothing factor 8)
-## Correspondence Analysis
-```{r CA_AAW_8smooth}
-# Configuration:
-# {
-#     "abund_file": "data/datasets/Aalborg W/ASVtable.csv",
-#     "taxonomy_file": "data/datasets/Aalborg W/taxonomy.csv",
-#     "metadata_file": "data/metadata.csv",
-#     "results_dir": "results",
-#     "metadata_date_col": "Date",
-#     "tax_level": "OTU",
-#     "tax_add": ["Species", "Genus"],
-#     "functions": [
-#         "AOB",
-#         "NOB",
-#         "PAO",
-#         "GAO",
-#         "Filamentous"
-#     ],
-#     "only_pos_func": false,
-#     "pseudo_zero": 0.01,
-#     "max_zeros_pct": 0.60,
-#     "top_n_taxa": 200,
-#     "num_features": 10,
-#     "iterations": 10,
-#     "max_epochs_lstm": 2000,
-#     "window_size": 10,
-#     "num_clusters_idec": 5,
-#     "tolerance_idec": 0.001,
-#     "smoothing_factor": 8,   # <-------------
-#     "splits": [
-#         0.75,
-#         0.10,
-#         0.15
-#     ]
-# }
-results_dir <- "results/20220429/results_20220429_182545"
-AAW_20220429 <- combine_abund(
-  results_dir,
-  cluster_type = "abund"
-)
-
-AAW_20220429_reformatted <- load_data_reformatted(results_dir)
-
-# run data (here smoothing factor 8)
-amp_ordinate(
-  AAW_20220429,
-  type = "ca",
-  sample_color_by = "predicted",
-  sample_trajectory = "Date"
-)
-
-# raw reformatted data (here not smoothed)
-amp_ordinate(
-  AAW_20220429_reformatted,
-  type = "ca",
-  sample_trajectory = "Date"
-)
-```
-
-## Time Series example ASV1
-```{r TS_AAW_8smooth}
-
-# run data (here smoothing factor 8)
-amp_timeseries(
-  amp_subset_taxa(
-    AAW_20220429,
-    "ASV1; s__midas_s_5; g__Tetrasphaera",
-    normalise = FALSE
-  ),
-  time_variable = "Date",
-  normalise = FALSE
-)
-
-# raw reformatted data (here not smoothed)
-amp_timeseries(
-  amp_subset_taxa(
-    AAW_20220429_reformatted,
-    "ASV1; s__midas_s_5; g__Tetrasphaera",
-    normalise = FALSE
-  ),
-  time_variable = "Date",
-  normalise = FALSE
-)
-
-```
-
-# Aalborg West comparison of true vs predicted (smoothing factor 4)
-## Correspondence Analysis
-```{r CA_AAW_4smooth}
-# Configuration:
-# {
-#     "abund_file": "data/datasets/Aalborg W/ASVtable.csv",
-#     "taxonomy_file": "data/datasets/Aalborg W/taxonomy.csv",
-#     "metadata_file": "data/metadata.csv",
-#     "results_dir": "results",
-#     "metadata_date_col": "Date",
-#     "tax_level": "OTU",
-#     "tax_add": ["Species", "Genus"],
-#     "functions": [
-#         "AOB",
-#         "NOB",
-#         "PAO",
-#         "GAO",
-#         "Filamentous"
-#     ],
-#     "only_pos_func": false,
-#     "pseudo_zero": 0.01,
-#     "max_zeros_pct": 0.60,
-#     "top_n_taxa": 200,
-#     "num_features": 10,
-#     "iterations": 10,
-#     "max_epochs_lstm": 2000,
-#     "window_size": 10,
-#     "num_clusters_idec": 5,
-#     "tolerance_idec": 0.001,
-#     "smoothing_factor": 4,   # <-------------
-#     "splits": [
-#         0.75,
-#         0.10,
-#         0.15
-#     ]
-# }
-results_dir <- "results/20220506/results_20220506_182133"
-AAW_20220506 <- combine_abund(
-  results_dir,
-  cluster_type = "abund"
-)
-
-AAW_20220506_reformatted <- load_data_reformatted(results_dir)
-
-# run data (here smoothing factor 8)
-amp_ordinate(
-  AAW_20220506,
-  type = "ca",
-  sample_color_by = "predicted",
-  sample_trajectory = "Date"
-)
-
-# raw reformatted data (here not smoothed)
-amp_ordinate(
-  AAW_20220506_reformatted,
-  type = "ca",
-  sample_trajectory = "Date"
-)
-```
-
-## Time Series example ASV1
-```{r TS_AAW_4smooth}
-# run data (here smoothing factor 8)
-amp_timeseries(
-  amp_subset_taxa(
-    AAW_20220506,
-    "ASV1; s__midas_s_5; g__Tetrasphaera",
-    normalise = FALSE
-  ),
-  time_variable = "Date",
-  normalise = FALSE
-)
-
-# raw reformatted data (here not smoothed)
-amp_timeseries(
-  amp_subset_taxa(
-    AAW_20220506_reformatted,
-    "ASV1; s__midas_s_5; g__Tetrasphaera",
-    normalise = FALSE
-  ),
-  time_variable = "Date",
-  normalise = FALSE
-)
-```
-
 # colored
-```{r CA_colored}
+```{r PCOA_colored}
 #data set exactly same settings as 20220506, just with additional data output
 results_dir <- "results/20220510/results_20220510_190511"
 AAW_20220510 <- combine_abund(
@@ -397,7 +225,8 @@ AAW_20220510_reformatted <- load_data_reformatted(results_dir)
 # run data (here smoothing factor 4)
 amp_ordinate(
   AAW_20220510,
-  type = "ca",
+  type = "pcoa",
+  distmeasure = "bray",
   sample_color_by = "split_dataset",
   sample_trajectory = "Date"
 ) +
@@ -408,7 +237,7 @@ amp_ordinate(
 ```
 
 # (updated data) Aalborg West comparison of true vs predicted (smoothing factor 4)
-## Correspondence Analysis
+## Principal Coordinates Analysis
 ```{r updated_CA_AAW_4smooth}
 # Configuration:
 # {
@@ -455,45 +284,74 @@ AAW_20220518_reformatted <- load_data_reformatted(results_dir)
 
 amp_ordinate(
   AAW_20220518,
-  type = "ca",
+  type = "pcoa",
+  distmeasure = "bray",
   sample_color_by = "split_dataset",
   sample_trajectory = "Date"
 ) +
   scale_color_manual(
-    values = c("grey50", RColorBrewer::brewer.pal(6, "Paired")[c(4,6)])
+    values = c("grey50", RColorBrewer::brewer.pal(6, "Paired")[c(4, 6)])
   ) +
   theme(legend.title = element_blank())
-
-# raw reformatted data (here not smoothed)
-amp_ordinate(
-  AAW_20220518_reformatted,
-  type = "ca",
-  sample_trajectory = "Date"
-)
 ```
 
 ## (updated data) Time Series example ASV1
 ```{r updated_TS_AAW_4smooth}
-amp_timeseries(
-  amp_subset_taxa(
-    AAW_20220518,
-    "ASV1; s__midas_s_5; g__Tetrasphaera",
-    normalise = FALSE
-  ),
-  time_variable = "Date",
-  normalise = FALSE
+AAW_20220518_long <- amp_export_long(
+  AAW_20220518,
+  tax_levels = "OTU",
+  metadata_vars = c("Date", "split_dataset")
 )
 
-# raw reformatted data (here not smoothed)
-amp_timeseries(
-  amp_subset_taxa(
-    AAW_20220518_reformatted,
-    "ASV1; s__midas_s_5; g__Tetrasphaera",
-    normalise = FALSE
-  ),
-  time_variable = "Date",
-  normalise = FALSE
-)
+ASV1_timeseries <- ggplot(
+  AAW_20220518_long[grepl("^ASV1;", OTU)],
+  aes(
+    x = Date,
+    y = count,
+    color = split_dataset
+  )
+) +
+  geom_line() +
+  scale_color_manual(
+    values = c("grey10", RColorBrewer::brewer.pal(6, "Paired")[c(4, 6)])
+  )
+
+ASV2_timeseries <- ggplot(
+  AAW_20220518_long[grepl("^ASV2;", OTU)],
+  aes(
+    x = Date,
+    y = count,
+    color = split_dataset
+  )
+) +
+  geom_line() +
+  scale_color_manual(
+    values = c("grey10", RColorBrewer::brewer.pal(6, "Paired")[c(4, 6)])
+  ) +
+  scale_x_date(
+    date_breaks = "3 months",
+    date_labels =  "%b %Y"
+  ) +
+  theme(
+    axis.title = element_blank(),
+    axis.text.x = element_text(angle = 90, hjust = 1)
+  )
+
+ggsave(ASV1_timeseries, file = "ASV1_timeseries.png", width = 20, height = 8)
+ggsave(ASV2_timeseries, file = "ASV2_timeseries.png", width = 20, height = 8)
+
+
+######################################
+rects <- data.frame(xstart = seq(0,80,20), xend = seq(20,100,20), color = letters[1:5])
+
+
+#As Baptiste points out, the order of the geom's matters, so putting your data as last will 
+#make sure that it is plotted "on top" of the background rectangles. Updated code, but
+#did not update the JPEG...I think you'll get the point.
+
+ggplot() + 
+  geom_rect(data = rects, aes(xmin = xstart, xmax = xend, ymin = -Inf, ymax = Inf, fill = color), alpha = 0.4)
+#############################
 ```
 
 ```{r fivenum_BC_ASV}

@@ -192,196 +192,6 @@ smoothing factor 4
 
 ![](analysis_files/figure-markdown_strict/updated_data_novalidation-1.png)
 
-Aalborg West comparison of true vs predicted (smoothing factor 8)
-=================================================================
-
-Correspondence Analysis
------------------------
-
-    # Configuration:
-    # {
-    #     "abund_file": "data/datasets/Aalborg W/ASVtable.csv",
-    #     "taxonomy_file": "data/datasets/Aalborg W/taxonomy.csv",
-    #     "metadata_file": "data/metadata.csv",
-    #     "results_dir": "results",
-    #     "metadata_date_col": "Date",
-    #     "tax_level": "OTU",
-    #     "tax_add": ["Species", "Genus"],
-    #     "functions": [
-    #         "AOB",
-    #         "NOB",
-    #         "PAO",
-    #         "GAO",
-    #         "Filamentous"
-    #     ],
-    #     "only_pos_func": false,
-    #     "pseudo_zero": 0.01,
-    #     "max_zeros_pct": 0.60,
-    #     "top_n_taxa": 200,
-    #     "num_features": 10,
-    #     "iterations": 10,
-    #     "max_epochs_lstm": 2000,
-    #     "window_size": 10,
-    #     "num_clusters_idec": 5,
-    #     "tolerance_idec": 0.001,
-    #     "smoothing_factor": 8,   # <-------------
-    #     "splits": [
-    #         0.75,
-    #         0.10,
-    #         0.15
-    #     ]
-    # }
-    results_dir <- "results/20220429/results_20220429_182545"
-    AAW_20220429 <- combine_abund(
-      results_dir,
-      cluster_type = "abund"
-    )
-
-    AAW_20220429_reformatted <- load_data_reformatted(results_dir)
-
-    # run data (here smoothing factor 8)
-    amp_ordinate(
-      AAW_20220429,
-      type = "ca",
-      sample_color_by = "predicted",
-      sample_trajectory = "Date"
-    )
-
-![](analysis_files/figure-markdown_strict/CA_AAW_8smooth-1.png)
-
-    # raw reformatted data (here not smoothed)
-    amp_ordinate(
-      AAW_20220429_reformatted,
-      type = "ca",
-      sample_trajectory = "Date"
-    )
-
-![](analysis_files/figure-markdown_strict/CA_AAW_8smooth-2.png)
-
-Time Series example ASV1
-------------------------
-
-    # run data (here smoothing factor 8)
-    amp_timeseries(
-      amp_subset_taxa(
-        AAW_20220429,
-        "ASV1; s__midas_s_5; g__Tetrasphaera",
-        normalise = FALSE
-      ),
-      time_variable = "Date",
-      normalise = FALSE
-    )
-
-![](analysis_files/figure-markdown_strict/TS_AAW_8smooth-1.png)
-
-    # raw reformatted data (here not smoothed)
-    amp_timeseries(
-      amp_subset_taxa(
-        AAW_20220429_reformatted,
-        "ASV1; s__midas_s_5; g__Tetrasphaera",
-        normalise = FALSE
-      ),
-      time_variable = "Date",
-      normalise = FALSE
-    )
-
-![](analysis_files/figure-markdown_strict/TS_AAW_8smooth-2.png)
-
-Aalborg West comparison of true vs predicted (smoothing factor 4)
-=================================================================
-
-Correspondence Analysis
------------------------
-
-    # Configuration:
-    # {
-    #     "abund_file": "data/datasets/Aalborg W/ASVtable.csv",
-    #     "taxonomy_file": "data/datasets/Aalborg W/taxonomy.csv",
-    #     "metadata_file": "data/metadata.csv",
-    #     "results_dir": "results",
-    #     "metadata_date_col": "Date",
-    #     "tax_level": "OTU",
-    #     "tax_add": ["Species", "Genus"],
-    #     "functions": [
-    #         "AOB",
-    #         "NOB",
-    #         "PAO",
-    #         "GAO",
-    #         "Filamentous"
-    #     ],
-    #     "only_pos_func": false,
-    #     "pseudo_zero": 0.01,
-    #     "max_zeros_pct": 0.60,
-    #     "top_n_taxa": 200,
-    #     "num_features": 10,
-    #     "iterations": 10,
-    #     "max_epochs_lstm": 2000,
-    #     "window_size": 10,
-    #     "num_clusters_idec": 5,
-    #     "tolerance_idec": 0.001,
-    #     "smoothing_factor": 4,   # <-------------
-    #     "splits": [
-    #         0.75,
-    #         0.10,
-    #         0.15
-    #     ]
-    # }
-    results_dir <- "results/20220506/results_20220506_182133"
-    AAW_20220506 <- combine_abund(
-      results_dir,
-      cluster_type = "abund"
-    )
-
-    AAW_20220506_reformatted <- load_data_reformatted(results_dir)
-
-    # run data (here smoothing factor 8)
-    amp_ordinate(
-      AAW_20220506,
-      type = "ca",
-      sample_color_by = "predicted",
-      sample_trajectory = "Date"
-    )
-
-![](analysis_files/figure-markdown_strict/CA_AAW_4smooth-1.png)
-
-    # raw reformatted data (here not smoothed)
-    amp_ordinate(
-      AAW_20220506_reformatted,
-      type = "ca",
-      sample_trajectory = "Date"
-    )
-
-![](analysis_files/figure-markdown_strict/CA_AAW_4smooth-2.png)
-
-Time Series example ASV1
-------------------------
-
-    # run data (here smoothing factor 8)
-    amp_timeseries(
-      amp_subset_taxa(
-        AAW_20220506,
-        "ASV1; s__midas_s_5; g__Tetrasphaera",
-        normalise = FALSE
-      ),
-      time_variable = "Date",
-      normalise = FALSE
-    )
-
-![](analysis_files/figure-markdown_strict/TS_AAW_4smooth-1.png)
-
-    # raw reformatted data (here not smoothed)
-    amp_timeseries(
-      amp_subset_taxa(
-        AAW_20220506_reformatted,
-        "ASV1; s__midas_s_5; g__Tetrasphaera",
-        normalise = FALSE
-      ),
-      time_variable = "Date",
-      normalise = FALSE
-    )
-
-![](analysis_files/figure-markdown_strict/TS_AAW_4smooth-2.png)
-
 colored
 =======
 
@@ -397,7 +207,8 @@ colored
     # run data (here smoothing factor 4)
     amp_ordinate(
       AAW_20220510,
-      type = "ca",
+      type = "pcoa",
+      distmeasure = "bray",
       sample_color_by = "split_dataset",
       sample_trajectory = "Date"
     ) +
@@ -406,13 +217,13 @@ colored
       ) +
       theme(legend.title = element_blank())
 
-![](analysis_files/figure-markdown_strict/CA_colored-1.png)
+![](analysis_files/figure-markdown_strict/PCOA_colored-1.png)
 
 (updated data) Aalborg West comparison of true vs predicted (smoothing factor 4)
 ================================================================================
 
-Correspondence Analysis
------------------------
+Principal Coordinates Analysis
+------------------------------
 
     # Configuration:
     # {
@@ -459,7 +270,8 @@ Correspondence Analysis
 
     amp_ordinate(
       AAW_20220518,
-      type = "ca",
+      type = "pcoa",
+      distmeasure = "bray",
       sample_color_by = "split_dataset",
       sample_trajectory = "Date"
     ) +
@@ -473,7 +285,8 @@ Correspondence Analysis
     # raw reformatted data (here not smoothed)
     amp_ordinate(
       AAW_20220518_reformatted,
-      type = "ca",
+      type = "pcoa",
+      distmeasure = "bray",
       sample_trajectory = "Date"
     )
 

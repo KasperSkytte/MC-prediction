@@ -210,12 +210,30 @@ dlist <- lapply(
 
 ```
 
-# overview of samples over time
-```{r samples_overview, fig.width = 12, fig.height = 8}
-m <- metadata_out
+# overview of samples over time (all)
+```{r samples_overview_all, fig.width = 12, fig.height = 8}
+m <- copy(metadata_out)
 m[, used := ifelse(Plant %chin% datasets, "used", "not used")]
-m[, Plant := paste0(Plant, " (", .N, " samples)"), by = Plant]
-samples_overview <- ggplot(
+
+#append number of samples to plant/dataset names
+m[, nsamples_plant := .N, by = Plant]
+m[, Plant := paste0(Plant, " (", nsamples_plant, " samples)")]
+
+#order datasets by the number of samples (extracted from dataset names)
+nsamples <- m[,unique(Plant)] %>%
+  #extract pattern: (123 samples)
+  stringi::stri_extract_all_regex(
+    "\\([0-9]+ samples\\)$"
+  ) %>%
+  #extract pattern: 0-9
+  stringi::stri_extract_all_regex(
+    "[0-9]+"
+  ) %>%
+  as.numeric
+plants_ordered <- m[,unique(Plant)][order(nsamples, decreasing = TRUE)]
+m[,Plant := factor(Plant, levels = plants_ordered)]
+
+samples_overview_all <- ggplot(
   m,
   aes(x = Date,
       y = Plant,
@@ -226,5 +244,18 @@ samples_overview <- ggplot(
   theme(
     axis.title = element_blank(),
     axis.text.x = element_text(angle = 90))
+
+samples_overview_all
+```
+
+# overview of samples over time (only those selected for the paper)
+```{r samples_overview, fig.width = 12, fig.height = 8}
+samples_overview <- ggplot(m[used == "used"], aes(Date, Plant)) +
+  geom_point() +
+  scale_x_date(date_breaks = "year", date_labels = "%Y") +
+  theme(
+    axis.title = element_blank(),
+    axis.text.x = element_text(angle = 90))
 samples_overview
+
 ```

@@ -196,6 +196,13 @@ read_results <- function(results_dir) {
     )
   )
 
+  #read metadata to get the number of samples to append dataset names
+  metadata <- fread(
+    file.path(results_dir, "data_reformatted", "metadata.csv")
+  )
+
+  dt$dataset <- paste0(dt$dataset, " (", nrow(metadata), ")")
+
   dt$cluster_type <- stringr::str_replace_all(
     dt$cluster_type,
     pattern = c(
@@ -244,6 +251,16 @@ plot_all <- function(results_batch_dir) {
   )[
     !is.na(cluster_type) & value > 0
   ]
+
+  #order datasets by the number of samples (extracted from dataset names)
+  nsamples <- as.numeric(
+    stringi::stri_extract_all_regex(
+      combined[,unique(dataset)],
+      "[0-9]+"
+    )
+  )
+  datasets_ordered <- combined[,unique(dataset)][order(nsamples, decreasing = TRUE)]
+  combined[,dataset := factor(dataset, levels = datasets_ordered)]
 
   # create a list of plots for each error metric
   plot_list <- combined %>%
@@ -306,12 +323,14 @@ plot_all <- function(results_batch_dir) {
   plot_list[[length(plot_list)]] <- plot_list[[length(plot_list)]] +
     theme(
       strip.text.x = element_blank(),
-      legend.position = "bottom"
+      legend.position = "bottom",
+      legend.title = element_text()
     ) +
     scale_y_continuous(
       trans = "sqrt",
       breaks = scales::extended_breaks(7)
-    )
+    ) +
+    labs(color = "Cluster type")
 
   # Compose all plots in the list using patchwork
   plot <- purrr::reduce(

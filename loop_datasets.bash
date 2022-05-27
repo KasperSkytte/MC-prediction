@@ -34,8 +34,8 @@ find ${datasets_folder}/* -maxdepth 0 -type d |\
     "tolerance_idec": 0.001,
     "smoothing_factor": 4,
     "splits": [
-        0.75,
-        0.10,
+        0.85,
+        0.0,
         0.15
     ]
 }
