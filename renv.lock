@@ -30,6 +30,26 @@
       "Repository": "CRAN",
       "Hash": "4ed05e9c9726267e4a5872e09c04587c"
     },
+    "R.cache": {
+      "Package": "R.cache",
+      "Version": "0.15.0",
+      "Source": "Repository"
+    },
+    "R.methodsS3": {
+      "Package": "R.methodsS3",
+      "Version": "1.8.1",
+      "Source": "Repository"
+    },
+    "R.oo": {
+      "Package": "R.oo",
+      "Version": "1.24.0",
+      "Source": "Repository"
+    },
+    "R.utils": {
+      "Package": "R.utils",
+      "Version": "2.11.0",
+      "Source": "Repository"
+    },
     "R6": {
       "Package": "R6",
       "Version": "2.5.1",
@@ -60,7 +80,9 @@
       "RemoteUsername": "madsalbertsen",
       "RemoteRepo": "ampvis2",
       "RemoteRef": "main",
-      "RemoteSha": "1e93a8bcfc4801b7d0a4daa10c959f3961ab9bcd"
+      "RemoteSha": "1e93a8bcfc4801b7d0a4daa10c959f3961ab9bcd",
+      "Remotes": "github::kasperskytte/biomformat",
+      "Hash": "7f414a819807706c8533665d41d69b7b"
     },
     "ape": {
       "Package": "ape",
@@ -181,6 +203,11 @@
       "Repository": "CRAN",
       "Hash": "ce49bfe5bc0b3ecd43a01fe1b01c2243"
     },
+    "collections": {
+      "Package": "collections",
+      "Version": "0.3.5",
+      "Source": "Repository"
+    },
     "colorspace": {
       "Package": "colorspace",
       "Version": "2.0-2",
@@ -229,6 +256,11 @@
       "Source": "Repository",
       "Repository": "RSPM",
       "Hash": "022c42d49c28e95d69ca60446dbabf88"
+    },
+    "cyclocomp": {
+      "Package": "cyclocomp",
+      "Version": "1.1.0",
+      "Source": "Repository"
     },
     "data.table": {
       "Package": "data.table",
@@ -536,6 +568,11 @@
       "Repository": "RSPM",
       "Hash": "a6b6d352e3ed897373ab19d8395c98d0"
     },
+    "lintr": {
+      "Package": "lintr",
+      "Version": "2.0.1",
+      "Source": "Repository"
+    },
     "lubridate": {
       "Package": "lubridate",
       "Version": "1.8.0",
@@ -728,7 +765,9 @@
     "readr": {
       "Package": "readr",
       "Version": "2.1.0",
-      "Source": "Repository"
+      "Source": "Repository",
+      "Repository": "RSPM",
+      "Hash": "6c825746f32a68f4d8c40f94da5b1ac5"
     },
     "readxl": {
       "Package": "readxl",
@@ -771,6 +810,11 @@
       "Source": "Repository",
       "Repository": "RSPM",
       "Hash": "911d101becedc0fde495bd910984bdc8"
+    },
+    "rex": {
+      "Package": "rex",
+      "Version": "1.2.1",
+      "Source": "Repository"
     },
     "rlang": {
       "Package": "rlang",
@@ -856,6 +900,11 @@
       "Repository": "RSPM",
       "Hash": "0759e6b6c0957edb1311028a49a35e76"
     },
+    "styler": {
+      "Package": "styler",
+      "Version": "1.6.2",
+      "Source": "Repository"
+    },
     "sys": {
       "Package": "sys",
       "Version": "3.4",
@@ -901,7 +950,9 @@
     "tinytex": {
       "Package": "tinytex",
       "Version": "0.35",
-      "Source": "Repository"
+      "Source": "Repository",
+      "Repository": "RSPM",
+      "Hash": "1d7220fe46159fb9f5c99a44354a2bff"
     },
     "tzdb": {
       "Package": "tzdb",
@@ -993,6 +1044,11 @@
       "Source": "Repository",
       "Repository": "RSPM",
       "Hash": "d4d71a75dd3ea9eb5fa28cc21f9585e2"
+    },
+    "xmlparsedata": {
+      "Package": "xmlparsedata",
+      "Version": "1.0.5",
+      "Source": "Repository"
     },
     "xopen": {
       "Package": "xopen",
