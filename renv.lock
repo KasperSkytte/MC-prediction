@@ -80,7 +80,7 @@
       "RemoteUsername": "madsalbertsen",
       "RemoteRepo": "ampvis2",
       "RemoteRef": "main",
-      "RemoteSha": "9abe7693f5276884d5f1fb07c77be97298ce87db",
+      "RemoteSha": "e75572cee29b2f49d20f916e717c7a6b2e9b22e5",
       "Remotes": "github::kasperskytte/biomformat"
     },
     "ape": {
