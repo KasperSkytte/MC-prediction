@@ -81,24 +81,30 @@ def find_best_idec(data, iterations, num_clusters, tolerance):
 
 def make_prediction(data, lstm_model):
     prediction = lstm_model.predict(data.all_batched)
+    prediction = prediction[:, 0]
     index_pred = data.all.index[data.window_width:]
     return pd.DataFrame(data = prediction, index = index_pred, columns = data.all.columns)
 
 
-def create_lstm_model(num_features):
+def create_lstm_model(num_features, predict_timestamp=1):
     """Create a model without tuning hyperparameters.
        Returns: a keras LSTM-model."""
     lstm_model = keras.Sequential()
-    # Shape [batch, time, features] => [batch, time, lstm_units]
+    # Shape [batch, time, features] => [batch, lstm_units]
     lstm_model.add(keras.layers.LSTM(units=120))
     # Dropout layer.
     lstm_model.add(keras.layers.Dropout(rate=0.20))
-    # Shape [batch, time, lstm_units] => [batch, time, features]
-    lstm_model.add(keras.layers.Dense(units=num_features))
+    # Shape [batch, lstm_units] => [batch, lstm_units]
+    lstm_model.add(keras.layers.Dense(units=120, activation='tanh'))
+    # Shape [batch, lstm_units] => [batch, predict_timestamp, features]
+    lstm_model.add(keras.layers.Dense(units=predict_timestamp * num_features))
+    lstm_model.add(keras.layers.Reshape([predict_timestamp, num_features]))
+    lstm_model.add(keras.layers.ReLU())
+
 
     lstm_model.compile(loss = BrayCurtis(name='bray_curtis'),
                   optimizer = keras.optimizers.Adam(learning_rate=0.001),
-                  metrics = [tf.metrics.MeanSquaredError(), tf.metrics.MeanAbsoluteError()])
+                  metrics = [tf.keras.losses.MeanSquaredError(), tf.keras.losses.MeanAbsoluteError()])
     return lstm_model
 
 
@@ -108,7 +114,7 @@ def load_lstm_model(num_features, cluster, cluster_type):
     return lstm_model
 
 
-def find_best_lstm(data, iterations, num_clusters, max_epochs, early_stopping, cluster_type):
+def find_best_lstm(data, iterations, num_clusters, max_epochs, early_stopping, cluster_type, predict_timestamp=1):
     print(f'\nFitting {num_clusters} cluster(s) of type {cluster_type}')
     best_performances = []
     metric_names = []
@@ -127,10 +133,10 @@ def find_best_lstm(data, iterations, num_clusters, max_epochs, early_stopping, c
 
         for i in range(iterations):
             print(f'Cluster: {c}, Iteration: {i}')
-            lstm_model = create_lstm_model(data.num_features)
+            lstm_model = create_lstm_model(data.num_features, predict_timestamp)
             lstm_model.fit(data.train_batched,
                            epochs=max_epochs,
-                           validation_data=data.val_batched,
+                           validation_data=data.test_batched,  # if no val data, it should be test_batched
                            callbacks=[early_stopping],
                            verbose=0)
             test_performance = lstm_model.evaluate(data.test_batched)
@@ -196,6 +202,7 @@ if __name__ == '__main__':
 
     # Define training, validation and test splits.
     splits = config['splits']
+    predict_timestamp = 3
 
     # Callback used in the training to stop early when the model no longer improves.
     early_stopping = keras.callbacks.EarlyStopping(
@@ -211,7 +218,8 @@ if __name__ == '__main__':
         num_features,
         window_width=config['window_size'],
         window_batch_size=10,
-        splits=splits
+        splits=splits,
+        predict_timestamp=predict_timestamp
     )
 
     #write sample names and dates for each 3-way split data set
@@ -229,18 +237,20 @@ if __name__ == '__main__':
     create_tsne(data, num_clusters_idec)
 
     # Find the best LSTM models.
-    find_best_lstm(data, iterations, num_clusters_idec, config['max_epochs_lstm'], early_stopping, 'idec')
-    find_best_lstm(data, iterations, len(config['functions']), config['max_epochs_lstm'], early_stopping, 'func')
+    find_best_lstm(data, iterations, num_clusters_idec, config['max_epochs_lstm'], early_stopping, 'idec', predict_timestamp=predict_timestamp)
+    find_best_lstm(data, iterations, len(config['functions']), config['max_epochs_lstm'], early_stopping, 'func', predict_timestamp=predict_timestamp)
     
     # new dataset for per-taxon training
     data_abund = DataHandler(
         config,
-        num_features = 1,
+        num_features = num_features,   # should be same withe idec model and func model
         window_width=config['window_size'],
         window_batch_size=10,
-        splits=splits
+        splits=splits,
+        predict_timestamp=predict_timestamp
     )
-    find_best_lstm(data_abund, iterations, data_abund.clusters_abund.size, config['max_epochs_lstm'], early_stopping, 'abund')
+    find_best_lstm(data_abund, iterations, data_abund.clusters_abund_size, config['max_epochs_lstm'], early_stopping, 'abund', predict_timestamp=predict_timestamp)
+  # clusters_abund_size   [N / num_features]
 
     # # Load existing LSTM models. As they are trained for individual clusters, the type and 
     # # index of the cluster must be specified.
