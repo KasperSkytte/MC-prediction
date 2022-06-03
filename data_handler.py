@@ -4,21 +4,23 @@ import tensorflow as tf
 from load_data import load_data, smooth, normalize
 
 class DataHandler:
-    def __init__(self, config, num_features, window_width, window_batch_size=10, window_shift=1, splits=[0.70, 0.15, 0.15]):
+    def __init__(self, config, num_features, window_width, window_batch_size=10, window_shift=1, splits=[0.70, 0.15, 0.15],
+                 predict_timestamp=3):
         """Create a DataHandler which is able to load and manipulate data in different ways."""
         self.is_normalized = False
         self._normalization_mean = None
         self.window_width = window_width
         self.window_shift = window_shift
-        self.window_batch_size = window_batch_size
+        self.window_batch_size = window_batch_size  # can find a best from 8 10 16
         self.max_num_features = num_features
+        self.predict_timestamp = predict_timestamp
         self._clusters = None
         self.clusters_func = None
         self.clusters_idec = None
         
         self._load_data(config)
         self.use_splits(splits)
-        self.clusters_abund = self._make_abundance_clusters()
+        self.clusters_abund, self.clusters_abund_size = self._make_abundance_clusters()
     
     @property
     def train(self):
@@ -30,7 +32,7 @@ class DataHandler:
     @property
     def val(self):
         if self._train_val_index == self._val_test_index:
-            return self.train
+            return self.test  # if no val data, it should be test
         elif self._clusters is None:
             return self._all.iloc[self._train_val_index:self._val_test_index, :self.max_num_features]
         else:
@@ -53,22 +55,22 @@ class DataHandler:
     @property
     def train_batched(self):
         """Batches of training data."""
-        return self._make_batched_dataset(self.train)
+        return self._make_batched_dataset(self.train, endindex=True)
 
     @property
     def val_batched(self):
         """Batches of validation data."""
-        return self._make_batched_dataset(self.val)
+        return self._make_batched_dataset(self.val, endindex=True)
 
     @property
     def test_batched(self):
         """Batches of test data."""
-        return self._make_batched_dataset(self.test)
+        return self._make_batched_dataset(self.test, endindex=True)
 
     @property
     def all_batched(self):
         """Batches of all the data."""
-        return self._make_batched_dataset(self.all)
+        return self._make_batched_dataset(self.all, endindex=False)
 
     @property
     def num_features(self):
@@ -80,17 +82,34 @@ class DataHandler:
         else:
             return np.min((self._all.shape[1], self.max_num_features))
 
-    def _make_batched_dataset(self, dataset):
+    def _make_batched_dataset(self, dataset, endindex):
         """Create a windowed and batched dataset."""
         dataset = dataset.to_numpy()
-        return tf.keras.preprocessing.sequence.TimeseriesGenerator(
-            data=dataset,
-            targets=dataset,
-            length=self.window_width,
-            stride=self.window_shift,
-            shuffle=False,
-            batch_size=self.window_batch_size
-        )
+        dataset = dataset.to_numpy()
+        T_, N_ = dataset.shape
+        target = dataset
+        for i in range(self.predict_timestamp-1):
+            target = np.concatenate((target, np.roll(dataset, -(i+1), axis=0)), axis=1)
+        target = target.reshape([T_, self.predict_timestamp, N_])
+        if endindex:
+            return tf.keras.preprocessing.sequence.TimeseriesGenerator(
+                data=dataset,
+                targets=target,
+                length=self.window_width,
+                stride=1,
+                shuffle=True,
+                end_index=T_ - self.predict_timestamp,
+                batch_size=self.window_batch_size # can find the best from 8 10 16
+            )
+        else:
+            return tf.keras.preprocessing.sequence.TimeseriesGenerator(
+                data=dataset,
+                targets=target,
+                length=self.window_width,
+                stride=1,
+                shuffle=False,
+                batch_size=self.window_batch_size
+            )
 
     def _make_abundance_clusters(self):
         clust = np.zeros(self.clusters_func.shape, dtype=int)
@@ -106,7 +125,8 @@ class DataHandler:
         while i < clust.size:
             clust[i] = c
             i += 1
-        return clust
+        c += 1
+        return clust, c
 
     def use_cluster(self, number, cluster_type='abund'):
         """Cluster type is which type of cluster to use:
@@ -167,11 +187,11 @@ class DataHandler:
                             index=meta.index, 
                             columns=func_tax[:,0])
 
-        self.data_raw = data_raw
+        self.data_raw = data_raw # N * T
         self._all = data
         self.func_tax = func_tax
         self.meta = meta
         self._normalization_mean = mean
         self.clusters_func = clusters
         self.functions = functions
-        self.num_samples = data_raw.shape[-1]
+        self.num_samples = data_raw.shape[-1] #  T_
