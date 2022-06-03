@@ -5,19 +5,9 @@ output: md_document
 
 # init
 ```{r}
-#check for installed packages, install if missing
-if (!require("tidyverse"))
-  install.packages("tidyverse")
-if (!require("devtools"))
-  install.packages("devtools")
-if (!require("openxlsx"))
-  install.packages("openxlsx")
-if (!require("ampvis2"))
-  devtools::install_github("madsalbertsen/ampvis2")
-if (!require("data.table"))
-  install.packages("data.table")
 #load data
 library(ampvis2)
+library(openxlsx)
 library(data.table)
 library(tidyverse)
 
@@ -27,6 +17,8 @@ if (interactive()) {
   }
 }
 ```
+
+This markdown filters samples, makes sure sample metadata is correct, and splits the data into one dataset per WWTP.
 
 # Load metadata
 ```{r}
@@ -126,7 +118,8 @@ metadata_merged <- dplyr::left_join(
 )
 metadata_out <- dplyr::filter(
   metadata_merged,
-  !Plant %chin% c("EXTNEG", "PCRPOS", "PCRNEG", "", "CTRL")
+  !Plant %chin% c("EXTNEG", "PCRPOS", "PCRNEG", "", "CTRL"),
+  !Line %chin% c("HC-O", "HC-U")
 )
 data.table::fwrite(metadata_out, "metadata.csv")
 ```
@@ -143,10 +136,7 @@ d <- amp_load(
 ```{r normalise}
 ds <- d %>%
   amp_subset_samples(minreads = 1000, removeAbsents = TRUE, normalise = TRUE)
-```
-
-# Select and create data subsets
-```{r export_datasets}
+gc()
 datasets <- c(
   "Aalborg E",
   "Aalborg W",
@@ -168,6 +158,10 @@ datasets <- c(
   "Ribe",
   "Viby"
 )
+```
+
+# Select and create data subsets
+```{r export_datasets, eval = TRUE}
 
 dlist <- lapply(
   datasets,
@@ -178,7 +172,7 @@ dlist <- lapply(
       Plant %chin% wwtp,
       normalise = FALSE
     ) %>%
-      ampvis2:::filter_species(filter_species = 0.1)
+      filter_otus(0.1)
 
     dataset_folder <- paste0("datasets/", wwtp)
     dir.create(dataset_folder, recursive = TRUE, showWarnings = FALSE)
@@ -212,7 +206,7 @@ dlist <- lapply(
 
 # overview of samples over time (all)
 ```{r samples_overview_all, fig.width = 12, fig.height = 8}
-m <- copy(metadata_out)
+m <- data.table(ds$metadata)
 m[, used := ifelse(Plant %chin% datasets, "used", "not used")]
 
 #append number of samples to plant/dataset names
@@ -257,5 +251,21 @@ samples_overview <- ggplot(m[used == "used"], aes(Date, Plant)) +
     axis.title = element_blank(),
     axis.text.x = element_text(angle = 90))
 samples_overview
+```
 
+# Overview of sampling intervals
+```{r sampling_intervals}
+sampling_intervals <- ggplot(
+  m[
+    used == "used",
+    .(duration = .SD[!duplicated(Date), as.numeric(diff(sort(Date)))]),
+    by = Plant
+  ],
+  aes(duration, Plant)
+) +
+  geom_boxplot() +
+  theme(axis.title.y = element_blank()) +
+  xlab("Sampling interval (days)") +
+  scale_x_continuous(trans = "sqrt", breaks = c(1,7,14,21,28,90))
+sampling_intervals
 ```
