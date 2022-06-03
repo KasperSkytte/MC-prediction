@@ -89,9 +89,15 @@ def load_data(config):
     return abund, meta, func_tax, clusters, config['functions']
 
 def normalize(data):
-    """Normalize the data by division with the mean."""
-    mean = data.mean(axis=1)
-    result = data / mean.reshape(-1,1)
+    """fix normalize, Normalize the data to [0, 1]"""
+    mean = data.mean(axis=1).reshape(-1,1)
+    std = data.std(axis=1).reshape(-1,1)
+    result = data - mean
+    result = result / std
+    min_ = result.min(axis=1).reshape(-1,1)
+    result = result - min_
+    max_ = result.max(axis=1).reshape(-1,1)
+    result = result / max_
     return result, mean
 
 

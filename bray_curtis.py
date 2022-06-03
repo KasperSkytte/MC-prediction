@@ -7,14 +7,14 @@ class BrayCurtis(tf.keras.losses.Loss):
         # Find the elementwise minimum of pairs of samples
         #  and calculate the sum of the minimums in each sample.
         C_ij = tf.keras.backend.minimum(y_pred, y_true)
-        C_ij = tf.keras.backend.sum(C_ij, axis=1)
+        C_ij = tf.keras.backend.sum(C_ij, axis=-1)
 
         # Calculate the sum of each sample.
-        S_i = tf.keras.backend.sum(y_true, axis=1)
-        S_j = tf.keras.backend.sum(y_pred, axis=1)
+        S_i = tf.keras.backend.sum(y_true, axis=-1)
+        S_j = tf.keras.backend.sum(y_pred, axis=-1)
 
         # Calculate and return Bray-Curtis dissimilarity.
-        return 1 - ((2*C_ij) / (S_i+S_j))
+        return tf.keras.backend.mean(1 - ((2*C_ij) / (S_i+S_j)))
 
 
 if __name__ == '__main__':
