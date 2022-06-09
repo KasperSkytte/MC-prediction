@@ -4,8 +4,16 @@ import tensorflow as tf
 from load_data import load_data, smooth, normalize
 
 class DataHandler:
-    def __init__(self, config, num_features, window_width, window_batch_size=10, window_shift=1, splits=[0.70, 0.15, 0.15],
-                 predict_timestamp=3):
+    def __init__(
+        self,
+        config,
+        num_features,
+        window_width,
+        window_batch_size=10,
+        window_shift=1,
+        splits=[0.70, 0.15, 0.15],
+        predict_timestamp=3
+    ):
         """Create a DataHandler which is able to load and manipulate data in different ways."""
         self.is_normalized = False
         self._normalization_mean = None
@@ -84,7 +92,6 @@ class DataHandler:
 
     def _make_batched_dataset(self, dataset, endindex):
         """Create a windowed and batched dataset."""
-        dataset = dataset.to_numpy()
         dataset = dataset.to_numpy()
         T_, N_ = dataset.shape
         target = dataset

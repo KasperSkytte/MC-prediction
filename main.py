@@ -191,19 +191,6 @@ if __name__ == '__main__':
     if not path.exists(data_predicted_dir):
         mkdir(data_predicted_dir)
 
-    # Number of taxa to use at the time for the prediction.
-    num_features = config['num_features']
-
-    # Number of clusters to use.
-    num_clusters_idec = config['num_clusters_idec']
-
-    # Number of models to train when running find_best_idec/lstm.
-    iterations = config['iterations']
-
-    # Define training, validation and test splits.
-    splits = config['splits']
-    predict_timestamp = 3
-
     # Callback used in the training to stop early when the model no longer improves.
     early_stopping = keras.callbacks.EarlyStopping(
         monitor = 'val_loss',
@@ -215,11 +202,11 @@ if __name__ == '__main__':
     # Open dataset with DataHandler.
     data = DataHandler(
         config,
-        num_features,
+        num_features = config['num_features'],
         window_width=config['window_size'],
         window_batch_size=10,
-        splits=splits,
-        predict_timestamp=predict_timestamp
+        splits=config['splits'],
+        predict_timestamp=config['predict_timestamp']
     )
 
     #write sample names and dates for each 3-way split data set
@@ -229,27 +216,51 @@ if __name__ == '__main__':
     data.get_metadata(data.all, 'Date').dt.date.to_csv(f'{data_predicted_dir}/dates_all.csv')
 
     # Find best IDEC model.
-    find_best_idec(data, iterations, num_clusters_idec, config['tolerance_idec'])
+    find_best_idec(data, config['iterations'], config['num_clusters_idec'], config['tolerance_idec'])
 
     # Load the best existing IDEC model.
-    idec_model = load_idec_model(data.num_samples, num_clusters_idec)
+    idec_model = load_idec_model(data.num_samples, config['num_clusters_idec'])
     data.clusters_idec = idec_model.predict_clusters(data.data_raw)
-    create_tsne(data, num_clusters_idec)
+    create_tsne(data, config['num_clusters_idec'])
 
     # Find the best LSTM models.
-    find_best_lstm(data, iterations, num_clusters_idec, config['max_epochs_lstm'], early_stopping, 'idec', predict_timestamp=predict_timestamp)
-    find_best_lstm(data, iterations, len(config['functions']), config['max_epochs_lstm'], early_stopping, 'func', predict_timestamp=predict_timestamp)
+    find_best_lstm(
+        data,
+        config['iterations'],
+        config['num_clusters_idec'],
+        config['max_epochs_lstm'],
+        early_stopping,
+        'idec',
+        predict_timestamp=config['predict_timestamp']
+    )
+    find_best_lstm(
+        data,
+        config['iterations'],
+        len(config['functions']),
+        config['max_epochs_lstm'],
+        early_stopping,
+        'func',
+        predict_timestamp=config['predict_timestamp']
+    )
     
     # new dataset for per-taxon training
     data_abund = DataHandler(
         config,
-        num_features = num_features,   # should be same withe idec model and func model
+        num_features = 1,
         window_width=config['window_size'],
         window_batch_size=10,
-        splits=splits,
-        predict_timestamp=predict_timestamp
+        splits=config['splits'],
+        predict_timestamp=config['predict_timestamp']
     )
-    find_best_lstm(data_abund, iterations, data_abund.clusters_abund_size, config['max_epochs_lstm'], early_stopping, 'abund', predict_timestamp=predict_timestamp)
+    find_best_lstm(
+        data_abund,
+        config['iterations'],
+        data_abund.clusters_abund_size,
+        config['max_epochs_lstm'],
+        early_stopping,
+        'abund',
+        predict_timestamp=config['predict_timestamp']
+    )
   # clusters_abund_size   [N / num_features]
 
     # # Load existing LSTM models. As they are trained for individual clusters, the type and 
