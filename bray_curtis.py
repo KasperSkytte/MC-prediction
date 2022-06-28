@@ -14,7 +14,7 @@ class BrayCurtis(tf.keras.losses.Loss):
         S_j = tf.keras.backend.sum(y_pred, axis=-1)
 
         # Calculate and return Bray-Curtis dissimilarity.
-        return tf.keras.backend.mean(1 - ((2*C_ij) / (S_i+S_j)))
+        return tf.keras.backend.mean(1 - ((2*C_ij) / (S_i+S_j+0.001)))
 
 
 if __name__ == '__main__':
