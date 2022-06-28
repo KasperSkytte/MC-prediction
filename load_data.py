@@ -94,6 +94,18 @@ def normalize(data):
     result = data / mean.reshape(-1,1)
     return result, mean
 
+def standardize(data):
+    """Standardize the data to [0, 1]"""
+    mean = data.mean(axis=1).reshape(-1,1)
+    std = data.std(axis=1).reshape(-1,1)
+    result = data - mean
+    result = result / std
+    min_ = result.min(axis=1).reshape(-1,1)
+    result = result - min_
+    max_ = result.max(axis=1).reshape(-1,1)
+    result = result / max_
+    return result, mean
+
 
 def smooth(data, factor=8):
     """Smoothing factor is the number of data points to use for smoothing."""
