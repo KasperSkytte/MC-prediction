@@ -1,6 +1,6 @@
 {
-    "abund_file": "data/datasets/Aalborg W/ASVtable.csv",
-    "taxonomy_file": "data/datasets/Aalborg W/taxonomy.csv",
+    "abund_file": "data/datasets/Marselisborg/ASVtable.csv",
+    "taxonomy_file": "data/datasets/Marselisborg/taxonomy.csv",
     "metadata_file": "data/metadata.csv",
     "results_dir": "results",
     "metadata_date_col": "Date",
@@ -17,16 +17,17 @@
     "pseudo_zero": 0.01,
     "max_zeros_pct": 0.60,
     "top_n_taxa": 200,
-    "num_features": 10,
+    "num_features": 200,
     "iterations": 10,
-    "max_epochs_lstm": 2000,
-    "window_size": 10,
+    "max_epochs_lstm": 500,
+    "window_size": 16,
+    "predict_timestamp": 10,
     "num_clusters_idec": 5,
     "tolerance_idec": 0.001,
-    "smoothing_factor": 4,
+    "smoothing_factor": 5,
     "splits": [
-        0.85,
+        0.90,
         0.0,
-        0.15
+        0.10
     ]
 }

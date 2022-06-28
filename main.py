@@ -203,10 +203,10 @@ if __name__ == '__main__':
     data = DataHandler(
         config,
         num_features = config['num_features'],
-        window_width=config['window_size'],
-        window_batch_size=10,
-        splits=config['splits'],
-        predict_timestamp=config['predict_timestamp']
+        window_width = config['window_size'],
+        window_batch_size = 10,
+        splits = config['splits'],
+        predict_timestamp = config['predict_timestamp']
     )
 
     #write sample names and dates for each 3-way split data set
@@ -247,11 +247,12 @@ if __name__ == '__main__':
     data_abund = DataHandler(
         config,
         num_features = 1,
-        window_width=config['window_size'],
-        window_batch_size=10,
-        splits=config['splits'],
-        predict_timestamp=config['predict_timestamp']
+        window_width = config['window_size'],
+        window_batch_size = 10,
+        splits = config['splits'],
+        predict_timestamp = config['predict_timestamp']
     )
+    # Find the best LSTM model on single ASV's
     find_best_lstm(
         data_abund,
         config['iterations'],
