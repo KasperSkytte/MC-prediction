@@ -6,6 +6,7 @@ import numpy as np
 from tensorflow import keras
 from bray_curtis import BrayCurtis
 from data_handler import DataHandler
+from load_data import rev_transform
 from idec.IDEC import IDEC
 from plotting import plot_prediction, train_tsne, plot_tsne, create_boxplot
 from correlation import calc_cluster_correlations, calc_correlation_aggregates
@@ -83,8 +84,9 @@ def make_prediction(data, lstm_model):
     prediction = lstm_model.predict(data.all_batched)
     prediction = prediction[:, 0]
     index_pred = data.all.index[data.window_width:]
-    return pd.DataFrame(data = prediction, index = index_pred, columns = data.all.columns)
 
+    #needs to be reverse transformed to contain real values
+    return pd.DataFrame(data = prediction, index = index_pred, columns = data.all.columns)
 
 def create_lstm_model(num_features, predict_timestamp=1):
     """Create a model without tuning hyperparameters.

@@ -12,11 +12,7 @@ then
   echo "Folder ${results_dir} already exists, please clear or move, and then rerun."
   exit 1
 fi
-mkdir -p \
-  "${results_dir}" \
-  "${results_dir}/data_reformatted" \
-  "${results_dir}/figures" \
-  "${results_dir}/data_predicted"
+mkdir -p "${results_dir}"
 
 main() {
   set -eu

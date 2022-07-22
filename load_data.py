@@ -63,7 +63,7 @@ def load_data(config):
     # read taxonomy_wfunctions
     func_tax = pd.read_csv(pp_tax_wfunctions, index_col=0, dtype=str)
     func_start_column = func_tax.columns.get_loc('Genus') + 1
-    func_in_file = func_tax.columns[func_start_column:].to_numpy()
+    #func_in_file = func_tax.columns[func_start_column:].to_numpy()
 
     # filter sparse samples with many zeros
     abund = filter_sparse_samples(abund, config['max_zeros_pct'], config['pseudo_zero'])
@@ -88,24 +88,49 @@ def load_data(config):
 
     return abund, meta, func_tax, clusters, config['functions']
 
-def normalize(data):
-    """Normalize the data by division with the mean."""
-    mean = data.mean(axis=1)
-    result = data / mean.reshape(-1,1)
-    return result, mean
-
-def standardize(data):
-    """Standardize the data to [0, 1]"""
+def transform(data, transform = "standardize"):
+    """'Normalize' (divide by mean) or 'standardize' (subtract mean and divide my std) the data. Both will scale to [0,1]. Use 'divmeanonly' to only divide by the mean without scaling. 'None' returns the data untouched."""
+    transform = transform.lower()
+    valid_transformations = ["divmeanonly", "normalize", "standardize", "none"]
+    result = data
     mean = data.mean(axis=1).reshape(-1,1)
     std = data.std(axis=1).reshape(-1,1)
-    result = data - mean
-    result = result / std
-    min_ = result.min(axis=1).reshape(-1,1)
-    result = result - min_
-    max_ = result.max(axis=1).reshape(-1,1)
-    result = result / max_
-    return result, mean
+    min = result.min(axis=1).reshape(-1,1)
+    max = result.max(axis=1).reshape(-1,1)
 
+    if not (transform in valid_transformations):
+        raise Exception(f'Valid transformations are: {valid_transformations}')
+    elif transform == 'normalize' or transform == 'divmeanonly':
+        result = data / mean
+    elif transform == 'standardize':
+        result = data - mean
+        result = result / std
+    
+    if transform == 'normalize' or transform == 'standardize':
+        result = result - min
+        result = result / max
+
+    return result, mean, std, min, max
+
+def rev_transform(DF, mean, std, min, max, transform = "standardize"):
+    """Reverse transform predicted values when the model is trained on transformed values. The input DF must be a Pandas data frame with only 1 column."""
+    transform = transform.lower()
+    valid_transformations = ["divmeanonly", "normalize", "standardize", "none"]
+        
+    if not (transform in valid_transformations):
+        raise Exception(f'Valid transformations are: {valid_transformations}')
+
+    if transform == 'normalize' or transform == 'standardize':
+        DF = DF * max
+        DF = DF + min
+
+    if transform == 'normalize' or transform == 'divmeanonly':
+        DF = DF * mean
+    elif transform == 'standardize':
+        DF = DF * std
+        DF = DF + mean
+    
+    return DF
 
 def smooth(data, factor=8):
     """Smoothing factor is the number of data points to use for smoothing."""
