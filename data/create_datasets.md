@@ -44,8 +44,8 @@ Load metadata
     gc()
 
     ##           used  (Mb) gc trigger (Mb) max used  (Mb)
-    ## Ncells 2235121 119.4    4529538  242  2840880 151.8
-    ## Vcells 3745777  28.6    8388608   64  5996463  45.8
+    ## Ncells 2235121 119.4    4529537  242  2840882 151.8
+    ## Vcells 3745785  28.6    8388608   64  5996476  45.8
 
     metadata <- fread("metadata/metadata.txt")
 
@@ -170,30 +170,30 @@ remove samples with few reads, and normalise reads to sample total
 
     gc()
 
-    ##             used   (Mb) gc trigger  (Mb)   max used    (Mb)
-    ## Ncells   2480487  132.5    4529538   242    4529538   242.0
-    ## Vcells 517126904 3945.4 3033659472 23145 3775050384 28801.4
+    ##             used   (Mb) gc trigger    (Mb)   max used    (Mb)
+    ## Ncells   2476046  132.3    4529537   242.0    4529537   242.0
+    ## Vcells 517061105 3944.9 1397446508 10661.7 2183502916 16658.9
 
     datasets <- c(
-      "Aalborg E",
-      "Aalborg W",
-      "Avedøre",
-      "Damhusåen-A",
-      "Damhusåen-B",
-      "Damhusåen-C",
-      "Damhusåen-D",
-      "Egå",
-      "Ejby Mølle",
-      "Esbjerg E",
-      "Hirtshals",
-      "Hjørring",
-      "Kalundborg",
-      "Lynetten",
-      "Mariagerfjord",
-      "Marselisborg",
-      "Randers",
-      "Ribe",
-      "Viby"
+      "Aalborg E"
+      , "Aalborg W"
+      #, "Avedøre"
+      , "Damhusåen-A"
+      , "Damhusåen-B"
+      , "Damhusåen-C"
+      , "Damhusåen-D"
+      #, "Egå"
+      , "Ejby Mølle"
+      #, "Esbjerg E"
+      #, "Hirtshals"
+      #, "Hjørring"
+      #, "Kalundborg"
+      #, "Lynetten"
+      , "Mariagerfjord"
+      #, "Marselisborg"
+      , "Randers"
+      , "Ribe"
+      #, "Viby"
     )
 
 Select and create data subsets
@@ -254,14 +254,6 @@ Select and create data subsets
     ## Before: 47233 OTUs
     ## After: 46759 OTUs
 
-    ## 3524 samples and 53472 OTUs have been filtered 
-    ## Before: 3611 samples and 90112 OTUs
-    ## After: 87 samples and 36640 OTUs
-
-    ## 1944 OTUs not present in more than 0.1% relative abundance in any sample have been filtered 
-    ## Before: 36640 OTUs
-    ## After: 34696 OTUs
-
     ## 3446 samples and 45375 OTUs have been filtered 
     ## Before: 3611 samples and 90112 OTUs
     ## After: 165 samples and 44737 OTUs
@@ -294,57 +286,11 @@ Select and create data subsets
     ## Before: 46412 OTUs
     ## After: 45752 OTUs
 
-    ## 3519 samples and 46908 OTUs have been filtered 
-    ## Before: 3611 samples and 90112 OTUs
-    ## After: 92 samples and 43204 OTUs
-
-    ## 241 OTUs not present in more than 0.1% relative abundance in any sample have been filtered 
-    ## Before: 43204 OTUs
-    ## After: 42963 OTUs
-
     ## 3480 samples and 50175 OTUs have been filtered 
     ## Before: 3611 samples and 90112 OTUs
     ## After: 131 samples and 39937 OTUs
 
     ## 0 OTU's have been filtered.
-
-    ## 3500 samples and 52727 OTUs have been filtered 
-    ## Before: 3611 samples and 90112 OTUs
-    ## After: 111 samples and 37385 OTUs
-
-    ## 188 OTUs not present in more than 0.1% relative abundance in any sample have been filtered 
-    ## Before: 37385 OTUs
-    ## After: 37197 OTUs
-
-    ## 3500 samples and 55745 OTUs have been filtered 
-    ## Before: 3611 samples and 90112 OTUs
-    ## After: 111 samples and 34367 OTUs
-
-    ## 145 OTUs not present in more than 0.1% relative abundance in any sample have been filtered 
-    ## Before: 34367 OTUs
-    ## After: 34222 OTUs
-
-    ## 3485 samples and 54412 OTUs have been filtered 
-    ## Before: 3611 samples and 90112 OTUs
-    ## After: 126 samples and 35700 OTUs
-
-    ## 2780 OTUs not present in more than 0.1% relative abundance in any sample have been filtered 
-    ## Before: 35700 OTUs
-    ## After: 32920 OTUs
-
-    ## 3500 samples and 62455 OTUs have been filtered 
-    ## Before: 3611 samples and 90112 OTUs
-    ## After: 111 samples and 27657 OTUs
-
-    ## 0 OTU's have been filtered.
-
-    ## 3541 samples and 57886 OTUs have been filtered 
-    ## Before: 3611 samples and 90112 OTUs
-    ## After: 70 samples and 32226 OTUs
-
-    ## 1261 OTUs not present in more than 0.1% relative abundance in any sample have been filtered 
-    ## Before: 32226 OTUs
-    ## After: 30965 OTUs
 
     ## 3463 samples and 50983 OTUs have been filtered 
     ## Before: 3611 samples and 90112 OTUs
@@ -353,12 +299,6 @@ Select and create data subsets
     ## 116 OTUs not present in more than 0.1% relative abundance in any sample have been filtered 
     ## Before: 39129 OTUs
     ## After: 39013 OTUs
-
-    ## 3541 samples and 56554 OTUs have been filtered 
-    ## Before: 3611 samples and 90112 OTUs
-    ## After: 70 samples and 33558 OTUs
-
-    ## 0 OTU's have been filtered.
 
     ## 3325 samples and 38865 OTUs have been filtered 
     ## Before: 3611 samples and 90112 OTUs
@@ -373,14 +313,6 @@ Select and create data subsets
     ## After: 167 samples and 40026 OTUs
 
     ## 0 OTU's have been filtered.
-
-    ## 3513 samples and 51081 OTUs have been filtered 
-    ## Before: 3611 samples and 90112 OTUs
-    ## After: 98 samples and 39031 OTUs
-
-    ## 420 OTUs not present in more than 0.1% relative abundance in any sample have been filtered 
-    ## Before: 39031 OTUs
-    ## After: 38611 OTUs
 
 overview of samples over time (all)
 ===================================
@@ -434,8 +366,6 @@ overview of samples over time (only those selected for the paper)
         axis.title = element_blank(),
         axis.text.x = element_text(angle = 90))
     samples_overview
-
-    ## Warning: Removed 3 rows containing missing values (geom_point).
 
 ![](create_datasets_files/figure-markdown_strict/samples_overview-1.png)
 

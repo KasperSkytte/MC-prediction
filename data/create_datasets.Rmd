@@ -138,25 +138,25 @@ ds <- d %>%
   amp_subset_samples(minreads = 1000, removeAbsents = TRUE, normalise = TRUE)
 gc()
 datasets <- c(
-  "Aalborg E",
-  "Aalborg W",
-  "Avedøre",
-  "Damhusåen-A",
-  "Damhusåen-B",
-  "Damhusåen-C",
-  "Damhusåen-D",
-  "Egå",
-  "Ejby Mølle",
-  "Esbjerg E",
-  "Hirtshals",
-  "Hjørring",
-  "Kalundborg",
-  "Lynetten",
-  "Mariagerfjord",
-  "Marselisborg",
-  "Randers",
-  "Ribe",
-  "Viby"
+  "Aalborg E"
+  , "Aalborg W"
+  #, "Avedøre"
+  , "Damhusåen-A"
+  , "Damhusåen-B"
+  , "Damhusåen-C"
+  , "Damhusåen-D"
+  #, "Egå"
+  , "Ejby Mølle"
+  #, "Esbjerg E"
+  #, "Hirtshals"
+  #, "Hjørring"
+  #, "Kalundborg"
+  #, "Lynetten"
+  , "Mariagerfjord"
+  #, "Marselisborg"
+  , "Randers"
+  , "Ribe"
+  #, "Viby"
 )
 ```
 
