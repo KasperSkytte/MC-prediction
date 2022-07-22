@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 import tensorflow as tf
-from load_data import load_data, smooth, normalize
+from load_data import load_data, smooth, transform
 
 class DataHandler:
     def __init__(
@@ -15,8 +15,11 @@ class DataHandler:
         predict_timestamp=3
     ):
         """Create a DataHandler which is able to load and manipulate data in different ways."""
-        self.is_normalized = False
-        self._normalization_mean = None
+        #self.is_normalized = False
+        self.transform_mean = None
+        self.transform_std = None
+        self.transform_min = None
+        self.transform_max = None
         self.window_width = window_width
         self.window_shift = window_shift
         self.window_batch_size = window_batch_size  # can find a best from 8 10 16
@@ -59,6 +62,13 @@ class DataHandler:
             return self._all.iloc[:, :self.max_num_features]
         else:
             return self._all.iloc[:, self._clusters]
+
+    @property
+    def all_nontrans(self):
+        if self._clusters is None:
+            return self._all_nontrans.iloc[:, :self.max_num_features]
+        else:
+            return self._all_nontrans.iloc[:, self._clusters]
 
     @property
     def train_batched(self):
@@ -187,18 +197,23 @@ class DataHandler:
     def _load_data(self, config):
         data_raw, meta, func_tax, clusters, functions = load_data(config)
 
-        data_raw = smooth(data_raw, factor = config['smoothing_factor'])
-        data_raw, mean = normalize(data_raw)
+        data_smooth = smooth(data_raw, factor = config['smoothing_factor'])
+        data_transformed, mean, std, min, max = transform(data_smooth, transform = config['transform'])
 
-        data = pd.DataFrame(data=np.transpose(data_raw), 
+        self._all = pd.DataFrame(data=np.transpose(data_transformed), 
+                            index=meta.index, 
+                            columns=func_tax[:,0])
+        self._all_nontrans = pd.DataFrame(data=np.transpose(data_smooth), 
                             index=meta.index, 
                             columns=func_tax[:,0])
 
         self.data_raw = data_raw # N * T
-        self._all = data
         self.func_tax = func_tax
         self.meta = meta
-        self._normalization_mean = mean
+        self.transform_mean = mean
+        self.transform_std = std
+        self.transform_min = min
+        self.transform_max = max
         self.clusters_func = clusters
         self.functions = functions
         self.num_samples = data_raw.shape[-1] #  T_

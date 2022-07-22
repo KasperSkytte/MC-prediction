@@ -26,7 +26,7 @@ def plot_prediction(
         #sometimes multiple dates, so just use min and max
         vertical_lines = [vertical_lines[0].min(),vertical_lines[0].max()]
 
-    x_labels_spacing = np.arange(0, data.all.shape[0], step=1+(data.all.shape[0] // 20))
+    x_labels_spacing = np.arange(0, data.all_nontrans.shape[0], step=1+(data.all_nontrans.shape[0] // 20))
     x_labels = [dates[i] for i in x_labels_spacing]
 
     if len(asvs) > 1:
@@ -43,14 +43,14 @@ def plot_prediction(
             if i < len(asvs):
                 asv = asvs[i]
                 axis.set_title(asv)
-                axis.plot(data.all[asv], label='Truth')
+                axis.plot(data.all_nontrans[asv], label='Truth')
                 axis.plot(prediction[asv], label='Prediction')
                 axis.set_ylim(ymin=0)
                 axis.legend()
                 if highlight_dates:
                     axis.vlines(vertical_lines, -100, 100, colors='r')
     elif len(asvs) == 1:
-        plt.plot(data.all[asvs], label='Truth')
+        plt.plot(data.all_nontrans[asvs], label='Truth')
         plt.plot(prediction[asvs], label='Prediction')
         plt.title(asvs.values[0])
         plt.ylabel('Abundance')

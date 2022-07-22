@@ -121,6 +121,7 @@ def find_best_lstm(data, iterations, num_clusters, max_epochs, early_stopping, c
     best_performances = []
     metric_names = []
     for c in range(num_clusters):
+        c_id = c
         print(f'\nCluster: {c}')
         data.use_cluster(c, cluster_type)
         best_model = None
@@ -150,6 +151,15 @@ def find_best_lstm(data, iterations, num_clusters, max_epochs, early_stopping, c
         best_model.save_weights(f'{results_dir}/lstm_{cluster_type}_weights/cluster_{c}')
 
         prediction = make_prediction(data, best_model)
+        #reverse transform and overwrite
+        prediction = rev_transform(
+            prediction,
+            mean = data._transform_mean[c_id],
+            std = data._transform_std[c_id],
+            min = data._transform_min[c_id],
+            max = data._transform_max[c_id],
+            transform = config['transform']
+        )
 
         dates = data.get_metadata(data.all, 'Date').dt.date
         dates_test = data.get_metadata(data.test, 'Date').dt.date
@@ -172,6 +182,7 @@ def find_best_lstm(data, iterations, num_clusters, max_epochs, early_stopping, c
             mkdir(data_predicted_dir)
         prediction.to_csv(f'{data_predicted_dir}/lstm_{cluster_type}_cluster_{c}_predicted.csv')
         data.all.to_csv(f'{data_predicted_dir}/lstm_{cluster_type}_cluster_{c}_dataall.csv')
+        data.all_nontrans.to_csv(f'{data_predicted_dir}/lstm_{cluster_type}_cluster_{c}_dataall_nontrans.csv')
 
         metric_names = best_model.metrics_names
 
