@@ -233,10 +233,10 @@ read_results <- function(results_dir) {
 #'
 #' @examples
 plot_all <- function(results_batch_dir) {
-  runs <- list.files(
+  runs <- list.dirs(
     results_batch_dir,
-    pattern = "^results_.*",
-    full.names = TRUE
+    full.names = TRUE,
+    recursive = FALSE
   )
   if (length(runs) == 0) {
     stop("No results folders found, wrong working directory?")
@@ -330,7 +330,7 @@ plot_all <- function(results_batch_dir) {
       trans = "sqrt",
       breaks = scales::extended_breaks(7)
     ) +
-    labs(color = "Cluster type")
+    labs(color = "Clustering type")
 
   # Compose all plots in the list using patchwork
   plot <- purrr::reduce(
@@ -446,7 +446,7 @@ combine_abund <- function(results_dir, cluster_type) {
   #just use the first file as metadata for all
   metadata <- fread(
     list.files(
-      file.path(results_dir, "data_predicted"),
+      file.path(results_dir, "data_splits"),
       pattern = ".*dates(_all)*\\.csv",
       recursive = FALSE,
       include.dirs = FALSE,
@@ -460,7 +460,7 @@ combine_abund <- function(results_dir, cluster_type) {
     lapply(
       file.path(
         results_dir,
-        "data_predicted",
+        "data_splits",
         c("dates_train.csv", "dates_val.csv", "dates_test.csv")
       ),
       function(file) {
@@ -477,12 +477,12 @@ combine_abund <- function(results_dir, cluster_type) {
 
   #checks for when data is produced by older versions of the pipeline
   if (sum(dim(metadata_split_datasets)) != 0L) {
-    #if using no validation data, it will be identical to training data
+    #if using no validation data, it will be identical to test data
     #remove it
     if (
-      all(
+      any(
         metadata_split_datasets[split_dataset == "val"][["Sample"]] %chin%
-        metadata_split_datasets[split_dataset == "train"][["Sample"]]
+        metadata_split_datasets[split_dataset == "test"][["Sample"]]
       )
     ) {
       metadata_split_datasets <- metadata_split_datasets[split_dataset != "val"]

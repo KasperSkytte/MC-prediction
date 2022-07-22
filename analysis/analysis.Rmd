@@ -23,8 +23,8 @@ require("stringr")
 
 #knitting will always be done in the context of the Rmd file, otherwise not
 if (interactive()) {
-  if (!grepl("manuscript_analysis$", getwd())) {
-    setwd("manuscript_analysis")
+  if (!grepl("analysis$", getwd())) {
+    setwd("analysis")
   }
 }
 source("functions.R")
@@ -32,199 +32,31 @@ source("functions.R")
 
 # Prediction accuracy across WWTPs
 
-## top 100 ASVs, 10 iterations, 200 epochs, smoothing factor 8
-```{r run_20220420}
-plot_all("results/20220420")
-# "only_pos_func": false,
-# "pseudo_zero": 0.01,
-# "max_zeros_pct": 0.60,
-# "top_n_taxa": 100,
-# "num_features": 10,
-# "iterations": 10,
-# "max_epochs_lstm": 200,
-# "window_size": 10,
-# "num_clusters_idec": 10,
-# "tolerance_idec": 0.001,
-# "splits": [
-#     0.75,
-#     0.10,
-#     0.15
-# ]
+```{r}
+plot_all("results_20220630_divmeanonly")
 ```
 
-## 1 iteration, 1000 max epochs
-```{r run_20220421}
-# "only_pos_func": false,
-# "pseudo_zero": 0.01,
-# "max_zeros_pct": 0.60,
-# "top_n_taxa": 100,
-# "num_features": 10,
-# "iterations": 1,
-# "max_epochs_lstm": 1000,
-# "window_size": 10,
-# "num_clusters_idec": 10,
-# "tolerance_idec": 0.001,
-# "splits": [
-#     0.75,
-#     0.10,
-#     0.15
-# ]
-plot_all("results/20220421")
+```{r}
+plot_all("results_20220601_standardized")
 ```
 
-## 10 iterations, 2000 max epochs, window size 20
-```{r run_20220422}
-# "only_pos_func": false,
-# "pseudo_zero": 0.01,
-# "max_zeros_pct": 0.60,
-# "top_n_taxa": 100,
-# "num_features": 10,
-# "iterations": 10,
-# "max_epochs_lstm": 2000,
-# "window_size": 20,
-# "num_clusters_idec": 10,
-# "tolerance_idec": 0.001,
-# "splits": [
-#     0.75,
-#     0.10,
-#     0.15
-# ]
-plot_all("results/20220422")
+```{r}
+plot_all("results_20220702_normalized")
 ```
 
-## top 200 ASVs, windows size 10, 20 IDEC clusters
-```{r run_20220427}
-# "only_pos_func": false,
-# "pseudo_zero": 0.01,
-# "max_zeros_pct": 0.60,
-# "top_n_taxa": 200,
-# "num_features": 10,
-# "iterations": 10,
-# "max_epochs_lstm": 2000,
-# "window_size": 10,
-# "num_clusters_idec": 20,
-# "tolerance_idec": 0.001,
-# "splits": [
-#     0.75,
-#     0.10,
-#     0.15
-# ]
-plot_all("results/20220427")
-```
-
-## 5 IDEC clusters
-```{r run_20220429}
-# "only_pos_func": false,
-# "pseudo_zero": 0.01,
-# "max_zeros_pct": 0.60,
-# "top_n_taxa": 200,
-# "num_features": 10,
-# "iterations": 10,
-# "max_epochs_lstm": 2000,
-# "window_size": 10,
-# "num_clusters_idec": 5,
-# "tolerance_idec": 0.001,
-# "splits": [
-#     0.75,
-#     0.10,
-#     0.15
-# ]
-plot_all("results/20220429")
-```
-
-# smoothing factor 4
-```{r run_20220506}
-# "only_pos_func": false,
-# "pseudo_zero": 0.01,
-# "max_zeros_pct": 0.60,
-# "top_n_taxa": 200,
-# "num_features": 10,
-# "iterations": 10,
-# "max_epochs_lstm": 2000,
-# "window_size": 10,
-# "num_clusters_idec": 5,
-# "tolerance_idec": 0.001,
-# "smoothing_factor": 4,
-# "splits": [
-#     0.75,
-#     0.10,
-#     0.15
-# ]
-plot_all("results/20220506")
-```
-
-```{r updated_data}
-# "metadata_date_col": "Date",
-# "tax_level": "OTU",
-# "tax_add": ["Species", "Genus"],
-# "functions": [
-#     "AOB",
-#     "NOB",
-#     "PAO",
-#     "GAO",
-#     "Filamentous"
-# ],
-# "only_pos_func": false,
-# "pseudo_zero": 0.01,
-# "max_zeros_pct": 0.60,
-# "top_n_taxa": 200,
-# "num_features": 10,
-# "iterations": 10,
-# "max_epochs_lstm": 2000,
-# "window_size": 10,
-# "num_clusters_idec": 5,
-# "tolerance_idec": 0.001,
-# "smoothing_factor": 4,
-# "splits": [
-#     0.75,
-#     0.10,
-#     0.15
-# ]
-plot_all("results/20220511_updateddata")
-```
-
-
-```{r updated_data_novalidation}
-# "functions": [
-#     "AOB",
-#     "NOB",
-#     "PAO",
-#     "GAO",
-#     "Filamentous"
-# ],
-# "only_pos_func": false,
-# "pseudo_zero": 0.01,
-# "max_zeros_pct": 0.60,
-# "top_n_taxa": 200,
-# "num_features": 10,
-# "iterations": 10,
-# "max_epochs_lstm": 2000,
-# "window_size": 10,
-# "num_clusters_idec": 5,
-# "tolerance_idec": 0.001,
-# "smoothing_factor": 4,
-# "splits": [
-#     0.85,
-#     0.0,
-#     0.15
-# ]
-plot_all("results/20220518_updateddata")
-```
-
-# colored
+# PCoA
 ```{r PCOA_colored}
-#data set exactly same settings as 20220506, just with additional data output
-results_dir <- "results/20220510/results_20220510_190511"
-AAW_20220510 <- combine_abund(
+results_dir <- "results_20220630_divmeanonly/Aalborg E"
+AAE <- combine_abund(
   results_dir,
   cluster_type = "abund"
 )
 
-AAW_20220510_reformatted <- load_data_reformatted(results_dir)
+AAE_reformatted <- load_data_reformatted(results_dir)
 
 # run data (here smoothing factor 4)
 amp_ordinate(
-  AAW_20220510,
+  AAE,
   type = "pcoa",
   distmeasure = "bray",
   sample_color_by = "split_dataset",
@@ -236,109 +68,40 @@ amp_ordinate(
   theme(legend.title = element_blank())
 ```
 
-# (updated data) Aalborg West comparison of true vs predicted (smoothing factor 4)
-## Principal Coordinates Analysis
-```{r updated_CA_AAW_4smooth}
-# Configuration:
-# {
-#     "abund_file": "data/datasets/Aalborg W/ASVtable.csv",
-#     "taxonomy_file": "data/datasets/Aalborg W/taxonomy.csv",
-#     "metadata_file": "data/metadata.csv",
-#     "results_dir": "results",
-#     "metadata_date_col": "Date",
-#     "tax_level": "OTU",
-#     "tax_add": ["Species", "Genus"],
-#     "functions": [
-#         "AOB",
-#         "NOB",
-#         "PAO",
-#         "GAO",
-#         "Filamentous"
-#     ],
-#     "only_pos_func": false,
-#     "pseudo_zero": 0.01,
-#     "max_zeros_pct": 0.60,
-#     "top_n_taxa": 200,
-#     "num_features": 10,
-#     "iterations": 10,
-#     "max_epochs_lstm": 2000,
-#     "window_size": 10,
-#     "num_clusters_idec": 5,
-#     "tolerance_idec": 0.001,
-#     "smoothing_factor": 4,
-#     "splits": [
-#         0.85,
-#         0.0,
-#         0.15
-#     ]
-# }
-results_batch_dir <- "results/20220518_updateddata"
-results_dir <- file.path(results_batch_dir, "results_20220513_200906")
-AAW_20220518 <- combine_abund(
-  results_dir,
-  cluster_type = "abund"
-)
-
-AAW_20220518_reformatted <- load_data_reformatted(results_dir)
-
-
-amp_ordinate(
-  AAW_20220518,
-  type = "pcoa",
-  distmeasure = "bray",
-  sample_color_by = "split_dataset",
-  sample_trajectory = "Date"
+## Time Series examples
+```{r timeseries}
+plot_timeseries <- function(data) {
+  ggplot(
+  data,
+  aes(
+    x = Date,
+    y = count,
+    color = split_dataset
+  )
 ) +
+  geom_point() +
+  geom_line() +
   scale_color_manual(
-    values = c("grey50", RColorBrewer::brewer.pal(6, "Paired")[c(4, 6)])
-  ) +
-  theme(legend.title = element_blank())
-```
+    values = c("grey10", RColorBrewer::brewer.pal(6, "Paired")[c(4, 6)])
+  )
+}
 
-## (updated data) Time Series example ASV1
-```{r updated_TS_AAW_4smooth}
-AAW_20220518_long <- amp_export_long(
-  AAW_20220518,
+AAE_long <- amp_export_long(
+  AAE,
   tax_levels = "OTU",
   metadata_vars = c("Date", "split_dataset")
 )
 
-ASV1_timeseries <- ggplot(
-  AAW_20220518_long[grepl("^ASV1;", OTU)],
-  aes(
-    x = Date,
-    y = count,
-    color = split_dataset
-  )
-) +
-  geom_line() +
-  scale_color_manual(
-    values = c("grey10", RColorBrewer::brewer.pal(6, "Paired")[c(4, 6)])
-  )
+ASV1 <- AAE_long[grepl("^ASV1;", OTU)]
+ASV2 <- AAE_long[grepl("^ASV2;", OTU)]
+#check normal distribution
+#qqplot(ASV1, rnorm(1000, mean = mean(ASV1), sd = sd(ASV1)))
+#qqplot(ASV2, rnorm(1000, mean = mean(ASV2), sd = sd(ASV2)))
+ASV1_timeseries <- plot_timeseries(ASV1)
+ASV2_timeseries <- plot_timeseries(ASV2)
 
-ASV2_timeseries <- ggplot(
-  AAW_20220518_long[grepl("^ASV2;", OTU)],
-  aes(
-    x = Date,
-    y = count,
-    color = split_dataset
-  )
-) +
-  geom_line() +
-  scale_color_manual(
-    values = c("grey10", RColorBrewer::brewer.pal(6, "Paired")[c(4, 6)])
-  ) +
-  scale_x_date(
-    date_breaks = "3 months",
-    date_labels =  "%b %Y"
-  ) +
-  theme(
-    axis.title = element_blank(),
-    axis.text.x = element_text(angle = 90, hjust = 1)
-  )
-
-ggsave(ASV1_timeseries, file = "ASV1_timeseries.png", width = 20, height = 8)
-ggsave(ASV2_timeseries, file = "ASV2_timeseries.png", width = 20, height = 8)
+ggsave(ASV1_timeseries, file = file.path(results_dir, "ASV1_timeseries.png"), width = 20, height = 8)
+ggsave(ASV2_timeseries, file = file.path(results_dir, "ASV2_timeseries.png"), width = 20, height = 8)
 
 
 ######################################
@@ -387,4 +150,56 @@ list.dirs(
     )
     fivenum(rowSums(abund))
   })
+```
+
+# testing
+```{r}
+results_dir <- "../results_20220609_105754"
+d <- combine_abund(
+  results_dir,
+  cluster_type = "abund"
+)
+
+d_reformatted <- load_data_reformatted(results_dir)
+
+d_long <- amp_export_long(
+  d,
+  tax_levels = "OTU",
+  metadata_vars = c("Date", "split_dataset")
+)
+
+ASV1_timeseries <- ggplot(
+  d_long[grepl("^ASV1;", OTU)],
+  aes(
+    x = Date,
+    y = count,
+    color = split_dataset
+  )
+) +
+  geom_line() +
+  scale_color_manual(
+    values = c("grey10", RColorBrewer::brewer.pal(6, "Paired")[c(4, 5, 6)])
+  )
+
+ASV2_timeseries <- ggplot(
+  d_long[grepl("^ASV2;", OTU)],
+  aes(
+    x = Date,
+    y = count,
+    color = split_dataset
+  )
+) +
+  geom_line() +
+  scale_color_manual(
+    values = c("grey10", RColorBrewer::brewer.pal(6, "Paired")[c(4, 6)])
+  ) +
+  scale_x_date(
+    date_breaks = "3 months",
+    date_labels =  "%b %Y"
+  ) +
+  theme(
+    axis.title = element_blank(),
+    axis.text.x = element_text(angle = 90, hjust = 1)
+  )
+
 ```

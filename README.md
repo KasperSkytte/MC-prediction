@@ -63,3 +63,5 @@ before starting the container. Remember to restart the docker daemon for the cha
 | num_clusters_idec                | Number of IDEC clusters |
 | tolerance_idec                | The training of the IDEC model stops if less than 'tolerance_idec'\*100 percent taxa change cluster each iteration. |
 | splits                        | How to partition the data into training, validation, and testing sets. Must sum to <= 1 |
+
+splits: make sure the test data set has at least the same number of samples as the window size
