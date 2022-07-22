@@ -154,10 +154,10 @@ def find_best_lstm(data, iterations, num_clusters, max_epochs, early_stopping, c
         #reverse transform and overwrite
         prediction = rev_transform(
             prediction,
-            mean = data._transform_mean[c_id],
-            std = data._transform_std[c_id],
-            min = data._transform_min[c_id],
-            max = data._transform_max[c_id],
+            mean = data.transform_mean[c_id],
+            std = data.transform_std[c_id],
+            min = data.transform_min[c_id],
+            max = data.transform_max[c_id],
             transform = config['transform']
         )
 
@@ -201,8 +201,14 @@ if __name__ == '__main__':
 
     results_dir = config['results_dir']
     data_predicted_dir = f'{results_dir}/data_predicted'
+    data_splits_dir = f'{results_dir}/data_splits'
+
+    if not path.exists(results_dir):
+        mkdir(results_dir)
     if not path.exists(data_predicted_dir):
         mkdir(data_predicted_dir)
+    if not path.exists(data_splits_dir):
+        mkdir(data_splits_dir)
 
     # Callback used in the training to stop early when the model no longer improves.
     early_stopping = keras.callbacks.EarlyStopping(
@@ -223,58 +229,64 @@ if __name__ == '__main__':
     )
 
     #write sample names and dates for each 3-way split data set
-    data.get_metadata(data.train, 'Date').dt.date.to_csv(f'{data_predicted_dir}/dates_train.csv')
-    data.get_metadata(data.val, 'Date').dt.date.to_csv(f'{data_predicted_dir}/dates_val.csv')
-    data.get_metadata(data.test, 'Date').dt.date.to_csv(f'{data_predicted_dir}/dates_test.csv')
-    data.get_metadata(data.all, 'Date').dt.date.to_csv(f'{data_predicted_dir}/dates_all.csv')
+    data.get_metadata(data.train, 'Date').dt.date.to_csv(f'{data_splits_dir}/dates_train.csv')
+    data.get_metadata(data.val, 'Date').dt.date.to_csv(f'{data_splits_dir}/dates_val.csv')
+    data.get_metadata(data.test, 'Date').dt.date.to_csv(f'{data_splits_dir}/dates_test.csv')
+    data.get_metadata(data.all, 'Date').dt.date.to_csv(f'{data_splits_dir}/dates_all.csv')
 
-    # Find best IDEC model.
-    find_best_idec(data, config['iterations'], config['num_clusters_idec'], config['tolerance_idec'])
+    if config['cluster_idec'] == True:
+        # Find best IDEC model.
+        find_best_idec(data, config['iterations'], config['num_clusters_idec'], config['tolerance_idec'])
 
-    # Load the best existing IDEC model.
-    idec_model = load_idec_model(data.num_samples, config['num_clusters_idec'])
-    data.clusters_idec = idec_model.predict_clusters(data.data_raw)
-    create_tsne(data, config['num_clusters_idec'])
+        # Load the best existing IDEC model.
+        idec_model = load_idec_model(data.num_samples, config['num_clusters_idec'])
+        data.clusters_idec = idec_model.predict_clusters(data.data_raw)
+        create_tsne(data, config['num_clusters_idec'])
 
-    # Find the best LSTM models.
-    find_best_lstm(
-        data,
-        config['iterations'],
-        config['num_clusters_idec'],
-        config['max_epochs_lstm'],
-        early_stopping,
-        'idec',
-        predict_timestamp=config['predict_timestamp']
-    )
-    find_best_lstm(
-        data,
-        config['iterations'],
-        len(config['functions']),
-        config['max_epochs_lstm'],
-        early_stopping,
-        'func',
-        predict_timestamp=config['predict_timestamp']
-    )
+        # Find the best LSTM models.
+        find_best_lstm(
+            data,
+            config['iterations'],
+            config['num_clusters_idec'],
+            config['max_epochs_lstm'],
+            early_stopping,
+            'idec',
+            predict_timestamp=config['predict_timestamp']
+        )
     
-    # new dataset for per-taxon training
-    data_abund = DataHandler(
-        config,
-        num_features = 1,
-        window_width = config['window_size'],
-        window_batch_size = 10,
-        splits = config['splits'],
-        predict_timestamp = config['predict_timestamp']
-    )
-    # Find the best LSTM model on single ASV's
-    find_best_lstm(
-        data_abund,
-        config['iterations'],
-        data_abund.clusters_abund_size,
-        config['max_epochs_lstm'],
-        early_stopping,
-        'abund',
-        predict_timestamp=config['predict_timestamp']
-    )
+    if config['cluster_func'] == True:
+        find_best_lstm(
+            data,
+            config['iterations'],
+            len(config['functions']),
+            config['max_epochs_lstm'],
+            early_stopping,
+            'func',
+            predict_timestamp=config['predict_timestamp']
+        )
+    
+    if config['cluster_abund'] == True:
+        # new dataset for per-taxon training
+        data_abund = DataHandler(
+            config,
+            num_features = 1,
+            window_width = config['window_size'],
+            window_batch_size = 10,
+            splits = config['splits'],
+            predict_timestamp = config['predict_timestamp']
+        )
+        # Find the best LSTM model on single ASV's
+        find_best_lstm(
+            data_abund,
+            config['iterations'],
+            data_abund.clusters_abund_size,
+            config['max_epochs_lstm'],
+            early_stopping,
+            'abund',
+            predict_timestamp=config['predict_timestamp']
+        )
+
+    
   # clusters_abund_size   [N / num_features]
 
     # # Load existing LSTM models. As they are trained for individual clusters, the type and 
