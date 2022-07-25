@@ -151,15 +151,36 @@ def find_best_lstm(data, iterations, num_clusters, max_epochs, early_stopping, c
         best_model.save_weights(f'{results_dir}/lstm_{cluster_type}_weights/cluster_{c}')
 
         prediction = make_prediction(data, best_model)
-        #reverse transform and overwrite
-        prediction = rev_transform(
-            prediction,
-            mean = data.transform_mean[c_id],
-            std = data.transform_std[c_id],
-            min = data.transform_min[c_id],
-            max = data.transform_max[c_id],
-            transform = config['transform']
-        )
+        # reverse transform and overwrite.
+        # Better to implement it in data_handler,
+        # but this does the job
+        if cluster_type == "abund":
+            prediction = rev_transform(
+                DF = prediction,
+                mean = data.transform_mean[c_id],
+                std = data.transform_std[c_id],
+                min = data.transform_min[c_id],
+                max = data.transform_max[c_id],
+                transform = data.transform_type
+            )
+        elif cluster_type == "func":
+            prediction = rev_transform(
+                DF = prediction,
+                mean = data.transform_mean[data.clusters_func == c_id],
+                std = data.transform_std[data.clusters_func == c_id],
+                min = data.transform_min[data.clusters_func == c_id],
+                max = data.transform_max[data.clusters_func == c_id],
+                transform = data.transform_type
+            )
+        elif cluster_type == "idec":
+            prediction = rev_transform(
+                DF = prediction,
+                mean = data.transform_mean[data.clusters_idec == c_id],
+                std = data.transform_std[data.clusters_idec == c_id],
+                min = data.transform_min[data.clusters_idec == c_id],
+                max = data.transform_max[data.clusters_idec == c_id],
+                transform = data.transform_type
+            )
 
         dates = data.get_metadata(data.all, 'Date').dt.date
         dates_test = data.get_metadata(data.test, 'Date').dt.date
