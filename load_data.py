@@ -11,7 +11,7 @@ def filter_sparse_samples(data, percentage, pseudo_zero):
     return data
 
 
-def assign_clusters(func_tax, functions):
+def assign_func_clusters(func_tax, functions):
     """Assign labels/clusters according to functions.
        Even if an ASV/species is positive in more than one function, it will only be assigned
        one cluster."""
@@ -24,19 +24,19 @@ def assign_clusters(func_tax, functions):
         print('An ASV/species is positive in more than one function!')
 
     # Assign clusters.
-    clusters = np.full(func_tax.shape[0], len(functions), dtype=int)
+    clusters_func = np.full(func_tax.shape[0], len(functions), dtype=int)
     for i in range(len(functions)):
-        clusters[positives[:,i]] = i
+        clusters_func[positives[:,i]] = i
 
-    # if np.any(clusters == len(functions)):
+    # if np.any(clusters_func == len(functions)):
     #     functions = functions.tolist()
     #     functions.append('None')
 
     print('Cluster labels:     ', functions)
-    print('Cluster sizes:      ', np.unique(clusters, axis=0, return_counts=True)[1])
+    print('Cluster sizes:      ', np.unique(clusters_func, axis=0, return_counts=True)[1])
     print('Total taxa: ', func_tax.shape[0])
 
-    return clusters
+    return clusters_func
 
 def load_data(config):
     """Load the data from the different files.
@@ -84,14 +84,14 @@ def load_data(config):
     abund = abund.to_numpy().astype(float)
     abund = np.transpose(abund)
 
-    clusters = assign_clusters(func_tax, functions = config['functions'])
+    clusters_func = assign_func_clusters(func_tax, functions = config['functions'])
 
-    return abund, meta, func_tax, clusters, config['functions']
+    return abund, meta, func_tax, clusters_func, config['functions']
 
 def transform(data, transform = "standardize"):
-    """'Normalize' (divide by mean) or 'standardize' (subtract mean and divide my std) the data. Both will scale to [0,1]. Use 'divmeanonly' to only divide by the mean without scaling. 'None' returns the data untouched."""
+    """'Normalize' (divide by mean) or 'standardize' (subtract mean and divide my std) the data. Both will scale to [0,1]. Use 'divmean' to only divide by the mean without scaling. 'None' returns the data untouched."""
     transform = transform.lower()
-    valid_transformations = ["divmeanonly", "normalize", "standardize", "none"]
+    valid_transformations = ["divmean", "normalize", "standardize", "none"]
     result = data
     mean = data.mean(axis=1).reshape(-1,1)
     std = data.std(axis=1).reshape(-1,1)
@@ -100,7 +100,7 @@ def transform(data, transform = "standardize"):
 
     if not (transform in valid_transformations):
         raise Exception(f'Valid transformations are: {valid_transformations}')
-    elif transform == 'normalize' or transform == 'divmeanonly':
+    elif transform == 'normalize' or transform == 'divmean':
         result = data / mean
     elif transform == 'standardize':
         result = data - mean
@@ -110,27 +110,31 @@ def transform(data, transform = "standardize"):
         result = result - min
         result = result / max
 
-    return result, mean, std, min, max
+    return result, mean, std, min, max, transform
 
 def rev_transform(DF, mean, std, min, max, transform = "standardize"):
-    """Reverse transform predicted values when the model is trained on transformed values. The input DF must be a Pandas data frame with only 1 column."""
-    transform = transform.lower()
-    valid_transformations = ["divmeanonly", "normalize", "standardize", "none"]
-        
-    if not (transform in valid_transformations):
-        raise Exception(f'Valid transformations are: {valid_transformations}')
-
+  """Reverse transform predicted values when the model is trained on transformed values.
+  It's very important that the order matches between all the inputs."""
+  transform = transform.lower()
+  valid_transformations = ["divmean", "normalize", "standardize", "none"]
+      
+  if not (transform in valid_transformations):
+    raise Exception(f'Valid transformations are: {valid_transformations}')
+  result = DF.copy()
+  #loop over each column in input DataFrame, assuming order is the same
+  #between DF+mean+std+min+max
+  for col in result:
     if transform == 'normalize' or transform == 'standardize':
-        DF = DF * max
-        DF = DF + min
+      result[col] = result[col] * max[DF.columns.get_loc(col)].item()
+      result[col] = result[col] + min[DF.columns.get_loc(col)].item()
 
-    if transform == 'normalize' or transform == 'divmeanonly':
-        DF = DF * mean
+    if transform == 'normalize' or transform == 'divmean':
+      result[col] = result[col] * mean[DF.columns.get_loc(col)].item()
     elif transform == 'standardize':
-        DF = DF * std
-        DF = DF + mean
-    
-    return DF
+      result[col] = result[col] * std[DF.columns.get_loc(col)].item()
+      result[col] = result[col] + mean[DF.columns.get_loc(col)].item()
+
+  return result
 
 def smooth(data, factor=8):
     """Smoothing factor is the number of data points to use for smoothing."""

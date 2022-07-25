@@ -117,7 +117,7 @@ if __name__ == "__main__":
     with open('config.json', 'r') as config_file:
         config = json.load(config_file)
 
-    x, func_tax, func_clusters, _ = load_data(config['abund_file'], config)
+    x, func_tax, clusters_func, _ = load_data(config['abund_file'], config)
     x = smooth(x, factor = config['smoothing_factor'])
 
     n_clusters = 5
@@ -128,12 +128,12 @@ if __name__ == "__main__":
     idec_clusters = idec.predict_clusters(x)
 
     print('\nfunction clustering:')
-    cluster_sizes, r_values, p_values = calc_cluster_correlations(x, func_clusters, n_clusters)
+    cluster_sizes, r_values, p_values = calc_cluster_correlations(x, clusters_func, n_clusters)
     print_corr_results(cluster_sizes, r_values, p_values)
     create_boxplot(r_values, 'abs(r-values)', 'func')
     create_boxplot(p_values, 'p-values', 'func')
-    plot_tsne(x, func_clusters, n_clusters, 'func')
-    plot_abundance_within_clusters(x, func_clusters, func_tax)
+    plot_tsne(x, clusters_func, n_clusters, 'func')
+    plot_abundance_within_clusters(x, clusters_func, func_tax)
 
     print('\nIDEC clustering:')
     cluster_sizes, r_values, p_values = calc_cluster_correlations(x, idec_clusters, n_clusters)

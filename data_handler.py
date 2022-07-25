@@ -20,12 +20,13 @@ class DataHandler:
         self.transform_std = None
         self.transform_min = None
         self.transform_max = None
+        self.transform_type = None
         self.window_width = window_width
         self.window_shift = window_shift
         self.window_batch_size = window_batch_size  # can find a best from 8 10 16
         self.max_num_features = num_features
         self.predict_timestamp = predict_timestamp
-        self._clusters = None
+        self.clusters = None
         self.clusters_func = None
         self.clusters_idec = None
         
@@ -35,40 +36,40 @@ class DataHandler:
     
     @property
     def train(self):
-        if self._clusters is None:
+        if self.clusters is None:
             return self._all.iloc[:self._train_val_index, :self.max_num_features]
         else:
-            return self._all.iloc[:self._train_val_index, self._clusters]
+            return self._all.iloc[:self._train_val_index, self.clusters]
     
     @property
     def val(self):
         if self._train_val_index == self._val_test_index:
             return self.test  # if no val data, it should be test
-        elif self._clusters is None:
+        elif self.clusters is None:
             return self._all.iloc[self._train_val_index:self._val_test_index, :self.max_num_features]
         else:
-            return self._all.iloc[self._train_val_index:self._val_test_index, self._clusters]
+            return self._all.iloc[self._train_val_index:self._val_test_index, self.clusters]
     
     @property
     def test(self):
-        if self._clusters is None:
+        if self.clusters is None:
             return self._all.iloc[self._val_test_index:, :self.max_num_features]
         else:
-            return self._all.iloc[self._val_test_index:, self._clusters]
+            return self._all.iloc[self._val_test_index:, self.clusters]
     
     @property
     def all(self):
-        if self._clusters is None:
+        if self.clusters is None:
             return self._all.iloc[:, :self.max_num_features]
         else:
-            return self._all.iloc[:, self._clusters]
+            return self._all.iloc[:, self.clusters]
 
     @property
     def all_nontrans(self):
-        if self._clusters is None:
+        if self.clusters is None:
             return self._all_nontrans.iloc[:, :self.max_num_features]
         else:
-            return self._all_nontrans.iloc[:, self._clusters]
+            return self._all_nontrans.iloc[:, self.clusters]
 
     @property
     def train_batched(self):
@@ -93,8 +94,8 @@ class DataHandler:
     @property
     def num_features(self):
         """Number of features in each sample."""
-        if self._clusters is not None:
-            return np.sum(self._clusters)
+        if self.clusters is not None:
+            return np.sum(self.clusters)
         elif self.max_num_features is None:
             return self._all.shape[1]
         else:
@@ -153,19 +154,19 @@ class DataHandler:
                     having a positive value in the same function means being in the same cluster.
              idec:  means using the clusters found with IDEC. An IDEC model has to be trained first to use this."""
         if number is None:
-            self._clusters = None
+            self.clusters = None
         else:
             if cluster_type == 'func':
-                self._clusters = self.clusters_func == number
+                self.clusters = self.clusters_func == number
                 self._only_mark_first_max_num_features()
             elif cluster_type == 'idec':
-                self._clusters = self.clusters_idec == number
+                self.clusters = self.clusters_idec == number
                 self._only_mark_first_max_num_features()
             elif cluster_type == 'abund':
-                self._clusters = self.clusters_abund == number
+                self.clusters = self.clusters_abund == number
                 self._only_mark_first_max_num_features()
             else:
-                self._clusters = None
+                self.clusters = None
                 raise Exception('Unknown cluster type.')
 
     def _only_mark_first_max_num_features(self):
@@ -173,11 +174,11 @@ class DataHandler:
         if self.max_num_features is None:
             return
         count = 0
-        for i in range(self._clusters.size):
-            if self._clusters[i]:
+        for i in range(self.clusters.size):
+            if self.clusters[i]:
                 count += 1
                 if count > self.max_num_features:
-                    self._clusters[i] = False
+                    self.clusters[i] = False
 
     def use_splits(self, splits):
         """Split the entire dataset into training, validation and test sets.
@@ -195,10 +196,10 @@ class DataHandler:
         return self.meta.loc[dataframe.index][attribute]
 
     def _load_data(self, config):
-        data_raw, meta, func_tax, clusters, functions = load_data(config)
+        data_raw, meta, func_tax, clusters_func, functions = load_data(config)
 
         data_smooth = smooth(data_raw, factor = config['smoothing_factor'])
-        data_transformed, mean, std, min, max = transform(data_smooth, transform = config['transform'])
+        data_transformed, mean, std, min, max, transform_type = transform(data_smooth, transform = config['transform'])
 
         self._all = pd.DataFrame(data=np.transpose(data_transformed), 
                             index=meta.index, 
@@ -214,6 +215,7 @@ class DataHandler:
         self.transform_std = std
         self.transform_min = min
         self.transform_max = max
-        self.clusters_func = clusters
+        self.transform_type = transform_type
+        self.clusters_func = clusters_func
         self.functions = functions
         self.num_samples = data_raw.shape[-1] #  T_
