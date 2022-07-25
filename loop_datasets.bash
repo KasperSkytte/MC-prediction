@@ -4,8 +4,8 @@ datasets_folder=data/datasets
 datasets=$(find $datasets_folder/* -maxdepth 0 -type d -exec echo -n '"{}" ' \;)
 
 find ${datasets_folder}/* -maxdepth 0 -type d |\
-  while read -r f;
-  do
+while read -r f;
+do
     cat << EOF > config.json
 {
     "abund_file": "$f/ASVtable.csv",
@@ -26,12 +26,17 @@ find ${datasets_folder}/* -maxdepth 0 -type d |\
     "pseudo_zero": 0.01,
     "max_zeros_pct": 0.60,
     "top_n_taxa": 200,
-    "num_features": 10,
+    "num_features": 20,
     "iterations": 10,
-    "max_epochs_lstm": 2000,
+    "max_epochs_lstm": 200,
     "window_size": 10,
+    "predict_timestamp": 10,
     "num_clusters_idec": 5,
     "tolerance_idec": 0.001,
+    "transform": "divmean",
+    "cluster_idec": true,
+    "cluster_func": true,
+    "cluster_abund": true,
     "smoothing_factor": 4,
     "splits": [
         0.85,
@@ -41,4 +46,4 @@ find ${datasets_folder}/* -maxdepth 0 -type d |\
 }
 EOF
     bash run.bash
-  done
+done
