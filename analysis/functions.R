@@ -437,7 +437,7 @@ combine_abund <- function(results_dir, cluster_type) {
   #read true abundance tables
   true_abund <- read_abund(
     results_dir = results_dir,
-    pattern = paste0("lstm_", cluster_type, ".*dataall\\.csv"),
+    pattern = paste0("lstm_", cluster_type, ".*dataall_nontrans\\.csv"),
     sample_prefix = "true_"
   )
 
