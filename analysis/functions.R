@@ -133,6 +133,8 @@ parse_performance <- function(file) {
     pattern = "[\\[\\'\\]]",
     replacement = ""
   )
+  dt$cluster_no <- stringi::stri_replace_all_regex(dt[[1]], ":.*$", "")
+
 
   dt[] <- lapply(
     dt,
@@ -201,7 +203,15 @@ read_results <- function(results_dir) {
     file.path(results_dir, "data_reformatted", "metadata.csv")
   )
 
-  dt$dataset <- paste0(dt$dataset, " (", nrow(metadata), ")")
+  dt$dataset <- paste0(
+    dt$dataset,
+    " (",
+    gsub(
+      "[^0-9]*",
+      "",
+      logfile[grepl("predict_timestamp", line), line]),
+      " P.S.)"
+    )
 
   dt$cluster_type <- stringr::str_replace_all(
     dt$cluster_type,
@@ -253,14 +263,17 @@ plot_all <- function(results_batch_dir) {
   ]
 
   #order datasets by the number of samples (extracted from dataset names)
-  nsamples <- as.numeric(
-    stringi::stri_extract_all_regex(
-      combined[,unique(dataset)],
-      "[0-9]+"
-    )
-  )
-  datasets_ordered <- combined[,unique(dataset)][order(nsamples, decreasing = TRUE)]
-  combined[,dataset := factor(dataset, levels = datasets_ordered)]
+  combined[,unique(dataset)] %>%
+    stringi::stri_extract_all_regex("\\(.*$", "") %>%
+    stringi::stri_extract_all_regex("[0-9]+") %>%
+    as.numeric -> nsamples
+  datasets_ordered <- combined[
+    ,
+    unique(dataset)
+  ][
+    order(nsamples, decreasing = F)
+  ]
+  combined[, dataset := factor(dataset, levels = datasets_ordered)]
 
   # create a list of plots for each error metric
   plot_list <- combined %>%
