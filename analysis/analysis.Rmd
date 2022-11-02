@@ -20,8 +20,9 @@ require("data.table")
 require("ampvis2")
 require("magrittr")
 require("stringr")
+require("lubridate")
 
-#knitting will always be done in the context of the Rmd file, otherwise not
+#when knitting will always be done in the context of the Rmd file, otherwise not
 if (interactive()) {
   if (!grepl("analysis$", getwd())) {
     setwd("analysis")
@@ -44,10 +45,18 @@ plot_all("results_20220601_standardized")
 plot_all("results_20220702_normalized")
 ```
 
+```{r}
+plot_all("results_20220802_predwindow")
+```
+
 # PCoA (all WWTPs)
 ```{r PCOA_colored_all}
-results_dir <- "results_20220726_divmean"
-wwtp_results <- list.dirs(results_dir, full.names = TRUE, recursive = FALSE)
+results_batch_dir <- "results_20220726_divmean"
+wwtp_results <- list.dirs(
+  results_batch_dir,
+  full.names = TRUE,
+  recursive = FALSE
+)
 
 plots <- lapply(
   wwtp_results,
@@ -58,101 +67,191 @@ plots <- lapply(
         type = "pcoa",
         distmeasure = "bray",
         transform = "none",
+        filter_species = 0,
         sample_color_by = "split_dataset",
-        sample_trajectory = "Date"
+        sample_trajectory = "Date",
+        sample_trajectory_group = "Date"
       ) +
         scale_color_manual(
           values = c("grey80", RColorBrewer::brewer.pal(3, "Set2")[c(1:3)])
         ) +
         theme(legend.title = element_blank())
-    print(plot)
+    ggsave(filename = paste0("PCoA_", basename(wwtp), ".png"), plot = plot)
     return(plot)
   }
 )
 names(plots) <- basename(wwtp_results)
-
+hideme <- lapply(plots, print)
 ```
 
-## Time Series examples
-```{r timeseries}
+# Load AAE data
+```{r}
+results_dir <- "results_20220726_divmean/Aalborg E"
+AAE <- combine_abund(
+  results_dir,
+  cluster_type = "abund"
+)
 AAE_long <- amp_export_long(
   AAE,
   tax_levels = "OTU",
   metadata_vars = c("Date", "split_dataset")
 )
 
+```
+
+## Time Series examples
+```{r timeseries}
+
 ASV1 <- AAE_long[grepl("^ASV1;", OTU)]
 ASV2 <- AAE_long[grepl("^ASV2;", OTU)]
-ASV3 <- AAE_long[grepl("^ASV3;", OTU)]
-
-plot_timeseries <- function(
-  data,
-  filename = paste0(deparse(substitute(data)), "_timeseries.png"),
-  save = TRUE
-) {
-  plot <- ggplot(
-  data,
-  aes(
-    x = Date,
-    y = count,
-    color = split_dataset
-  )
-) +
-  geom_point() +
-  geom_line() +
-  scale_color_manual(
-    values = c("grey10", RColorBrewer::brewer.pal(6, "Paired")[c(4, 6)])
-  ) +
-  scale_color_manual(
-    values = c("grey10", RColorBrewer::brewer.pal(6, "Paired")[c(4, 6)])
-  ) +
-  scale_x_date(
-    date_breaks = "3 months",
-    date_labels =  "%Y %b"
-  ) +
-  theme(
-    legend.title = element_blank(),
-    axis.title = element_blank(),
-    axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5)
-  )
-
-  if(isTRUE(save)) {
-    ggsave(
-      plot,
-      file = file.path(results_dir, filename),
-      width = 14,
-      height = 8
-    )
-  }
-}
-
+ASV24 <- AAE_long[grepl("^ASV24;", OTU)]
 
 #check normal distribution
 #qqplot(ASV1, rnorm(1000, mean = mean(ASV1), sd = sd(ASV1)))
 #qqplot(ASV2, rnorm(1000, mean = mean(ASV2), sd = sd(ASV2)))
 
-plot_timeseries(ASV1)
-plot_timeseries(ASV2)
-plot_timeseries(ASV3)
+plot_asv1 <- plot_timeseries(ASV1, save = FALSE) +
+  theme(
+    legend.position = "none",
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank()
+  ) +
+  ggtitle("ASV1 - Tetrasphaera, midas_s_5") +
+  scale_y_continuous(breaks = seq(0, 8, 1))
+plot_asv2 <- plot_timeseries(ASV2, save = FALSE) +
+  theme(
+    legend.position = "none",
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank()
+  ) +
+  ggtitle("ASV2 - Ca. Microthrix, parvicella") +
+  scale_y_continuous(breaks = seq(0, 10, 1))
+plot_asv24 <- plot_timeseries(ASV24, save = FALSE) +
+  theme(legend.position = "bottom") +
+  ggtitle("ASV24 - Nitrospira, defluvii") +
+  scale_y_continuous(breaks = seq(0, 0.8, 0.1))
 
-######################################
-rects <- data.frame(xstart = seq(0,80,20), xend = seq(20,100,20), color = letters[1:5])
+prediction_example <- plot_asv1 / plot_asv2 / plot_asv24
+ggsave(
+  plot = prediction_example,
+  "prediction_example.png",
+  width = 10,
+  height = 10
+)
 
+#plot_timeseries(ASV1, save = TRUE)
+#plot_timeseries(ASV2, save = TRUE)
+#plot_timeseries(ASV3, save = TRUE)
+```
 
-#As Baptiste points out, the order of the geom's matters, so putting your data as last will 
-#make sure that it is plotted "on top" of the background rectangles. Updated code, but
-#did not update the JPEG...I think you'll get the point.
+# heatmap of real vs predicted
+```{r}
+test_predicted <- amp_filter_samples(
+  AAE,
+  split_dataset %chin% "test",
+  predicted %chin% "predicted"
+)
+test_real <- amp_filter_samples(
+  AAE,
+  split_dataset %chin% "real",
+  Date %in% test_predicted$metadata$Date
+)
+test_combined <- amp_merge_ampvis2(
+  test_predicted,
+  test_real,
+  by_refseq = FALSE
+)
+test_combined$metadata$predicted <- factor(
+  test_combined$metadata$predicted,
+  levels = c("real", "predicted")
+)
+realvspredictedheatmap <- amp_heatmap(
+  test_combined,
+  tax_aggregate = "OTU",
+  group_by = c("predicted"),
+  normalise = FALSE,
+  tax_show = 30,
+  plot_values = FALSE,
+  facet_by = "Date"
+) + theme(strip.text = element_text(angle = 90))
+#ggsave(plot = realvspredictedheatmap, filename = "realvspredictedheatmap.png", width = 20)
 
-ggplot() + 
-  geom_rect(data = rects, aes(xmin = xstart, xmax = xend, ymin = -Inf, ymax = Inf, fill = color), alpha = 0.4)
-#############################
+#compare real vs predicted (ordination)
+amp_ordinate(
+  test_combined,
+  type = "rda",
+  constrain = "predicted",
+  sample_color_by = "predicted"
+)# %>% ggsave(plot = ., filename = "plot.pdf")
+#compare real vs predicted (ANOSIM)
+vegan::anosim(
+  t(test_combined$abund),
+  test_combined$metadata$predicted,
+  distance = "bray",
+  parallel = 10
+)
+#ANOSIM statistic R: 0.04024
+#      Significance: 0.047
+#compare real vs predicted (PERMANOVA)
+vegan::adonis2(t(test_combined$abund) ~ predicted, data = test_combined$metadata, parallel = 10)
+#          Df SumOfSqs      R2      F Pr(>F)
+#predicted  1  0.05203 0.02812 1.9678  0.102
+#Residual  68  1.79797 0.97188
+#Total     69  1.85000 1.00000
+```
+
+```{r}
+combine_results <- function(results_batch_dir) {
+  runs <- list.dirs(
+      results_batch_dir,
+      full.names = TRUE,
+      recursive = FALSE
+    )
+    if (length(runs) == 0) {
+      stop("No results folders found, wrong working directory?")
+    }
+
+    d_list <- lapply(runs, read_results)
+    names(d_list) <- runs
+    combined <- rbindlist(
+      d_list,
+      idcol = "results_folder",
+      fill = TRUE
+    )[
+      !is.na(cluster_type) & value > 0
+    ]
+  return(combined)
+}
+
+results <- combine_results("results_20220726_divmean/")
+results[grepl("Aalborg E", dataset) & cluster_no == 0, ASV := "ASV1"]
+results[grepl("Aalborg E", dataset) & cluster_no == 1, ASV := "ASV2"]
+results[grepl("Aalborg W", dataset) & cluster_no == 1, ASV := "ASV2"]
+results[grepl("Aalborg W", dataset) & cluster_no == 0, ASV := "ASV1"]
+results[grepl("Damhusåen-A", dataset) & cluster_no == 1, ASV := "ASV2"]
+results[grepl("Damhusåen-A", dataset) & cluster_no == 2, ASV := "ASV1"]
+results[grepl("Damhusåen-B", dataset) & cluster_no == 2, ASV := "ASV1"]
+results[grepl("Damhusåen-B", dataset) & cluster_no == 0, ASV := "ASV2"]
+results[grepl("Damhusåen-C", dataset) & cluster_no == 0, ASV := "ASV2"]
+results[grepl("Damhusåen-C", dataset) & cluster_no == 2, ASV := "ASV1"]
+results[grepl("Damhusåen-D", dataset) & cluster_no == 2, ASV := "ASV1"]
+results[grepl("Damhusåen-D", dataset) & cluster_no == 1, ASV := "ASV2"]
+results[grepl("Ejby Mølle", dataset) & cluster_no == 0, ASV := "ASV1"]
+results[grepl("Ejby Mølle", dataset) & cluster_no == 8, ASV := "ASV2"]
+results[grepl("Mariagerfjord", dataset) & cluster_no == 0, ASV := "ASV1"]
+results[grepl("Mariagerfjord", dataset) & cluster_no == 7, ASV := "ASV2"]
+results[grepl("Randers", dataset) & cluster_no == 0, ASV := "ASV2"]
+results[grepl("Randers", dataset) & cluster_no == 12, ASV := "ASV1"]
+results[grepl("Ribe", dataset) & cluster_no == 2, ASV := "ASV1"]
+results <- results[ASV %chin% paste0("ASV", 1:2)]
+
 ```
 
 ```{r fivenum_BC_ASV}
-runs <- list.files(
-  results_batch_dir,
-  pattern = "^results_.*",
-  full.names = TRUE
+runs <- list.dirs(
+  "results_20220726_divmean",
+  full.names = TRUE,
+  recursive = FALSE
 )
 
 d_list <- lapply(runs, read_results)
@@ -164,7 +263,7 @@ combined <- rbindlist(
 )[
   !is.na(cluster_type) & value > 0
 ]
-combined[cluster_type == "Single ASV" & error_metric == "Bray Curtis", fivenum(value)]
+combined[, .(fivenum_stats = fivenum(value)), by = .(cluster_type, error_metric)]
 ```
 
 ```{r fivenum_reads}

@@ -552,3 +552,92 @@ combine_abund <- function(results_dir, cluster_type) {
 
   return(combined)
 }
+
+
+plot_timeseries <- function(
+  data,
+  filename = paste0(deparse(substitute(data)), "_timeseries.png"),
+  save = TRUE,
+  plot_width = 14,
+  plot_height = 5
+) {
+  #generate a data frame with x coordinates for
+  #alternating background shades for each year
+  bg_ranges <- data.frame(
+    xmin = seq(
+      from = floor_date(min(ASV1$Date), "year"),
+      to = floor_date(max(ASV1$Date), "year"),
+      by = "2 years"
+    ),
+    xmax = seq(
+      from = floor_date(min(ASV1$Date), "year"),
+      to = floor_date(max(ASV1$Date), "year"),
+      by = "2 years"
+    ) + years(1)
+  )
+
+  #always start at odd years, if data starts at an even year
+  #add 1 year and delete the last row to skew
+  if (year(min(bg_ranges$xmin)) %% 2 == 0) {
+    bg_ranges[] <- lapply(bg_ranges, `+`, years(1))
+    bg_ranges[-nrow(bg_ranges), ]
+  }
+  plot <- ggplot(
+  data,
+  aes(
+    x = Date,
+    y = count,
+    color = split_dataset
+  )
+) +
+  geom_point() +
+  geom_line() +
+  geom_rect(
+    data = bg_ranges,
+    aes(
+      xmin = xmin,
+      xmax = xmax,
+      ymin = -Inf,
+      ymax = Inf
+    ),
+    alpha = 0.15,
+    inherit.aes = FALSE,
+    show.legend = FALSE
+  ) +
+  geom_vline(xintercept = ASV1[split_dataset == "test", min(Date)]) +
+  scale_color_manual(
+    values = c("grey10", RColorBrewer::brewer.pal(6, "Paired")[c(6, 4)]),
+    labels = c(
+      real = "Real",
+      train = "Prediction - Train",
+      test = "Prediction - Test"),
+    breaks = c("real", "train", "test")
+  ) +
+  #breaks should start from january, regardless of data
+  scale_x_date(
+    breaks = function(limits) {
+      seq(
+        from = floor_date(limits[1], "year"),
+        to = ceiling_date(limits[2], "year"),
+        by = "3 months"
+      )
+    },
+    date_labels =  "%Y %b"
+  ) +
+  theme(
+    legend.title = element_blank(),
+    axis.title = element_blank(),
+    axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5)
+  )
+
+  if (isTRUE(save)) {
+    ggsave(
+      plot,
+      file = file.path(results_dir, filename),
+      width = plot_width,
+      height = plot_height
+    )
+  }
+
+  return(plot)
+}
