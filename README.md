@@ -65,3 +65,10 @@ before starting the container. Remember to restart the docker daemon for the cha
 | splits                        | How to partition the data into training, validation, and testing sets. Must sum to <= 1 |
 
 splits: make sure the test data set has at least the same number of samples as the window size
+
+vscode extensions:
+R
+quarto
+jupyter
+python
+(pylance)

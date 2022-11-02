@@ -85,7 +85,7 @@ def make_prediction(data, lstm_model):
     prediction = prediction[:, 0]
     index_pred = data.all.index[data.window_width:]
 
-    #needs to be reverse transformed to contain real values
+    #needs to be reverse transformed for real values
     return pd.DataFrame(data = prediction, index = index_pred, columns = data.all.columns)
 
 def create_lstm_model(num_features, predict_timestamp=1):
