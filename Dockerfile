@@ -1,6 +1,6 @@
 #Dockerfile inspired by https://sourcery.ai/blog/python-docker/
 #exact dockerfile used for base image: https://github.com/tensorflow/tensorflow/blob/master/tensorflow/tools/dockerfiles/dockerfiles/gpu.Dockerfile
-FROM tensorflow/tensorflow:2.7.0-gpu-jupyter as base
+FROM tensorflow/tensorflow:latest-gpu-jupyter as base
 
 #NVIDIA updated their signing keys for APT as of apr 27 2022, see
 #https://forums.developer.nvidia.com/t/notice-cuda-linux-repository-key-rotation/212772
