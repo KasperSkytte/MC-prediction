@@ -39,8 +39,8 @@ do
     "cluster_abund": true,
     "smoothing_factor": 4,
     "splits": [
-        0.85,
-        0.0,
+        0.70,
+        0.15,
         0.15
     ]
 }
