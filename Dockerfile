@@ -1,15 +1,6 @@
 #Dockerfile inspired by https://sourcery.ai/blog/python-docker/
 #exact dockerfile used for base image: https://github.com/tensorflow/tensorflow/blob/master/tensorflow/tools/dockerfiles/dockerfiles/gpu.Dockerfile
-FROM tensorflow/tensorflow:2.7.0-gpu-jupyter as base
-
-#NVIDIA updated their signing keys for APT as of apr 27 2022, see
-#https://forums.developer.nvidia.com/t/notice-cuda-linux-repository-key-rotation/212772
-RUN rm -rf /etc/apt/sources.list.d/cuda.list \
-  && rm -rf /etc/apt/sources.list.d/nvidia-ml.list \
-  && apt-key del 7fa2af80 \
-  && curl -o cuda-keyring_1.0-1_all.deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-keyring_1.0-1_all.deb \
-  && dpkg -i cuda-keyring_1.0-1_all.deb \
-  && rm -rf cuda-keyring_1.0-1_all.deb
+FROM tensorflow/tensorflow:2.11.0rc2-gpu-jupyter as base
 
 # Copy library scripts to execute
 COPY .devcontainer/library-scripts/*.sh .devcontainer/library-scripts/*.env /tmp/library-scripts/
@@ -53,10 +44,6 @@ COPY Pipfile .
 COPY Pipfile.lock .
 COPY renv.lock .
 
-#upgrade pip, install pipenv and python pkgs according to the lock file (system-wide)
-RUN pip install pipenv==2020.11.4 \
-  && pipenv install --python /usr/bin/python3 --deploy --system
-
 #download and install R, required system dependencies, and R packages
 RUN export DEBIAN_FRONTEND=noninteractive \
   && apt-get update -qqy \
@@ -64,6 +51,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     git \
     wget \
     jq \
+    tmux \
     gdebi-core \
     libcurl4-openssl-dev \
     libssl-dev \
@@ -96,11 +84,15 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 #install R pkgs from lock file
 RUN R -e "renv::restore(library = '/opt/R/${R_VERSION}/lib/R/site-library/', clean = TRUE, lockfile = '/opt/renv.lock', prompt = FALSE)"
 
+#upgrade pip, install pipenv and python pkgs according to the lock file (system-wide)
+RUN python3 -m pip install \
+    pip==22.3.1 \
+    pipenv==2022.11.30 \
+  && pipenv install --python /usr/bin/python3 --deploy --system
+
 #install nice-to-have system packages and clean up
 RUN export DEBIAN_FRONTEND=noninteractive \
   && apt-get update -qqy \
-  && apt-get -y install --fix-broken --no-install-recommends --no-install-suggests \
-    tmux \
   # clean up after yourself, mommy doesn't work here
   && apt-get clean -y \
   && rm -rf /var/lib/apt/lists/* \
@@ -113,6 +105,6 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 USER $USERNAME
 
 # Install (minimal) LaTeX binaries for R, for the default user only
-RUN R -e "tinytex::install_tinytex()"
+#RUN R -e "tinytex::install_tinytex()"
 
 WORKDIR /tf

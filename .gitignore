@@ -150,3 +150,5 @@ analysis_Rproj/analysis_files/
 renv/
 
 .Rprofile
+
+ansible-venv/
