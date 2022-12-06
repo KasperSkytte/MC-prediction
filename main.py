@@ -139,7 +139,7 @@ def find_best_lstm(data, iterations, num_clusters, max_epochs, early_stopping, c
             lstm_model = create_lstm_model(data.num_features, predict_timestamp)
             lstm_model.fit(data.train_batched,
                            epochs=max_epochs,
-                           validation_data=data.test_batched,  # if no val data, it should be test_batched
+                           validation_data=data.val_batched,  # if no val data, it should be test_batched
                            callbacks=[early_stopping],
                            verbose=0)
             test_performance = lstm_model.evaluate(data.test_batched)

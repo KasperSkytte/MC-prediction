@@ -24,7 +24,7 @@
 
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
-		"Ikuyadeu.r",
+		"REditorSupport.r",
 		"ms-python.python",
 		"christian-kohler.path-intellisense",
 		"TianyiShi.rmarkdown",
