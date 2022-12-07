@@ -88,7 +88,7 @@ RUN R -e "renv::restore(library = '/opt/R/${R_VERSION}/lib/R/site-library/', cle
 RUN python3 -m pip install \
     pip==22.3.1 \
     pipenv==2022.11.30 \
-  && pipenv install --python /usr/bin/python3 --deploy --system
+  && pipenv install --python /usr/bin/python3 --deploy --system --site-packages
 
 #install nice-to-have system packages and clean up
 RUN export DEBIAN_FRONTEND=noninteractive \
