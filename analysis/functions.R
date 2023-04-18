@@ -159,12 +159,20 @@ parse_performance <- function(file) {
 #' @description Read ALL performance summary files from a single run, reformat, prettify and combine into a single data table
 #'
 #' @param results_dir Path to a results folder as produced by run.bash
+#' @param add_dataset_info If TRUE paste the number of predicted samples to each dataset. If FALSE show the number of samples instead.
 #'
 #' @return A data.table
 #' @export
 #'
 #' @examples
-read_results <- function(results_dir) {
+read_results <- function(
+  results_dir,
+  add_dataset_info = c(
+    "numsamples",
+    "predwindow",
+    "noneorwhateverelse"
+  )[1]
+) {
   filenames <- c(
     "lstm_idec_performance.txt",
     "lstm_abund_performance.txt",
@@ -203,6 +211,15 @@ read_results <- function(results_dir) {
     file.path(results_dir, "data_reformatted", "metadata.csv")
   )
 
+  if (length(add_dataset_info) != 1) {
+    if(!is.character(add_dataset_info)) {
+      stop("add_dataset_info must be a character vector of length 1")
+    }
+  }
+
+  if (add_dataset_info == "numsamples") {
+    dt$dataset <- paste0(dt$dataset, " (", nrow(metadata), ")")
+  } else if(add_dataset_info == "predwindow") {
   dt$dataset <- paste0(
     dt$dataset,
     " (",
@@ -212,6 +229,7 @@ read_results <- function(results_dir) {
       logfile[grepl("predict_timestamp", line), line]),
       " P.S.)"
     )
+  }
 
   dt$cluster_type <- stringr::str_replace_all(
     dt$cluster_type,
@@ -242,7 +260,12 @@ read_results <- function(results_dir) {
 #' @export
 #'
 #' @examples
-plot_all <- function(results_batch_dir) {
+plot_all <- function(
+  results_batch_dir,
+  add_dataset_info = "numsamples",
+  plot_width = 12,
+  plot_height = 8
+) {
   runs <- list.dirs(
     results_batch_dir,
     full.names = TRUE,
@@ -252,7 +275,7 @@ plot_all <- function(results_batch_dir) {
     stop("No results folders found, wrong working directory?")
   }
 
-  d_list <- lapply(runs, read_results)
+  d_list <- lapply(runs, read_results, add_dataset_info)
   names(d_list) <- runs
   combined <- rbindlist(
     d_list,
@@ -354,8 +377,8 @@ plot_all <- function(results_batch_dir) {
   ggsave(
     file.path(dirname(combined[1, results_folder]), "boxplot_all.png"),
     plot = plot,
-    width = 12,
-    height = 8
+    width = plot_width,
+    height = plot_height
   )
 
   return(plot)
@@ -565,13 +588,13 @@ plot_timeseries <- function(
   #alternating background shades for each year
   bg_ranges <- data.frame(
     xmin = seq(
-      from = floor_date(min(ASV1$Date), "year"),
-      to = floor_date(max(ASV1$Date), "year"),
+      from = floor_date(min(data$Date), "year"),
+      to = floor_date(max(data$Date), "year"),
       by = "2 years"
     ),
     xmax = seq(
-      from = floor_date(min(ASV1$Date), "year"),
-      to = floor_date(max(ASV1$Date), "year"),
+      from = floor_date(min(data$Date), "year"),
+      to = floor_date(max(data$Date), "year"),
       by = "2 years"
     ) + years(1)
   )
@@ -582,6 +605,7 @@ plot_timeseries <- function(
     bg_ranges[] <- lapply(bg_ranges, `+`, years(1))
     bg_ranges[-nrow(bg_ranges), ]
   }
+
   plot <- ggplot(
   data,
   aes(
@@ -604,14 +628,27 @@ plot_timeseries <- function(
     inherit.aes = FALSE,
     show.legend = FALSE
   ) +
-  geom_vline(xintercept = ASV1[split_dataset == "test", min(Date)]) +
+  geom_vline(xintercept = data[split_dataset == "test", min(Date)]) +
   scale_color_manual(
-    values = c("grey10", RColorBrewer::brewer.pal(6, "Paired")[c(6, 4)]),
+    #Colors from RColorBrewer::brewer.pal(6, "Paired")[c(6, 4, 2)]
+    values = c(
+      "grey10",
+      "#E31A1C",
+      "#33A02C",
+      "#1F78B4"
+    )[1:data[, length(unique(split_dataset))]],
     labels = c(
       real = "Real",
       train = "Prediction - Train",
-      test = "Prediction - Test"),
-    breaks = c("real", "train", "test")
+      test = "Prediction - Test",
+      val = "Prediction - Validation"
+    )[1:data[, length(unique(split_dataset))]],
+    breaks = c(
+      "real",
+      "train",
+      "test",
+      "val"
+    )[1:data[, length(unique(split_dataset))]]
   ) +
   #breaks should start from january, regardless of data
   scale_x_date(

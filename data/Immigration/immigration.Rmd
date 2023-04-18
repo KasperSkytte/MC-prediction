@@ -130,10 +130,10 @@ ggsave(file.path("overview plots", "sample_overview_unfiltered.png"), height = 1
 # load with ampvis2
 ```{r}
 d <- amp_load(
-  otutable = "ASVtable_notax.tsv",
+  otutable = "ASVtable_notax.zip",
   metadata = metadata,
-  taxonomy = "ASVs.R1.sintax",
-  fasta = "ASVs.R1.fa",
+  taxonomy = "ASVs.R1.zip",
+  fasta = "ASVs.R1.zip",
 )
 ```
 
