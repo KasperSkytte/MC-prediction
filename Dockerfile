@@ -1,6 +1,6 @@
 #Dockerfile inspired by https://sourcery.ai/blog/python-docker/
 #exact dockerfile used for base image: https://github.com/tensorflow/tensorflow/blob/master/tensorflow/tools/dockerfiles/dockerfiles/gpu.Dockerfile
-FROM tensorflow/tensorflow:2.11.1-gpu-jupyter as base
+FROM tensorflow/tensorflow:2.13.0rc1-gpu-jupyter as base
 
 # Copy library scripts to execute
 COPY .devcontainer/library-scripts/*.sh .devcontainer/library-scripts/*.env /tmp/library-scripts/
