@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #This script runs run.bash for different numbers 
 #of predicted samples into the future
-dataset="Aalborg E"
+dataset=${dataset:-"Randers"}
 npredictions="3 5 10 15 20"
 set -u
 for i in $npredictions
@@ -39,8 +39,8 @@ do
     "cluster_abund": true,
     "smoothing_factor": 4,
     "splits": [
-        0.85,
-        0.0,
+        0.70,
+        0.15,
         0.15
     ]
 }

@@ -3,6 +3,7 @@ import pandas as pd
 import tensorflow as tf
 import numpy as np
 
+from sklearn.covariance import GraphicalLasso
 from tensorflow import keras
 from bray_curtis import BrayCurtis
 from data_handler import DataHandler
@@ -12,6 +13,261 @@ from plotting import plot_prediction, train_tsne, plot_tsne, create_boxplot
 from correlation import calc_cluster_correlations, calc_correlation_aggregates
 from re import sub
 from os import mkdir, path
+
+graph_sparsity = 0.05  # can find from 0.01 ~ 0.1, the graph_sparsity is bigger, the learned graph is more sparse
+dropout_conf = 0.2  # can find from 0.1, 0.2, 0.3, 0.4
+kernel_size_conf = 2  # can find from 2, 3, 4
+residual_channels = 4  # can find from 4, 8, 16
+dilation_channels = residual_channels
+skip_channels = residual_channels * 8   # can find from * 2, 4, 8
+end_channels = skip_channels * 2  # can find from * 2, 4
+
+
+class nconv(tf.keras.Model):
+    def __init__(self):
+        super(nconv, self).__init__()
+
+    def call(self, x, A):
+        x = tf.einsum('nvlc,vw->nwlc', x, A)
+        return x
+
+
+class linear(tf.keras.Model):
+    def __init__(self, c_in, c_out):
+        super(linear, self).__init__()
+        self.mlp = keras.layers.Conv2D(filters=c_out, kernel_size=(1, 1), padding='same',
+                                       strides=(1, 1), use_bias=True)
+
+    def call(self, x):
+        return self.mlp(x)
+
+
+class gcn(tf.keras.Model):
+    def __init__(self, c_in, c_out, support_len=1, order=1):
+        super(gcn, self).__init__()
+        self.nconv = nconv()
+        c_in = (order*support_len+1)*c_in
+        self.mlp = linear(c_in, c_out)
+        self.dropout = keras.layers.Dropout(dropout_conf)
+        self.order = order
+
+    def call(self, x, support):
+        out = [x]
+        for a in support:
+            x1 = self.nconv(x, a)
+            out.append(x1)
+            for k in range(2, self.order + 1):
+                x2 = self.nconv(x1, a)
+                out.append(x2)
+                x1 = x2
+        h = keras.layers.concatenate(out, axis=-1)
+        h = self.mlp(h)
+        h = self.dropout(h)
+        return h
+
+
+def create_graph_model(num_features, predict_timestamp, graph, window_width, kernel_size=kernel_size_conf, blocks=3, layers=2):
+    """Create a model without tuning hyperparameters.
+       Returns: a keras graph-model."""
+
+    out_dim = predict_timestamp
+    start_conv = keras.layers.Conv2D(filters=residual_channels, kernel_size=(1, 1),
+                                     padding='same', strides=(1, 1), use_bias=True)
+    receptive_field = 1
+    supports_len = 1
+    filter_convs = []
+    gate_convs = []
+    residual_convs = []
+    skip_convs = []
+    bn = []
+    gconv = []
+    supports = [graph]
+    for b in range(blocks):
+        additional_scope = kernel_size - 1
+        new_dilation = 1
+        for i in range(layers):
+            # dilated convolutions
+            filter_convs.append(keras.layers.Conv2D(filters=dilation_channels, kernel_size=(1, kernel_size),
+                                     padding='valid', strides=(1, 1), use_bias=True, dilation_rate=new_dilation))
+
+            gate_convs.append(keras.layers.Conv2D(filters=dilation_channels, kernel_size=(1, kernel_size),
+                                     padding='valid', strides=(1, 1), use_bias=True, dilation_rate=new_dilation))
+
+            # 1x1 convolution for residual connection
+            residual_convs.append(keras.layers.Conv2D(filters=residual_channels, kernel_size=(1, 1),
+                                    padding='valid', strides=(1, 1), use_bias=True))
+
+            # 1x1 convolution for skip connection
+            skip_convs.append(keras.layers.Conv2D(filters=skip_channels, kernel_size=(1, 1),
+                                    padding='valid', strides=(1, 1), use_bias=True))
+            bn.append(keras.layers.BatchNormalization(axis=-1))
+            new_dilation *= 2
+            receptive_field += additional_scope
+            additional_scope *= 2
+            gconv.append(gcn(dilation_channels, residual_channels, support_len=supports_len))
+
+    end_conv_1 = keras.layers.Conv2D(filters=end_channels, kernel_size=(1, 1),
+                                    padding='valid', strides=(1, 1), use_bias=True)
+
+    end_conv_2 = keras.layers.Conv2D(filters=out_dim, kernel_size=(1, 1),
+                            padding='valid', strides=(1, 1), use_bias=True)
+
+    input_x_ = tf.keras.Input(shape=(window_width, num_features))
+    input_x = tf.keras.layers.Reshape((window_width, num_features, 1))(input_x_)
+    input_x = tf.keras.layers.Permute((2, 1, 3))(input_x)
+    if window_width < receptive_field:
+        x = tf.keras.layers.ZeroPadding2D(padding=((0, 0), (receptive_field-window_width, 0)))(input_x)
+    else:
+        x = input_x
+    x = start_conv(x)
+    skip = 0
+    for i in range(blocks * layers):
+        residual = x
+        # dilated convolution
+        filter = filter_convs[i](residual)
+        filter = tf.tanh(filter)
+        gate = gate_convs[i](residual)
+        gate = tf.sigmoid(gate)
+        x = filter * gate
+
+        # parametrized skip connection
+
+        s = x
+        s = skip_convs[i](s)
+        try:
+            skip = skip[:, :, -s.get_shape().as_list()[2]:, :]
+        except:
+            skip = 0
+        skip = s + skip
+
+        x = gconv[i](x, supports)
+
+        x = x + residual[:, :, -x.get_shape().as_list()[2]:, :]
+
+        x = bn[i](x)
+
+    x = tf.nn.relu(skip)
+    x = x[:, :, -1:, :]
+    x = tf.nn.relu(end_conv_1(x))
+    x = end_conv_2(x)
+    x = tf.keras.layers.Reshape((num_features, predict_timestamp))(x)
+    x = tf.keras.layers.Permute((2, 1))(x)
+    graph_model = tf.keras.Model(inputs=input_x_, outputs=x)
+    graph_model.compile(loss = BrayCurtis(name='bray_curtis'),
+                  optimizer = keras.optimizers.Adam(learning_rate=0.001),
+                  metrics = [tf.keras.losses.MeanSquaredError(), tf.keras.losses.MeanAbsoluteError()])
+    return graph_model
+
+
+def find_best_graph(data, iterations, num_clusters, max_epochs, early_stopping, cluster_type, predict_timestamp=1):
+    print(f'\nFitting {num_clusters} cluster(s) of type {cluster_type}')
+    best_performances = []
+    metric_names = []
+    for c in range(num_clusters):
+        c_id = c
+        print(f'\nCluster: {c}')
+        data.use_cluster(c, cluster_type)
+        best_model = None
+        best_performance = [100]
+        if data.all.shape[1] == 0:
+            print(f'Empty cluster, skipping')
+            continue
+        elif data.all.shape[1] == 1:
+            c = sub(';.*$', '', data.all.columns[0])
+            graph_matrix = np.ones(shape=(1, 1))
+        elif data.all.shape[1] > 1:
+            print(data.all.columns.values)
+            cov = GraphicalLasso(alpha=graph_sparsity, ).fit(data.all)
+            adj_mx = np.abs(cov.precision_)
+            d = np.array(adj_mx.sum(1))
+            d_inv = np.power(d, -0.5).flatten()
+            d_inv[np.isinf(d_inv)] = 0.
+            d_mat_inv = np.diag(d_inv)
+            graph_matrix = d_mat_inv.dot(adj_mx).dot(d_mat_inv)
+            print(f'graph matrix: {graph_matrix}')
+
+        for i in range(iterations):
+            print(f'Cluster: {c}, Iteration: {i}')
+            graph_model = create_graph_model(data.num_features, predict_timestamp, graph=graph_matrix,
+                                             window_width=data.window_width)
+            graph_model.fit(data.train_batched,
+                           epochs=max_epochs,
+                           validation_data=data.val_batched,  # if no val data, it should be test_batched
+                           callbacks=[early_stopping],
+                           verbose=0)
+            test_performance = graph_model.evaluate(data.test_batched)
+            if test_performance[0] < best_performance[0]:
+                best_model = graph_model
+                best_performance = test_performance
+
+        best_performances.append(best_performance)
+        best_model.save_weights(f'{results_dir}/graph_{cluster_type}_weights/cluster_{c}')
+
+        prediction = make_prediction(data, best_model)
+        # reverse transform and overwrite.
+        # Better to implement it in data_handler,
+        # but this does the job
+        if cluster_type == "abund":
+            prediction = rev_transform(
+                DF = prediction,
+                mean = data.transform_mean[data.clusters_abund == c_id],
+                std = data.transform_std[data.clusters_abund == c_id],
+                min = data.transform_min[data.clusters_abund == c_id],
+                max = data.transform_max[data.clusters_abund == c_id],
+                transform = data.transform_type
+            )
+        elif cluster_type == "func":
+            prediction = rev_transform(
+                DF = prediction,
+                mean = data.transform_mean[data.clusters_func == c_id],
+                std = data.transform_std[data.clusters_func == c_id],
+                min = data.transform_min[data.clusters_func == c_id],
+                max = data.transform_max[data.clusters_func == c_id],
+                transform = data.transform_type
+            )
+        elif cluster_type == "idec":
+            prediction = rev_transform(
+                DF = prediction,
+                mean = data.transform_mean[data.clusters_idec == c_id],
+                std = data.transform_std[data.clusters_idec == c_id],
+                min = data.transform_min[data.clusters_idec == c_id],
+                max = data.transform_max[data.clusters_idec == c_id],
+                transform = data.transform_type
+            )
+
+        dates = data.get_metadata(data.all, 'Date').dt.date
+        dates_test = data.get_metadata(data.test, 'Date').dt.date
+        # Date of the first sample in the test set and
+        # date of the first predicted result which only uses input data from the test set.
+        dates_pred_test_start = [dates_test.iloc[0], dates_test.iloc[data.window_width]]
+
+        # Plot prediction results.
+        plot_prediction(
+            data,
+            prediction = prediction,
+            dates = dates,
+            asvs = data.all.columns[:4],
+            highlight_dates = dates_pred_test_start,
+            save_filename = f'graph_{cluster_type}_cluster_{c}.png'
+        )
+
+        #write predicted values to CSV files
+        if not path.exists(data_predicted_dir):
+            mkdir(data_predicted_dir)
+        prediction.to_csv(f'{data_predicted_dir}/graph_{cluster_type}_cluster_{c}_predicted.csv')
+        data.all.to_csv(f'{data_predicted_dir}/graph_{cluster_type}_cluster_{c}_dataall.csv')
+        data.all_nontrans.to_csv(f'{data_predicted_dir}/graph_{cluster_type}_cluster_{c}_dataall_nontrans.csv')
+
+        metric_names = best_model.metrics_names
+
+    metric_names[0] = 'bray-curtis'
+    with open(f'{results_dir}/graph_{cluster_type}_performance.txt', 'w') as outfile:
+        c = 0
+        outfile.write(str(metric_names) + '\n')
+        for performance in best_performances:
+            outfile.write(str(c) + ': ' + str(performance) + '\n')
+            c += 1
+
 
 def create_tsne(data, num_clusters):
     data_embedded = train_tsne(data.data_raw)
@@ -157,10 +413,10 @@ def find_best_lstm(data, iterations, num_clusters, max_epochs, early_stopping, c
         if cluster_type == "abund":
             prediction = rev_transform(
                 DF = prediction,
-                mean = data.transform_mean[c_id],
-                std = data.transform_std[c_id],
-                min = data.transform_min[c_id],
-                max = data.transform_max[c_id],
+                mean = data.transform_mean[data.clusters_abund == c_id],
+                std = data.transform_std[data.clusters_abund == c_id],
+                min = data.transform_min[data.clusters_abund == c_id],
+                max = data.transform_max[data.clusters_abund == c_id],
                 transform = data.transform_type
             )
         elif cluster_type == "func":
@@ -265,7 +521,7 @@ if __name__ == '__main__':
         create_tsne(data, config['num_clusters_idec'])
 
         # Find the best LSTM models.
-        find_best_lstm(
+        find_best_graph(
             data,
             config['iterations'],
             config['num_clusters_idec'],
@@ -276,7 +532,7 @@ if __name__ == '__main__':
         )
     
     if config['cluster_func'] == True:
-        find_best_lstm(
+        find_best_graph(
             data,
             config['iterations'],
             len(config['functions']),
@@ -297,7 +553,7 @@ if __name__ == '__main__':
             predict_timestamp = config['predict_timestamp']
         )
         # Find the best LSTM model on single ASV's
-        find_best_lstm(
+        find_best_graph(
             data_abund,
             config['iterations'],
             data_abund.clusters_abund_size,
