@@ -543,18 +543,18 @@ if __name__ == '__main__':
         )
     
     if config['cluster_abund'] == True:
-        # new dataset for per-taxon training
-        data_abund = DataHandler(
-            config,
-            num_features = 1,
-            window_width = config['window_size'],
-            window_batch_size = 10,
-            splits = config['splits'],
-            predict_timestamp = config['predict_timestamp']
-        )
+        # # new dataset for per-taxon training
+        # data_abund = DataHandler(
+        #     config,
+        #     num_features = 1,
+        #     window_width = config['window_size'],
+        #     window_batch_size = 10,
+        #     splits = config['splits'],
+        #     predict_timestamp = config['predict_timestamp']
+        # )
         # Find the best LSTM model on single ASV's
         find_best_graph(
-            data_abund,
+            data,
             config['iterations'],
             data_abund.clusters_abund_size,
             config['max_epochs_lstm'],
