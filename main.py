@@ -14,6 +14,15 @@ from correlation import calc_cluster_correlations, calc_correlation_aggregates
 from re import sub
 from os import mkdir, path
 
+#fixes "No algorithm worked!" error, see
+#https://github.com/tensorflow/tensorflow/issues/43174#issuecomment-730959541
+from tensorflow.compat.v1 import ConfigProto
+from tensorflow.compat.v1 import InteractiveSession
+
+config = ConfigProto()
+config.gpu_options.allow_growth = True
+session = InteractiveSession(config=config)
+
 graph_sparsity = 0.05  # can find from 0.01 ~ 0.1, the graph_sparsity is bigger, the learned graph is more sparse
 dropout_conf = 0.2  # can find from 0.1, 0.2, 0.3, 0.4
 kernel_size_conf = 2  # can find from 2, 3, 4
@@ -556,7 +565,7 @@ if __name__ == '__main__':
         find_best_graph(
             data,
             config['iterations'],
-            data_abund.clusters_abund_size,
+            data.clusters_abund_size,
             config['max_epochs_lstm'],
             early_stopping,
             'abund',

@@ -2,11 +2,14 @@
 // https://github.com/microsoft/vscode-dev-containers/tree/v0.194.0/containers/docker-existing-dockerfile
 {
 	"name": "ASMC-prediction",
-	"image": "ghcr.io/kasperskytte/asmc-prediction:main",
+	// "image": "ghcr.io/kasperskytte/asmc-prediction:main",
 
-	// Update the 'dockerFile' property if you aren't using the standard 'Dockerfile' filename.
-	//"dockerFile": "../Dockerfile",
-	"initializeCommand": "docker pull ghcr.io/kasperskytte/asmc-prediction:main",
+	"build": {
+		// Update the 'dockerFile' property if you aren't using the standard 'Dockerfile' filename.
+		"dockerfile": "../Dockerfile"
+	},
+
+	// "initializeCommand": "docker pull ghcr.io/kasperskytte/asmc-prediction:main",
 
 	// Set *default* container specific settings.json values on container create.
 	"settings": {
@@ -33,7 +36,7 @@
 	],
 
 	// Enable GPU support for CUDA
-	"runArgs": ["--gpus", "all"],
+	"runArgs": ["--runtime=nvidia"],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],

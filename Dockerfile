@@ -1,6 +1,5 @@
 #Dockerfile inspired by https://sourcery.ai/blog/python-docker/
-#exact dockerfile used for base image: https://github.com/tensorflow/tensorflow/blob/master/tensorflow/tools/dockerfiles/dockerfiles/gpu.Dockerfile
-FROM tensorflow/tensorflow:2.11.1-gpu-jupyter as base
+FROM tensorflow/tensorflow:2.13.0rc0-gpu-jupyter
 
 # Copy library scripts to execute
 COPY .devcontainer/library-scripts/*.sh .devcontainer/library-scripts/*.env /tmp/library-scripts/
@@ -20,6 +19,9 @@ RUN export DEBIAN_FRONTEND=noninteractive \
   # Install common packages, non-root user
   && bash /tmp/library-scripts/common-debian.sh "${INSTALL_ZSH}" "${USERNAME}" "${USER_UID}" "${USER_GID}" "${UPGRADE_PACKAGES}" "true" "true" \
   && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
+
+#
+ENV TF_FORCE_GPU_ALLOW_GROWTH true
 
 # locales
 ENV LANG C.UTF-8
@@ -86,8 +88,8 @@ RUN R -e "renv::restore(library = '/opt/R/${R_VERSION}/lib/R/site-library/', cle
 
 #upgrade pip, install pipenv and python pkgs according to the lock file (system-wide)
 RUN python3 -m pip install \
-    pip==22.3.1 \
-    pipenv==2022.11.30 \
+    pip \
+    pipenv \
   && pipenv install --python /usr/bin/python3 --deploy --system --site-packages
 
 #install nice-to-have system packages and clean up

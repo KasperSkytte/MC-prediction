@@ -26,7 +26,7 @@ do
     "pseudo_zero": 0.01,
     "max_zeros_pct": 0.60,
     "top_n_taxa": 200,
-    "num_features": 200,
+    "num_features": 20,
     "iterations": 10,
     "max_epochs_lstm": 200,
     "window_size": 10,
