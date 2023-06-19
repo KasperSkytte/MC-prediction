@@ -61,18 +61,6 @@ metadata <- metadata[
   by = "SampleSite"
 ]
 
-#before filtering per week
-metadata_unmatched <- copy(metadata)
-
-#Filter time points without both IWW+AS pair of samples.
-metadata <- metadata[
-  ,
-  .SD[
-    length(unique(SampleContent)) == 2
-  ],
-  by = c("SampleSite", "YearWeek")
-]
-
 #Damhusåen has 4 separate AS lines with the same IWW
 metadata[
   SampleSite == "Damhusåen" &
@@ -99,12 +87,24 @@ metadata <- metadata[
     "SampleContent"
   )
 ]
+
+#before filtering per week
+metadata_unmatched <- copy(metadata)
+
+#Filter time points without both IWW+AS pair of samples.
+metadata_pairs <- metadata[
+  ,
+  .SD[
+    length(unique(SampleContent)) == 2
+  ],
+  by = c("SampleSite", "YearWeek")
+]
 ```
 
 # Sample overview, filtered
 ```{r}
 ggplot(
-  metadata,
+  metadata_pairs,
   aes(x = SampleDate, y = SampleContent, color = SampleContent)
 ) +
   geom_point() +
@@ -130,9 +130,9 @@ ggsave(file.path("overview plots", "sample_overview_unfiltered.png"), height = 1
 # load with ampvis2
 ```{r}
 d <- amp_load(
-  otutable = "ASVtable_notax.zip",
-  metadata = metadata,
-  taxonomy = "ASVs.R1.zip",
+  otutable = "ASVtable.zip",
+  metadata = metadata_unmatched,
+  taxonomy = "ASVs.R1.sintax.zip",
   fasta = "ASVs.R1.zip",
 )
 ```
@@ -151,6 +151,7 @@ outlist <- lapply(
       0.1
       )
 
+      #unfiltered
       dataset_IWW <- amp_subset_samples(
         dataset,
         SampleContent %chin% "IWW",
@@ -162,10 +163,34 @@ outlist <- lapply(
         removeAbsentOTUs = FALSE
       )
 
-      dataset_dir_IWW <- file.path("datasets", wwtp, "IWW")
-      dataset_dir_AS <- file.path("datasets", wwtp, "AS")
+      #filtered
+      dataset_filtered <- amp_subset_samples(
+        dataset,
+        SampleID %chin% metadata_pairs$SampleID,
+        removeAbsentOTUs = FALSE
+      )
+      dataset_filt_IWW <- amp_subset_samples(
+        dataset_filtered,
+        SampleContent %chin% "IWW",
+        removeAbsentOTUs = FALSE
+      )
+      dataset_filt_AS <- amp_subset_samples(
+        dataset_filtered,
+        SampleContent %chin% "AS",
+        removeAbsentOTUs = FALSE
+      )
+
+      exported_data_dir <- "datasets"
+
+      dataset_dir_IWW <- file.path(exported_data_dir, "unfiltered", wwtp, "IWW")
+      dataset_dir_AS <- file.path(exported_data_dir, "unfiltered", wwtp, "AS")
+      dataset_dir_filt_IWW <- file.path(exported_data_dir, "filtered", wwtp, "IWW")
+      dataset_dir_filt_AS <- file.path(exported_data_dir, "filtered", wwtp, "AS")
+
       dir.create(dataset_dir_IWW, mode = "0775", recursive = TRUE)
       dir.create(dataset_dir_AS, mode = "0775", recursive = TRUE)
+      dir.create(dataset_dir_filt_IWW, mode = "0775", recursive = TRUE)
+      dir.create(dataset_dir_filt_AS, mode = "0775", recursive = TRUE)
 
       #write out abundance tables
       #IWW
@@ -176,6 +201,13 @@ outlist <- lapply(
         ),
         file = file.path(dataset_dir_IWW, "ASVtable.csv")
       )
+      fwrite(
+        data.table(
+          ASV = rownames(dataset_filt_IWW$abund),
+          dataset_filt_IWW$abund
+        ),
+        file = file.path(dataset_dir_filt_IWW, "ASVtable.csv")
+      )
       #AS
       fwrite(
         data.table(
@@ -184,6 +216,13 @@ outlist <- lapply(
         ),
         file = file.path(dataset_dir_AS, "ASVtable.csv")
       )
+      fwrite(
+        data.table(
+          ASV = rownames(dataset_filt_AS$abund),
+          dataset_filt_AS$abund
+        ),
+        file = file.path(dataset_dir_filt_AS, "ASVtable.csv")
+      )
 
       #write out taxonomy
       #IWW
@@ -191,10 +230,18 @@ outlist <- lapply(
         dataset_IWW$tax,
         file = file.path(dataset_dir_IWW, "taxonomy.csv")
       )
+      fwrite(
+        dataset_filt_IWW$tax,
+        file = file.path(dataset_dir_filt_IWW, "taxonomy.csv")
+      )
       #AS
       fwrite(
         dataset_AS$tax,
         file = file.path(dataset_dir_AS, "taxonomy.csv")
+      )
+      fwrite(
+        dataset_filt_AS$tax,
+        file = file.path(dataset_dir_filt_AS, "taxonomy.csv")
       )
 
       #write out metadata
@@ -203,10 +250,18 @@ outlist <- lapply(
         dataset_IWW$metadata,
         file = file.path(dataset_dir_IWW, "metadata.csv")
       )
+      fwrite(
+        dataset_filt_IWW$metadata,
+        file = file.path(dataset_dir_filt_IWW, "metadata.csv")
+      )
       #AS
       fwrite(
         dataset_AS$metadata,
         file = file.path(dataset_dir_AS, "metadata.csv")
+      )
+      fwrite(
+        dataset_filt_AS$metadata,
+        file = file.path(dataset_dir_filt_AS, "metadata.csv")
       )
 
       dataset
