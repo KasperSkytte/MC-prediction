@@ -11,7 +11,10 @@ plot_performance <- function(results_dir, tablename = "performance_table") {
   filenames <- c(
     "lstm_idec_performance.txt",
     "lstm_abund_performance.txt",
-    "lstm_func_performance.txt"
+    "lstm_func_performance.txt",
+    "graph_idec_performance.txt",
+    "graph_abund_performance.txt",
+    "graph_func_performance.txt"
   )
   list <- lapply(
     file.path(results_dir, filenames),
@@ -113,7 +116,7 @@ load_data_reformatted <- function(results_dir) {
 }
 
 #' @title Read and parse model performance
-#' @description Read and parse a performance summary lstm_{idec,abund,func}_performance.txt file and return as data table
+#' @description Read and parse a performance summary {lstm,graph}_{idec,abund,func}_performance.txt file and return as data table
 #'
 #' @param file File path to a *_performance.txt file
 #'
@@ -176,7 +179,10 @@ read_results <- function(
   filenames <- c(
     "lstm_idec_performance.txt",
     "lstm_abund_performance.txt",
-    "lstm_func_performance.txt"
+    "lstm_func_performance.txt",
+    "graph_idec_performance.txt",
+    "graph_abund_performance.txt",
+    "graph_func_performance.txt"
   )
 
   results_list <- lapply(
@@ -236,7 +242,10 @@ read_results <- function(
     pattern = c(
       "lstm_abund" = "Single ASV",
       "lstm_func" = "Biological function",
-      "lstm_idec" = "IDEC"
+      "lstm_idec" = "IDEC",
+      "graph_abund" = "Single ASV",
+      "graph_func" = "Biological function",
+      "graph_idec" = "IDEC"
     )
   )
 
@@ -466,14 +475,14 @@ combine_abund <- function(results_dir, cluster_type) {
   #read predicted abundance tables
   pred_abund <- read_abund(
     results_dir = results_dir,
-    pattern = paste0("lstm_", cluster_type, ".*predicted\\.csv"),
+    pattern = paste0(cluster_type, ".*predicted\\.csv"),
     sample_prefix = "pred_"
   )
 
   #read true abundance tables
   true_abund <- read_abund(
     results_dir = results_dir,
-    pattern = paste0("lstm_", cluster_type, ".*dataall_nontrans\\.csv"),
+    pattern = paste0(cluster_type, ".*dataall_nontrans\\.csv"),
     sample_prefix = "true_"
   )
 
