@@ -163,7 +163,7 @@ plots <- lapply(
       plot = prediction_example,
       paste0("timeseries example - ", basename(wwtp), ".png"),
       width = 10,
-      height = 10
+      height = 18
     )
 
     #plot_timeseries(ASV1, save = TRUE)
@@ -482,4 +482,232 @@ list.dirs(
     )
     fivenum(rowSums(abund))
   })
+```
+
+# graph model test
+
+## summary of a few
+```{r}
+plot_all(
+  "results_graph/numfeatures20"
+)
+```
+
+```{r}
+plot_all(
+  "results_graph/numfeatures200"
+)
+```
+
+```{r}
+plot_all(
+  "results_graph/results_20230609_predwindows_randers",
+  add_dataset_info = "predwindow"
+)
+```
+
+```{r}
+plot_all(
+  "results_graph/results_20230619_predwindows_aae",
+  add_dataset_info = "predwindow"
+)
+```
+
+## prediction window tests
+
+### AAE - abund clustering
+```{r}
+#visualize the accuracy depending on prediction window length
+runs <- list.dirs(
+  "results_graph/results_20230619_predwindows_aae",
+  recursive = FALSE,
+  full.names = TRUE
+)
+AAE_predwindowtest <- lapply(
+  runs,
+  function(rundir) {
+    d <- amp_export_long(
+      combine_abund(
+        rundir,
+        cluster_type = "abund"
+      ),
+      tax_levels = "OTU",
+      metadata_vars = c("Date", "split_dataset")
+    )
+    d[, dataset := basename(rundir)]
+  }
+)
+d <- rbindlist(AAE_predwindowtest)
+d[, dataset := factor(
+  dataset,
+  levels = unique(dataset)[order(as.integer(gsub("[^0-9]*", "", unique(dataset))))])
+]
+
+plot_asv1 <- plot_timeseries(
+  d[grepl("^ASV1;", OTU)],
+  save = FALSE
+) +
+  facet_grid(rows = vars(dataset))
+
+plot_asv2 <- plot_timeseries(
+  d[grepl("^ASV2;", OTU)],
+  save = FALSE
+) +
+  facet_grid(rows = vars(dataset))
+
+plot_asv24 <- plot_timeseries(
+  d[grepl("^ASV24;", OTU)],
+  save = FALSE
+) +
+  facet_grid(rows = vars(dataset))
+
+ggsave("results_graph/results_20230619_predwindows_aae/asv1_abund.png", plot = plot_asv1)
+ggsave("results_graph/results_20230619_predwindows_aae/asv2_abund.png", plot = plot_asv2)
+ggsave("results_graph/results_20230619_predwindows_aae/asv24_abund.png", plot = plot_asv24)
+#plot_asv24 <- plot_timeseries(ASV24, save = FALSE) +
+#  theme(legend.position = "bottom") +
+#  ggtitle("ASV24 - Nitrospira, defluvii")
+
+```
+
+### AAE - IDEC clustering
+```{r}
+#visualize the accuracy depending on prediction window length
+runs <- list.dirs(
+  "results_graph/results_20230619_predwindows_aae",
+  recursive = FALSE,
+  full.names = TRUE
+)
+AAE_predwindowtest <- lapply(
+  runs,
+  function(rundir) {
+    d <- amp_export_long(
+      combine_abund(
+        rundir,
+        cluster_type = "idec"
+      ),
+      tax_levels = "OTU",
+      metadata_vars = c("Date", "split_dataset")
+    )
+    d[, dataset := basename(rundir)]
+  }
+)
+d <- rbindlist(AAE_predwindowtest)
+d[, dataset := factor(
+  dataset,
+  levels = unique(dataset)[order(as.integer(gsub("[^0-9]*", "", unique(dataset))))])
+]
+
+plot_asv1 <- plot_timeseries(
+  d[grepl("^ASV1;", OTU)],
+  save = FALSE
+) +
+  facet_grid(rows = vars(dataset))
+
+plot_asv2 <- plot_timeseries(
+  d[grepl("^ASV2;", OTU)],
+  save = FALSE
+) +
+  facet_grid(rows = vars(dataset))
+
+plot_asv24 <- plot_timeseries(
+  d[grepl("^ASV24;", OTU)],
+  save = FALSE
+) +
+  facet_grid(rows = vars(dataset))
+
+ggsave("results_graph/results_20230619_predwindows_aae/asv1_idec.png", plot = plot_asv1)
+ggsave("results_graph/results_20230619_predwindows_aae/asv2_idec.png", plot = plot_asv2)
+ggsave("results_graph/results_20230619_predwindows_aae/asv24_idec.png", plot = plot_asv24)
+#plot_asv24 <- plot_timeseries(ASV24, save = FALSE) +
+#  theme(legend.position = "bottom") +
+#  ggtitle("ASV24 - Nitrospira, defluvii")
+
+```
+
+```{r}
+#visualize the accuracy depending on prediction window length
+runs <- list.dirs(
+  "results_graph/results_20230619_predwindows_aae",
+  recursive = FALSE,
+  full.names = TRUE
+)
+AAE_predwindowtest <- lapply(
+  runs,
+  function(rundir) {
+    d <- amp_export_long(
+      combine_abund(
+        rundir,
+        cluster_type = "func"
+      ),
+      tax_levels = "OTU",
+      metadata_vars = c("Date", "split_dataset")
+    )
+    d[, dataset := basename(rundir)]
+  }
+)
+d <- rbindlist(AAE_predwindowtest)
+d[, dataset := factor(
+  dataset,
+  levels = unique(dataset)[order(as.integer(gsub("[^0-9]*", "", unique(dataset))))])
+]
+
+plot_asv1 <- plot_timeseries(
+  d[grepl("^ASV1;", OTU)],
+  save = FALSE
+) +
+  facet_grid(rows = vars(dataset))
+
+plot_asv2 <- plot_timeseries(
+  d[grepl("^ASV2;", OTU)],
+  save = FALSE
+) +
+  facet_grid(rows = vars(dataset))
+
+plot_asv24 <- plot_timeseries(
+  d[grepl("^ASV24;", OTU)],
+  save = FALSE
+) +
+  facet_grid(rows = vars(dataset))
+
+ggsave("results_graph/results_20230619_predwindows_aae/asv1_func.png", plot = plot_asv1)
+ggsave("results_graph/results_20230619_predwindows_aae/asv2_func.png", plot = plot_asv2)
+ggsave("results_graph/results_20230619_predwindows_aae/asv24_func.png", plot = plot_asv24)
+#plot_asv24 <- plot_timeseries(ASV24, save = FALSE) +
+#  theme(legend.position = "bottom") +
+#  ggtitle("ASV24 - Nitrospira, defluvii")
+```
+
+```{r}
+results_batch_dir <- "results_graph/numfeatures20"
+wwtp_results <- list.dirs(
+  results_batch_dir,
+  full.names = TRUE,
+  recursive = FALSE
+)
+
+plots <- lapply(
+  wwtp_results,
+  function(wwtp) {
+    plot <- wwtp %>%
+      combine_abund(cluster_type = "abund") %>%
+      amp_ordinate(
+        type = "pcoa",
+        distmeasure = "bray",
+        transform = "none",
+        filter_species = 0,
+        sample_color_by = "split_dataset",
+        sample_trajectory = "Date",
+        sample_trajectory_group = "Date"
+      ) +
+        scale_color_manual(
+          values = c("grey80", RColorBrewer::brewer.pal(3, "Set2")[c(1:3)])
+        ) +
+        theme(legend.title = element_blank())
+    ggsave(filename = file.path(results_batch_dir, paste0("PCoA - ", basename(wwtp), ".png")), plot = plot)
+    return(plot)
+  }
+)
+names(plots) <- basename(wwtp_results)
+hideme <- lapply(plots, print)
 ```
