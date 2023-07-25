@@ -8,7 +8,7 @@ output: md_document
 #load data
 library(ampvis2)
 library(data.table)
-library(stringr)
+library(tidyverse)
 library(lubridate)
 
 if (interactive()) {
@@ -76,7 +76,7 @@ metadata <- metadata[
   .SDcols = c("SampleDate", "SampleID")
 ]
 
-#Reorder with Sample ID's first to match abundance table
+#Reorder with Sample ID's first
 metadata <- metadata[
   ,
   c(
@@ -88,9 +88,6 @@ metadata <- metadata[
   )
 ]
 
-#before filtering per week
-metadata_unmatched <- copy(metadata)
-
 #Filter time points without both IWW+AS pair of samples.
 metadata_pairs <- metadata[
   ,
@@ -99,6 +96,84 @@ metadata_pairs <- metadata[
   ],
   by = c("SampleSite", "YearWeek")
 ]
+```
+
+# load with ampvis2
+```{r}
+d <- amp_load(
+  otutable = "ASVtable.zip",
+  metadata = metadata,
+  taxonomy = "ASVs.R1.sintax.zip",
+  fasta = "ASVs.R1.zip",
+)
+```
+
+# create fake samples filling in with -1 abundances where no matching IWW+AS pair
+```{r}
+# for each WWTP ensure there's a pair of IWW+AS in metadata
+# even though not present in abundance table. "Densify"/interpolate
+full_metadata <- d$metadata %>%
+  group_by(SampleSite) %>%
+  expand(YearWeek, SampleContent) %>%
+  data.table()
+
+# merge with sparse metadata
+full_metadata <- merge(
+  full_metadata,
+  d$metadata,
+  by = c("SampleSite", "YearWeek", "SampleContent"),
+  all.x = TRUE
+)
+
+#remove fake samples where there's an IWW sample but no AS (can't predict AS with onle -1's)
+full_metadata <- full_metadata[!(is.na(SampleID) & SampleContent == "AS")]
+
+# create sample ID's based on wwtp+year+week+location
+full_metadata[, oldSampleID := factor(SampleID, levels = colnames(d$abund))]
+full_metadata[
+  ,
+  SampleID := paste(
+    SampleSite,
+    YearWeek,
+    SampleContent
+  )
+]
+
+# fill in dates from the twin when missing
+full_metadata[
+  ,
+  SampleDate := if(any(is.na(SampleDate))) {
+    na.omit(SampleDate)[1]
+  } else {
+    SampleDate
+  },
+  by = c("SampleSite", "YearWeek")]
+
+# reorder based on abund
+setorder(
+  full_metadata,
+  oldSampleID
+)
+
+# rename columns in abund based on new sample IDs and add missing ones with -1
+colnames(d$abund) <- full_metadata[oldSampleID %in% colnames(d$abund), SampleID]
+d$abund[, full_metadata[!SampleID %chin% colnames(d$abund), SampleID]] <- -1
+
+# ensure order is the same and they contain the same sample IDs
+d$abund <- d$abund[, full_metadata[, SampleID]]
+full_metadata <- full_metadata[
+  ,
+  c(
+    "SampleID",
+    "oldSampleID",
+    "SampleSite",
+    "SampleDate",
+    "YearWeek",
+    "SampleContent"
+  )
+]
+setDF(full_metadata, rownames = full_metadata[, SampleID])
+d$metadata <- full_metadata
 ```
 
 # Sample overview, filtered
@@ -117,7 +192,7 @@ ggsave(file.path("overview plots", "sample_overview.png"), height = 18, width = 
 # Sample overview, unmatched
 ```{r}
 ggplot(
-  metadata_unmatched,
+  metadata,
   aes(x = SampleDate, y = SampleContent, color = SampleContent)
 ) +
   geom_point() +
@@ -127,20 +202,25 @@ ggplot(
 ggsave(file.path("overview plots", "sample_overview_unfiltered.png"), height = 18, width = 12)
 ```
 
-# load with ampvis2
+# Sample overview, with fake abundances (-1)
 ```{r}
-d <- amp_load(
-  otutable = "ASVtable.zip",
-  metadata = metadata_unmatched,
-  taxonomy = "ASVs.R1.sintax.zip",
-  fasta = "ASVs.R1.zip",
-)
+ggplot(
+  d$metadata,
+  aes(x = SampleDate, y = SampleContent, color = SampleContent)
+) +
+  geom_point() +
+  facet_grid(rows = vars(SampleSite)) +
+  scale_x_date(date_breaks = "months") +
+  theme(axis.text.x = element_text(angle = 90))
+ggsave(file.path("overview plots", "sample_overview_unfiltered_fakes.png"), height = 18, width = 12)
 ```
 
+# split into separate files for each WWTP
 ```{r}
 outlist <- lapply(
   unique(d$metadata$SampleSite),
   function(wwtp) {
+    message("Dataset: ", wwtp)
     if(!grepl("^Damhus", wwtp)) {
       dataset <- filter_otus(
         amp_subset_samples(
@@ -166,7 +246,7 @@ outlist <- lapply(
       #filtered
       dataset_filtered <- amp_subset_samples(
         dataset,
-        SampleID %chin% metadata_pairs$SampleID,
+        oldSampleID %in% metadata_pairs$SampleID,
         removeAbsentOTUs = FALSE
       )
       dataset_filt_IWW <- amp_subset_samples(
