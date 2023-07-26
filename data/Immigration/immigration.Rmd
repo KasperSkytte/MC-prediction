@@ -10,6 +10,8 @@ library(ampvis2)
 library(data.table)
 library(tidyverse)
 library(lubridate)
+library(foreach)
+library(doFuture)
 
 if (interactive()) {
   if (!grepl("data/Immigration$", getwd())) {
@@ -217,18 +219,29 @@ ggsave(file.path("overview plots", "sample_overview_unfiltered_fakes.png"), heig
 
 # split into separate files for each WWTP
 ```{r}
-outlist <- lapply(
-  unique(d$metadata$SampleSite),
-  function(wwtp) {
+# remove data from WWTPs with no twins (hasn't been sequenced yet I guess)
+# mainly esbjerg w+fredericia
+metadata_twins <- d$metadata %>%
+  group_by(SampleSite) %>%
+  filter(length(unique(SampleContent)) > 1)
+ds <- amp_filter_samples(
+  d,
+  SampleID %in% metadata_twins$SampleID
+)
+future::plan(future::multisession, workers = 16)
+
+outlist <- foreach(
+  wwtp = unique(ds$metadata$SampleSite)
+) %dofuture% {
     message("Dataset: ", wwtp)
     if(!grepl("^Damhus", wwtp)) {
       dataset <- filter_otus(
         amp_subset_samples(
-        d,
-        SampleSite %chin% wwtp,
-        normalise = FALSE
-      ),
-      0.1
+          ds,
+          SampleSite %chin% wwtp,
+          normalise = FALSE
+        ),
+        0.1
       )
 
       #unfiltered
@@ -347,5 +360,4 @@ outlist <- lapply(
       dataset
     }
   }
-)
 ```
