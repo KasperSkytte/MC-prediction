@@ -49,6 +49,7 @@ COPY renv.lock .
 #download and install R, required system dependencies, and R packages
 RUN export DEBIAN_FRONTEND=noninteractive \
   && apt-get update -qqy \
+  && apt-get upgrade -qqy \
   && apt-get -y install --fix-broken --no-install-recommends --no-install-suggests \
     git \
     wget \
@@ -92,7 +93,7 @@ RUN python3 -m pip install \
     pipenv \
   && pipenv install --python /usr/bin/python3 --deploy --system --site-packages
 
-#install nice-to-have system packages and clean up
+#clean up
 RUN export DEBIAN_FRONTEND=noninteractive \
   && apt-get update -qqy \
   # clean up after yourself, mommy doesn't work here
