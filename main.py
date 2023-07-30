@@ -3,7 +3,8 @@ import pandas as pd
 import tensorflow as tf
 import numpy as np
 
-from sklearn.covariance import GraphicalLasso
+from sklearn import preprocessing
+from sklearn.covariance import GraphicalLasso, EmpiricalCovariance
 from tensorflow import keras
 from bray_curtis import BrayCurtis
 from data_handler import DataHandler
@@ -23,13 +24,13 @@ config = ConfigProto()
 config.gpu_options.allow_growth = True
 session = InteractiveSession(config=config)
 
-graph_sparsity = 0.05  # can find from 0.01 ~ 0.1, the graph_sparsity is bigger, the learned graph is more sparse
-dropout_conf = 0.2  # can find from 0.1, 0.2, 0.3, 0.4
-kernel_size_conf = 2  # can find from 2, 3, 4
-residual_channels = 4  # can find from 4, 8, 16
+graph_sparsity = 0.01  # can find from 0.01 ~ 0.1, the graph_sparsity is bigger, the learned graph is more sparse
+dropout_conf = 0.1  # can find from 0, 0.1, 0.2, 0.3
+kernel_size_conf = 3  # can find from 2, 3, 4
+residual_channels = 8  # can find from 4, 8, 16
 dilation_channels = residual_channels
-skip_channels = residual_channels * 8   # can find from * 2, 4, 8
-end_channels = skip_channels * 2  # can find from * 2, 4
+skip_channels = residual_channels * 4   # can find from * 2, 4, 8
+end_channels = skip_channels * 1  # can find from * 2, 4
 
 
 class nconv(tf.keras.Model):
@@ -75,7 +76,7 @@ class gcn(tf.keras.Model):
         return h
 
 
-def create_graph_model(num_features, predict_timestamp, graph, window_width, kernel_size=kernel_size_conf, blocks=3, layers=2):
+def create_graph_model(num_features, predict_timestamp, graph, window_width, kernel_size=kernel_size_conf, blocks=2, layers=2):
     """Create a model without tuning hyperparameters.
        Returns: a keras graph-model."""
 
@@ -156,7 +157,7 @@ def create_graph_model(num_features, predict_timestamp, graph, window_width, ker
         x = bn[i](x)
 
     x = tf.nn.relu(skip)
-    x = x[:, :, -1:, :]
+    x = tf.reduce_mean(x, axis=-2, keepdims=True)
     x = tf.nn.relu(end_conv_1(x))
     x = end_conv_2(x)
     x = tf.keras.layers.Reshape((num_features, predict_timestamp))(x)
@@ -172,6 +173,11 @@ def find_best_graph(data, iterations, num_clusters, max_epochs, early_stopping, 
     print(f'\nFitting {num_clusters} cluster(s) of type {cluster_type}')
     best_performances = []
     metric_names = []
+    if cluster_type == "graph":
+        matrix_save = pd.DataFrame(data=data.graph_matrix,
+                        index=data.all.columns,
+                        columns=data.all.columns)
+        matrix_save.to_csv(f'{graph_dir}/graph_all.csv')
     for c in range(num_clusters):
         c_id = c
         print(f'\nCluster: {c}')
@@ -186,13 +192,29 @@ def find_best_graph(data, iterations, num_clusters, max_epochs, early_stopping, 
             graph_matrix = np.ones(shape=(1, 1))
         elif data.all.shape[1] > 1:
             print(data.all.columns.values)
-            cov = GraphicalLasso(alpha=graph_sparsity, ).fit(data.all)
-            adj_mx = np.abs(cov.precision_)
+            standsacle = preprocessing.StandardScaler()
+            standsacle.fit(data.all[:])
+            graph_train_data = standsacle.transform(data.all[:], copy=True)
+            try:
+                cov_init = GraphicalLasso(alpha=graph_sparsity, mode='cd', max_iter=500, assume_centered=True).fit(
+                    graph_train_data)
+            except Exception as e:
+                print('EmpiricalCovariance precision_')
+                cov_init = EmpiricalCovariance(store_precision=True, assume_centered=True).fit(graph_train_data)
+
+            adj_mx = cov_init.precision_
+            d_add = np.diag(np.diag(adj_mx)) * 2
+            adj_mx = adj_mx + d_add
             d = np.array(adj_mx.sum(1))
             d_inv = np.power(d, -0.5).flatten()
             d_inv[np.isinf(d_inv)] = 0.
             d_mat_inv = np.diag(d_inv)
             graph_matrix = d_mat_inv.dot(adj_mx).dot(d_mat_inv)
+            if cluster_type == "graph":
+                matrix_save = pd.DataFrame(data=graph_matrix,
+                                           index=data.all.columns,
+                                           columns=data.all.columns)
+                matrix_save.to_csv(f'{graph_dir}/graph_cluster_{c}.csv')
             print(f'graph matrix: {graph_matrix}')
 
         for i in range(iterations):
@@ -205,7 +227,10 @@ def find_best_graph(data, iterations, num_clusters, max_epochs, early_stopping, 
                            callbacks=[early_stopping],
                            verbose=0)
             test_performance = graph_model.evaluate(data.test_batched)
-            if test_performance[0] < best_performance[0]:
+            if i == 0:
+                best_model = graph_model
+                best_performance = test_performance
+            elif test_performance[0] < best_performance[0]:
                 best_model = graph_model
                 best_performance = test_performance
 
@@ -224,6 +249,15 @@ def find_best_graph(data, iterations, num_clusters, max_epochs, early_stopping, 
                 min = data.transform_min[data.clusters_abund == c_id],
                 max = data.transform_max[data.clusters_abund == c_id],
                 transform = data.transform_type
+            )
+        elif cluster_type == "graph":
+            prediction = rev_transform(
+                DF=prediction,
+                mean=data.transform_mean[data.clusters_graph == c_id],
+                std=data.transform_std[data.clusters_graph == c_id],
+                min=data.transform_min[data.clusters_graph == c_id],
+                max=data.transform_max[data.clusters_graph == c_id],
+                transform=data.transform_type
             )
         elif cluster_type == "func":
             prediction = rev_transform(
@@ -486,6 +520,7 @@ if __name__ == '__main__':
         config = json.load(config_file)
 
     results_dir = config['results_dir']
+    graph_dir = f'{results_dir}/graph_matrix'
     data_predicted_dir = f'{results_dir}/data_predicted'
     data_splits_dir = f'{results_dir}/data_splits'
 
@@ -495,6 +530,8 @@ if __name__ == '__main__':
         mkdir(data_predicted_dir)
     if not path.exists(data_splits_dir):
         mkdir(data_splits_dir)
+    if not path.exists(graph_dir):
+        mkdir(graph_dir)
 
     # Callback used in the training to stop early when the model no longer improves.
     early_stopping = keras.callbacks.EarlyStopping(
@@ -511,7 +548,8 @@ if __name__ == '__main__':
         window_width = config['window_size'],
         window_batch_size = 10,
         splits = config['splits'],
-        predict_timestamp = config['predict_timestamp']
+        predict_timestamp=config['predict_timestamp'],
+        num_per_group=config['num_per_group']
     )
 
     #write sample names and dates for each 3-way split data set
@@ -552,16 +590,6 @@ if __name__ == '__main__':
         )
     
     if config['cluster_abund'] == True:
-        # # new dataset for per-taxon training
-        # data_abund = DataHandler(
-        #     config,
-        #     num_features = 1,
-        #     window_width = config['window_size'],
-        #     window_batch_size = 10,
-        #     splits = config['splits'],
-        #     predict_timestamp = config['predict_timestamp']
-        # )
-        # Find the best LSTM model on single ASV's
         find_best_graph(
             data,
             config['iterations'],
@@ -572,6 +600,17 @@ if __name__ == '__main__':
             predict_timestamp=config['predict_timestamp']
         )
 
+    if config['cluster_graph'] == True:
+        data.clusters = None
+        find_best_graph(
+            data,
+            config['iterations'],
+            data.clusters_graph_size,
+            config['max_epochs_lstm'],
+            early_stopping,
+            'graph',
+            predict_timestamp=config['predict_timestamp']
+        )
     
   # clusters_abund_size   [N / num_features]
 
