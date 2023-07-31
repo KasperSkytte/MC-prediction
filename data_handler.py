@@ -249,6 +249,8 @@ class DataHandler:
 
     def _load_data(self, config):
         data_raw, meta, func_tax, clusters_func, functions = load_data(config)
+        if self.max_num_features > data_raw.shape[0]:
+            self.max_num_features = data_raw.shape[0]
         data_raw = data_raw[:self.max_num_features]
         func_tax = func_tax[:self.max_num_features]
         clusters_func = clusters_func[:self.max_num_features]
