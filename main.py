@@ -362,7 +362,7 @@ def find_best_idec(data, iterations, num_clusters, tolerance):
     means, stds, p_means, weighted_avg = calc_correlation_aggregates(cluster_sizes, r_values, p_values)
     create_boxplot(r_values, 'abs(r-values)', 'func')
 
-    with open(results_dir + '/idec_performance.txt', 'w') as outfile:
+    with open(results_dir + '/clusters.txt', 'w') as outfile:
         outfile.write('function clustering:\n')
         outfile.write('Cluster sizes: ' + str(cluster_sizes) + '\n')
         outfile.write('r (mean): ' + str(np.around(np.array(means), 5)) + '\n')

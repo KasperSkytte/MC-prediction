@@ -59,6 +59,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     libcurl4-openssl-dev \
     libssl-dev \
     libxml2-dev \
+    libglpk-dev \
     libxt-dev \
     libcairo2-dev \
     libharfbuzz-dev \
