@@ -8,16 +8,13 @@
 #'
 #' @examples
 plot_performance <- function(results_dir, tablename = "performance_table") {
-  filenames <- c(
-    "lstm_idec_performance.txt",
-    "lstm_abund_performance.txt",
-    "lstm_func_performance.txt",
-    "graph_idec_performance.txt",
-    "graph_abund_performance.txt",
-    "graph_func_performance.txt"
+  files <- list.files(
+    results_dir,
+    pattern = ".*_performance.txt",
+    full.names = TRUE
   )
   list <- lapply(
-    file.path(results_dir, filenames),
+    files,
     function(filepath) {
       dt <- fread(filepath)
       colnames(dt) <- gsub("[\\['\\]]*", "", colnames(dt))
@@ -73,10 +70,13 @@ plot_performance <- function(results_dir, tablename = "performance_table") {
     )
   ) +
     geom_col(position = "dodge2") +
-    facet_wrap("errorfunc", scales = "free_y", ncol = 1) +
+    scale_color_brewer(palette = "Set2") +
+    facet_grid(rows = vars(errorfunc), cols = vars(clustertype)) +
     ylim(0, 1)
   print(plot)
-  cli::cat_line(readLines(paste0(path, "/idec_performance.txt")))
+  cluster_info_file <- file.path(results_dir, "clusters.txt")
+  if(file.exists(cluster_info_file))
+    cli::cat_line(readLines(cluster_info_file))
 }
 
 #' @title Read reformatted amplicon data from a results folder
@@ -116,7 +116,7 @@ load_data_reformatted <- function(results_dir) {
 }
 
 #' @title Read and parse model performance
-#' @description Read and parse a performance summary {lstm,graph}_{idec,abund,func}_performance.txt file and return as data table
+#' @description Read and parse a performance summary {lstm,graph}_{idec,abund,func,graph}_performance.txt file and return as data table
 #'
 #' @param file File path to a *_performance.txt file
 #'
@@ -182,7 +182,8 @@ read_results <- function(
     "lstm_func_performance.txt",
     "graph_idec_performance.txt",
     "graph_abund_performance.txt",
-    "graph_func_performance.txt"
+    "graph_func_performance.txt",
+    "graph_graph_performance.txt"
   )
 
   results_list <- lapply(
@@ -240,12 +241,13 @@ read_results <- function(
   dt$cluster_type <- stringr::str_replace_all(
     dt$cluster_type,
     pattern = c(
-      "lstm_abund" = "Single ASV",
+      "lstm_abund" = "Ranked abundance",
       "lstm_func" = "Biological function",
       "lstm_idec" = "IDEC",
-      "graph_abund" = "Single ASV",
+      "graph_abund" = "Ranked abundance",
       "graph_func" = "Biological function",
-      "graph_idec" = "IDEC"
+      "graph_idec" = "IDEC",
+      "graph_graph" = "Graph"
     )
   )
 
@@ -465,7 +467,7 @@ read_abund <- function(results_dir, pattern, sample_prefix = "") {
 #'
 #' @examples
 combine_abund <- function(results_dir, cluster_type) {
-  cluster_types <- c("abund", "func", "idec")
+  cluster_types <- c("abund", "func", "idec", "graph")
   if (length(cluster_type) != 1L || !any(cluster_type %in% cluster_types)) {
     stop(
       "cluster_type must be one of: ",
@@ -686,4 +688,63 @@ plot_timeseries <- function(
   }
 
   return(plot)
+}
+
+plot_graph <- function(
+  graph_matrix_file,
+  plot_title = gsub("^.*/|\\.csv$", "", graph_matrix_file)
+) {
+  graph_cluster <- fread(
+    graph_matrix_file,
+    header = TRUE,
+    data.table = FALSE
+  )
+  rownames(graph_cluster) <- graph_cluster[[1]]
+  graph_cluster <- graph_cluster[, -1, drop = FALSE]
+  graph_cluster[] <- lapply(graph_cluster, round, 3)
+  graph_cluster[graph_cluster == 0] <- 0.001 #pseudo-zero
+
+  graph <- graph_cluster %>%
+    as.matrix %>%
+    graph.adjacency(
+      mode = "undirected",
+      weighted = TRUE,
+      diag = FALSE
+    ) %>%
+    as_tbl_graph(directed = FALSE)
+
+  #use non-negative values for the layout, but keep originals for labels
+  E(graph)$weight.orig <- E(graph)$weight
+  E(graph)$weight <- abs(E(graph)$weight)
+
+  #Fruchterman-Reingold layout graph
+  ggraph(
+    graph,
+    layout = "igraph",
+    algorithm = "gem"
+  ) +
+    geom_edge_link(
+      aes(
+        label = weight.orig,
+        color = weight.orig
+      ),
+      width = 2,
+      show.legend = FALSE
+    ) +
+    geom_node_point(size = 3) +
+    geom_node_label(
+      aes(label = name),
+      repel = TRUE
+    ) + {
+      colors <- rev(RColorBrewer::brewer.pal(n = 3, name = "RdBu"))
+      scale_edge_color_gradient2(
+        low = colors[1],
+        mid = "grey80",
+        high = colors[3],
+        breaks = c(-Inf, 0, Inf),
+        #labels = c("Negative", "Zero", "Positive")
+      )
+    } +
+    theme_void() +
+    ggtitle(plot_title)
 }
