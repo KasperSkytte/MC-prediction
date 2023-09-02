@@ -122,7 +122,6 @@
       "RemoteRef": "main",
       "RemoteSha": "5db25f8410d45c9ddbc61a1988dd2eb484366a18",
       "Remotes": "github::kasperskytte/biomformat",
-      "Remotes": "github::kasperskytte/biomformat",
       "Requirements": [
         "R",
         "RColorBrewer",
@@ -144,7 +143,7 @@
         "utils",
         "vegan"
       ],
-      "Hash": "9e9d34feb2578429019bf7150af987f7"
+      "Hash": "de659276db01fcc2d42ffe5dbd8a720a"
     },
     "ape": {
       "Package": "ape",
@@ -1314,19 +1313,21 @@
     },
     "patchwork": {
       "Package": "patchwork",
-      "Version": "1.1.2",
+      "Version": "1.1.3",
       "Source": "Repository",
       "Repository": "RSPM",
       "Requirements": [
+        "cli",
         "ggplot2",
         "grDevices",
         "graphics",
         "grid",
         "gtable",
+        "rlang",
         "stats",
         "utils"
       ],
-      "Hash": "63b611e9d909a9ed057639d9c3b77152"
+      "Hash": "c5754106c02e8e019941100c81149431"
     },
     "permute": {
       "Package": "permute",
