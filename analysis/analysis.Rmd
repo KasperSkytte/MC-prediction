@@ -21,6 +21,10 @@ require("ampvis2")
 require("magrittr")
 require("stringr")
 require("lubridate")
+require("tidygraph")
+require("ggraph")
+require("igraph")
+require("patchwork")
 
 #when knitting will always be done in the context of the Rmd file, otherwise not
 if (interactive()) {
@@ -29,41 +33,76 @@ if (interactive()) {
   }
 }
 source("functions.R")
+set.seed(42)
 ```
 
 # Prediction accuracy across WWTPs tests
-
-```{r}
-plot_all("results_20220726_divmean")
-```
-
-```{r}
-plot_all("results_20220601_standardized")
-```
-
-```{r}
-plot_all("results_20220702_normalized")
-```
-
+## Graph model incl graph clustering with 3 per group
 ```{r}
 plot_all(
-  "results_20220802_predwindow_noval",
-  add_dataset_info = "predwindow"
+  "results_graph/graph_clustering/3pergroup"
 )
 ```
 
+## Graph model incl graph clustering with 5 per group
 ```{r}
-defenceplot <- plot_all(
-  results_batch_dir = "results_20221210_wval",
-  add_dataset_info = "numsamples",
-  plot_width = 12,
-  plot_height = 10
+plot_all(
+  "results_graph/graph_clustering/5pergroup"
+)
+```
+
+## Check some clusters from AAE
+```{r}
+plot_performance(
+  "results_graph/graph_clustering/3pergroup/Aalborg E"
+)
+plot_performance(
+  "results_graph/graph_clustering/5pergroup/Aalborg E"
+)
+```
+
+# Network plots
+```{r}
+graph_matrix_list <- list.files(
+  "results_graph/graph_clustering/5pergroup/Aalborg E/graph_matrix",
+  pattern = "graph_cluster_*",
+  full.names = TRUE
+)
+#list is sorted lexicographically, reorder numerically
+order <- graph_matrix_list %>%
+  basename %>%
+  stringi::stri_extract_all_regex("[0-9]+") %>%
+  unlist(use.names = FALSE) %>%
+  as.integer %>%
+  order
+graph_matrix_list <- graph_matrix_list[order]
+
+plot_list <- lapply(
+  graph_matrix_list[1:4],
+  plot_graph
+)
+
+#plots are named after the filenames
+plot <- wrap_plots(
+  plot_list,
+  guides = "collect",
+  tag_level = "keep"
+)
+plot
+ggsave(plot = plot, filename = "graph_network_plot.pdf")
+```
+
+## Prediction window test
+```{r}
+plot_all(
+  "results_graph/graph_clustering/predwindow_aae",
+  add_dataset_info = "predwindow"
 )
 ```
 
 # PCoA (all WWTPs)
 ```{r PCOA_colored_all}
-results_batch_dir <- "results_20221210_wval"
+results_batch_dir <- "results_graph/graph_clustering/5pergroup"
 wwtp_results <- list.dirs(
   results_batch_dir,
   full.names = TRUE,
@@ -84,11 +123,17 @@ plots <- lapply(
         sample_trajectory = "Date",
         sample_trajectory_group = "Date"
       ) +
-        scale_color_manual(
-          values = c("grey80", RColorBrewer::brewer.pal(3, "Set2")[c(1:3)])
-        ) +
-        theme(legend.title = element_blank())
-    ggsave(filename = paste0("PCoA - ", basename(wwtp), ".png"), plot = plot)
+      scale_color_manual(
+        values = c("grey80", RColorBrewer::brewer.pal(3, "Set2")[c(1:3)])
+      ) +
+      theme(legend.title = element_blank())
+    ggsave(
+      filename = file.path(
+        results_batch_dir,
+        paste0("PCoA - ", basename(wwtp), ".png")
+      ),
+      plot = plot
+    )
     return(plot)
   }
 )
@@ -98,7 +143,7 @@ hideme <- lapply(plots, print)
 
 ## Time Series examples
 ```{r timeseries}
-results_batch_dir <- "results_20221210_wval"
+results_batch_dir <- "results_graph/graph_clustering/5pergroup"
 wwtp_results <- list.dirs(
   results_batch_dir,
   full.names = TRUE,
@@ -129,7 +174,7 @@ plots <- lapply(
           axis.ticks.x = element_blank()
         ) +
         ggtitle("ASV1 - Tetrasphaera, midas_s_5") +
-        scale_y_continuous(breaks = seq(0, 8, 1))
+        scale_y_continuous(breaks = breaks_pretty())
     } else {
       plot_asv1 <- plot_spacer()
     }
@@ -143,7 +188,7 @@ plots <- lapply(
           axis.ticks.x = element_blank()
         ) +
         ggtitle("ASV2 - Ca. Microthrix, parvicella") +
-        scale_y_continuous(breaks = seq(0, 10, 1))
+        scale_y_continuous(breaks = breaks_pretty())
     } else {
       plot_asv2 <- plot_spacer()
     }
@@ -153,7 +198,7 @@ plots <- lapply(
       plot_asv24 <- plot_timeseries(ASV24, save = FALSE) +
         theme(legend.position = "bottom") +
         ggtitle("ASV24 - Nitrospira, defluvii") +
-        scale_y_continuous(breaks = seq(0, 0.8, 0.1))
+        scale_y_continuous(breaks = breaks_pretty())
     } else {
       plot_asv24 <- plot_spacer()
     }
@@ -161,9 +206,12 @@ plots <- lapply(
     prediction_example <- plot_asv1 / plot_asv2 / plot_asv24
     ggsave(
       plot = prediction_example,
-      paste0("timeseries example - ", basename(wwtp), ".png"),
+      filename = file.path(
+        results_batch_dir,
+        paste0("timeseries example - ", basename(wwtp), ".png")
+      ),
       width = 10,
-      height = 18
+      height = 12
     )
 
     #plot_timeseries(ASV1, save = TRUE)
@@ -179,7 +227,7 @@ hideme <- lapply(plots, print)
 
 # Statistical test of real vs predicted
 ```{r}
-results_batch_dir <- "results_20221210_wval"
+results_batch_dir <- "results_graph/graph_clustering/5pergroup"
 wwtp_results <- list.dirs(
   results_batch_dir,
   full.names = TRUE,
