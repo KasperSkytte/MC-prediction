@@ -1,6 +1,5 @@
 #Dockerfile inspired by https://sourcery.ai/blog/python-docker/
-#exact dockerfile used for base image: https://github.com/tensorflow/tensorflow/blob/master/tensorflow/tools/dockerfiles/dockerfiles/gpu.Dockerfile
-FROM tensorflow/tensorflow:2.11.1-gpu-jupyter as base
+FROM tensorflow/tensorflow:2.13.0rc0-gpu-jupyter
 
 # Copy library scripts to execute
 COPY .devcontainer/library-scripts/*.sh .devcontainer/library-scripts/*.env /tmp/library-scripts/
@@ -21,6 +20,9 @@ RUN export DEBIAN_FRONTEND=noninteractive \
   && bash /tmp/library-scripts/common-debian.sh "${INSTALL_ZSH}" "${USERNAME}" "${USER_UID}" "${USER_GID}" "${UPGRADE_PACKAGES}" "true" "true" \
   && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
+#
+ENV TF_FORCE_GPU_ALLOW_GROWTH true
+
 # locales
 ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8
@@ -35,7 +37,7 @@ ENV PYTHONFAULTHANDLER 1
 ENV MPLCONFIGDIR /tmp
 
 #set R version
-ENV R_VERSION 4.1.2
+ENV R_VERSION 4.3.1
 
 WORKDIR /opt
 
@@ -47,6 +49,7 @@ COPY renv.lock .
 #download and install R, required system dependencies, and R packages
 RUN export DEBIAN_FRONTEND=noninteractive \
   && apt-get update -qqy \
+  && apt-get upgrade -qqy \
   && apt-get -y install --fix-broken --no-install-recommends --no-install-suggests \
     git \
     wget \
@@ -56,6 +59,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     libcurl4-openssl-dev \
     libssl-dev \
     libxml2-dev \
+    libglpk-dev \
     libxt-dev \
     libcairo2-dev \
     libharfbuzz-dev \
@@ -86,11 +90,11 @@ RUN R -e "renv::restore(library = '/opt/R/${R_VERSION}/lib/R/site-library/', cle
 
 #upgrade pip, install pipenv and python pkgs according to the lock file (system-wide)
 RUN python3 -m pip install \
-    pip==22.3.1 \
-    pipenv==2022.11.30 \
+    pip \
+    pipenv \
   && pipenv install --python /usr/bin/python3 --deploy --system --site-packages
 
-#install nice-to-have system packages and clean up
+#clean up
 RUN export DEBIAN_FRONTEND=noninteractive \
   && apt-get update -qqy \
   # clean up after yourself, mommy doesn't work here

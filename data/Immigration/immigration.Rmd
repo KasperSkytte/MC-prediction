@@ -8,8 +8,10 @@ output: md_document
 #load data
 library(ampvis2)
 library(data.table)
-library(stringr)
+library(tidyverse)
 library(lubridate)
+library(foreach)
+library(doFuture)
 
 if (interactive()) {
   if (!grepl("data/Immigration$", getwd())) {
@@ -61,18 +63,6 @@ metadata <- metadata[
   by = "SampleSite"
 ]
 
-#before filtering per week
-metadata_unmatched <- copy(metadata)
-
-#Filter time points without both IWW+AS pair of samples.
-metadata <- metadata[
-  ,
-  .SD[
-    length(unique(SampleContent)) == 2
-  ],
-  by = c("SampleSite", "YearWeek")
-]
-
 #Damhusåen has 4 separate AS lines with the same IWW
 metadata[
   SampleSite == "Damhusåen" &
@@ -88,7 +78,7 @@ metadata <- metadata[
   .SDcols = c("SampleDate", "SampleID")
 ]
 
-#Reorder with Sample ID's first to match abundance table
+#Reorder with Sample ID's first
 metadata <- metadata[
   ,
   c(
@@ -99,12 +89,99 @@ metadata <- metadata[
     "SampleContent"
   )
 ]
+
+#Filter time points without both IWW+AS pair of samples.
+metadata_pairs <- metadata[
+  ,
+  .SD[
+    length(unique(SampleContent)) == 2
+  ],
+  by = c("SampleSite", "YearWeek")
+]
+```
+
+# load with ampvis2
+```{r}
+d <- amp_load(
+  otutable = "ASVtable.zip",
+  metadata = metadata,
+  taxonomy = "ASVs.R1.sintax.zip",
+  fasta = "ASVs.R1.zip",
+)
+```
+
+# create fake samples filling in with -1 abundances where no matching IWW+AS pair
+```{r}
+# for each WWTP ensure there's a pair of IWW+AS in metadata
+# even though not present in abundance table. "Densify"/interpolate
+full_metadata <- d$metadata %>%
+  group_by(SampleSite) %>%
+  expand(YearWeek, SampleContent) %>%
+  data.table()
+
+# merge with sparse metadata
+full_metadata <- merge(
+  full_metadata,
+  d$metadata,
+  by = c("SampleSite", "YearWeek", "SampleContent"),
+  all.x = TRUE
+)
+
+#remove fake samples where there's an IWW sample but no AS (can't predict AS with onle -1's)
+full_metadata <- full_metadata[!(is.na(SampleID) & SampleContent == "AS")]
+
+# create sample ID's based on wwtp+year+week+location
+full_metadata[, oldSampleID := factor(SampleID, levels = colnames(d$abund))]
+full_metadata[
+  ,
+  SampleID := paste(
+    SampleSite,
+    YearWeek,
+    SampleContent
+  )
+]
+
+# fill in dates from the twin when missing
+full_metadata[
+  ,
+  SampleDate := if(any(is.na(SampleDate))) {
+    na.omit(SampleDate)[1]
+  } else {
+    SampleDate
+  },
+  by = c("SampleSite", "YearWeek")]
+
+# reorder based on abund
+setorder(
+  full_metadata,
+  oldSampleID
+)
+
+# rename columns in abund based on new sample IDs and add missing ones with -1
+colnames(d$abund) <- full_metadata[oldSampleID %in% colnames(d$abund), SampleID]
+d$abund[, full_metadata[!SampleID %chin% colnames(d$abund), SampleID]] <- -1
+
+# ensure order is the same and they contain the same sample IDs
+d$abund <- d$abund[, full_metadata[, SampleID]]
+full_metadata <- full_metadata[
+  ,
+  c(
+    "SampleID",
+    "oldSampleID",
+    "SampleSite",
+    "SampleDate",
+    "YearWeek",
+    "SampleContent"
+  )
+]
+setDF(full_metadata, rownames = full_metadata[, SampleID])
+d$metadata <- full_metadata
 ```
 
 # Sample overview, filtered
 ```{r}
 ggplot(
-  metadata,
+  metadata_pairs,
   aes(x = SampleDate, y = SampleContent, color = SampleContent)
 ) +
   geom_point() +
@@ -117,7 +194,7 @@ ggsave(file.path("overview plots", "sample_overview.png"), height = 18, width = 
 # Sample overview, unmatched
 ```{r}
 ggplot(
-  metadata_unmatched,
+  metadata,
   aes(x = SampleDate, y = SampleContent, color = SampleContent)
 ) +
   geom_point() +
@@ -127,30 +204,47 @@ ggplot(
 ggsave(file.path("overview plots", "sample_overview_unfiltered.png"), height = 18, width = 12)
 ```
 
-# load with ampvis2
+# Sample overview, with fake abundances (-1)
 ```{r}
-d <- amp_load(
-  otutable = "ASVtable_notax.zip",
-  metadata = metadata,
-  taxonomy = "ASVs.R1.zip",
-  fasta = "ASVs.R1.zip",
-)
+ggplot(
+  d$metadata,
+  aes(x = SampleDate, y = SampleContent, color = SampleContent)
+) +
+  geom_point() +
+  facet_grid(rows = vars(SampleSite)) +
+  scale_x_date(date_breaks = "months") +
+  theme(axis.text.x = element_text(angle = 90))
+ggsave(file.path("overview plots", "sample_overview_unfiltered_fakes.png"), height = 18, width = 12)
 ```
 
+# split into separate files for each WWTP
 ```{r}
-outlist <- lapply(
-  unique(d$metadata$SampleSite),
-  function(wwtp) {
+# remove data from WWTPs with no twins (hasn't been sequenced yet I guess)
+# mainly esbjerg w+fredericia
+metadata_twins <- d$metadata %>%
+  group_by(SampleSite) %>%
+  filter(length(unique(SampleContent)) > 1)
+ds <- amp_filter_samples(
+  d,
+  SampleID %in% metadata_twins$SampleID
+)
+future::plan(future::multisession, workers = 16)
+
+outlist <- foreach(
+  wwtp = unique(ds$metadata$SampleSite)
+) %dofuture% {
+    message("Dataset: ", wwtp)
     if(!grepl("^Damhus", wwtp)) {
       dataset <- filter_otus(
         amp_subset_samples(
-        d,
-        SampleSite %chin% wwtp,
-        normalise = FALSE
-      ),
-      0.1
+          ds,
+          SampleSite %chin% wwtp,
+          normalise = FALSE
+        ),
+        0.1
       )
 
+      #unfiltered
       dataset_IWW <- amp_subset_samples(
         dataset,
         SampleContent %chin% "IWW",
@@ -162,10 +256,34 @@ outlist <- lapply(
         removeAbsentOTUs = FALSE
       )
 
-      dataset_dir_IWW <- file.path("datasets", wwtp, "IWW")
-      dataset_dir_AS <- file.path("datasets", wwtp, "AS")
+      #filtered
+      dataset_filtered <- amp_subset_samples(
+        dataset,
+        oldSampleID %in% metadata_pairs$SampleID,
+        removeAbsentOTUs = FALSE
+      )
+      dataset_filt_IWW <- amp_subset_samples(
+        dataset_filtered,
+        SampleContent %chin% "IWW",
+        removeAbsentOTUs = FALSE
+      )
+      dataset_filt_AS <- amp_subset_samples(
+        dataset_filtered,
+        SampleContent %chin% "AS",
+        removeAbsentOTUs = FALSE
+      )
+
+      exported_data_dir <- "datasets"
+
+      dataset_dir_IWW <- file.path(exported_data_dir, "unfiltered", wwtp, "IWW")
+      dataset_dir_AS <- file.path(exported_data_dir, "unfiltered", wwtp, "AS")
+      dataset_dir_filt_IWW <- file.path(exported_data_dir, "filtered", wwtp, "IWW")
+      dataset_dir_filt_AS <- file.path(exported_data_dir, "filtered", wwtp, "AS")
+
       dir.create(dataset_dir_IWW, mode = "0775", recursive = TRUE)
       dir.create(dataset_dir_AS, mode = "0775", recursive = TRUE)
+      dir.create(dataset_dir_filt_IWW, mode = "0775", recursive = TRUE)
+      dir.create(dataset_dir_filt_AS, mode = "0775", recursive = TRUE)
 
       #write out abundance tables
       #IWW
@@ -176,6 +294,13 @@ outlist <- lapply(
         ),
         file = file.path(dataset_dir_IWW, "ASVtable.csv")
       )
+      fwrite(
+        data.table(
+          ASV = rownames(dataset_filt_IWW$abund),
+          dataset_filt_IWW$abund
+        ),
+        file = file.path(dataset_dir_filt_IWW, "ASVtable.csv")
+      )
       #AS
       fwrite(
         data.table(
@@ -184,6 +309,13 @@ outlist <- lapply(
         ),
         file = file.path(dataset_dir_AS, "ASVtable.csv")
       )
+      fwrite(
+        data.table(
+          ASV = rownames(dataset_filt_AS$abund),
+          dataset_filt_AS$abund
+        ),
+        file = file.path(dataset_dir_filt_AS, "ASVtable.csv")
+      )
 
       #write out taxonomy
       #IWW
@@ -191,10 +323,18 @@ outlist <- lapply(
         dataset_IWW$tax,
         file = file.path(dataset_dir_IWW, "taxonomy.csv")
       )
+      fwrite(
+        dataset_filt_IWW$tax,
+        file = file.path(dataset_dir_filt_IWW, "taxonomy.csv")
+      )
       #AS
       fwrite(
         dataset_AS$tax,
         file = file.path(dataset_dir_AS, "taxonomy.csv")
+      )
+      fwrite(
+        dataset_filt_AS$tax,
+        file = file.path(dataset_dir_filt_AS, "taxonomy.csv")
       )
 
       #write out metadata
@@ -203,14 +343,21 @@ outlist <- lapply(
         dataset_IWW$metadata,
         file = file.path(dataset_dir_IWW, "metadata.csv")
       )
+      fwrite(
+        dataset_filt_IWW$metadata,
+        file = file.path(dataset_dir_filt_IWW, "metadata.csv")
+      )
       #AS
       fwrite(
         dataset_AS$metadata,
         file = file.path(dataset_dir_AS, "metadata.csv")
       )
+      fwrite(
+        dataset_filt_AS$metadata,
+        file = file.path(dataset_dir_filt_AS, "metadata.csv")
+      )
 
       dataset
     }
   }
-)
 ```

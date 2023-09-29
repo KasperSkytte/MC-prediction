@@ -2,6 +2,8 @@
 set -eu
 #set timezone
 export TZ="Europe/Copenhagen"
+export TF_CPP_MIN_LOG_LEVEL=2 #silences tensorflow warnings
+export CUDA_VISIBLE_DEVICES=0
 
 timestamp=$(date '+%Y%m%d_%H%M%S')
 logFile="log_${timestamp}.txt"

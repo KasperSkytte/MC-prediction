@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #This script runs run.bash for different numbers 
 #of predicted samples into the future
-dataset="Aalborg E"
+dataset=${dataset:-"Randers"}
 npredictions="3 5 10 15 20"
 set -u
 for i in $npredictions
@@ -26,7 +26,8 @@ do
     "pseudo_zero": 0.01,
     "max_zeros_pct": 0.60,
     "top_n_taxa": 200,
-    "num_features": 20,
+    "num_features": 200,
+    "num_per_group": 5,
     "iterations": 10,
     "max_epochs_lstm": 200,
     "window_size": 10,
@@ -37,10 +38,11 @@ do
     "cluster_idec": true,
     "cluster_func": true,
     "cluster_abund": true,
+    "cluster_graph": true,
     "smoothing_factor": 4,
     "splits": [
-        0.85,
-        0.0,
+        0.80,
+        0.05,
         0.15
     ]
 }

@@ -21,6 +21,11 @@ require("ampvis2")
 require("magrittr")
 require("stringr")
 require("lubridate")
+require("tidygraph")
+require("ggraph")
+require("igraph")
+require("patchwork")
+require("scales")
 
 #when knitting will always be done in the context of the Rmd file, otherwise not
 if (interactive()) {
@@ -29,41 +34,56 @@ if (interactive()) {
   }
 }
 source("functions.R")
+set.seed(42)
 ```
 
-# Prediction accuracy across WWTPs tests
-
+# Prediction accuracy across WWTPs
+## Graph model incl graph clustering with 3 per group
 ```{r}
-plot_all("results_20220726_divmean")
+boxplot_all(
+  "results_graph/graph_clustering/3pergroup"
+)
 ```
 
+## Graph model incl graph clustering with 5 per group
 ```{r}
-plot_all("results_20220601_standardized")
+boxplot_all(
+  "results_graph/graph_clustering/5pergroup"
+)
 ```
 
+## Check some clusters from AAE
 ```{r}
-plot_all("results_20220702_normalized")
+plot_performance(
+  "results_graph/graph_clustering/3pergroup/Aalborg E"
+)
+plot_performance(
+  "results_graph/graph_clustering/5pergroup/Aalborg E"
+)
 ```
 
+# Prediction window test
+## Aalborg East
 ```{r}
-plot_all(
-  "results_20220802_predwindow_noval",
+boxplot_all(
+  "results_graph/graph_clustering/predwindow_aae",
   add_dataset_info = "predwindow"
 )
 ```
 
+## Randers
 ```{r}
-defenceplot <- plot_all(
-  results_batch_dir = "results_20221210_wval",
-  add_dataset_info = "numsamples",
-  plot_width = 12,
-  plot_height = 10
+boxplot_all(
+  "results_graph/graph_clustering/predwindow_randers",
+  add_dataset_info = "predwindow",
+  plot_width = 8,
+  plot_height = 8
 )
 ```
 
-# PCoA (all WWTPs)
+# PCoA (all WWTPs loop)
 ```{r PCOA_colored_all}
-results_batch_dir <- "results_20221210_wval"
+results_batch_dir <- "results_graph/graph_clustering/5pergroup"
 wwtp_results <- list.dirs(
   results_batch_dir,
   full.names = TRUE,
@@ -84,11 +104,17 @@ plots <- lapply(
         sample_trajectory = "Date",
         sample_trajectory_group = "Date"
       ) +
-        scale_color_manual(
-          values = c("grey80", RColorBrewer::brewer.pal(3, "Set2")[c(1:3)])
-        ) +
-        theme(legend.title = element_blank())
-    ggsave(filename = paste0("PCoA - ", basename(wwtp), ".png"), plot = plot)
+      scale_color_manual(
+        values = c("grey80", RColorBrewer::brewer.pal(3, "Set2")[c(1:3)])
+      ) +
+      theme(legend.title = element_blank())
+    ggsave(
+      filename = file.path(
+        results_batch_dir,
+        paste0("PCoA - ", basename(wwtp), ".png")
+      ),
+      plot = plot
+    )
     return(plot)
   }
 )
@@ -98,7 +124,7 @@ hideme <- lapply(plots, print)
 
 ## Time Series examples
 ```{r timeseries}
-results_batch_dir <- "results_20221210_wval"
+results_batch_dir <- "results_graph/graph_clustering/5pergroup"
 wwtp_results <- list.dirs(
   results_batch_dir,
   full.names = TRUE,
@@ -129,7 +155,7 @@ plots <- lapply(
           axis.ticks.x = element_blank()
         ) +
         ggtitle("ASV1 - Tetrasphaera, midas_s_5") +
-        scale_y_continuous(breaks = seq(0, 8, 1))
+        scale_y_continuous(breaks = breaks_pretty(n = 5))
     } else {
       plot_asv1 <- plot_spacer()
     }
@@ -143,7 +169,7 @@ plots <- lapply(
           axis.ticks.x = element_blank()
         ) +
         ggtitle("ASV2 - Ca. Microthrix, parvicella") +
-        scale_y_continuous(breaks = seq(0, 10, 1))
+        scale_y_continuous(breaks = breaks_pretty(n = 5))
     } else {
       plot_asv2 <- plot_spacer()
     }
@@ -153,7 +179,7 @@ plots <- lapply(
       plot_asv24 <- plot_timeseries(ASV24, save = FALSE) +
         theme(legend.position = "bottom") +
         ggtitle("ASV24 - Nitrospira, defluvii") +
-        scale_y_continuous(breaks = seq(0, 0.8, 0.1))
+        scale_y_continuous(breaks = breaks_pretty(n = 5))
     } else {
       plot_asv24 <- plot_spacer()
     }
@@ -161,9 +187,12 @@ plots <- lapply(
     prediction_example <- plot_asv1 / plot_asv2 / plot_asv24
     ggsave(
       plot = prediction_example,
-      paste0("timeseries example - ", basename(wwtp), ".png"),
+      filename = file.path(
+        results_batch_dir,
+        paste0("timeseries example - ", basename(wwtp), ".png")
+      ),
       width = 10,
-      height = 10
+      height = 12
     )
 
     #plot_timeseries(ASV1, save = TRUE)
@@ -177,76 +206,113 @@ hideme <- lapply(plots, print)
 
 ```
 
-# Statistical test of real vs predicted
+# Timeseries examples, prediction window tests
 ```{r}
-results_batch_dir <- "results_20221210_wval"
-wwtp_results <- list.dirs(
+results_batch_dir <- "results_graph/graph_clustering/predwindow_randers"
+runs <- list.dirs(
   results_batch_dir,
-  full.names = TRUE,
-  recursive = FALSE
+  recursive = FALSE,
+  full.names = TRUE
 )
-statistics <- lapply(
-  wwtp_results,
-  function(wwtp) {
-    combined <- combine_abund(
-      wwtp,
-      cluster_type = "abund"
+predwindowtest <- lapply(
+  runs,
+  function(rundir) {
+    d <- amp_export_long(
+      combine_abund(
+        rundir,
+        cluster_type = "abund"
+      ),
+      tax_levels = "OTU",
+      metadata_vars = c("Date", "split_dataset")
     )
-    predicted <- amp_filter_samples(
-      combined,
-      split_dataset %chin% "test",
-      predicted %chin% "predicted"
-    )
-    dates <- predicted[["metadata"]][["Date"]]
-    real <- amp_filter_samples(
-      combined,
-      split_dataset %chin% "real",
-      Date %in% dates
-    )
-    combined <- amp_merge_ampvis2(
-      predicted,
-      real,
-      by_refseq = FALSE
-    )
-    combined$metadata$predicted <- factor(
-      combined$metadata$predicted,
-      levels = c("real", "predicted")
-    )
-
-    #compare real vs predicted (ANOSIM)
-    anosim <- vegan::anosim(
-      t(combined$abund),
-      combined$metadata$predicted,
-      distance = "bray",
-      parallel = 30
-    )
-
-    #compare real vs predicted (PERMANOVA)
-    permanova <- vegan::adonis2(t(combined$abund) ~ predicted, data = combined$metadata, parallel = 10)
-    return(list(anosim, permanova))
+    d[, dataset := basename(rundir)]
   }
 )
-names(statistics) <- basename(wwtp_results)
-Rstatistics <- sort(
-  unlist(
-    lapply(
-      statistics,
-      function(x) x[[1]][["statistic"]]
-    )
-  )
+d <- rbindlist(predwindowtest)
+d[, dataset := factor(
+  dataset,
+  levels = unique(dataset)[order(as.integer(gsub("[^0-9]*", "", unique(dataset))))])
+]
+
+#ASV1
+ASV1 <- d[grepl("^ASV1;", OTU)]
+plot_asv1 <- plot_timeseries(
+  ASV1,
+  save = FALSE
+) +
+  facet_grid(rows = vars(dataset))
+ggsave(
+  file = file.path(
+    results_batch_dir,
+    "predwindowtest_aae_asv1.png"
+  ),
+  plot = plot_asv1
 )
-signifs <- sort(
-  unlist(
-    lapply(
-      statistics,
-      function(x) x[[1]][["signif"]]
-    )
-  )
+
+#ASV2
+ASV2 <- d[grepl("^ASV2;", OTU)]
+plot_asv2 <- plot_timeseries(
+  ASV2,
+  save = FALSE
+) +
+  facet_grid(rows = vars(dataset))
+ggsave(
+  file = file.path(
+    results_batch_dir,
+    "predwindowtest_aae_asv2.png"
+  ),
+  plot = plot_asv2
 )
+
+#ASV24
+ASV24 <- d[grepl("^ASV24;", OTU)]
+plot_asv24 <- plot_timeseries(
+  ASV24,
+  save = FALSE
+) +
+  facet_grid(rows = vars(dataset))
+ggsave(
+  file = file.path(
+    results_batch_dir,
+    "predwindowtest_aae_asv24.png"
+  ),
+  plot = plot_asv24
+)
+
+
+#plot_asv24 <- plot_timeseries(ASV24, save = FALSE) +
+#  theme(legend.position = "bottom") +
+#  ggtitle("ASV24 - Nitrospira, defluvii")
+
 ```
 
-# Heatmap of real vs predicted (AAE)
+# Heatmap of real vs predicted
 ```{r}
+results_dir <- "results_graph/graph_clustering/5pergroup/Aalborg E"
+d <- combine_abund(
+  results_dir,
+  cluster_type = "graph"
+)
+test_predicted <- amp_filter_samples(
+  d,
+  split_dataset %chin% "test",
+  predicted %chin% "predicted"
+)
+test_real <- amp_filter_samples(
+  d,
+  split_dataset %chin% "real",
+  Date %in% test_predicted$metadata$Date
+)
+test_combined <- amp_merge_ampvis2(
+  test_predicted,
+  test_real,
+  by_refseq = FALSE
+)
+test_combined$metadata$predicted <- factor(
+  test_combined$metadata$predicted,
+  levels = c("real", "predicted")
+)
+
 realvspredictedheatmap <- amp_heatmap(
   test_combined,
   tax_aggregate = "OTU",
@@ -258,147 +324,169 @@ realvspredictedheatmap <- amp_heatmap(
 ) + theme(strip.text = element_text(angle = 90))
 ggsave(
   plot = realvspredictedheatmap,
-  filename = "realvspredictedheatmap.png",
-  width = 20
-)
-
-#compare real vs predicted (ordination)
-amp_ordinate(
-  test_combined,
-  type = "rda",
-  constrain = "predicted",
-  sample_color_by = "predicted"
-)# %>% ggsave(plot = ., filename = "plot.pdf")
-```
-
-# Prediction window tests, AAE
-```{r}
-plot_all(
-  "results_20221219_predwindow_wval",
-  add_dataset_info = "predwindow",
-  plot_width = 8,
-  plot_height = 8
+  filename = file.path(
+    results_dir,
+    "..",
+    paste("realvspredictedheatmap", basename(results_dir), ".png")
+  ),
+  width = 20,
+  height = 10
 )
 ```
 
-# Timeseries examples, window tests, AAE
+# Network plots
 ```{r}
-#visualize the accuracy depending on prediction window length
-runs <- list.dirs(
-  "results_20221219_predwindow_wval",
-  recursive = FALSE,
+graph_matrix_dir <- "results_graph/graph_clustering/5pergroup/Aalborg E/graph_matrix"
+graph_matrix_list <- list.files(
+  graph_matrix_dir,
+  pattern = "graph_cluster_*",
   full.names = TRUE
 )
-AAE_predwindowtest <- lapply(
-  runs,
-  function(rundir) {
-    d <- amp_export_long(
-      combine_abund(
-        rundir,
-        cluster_type = "abund"
-      ),
-      tax_levels = "OTU",
-      metadata_vars = c("Date", "split_dataset")
+#list is sorted lexicographically, reorder numerically
+order <- graph_matrix_list %>%
+  basename %>%
+  stringi::stri_extract_all_regex("[0-9]+") %>%
+  unlist(use.names = FALSE) %>%
+  as.integer %>%
+  order
+graph_matrix_list <- graph_matrix_list[order]
+
+plot_list <- lapply(
+  graph_matrix_list[1:4],
+  plot_graph
+)
+
+#plots are named after the filenames
+plot <- wrap_plots(
+  plot_list,
+  guides = "collect",
+  tag_level = "keep"
+)
+plot
+ggsave(
+  plot = plot,
+  filename = file.path(
+    graph_matrix_dir,
+    "..",
+    "graph_network_plot.png"
+  )
+)
+```
+
+# Statistical tests of real vs predicted
+```{r}
+results_batch_dir <- "results_graph/graph_clustering/5pergroup"
+wwtp_results <- list.dirs(
+  results_batch_dir,
+  full.names = TRUE,
+  recursive = FALSE
+)
+statistics <- lapply(
+  wwtp_results,
+  function(wwtp) {
+    #read predicted data (incl train+val)
+    combined <- combine_abund(
+      wwtp,
+      cluster_type = "graph"
     )
-    d[, dataset := basename(rundir)]
+    #extract predicted samples (test set only)
+    predicted <- amp_filter_samples(
+      combined,
+      split_dataset %chin% "test",
+      predicted %chin% "predicted"
+    )
+    #extract real samples from the same dates as the predicted
+    dates <- predicted[["metadata"]][["Date"]]
+    real <- amp_filter_samples(
+      combined,
+      split_dataset %chin% "real",
+      Date %in% dates
+    )
+    combined_test <- amp_merge_ampvis2(
+      predicted,
+      real,
+      by_refseq = FALSE
+    )
+    combined_test$metadata$predicted <- factor(
+      combined_test$metadata$predicted,
+      levels = c("real", "predicted")
+    )
+
+    #compare real vs predicted (ANOSIM, bray-curtis)
+    anosimBC <- vegan::anosim(
+      t(combined_test$abund),
+      combined_test$metadata$predicted,
+      distance = "bray",
+      parallel = 30
+    )
+
+    #compare real vs predicted (PERMANOVA)
+    permanova <- vegan::adonis2(
+      t(combined_test$abund) ~ predicted,
+      data = combined_test$metadata,
+      parallel = 10
+    )
+    return(
+      list(
+        anosimBC = anosimBC,
+        permanova = permanova
+      )
+    )
   }
 )
-d <- rbindlist(AAE_predwindowtest)
-d[, dataset := factor(
-  dataset,
-  levels = unique(dataset)[order(as.integer(gsub("[^0-9]*", "", unique(dataset))))])
-]
-
-plot_asv1 <- plot_timeseries(
-  d[grepl("^ASV1;", OTU)],
-  save = FALSE
-) +
-  facet_grid(rows = vars(dataset))
-
-plot_asv2 <- plot_timeseries(
-  d[grepl("^ASV2;", OTU)],
-  save = FALSE
-) +
-  facet_grid(rows = vars(dataset))
-
-plot_asv24 <- plot_timeseries(
-  d[grepl("^ASV24;", OTU)],
-  save = FALSE
-) +
-  facet_grid(rows = vars(dataset))
-
-ggsave("predwindowtest_aae_asv1.png", plot = plot_asv1)
-ggsave("predwindowtest_aae_asv2.png", plot = plot_asv2)
-ggsave("predwindowtest_aae_asv24.png", plot = plot_asv24)
-#plot_asv24 <- plot_timeseries(ASV24, save = FALSE) +
-#  theme(legend.position = "bottom") +
-#  ggtitle("ASV24 - Nitrospira, defluvii")
-
-```
-
-# Prediction window tests, Randers
-```{r}
-plot_all(
-  "results_20230119_predwindow_wval",
-  add_dataset_info = "predwindow",
-  plot_width = 8,
-  plot_height = 8
+names(statistics) <- basename(wwtp_results)
+anosimBC_Rstatistics <- sort(
+  unlist(
+    lapply(
+      statistics,
+      function(x) x[["anosimBC"]][["statistic"]]
+    )
+  )
 )
+anosimBC_Rstatistics
+
+anosimBC_signifs <- sort(
+  unlist(
+    lapply(
+      statistics,
+      function(x) x[["anosimBC"]][["signif"]]
+    )
+  )
+)
+anosimBC_signifs
+
+permanova <- sort(
+  unlist(
+    lapply(
+      statistics,
+      function(x) x[["permanova"]]
+    )
+  )
+)
+permanova
 ```
 
-# Timeseries examples, window tests, Randers
-```{r}
-#visualize the accuracy depending on prediction window length
+# Prediction accuracy five number stats for all WWTPs+cluster types+error metrics
+```{r fivenum_BC_ASV}
+results_batch_dir <- "results_graph/graph_clustering/5pergroup"
 runs <- list.dirs(
-  "results_20230119_predwindow_wval",
-  recursive = FALSE,
-  full.names = TRUE
+  results_batch_dir,
+  full.names = TRUE,
+  recursive = FALSE
 )
-AAE_predwindowtest <- lapply(
-  runs,
-  function(rundir) {
-    d <- amp_export_long(
-      combine_abund(
-        rundir,
-        cluster_type = "abund"
-      ),
-      tax_levels = "OTU",
-      metadata_vars = c("Date", "split_dataset")
-    )
-    d[, dataset := basename(rundir)]
-  }
-)
-d <- rbindlist(AAE_predwindowtest)
-d[, dataset := factor(
-  dataset,
-  levels = unique(dataset)[order(as.integer(gsub("[^0-9]*", "", unique(dataset))))])
+
+d_list <- lapply(runs, read_performance)
+names(d_list) <- runs
+combined <- rbindlist(
+  d_list,
+  idcol = "results_folder",
+  fill = TRUE
+)[
+  !is.na(cluster_type) & value > 0
 ]
-
-plot_asv1 <- plot_timeseries(
-  d[grepl("^ASV1;", OTU)],
-  save = FALSE
-) +
-  facet_grid(rows = vars(dataset))
-
-plot_asv2 <- plot_timeseries(
-  d[grepl("^ASV2;", OTU)],
-  save = FALSE
-) +
-  facet_grid(rows = vars(dataset))
-
-plot_asv24 <- plot_timeseries(
-  d[grepl("^ASV24;", OTU)],
-  save = FALSE
-) +
-  facet_grid(rows = vars(dataset))
-
-ggsave("predwindowtest_randers_asv1.png", plot = plot_asv1)
-ggsave("predwindowtest_randers_asv2.png", plot = plot_asv2)
-ggsave("predwindowtest_randers_asv24.png", plot = plot_asv24)
-#plot_asv24 <- plot_timeseries(ASV24, save = FALSE) +
-#  theme(legend.position = "bottom") +
-#  ggtitle("ASV24 - Nitrospira, defluvii")
-
+#prediction accuracies for each cluster for each dataset+cluster type+error metric
+stats <- combined[, .(fivenum_stats = fivenum(value)), by = .(dataset, cluster_type, error_metric)]
+stats[error_metric == "Bray Curtis", .(median = .SD[3,fivenum_stats]), by = c("dataset", "cluster_type")]
 ```
 
 # I dunno
@@ -413,7 +501,7 @@ combine_results <- function(results_batch_dir) {
       stop("No results folders found, wrong working directory?")
     }
 
-    d_list <- lapply(runs, read_results)
+    d_list <- lapply(runs, read_performance)
     names(d_list) <- runs
     combined <- rbindlist(
       d_list,
@@ -447,25 +535,6 @@ results[grepl("Randers", dataset) & cluster_no == 12, ASV := "ASV1"]
 results[grepl("Ribe", dataset) & cluster_no == 2, ASV := "ASV1"]
 results <- results[ASV %chin% paste0("ASV", 1:2)]
 
-```
-
-```{r fivenum_BC_ASV}
-runs <- list.dirs(
-  "results_20221210_wval",
-  full.names = TRUE,
-  recursive = FALSE
-)
-
-d_list <- lapply(runs, read_results)
-names(d_list) <- runs
-combined <- rbindlist(
-  d_list,
-  idcol = "results_folder",
-  fill = TRUE
-)[
-  !is.na(cluster_type) & value > 0
-]
-combined[, .(fivenum_stats = fivenum(value)), by = .(cluster_type, error_metric)]
 ```
 
 ```{r fivenum_reads}
