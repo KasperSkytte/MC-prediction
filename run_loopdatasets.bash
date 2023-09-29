@@ -26,21 +26,23 @@ do
     "pseudo_zero": 0.01,
     "max_zeros_pct": 0.60,
     "top_n_taxa": 200,
-    "num_features": 20,
+    "num_features": 200,
+    "num_per_group": 3,
     "iterations": 10,
     "max_epochs_lstm": 200,
     "window_size": 10,
     "predict_timestamp": 10,
-    "num_clusters_idec": 10,
+    "num_clusters_idec": 5,
     "tolerance_idec": 0.001,
     "transform": "divmean",
     "cluster_idec": true,
     "cluster_func": true,
     "cluster_abund": true,
+    "cluster_graph": true,
     "smoothing_factor": 4,
     "splits": [
-        0.70,
-        0.15,
+        0.80,
+        0.05,
         0.15
     ]
 }

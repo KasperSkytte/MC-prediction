@@ -168,7 +168,7 @@ parse_performance <- function(file) {
 #' @export
 #'
 #' @examples
-read_results <- function(
+read_performance <- function(
   results_dir,
   add_dataset_info = c(
     "numsamples",
@@ -271,7 +271,7 @@ read_results <- function(
 #' @export
 #'
 #' @examples
-plot_all <- function(
+boxplot_all <- function(
   results_batch_dir,
   add_dataset_info = "numsamples",
   plot_width = 12,
@@ -286,7 +286,7 @@ plot_all <- function(
     stop("No results folders found, wrong working directory?")
   }
 
-  d_list <- lapply(runs, read_results, add_dataset_info)
+  d_list <- lapply(runs, read_performance, add_dataset_info)
   names(d_list) <- runs
   combined <- rbindlist(
     d_list,
@@ -354,14 +354,14 @@ plot_all <- function(
     ) +
     scale_y_continuous(
       trans = "sqrt",
-      breaks = c(0, 0.05, 0.1, seq(0.2, 1, 0.2))
+      breaks = breaks_pretty(n = 5)
     )
 
   # Increase the number of axis breaks for the middle plot
   plot_list[[2]] <- plot_list[[2]] +
   scale_y_continuous(
     trans = "sqrt",
-    breaks = scales::extended_breaks(7)
+    breaks = breaks_pretty(n = 5)
   )
 
   # The last plot will be at the bottom and
@@ -375,7 +375,7 @@ plot_all <- function(
     ) +
     scale_y_continuous(
       trans = "sqrt",
-      breaks = scales::extended_breaks(7)
+      breaks = breaks_pretty(n = 7)
     ) +
     labs(color = "Clustering type")
 
@@ -473,18 +473,17 @@ combine_abund <- function(results_dir, cluster_type) {
       "cluster_type must be one of: ",
       paste0(cluster_types, collapse = ", "))
   }
-
   #read predicted abundance tables
   pred_abund <- read_abund(
     results_dir = results_dir,
-    pattern = paste0(cluster_type, ".*predicted\\.csv"),
+    pattern = paste0("(graph|lstm)_", cluster_type, "_cluster_.+_predicted\\.csv$"),
     sample_prefix = "pred_"
   )
 
   #read true abundance tables
   true_abund <- read_abund(
     results_dir = results_dir,
-    pattern = paste0(cluster_type, ".*dataall_nontrans\\.csv"),
+    pattern = paste0("(graph|lstm)_", cluster_type, "_cluster_.+_dataall_nontrans\\.csv$"),
     sample_prefix = "true_"
   )
 
@@ -681,7 +680,7 @@ plot_timeseries <- function(
   if (isTRUE(save)) {
     ggsave(
       plot,
-      file = file.path(results_dir, filename),
+      file = filename,
       width = plot_width,
       height = plot_height
     )

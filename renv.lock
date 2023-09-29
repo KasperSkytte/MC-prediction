@@ -113,14 +113,14 @@
     },
     "ampvis2": {
       "Package": "ampvis2",
-      "Version": "2.8.1",
+      "Version": "2.8.6",
       "Source": "GitHub",
       "RemoteType": "github",
-      "RemoteHost": "api.github.com",
       "RemoteUsername": "kasperskytte",
       "RemoteRepo": "ampvis2",
       "RemoteRef": "main",
-      "RemoteSha": "5db25f8410d45c9ddbc61a1988dd2eb484366a18",
+      "RemoteSha": "b702c372bd84fb0e83fdda8e10120f08dc7590db",
+      "RemoteHost": "api.github.com",
       "Remotes": "github::kasperskytte/biomformat",
       "Requirements": [
         "R",
@@ -143,7 +143,7 @@
         "utils",
         "vegan"
       ],
-      "Hash": "de659276db01fcc2d42ffe5dbd8a720a"
+      "Hash": "275a3c67f8dbb5dc0350fb32207980ba"
     },
     "ape": {
       "Package": "ape",
