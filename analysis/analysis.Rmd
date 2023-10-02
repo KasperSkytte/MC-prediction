@@ -35,30 +35,42 @@ if (interactive()) {
 }
 source("functions.R")
 set.seed(42)
+# main batch run using run_loopdatasets.bash or run_predwindows.bash
+# wrapper scripts. Prediction windows tests are hard coded
+results_batchdir <- "results/5pergroup"
+```
+
+# five number statistics of sum of reads per data set
+```{r fivenum_reads}
+datasets <- list.dirs(
+  results_batchdir,
+  full.names = TRUE,
+  recursive = FALSE
+)
+readstats <- datasets %>%
+  lapply(function(dataset) {
+    abund <- fread(
+      file.path(dataset, "data_reformatted", "abundances.csv"),
+      drop = 1
+    )
+    fivenum(rowSums(abund))
+  })
+names(readstats) <- basename(datasets)
+as.data.frame(readstats, check.names = FALSE)
 ```
 
 # Prediction accuracy across WWTPs
-## Graph model incl graph clustering with 3 per group
-```{r}
-boxplot_all(
-  "results_graph/graph_clustering/3pergroup"
-)
-```
-
 ## Graph model incl graph clustering with 5 per group
 ```{r}
 boxplot_all(
-  "results_graph/graph_clustering/5pergroup"
+  results_batchdir
 )
 ```
 
 ## Check some clusters from AAE
 ```{r}
 plot_performance(
-  "results_graph/graph_clustering/3pergroup/Aalborg E"
-)
-plot_performance(
-  "results_graph/graph_clustering/5pergroup/Aalborg E"
+  file.path(results_batchdir, "Aalborg E")
 )
 ```
 
@@ -66,7 +78,7 @@ plot_performance(
 ## Aalborg East
 ```{r}
 boxplot_all(
-  "results_graph/graph_clustering/predwindow_aae",
+  "results/predwindow_aae",
   add_dataset_info = "predwindow"
 )
 ```
@@ -74,7 +86,7 @@ boxplot_all(
 ## Randers
 ```{r}
 boxplot_all(
-  "results_graph/graph_clustering/predwindow_randers",
+  "results/predwindow_randers",
   add_dataset_info = "predwindow",
   plot_width = 8,
   plot_height = 8
@@ -83,9 +95,8 @@ boxplot_all(
 
 # PCoA (all WWTPs loop)
 ```{r PCOA_colored_all}
-results_batch_dir <- "results_graph/graph_clustering/5pergroup"
 wwtp_results <- list.dirs(
-  results_batch_dir,
+  results_batchdir,
   full.names = TRUE,
   recursive = FALSE
 )
@@ -124,9 +135,8 @@ hideme <- lapply(plots, print)
 
 ## Time Series examples
 ```{r timeseries}
-results_batch_dir <- "results_graph/graph_clustering/5pergroup"
 wwtp_results <- list.dirs(
-  results_batch_dir,
+  results_batchdir,
   full.names = TRUE,
   recursive = FALSE
 )
@@ -208,7 +218,7 @@ hideme <- lapply(plots, print)
 
 # Timeseries examples, prediction window tests
 ```{r}
-results_batch_dir <- "results_graph/graph_clustering/predwindow_randers"
+results_batch_dir <- "results/predwindow_randers"
 runs <- list.dirs(
   results_batch_dir,
   recursive = FALSE,
@@ -288,7 +298,7 @@ ggsave(
 
 # Heatmap of real vs predicted
 ```{r}
-results_dir <- "results_graph/graph_clustering/5pergroup/Aalborg E"
+results_dir <- "results/5pergroup/Aalborg E"
 d <- combine_abund(
   results_dir,
   cluster_type = "graph"
@@ -336,7 +346,7 @@ ggsave(
 
 # Network plots
 ```{r}
-graph_matrix_dir <- "results_graph/graph_clustering/5pergroup/Aalborg E/graph_matrix"
+graph_matrix_dir <- "results/5pergroup/Aalborg E/graph_matrix"
 graph_matrix_list <- list.files(
   graph_matrix_dir,
   pattern = "graph_cluster_*",
@@ -375,9 +385,8 @@ ggsave(
 
 # Statistical tests of real vs predicted
 ```{r}
-results_batch_dir <- "results_graph/graph_clustering/5pergroup"
 wwtp_results <- list.dirs(
-  results_batch_dir,
+  results_batchdir,
   full.names = TRUE,
   recursive = FALSE
 )
@@ -468,9 +477,8 @@ permanova
 
 # Prediction accuracy five number stats for all WWTPs+cluster types+error metrics
 ```{r fivenum_BC_ASV}
-results_batch_dir <- "results_graph/graph_clustering/5pergroup"
 runs <- list.dirs(
-  results_batch_dir,
+  results_batchdir,
   full.names = TRUE,
   recursive = FALSE
 )
@@ -535,20 +543,4 @@ results[grepl("Randers", dataset) & cluster_no == 12, ASV := "ASV1"]
 results[grepl("Ribe", dataset) & cluster_no == 2, ASV := "ASV1"]
 results <- results[ASV %chin% paste0("ASV", 1:2)]
 
-```
-
-```{r fivenum_reads}
-#five number statistics of sum of reads per data set
-list.dirs(
-  "results_20221210_wval",
-  full.names = TRUE,
-  recursive = FALSE
-) %>%
-  lapply(function(dataset) {
-    abund <- fread(
-      file.path(dataset, "data_reformatted", "abundances.csv"),
-      drop = 1
-    )
-    fivenum(rowSums(abund))
-  })
 ```
