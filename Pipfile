@@ -4,17 +4,17 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-tensorflow = ""
-numpy = ""
-pandas = ""
-argparse = ""
-keras = ""
-scipy = ""
-scikit-learn = ""
-matplotlib = ""
-pathlib = ""
-seaborn = ""
-radian = ""
+tensorflow = "==2.13.0"
+numpy = "*"
+pandas = "*"
+argparse = "*"
+keras = "*"
+scipy = "*"
+scikit-learn = "*"
+matplotlib = "*"
+pathlib = "*"
+seaborn = "*"
+radian = "*"
 
 [dev-packages]
 

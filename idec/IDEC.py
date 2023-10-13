@@ -22,7 +22,6 @@ Author:
 from time import time
 import numpy as np
 from keras.models import Model
-# from keras.utils.vis_utils import plot_model
 from sklearn.cluster import KMeans
 from sklearn import metrics
 import os

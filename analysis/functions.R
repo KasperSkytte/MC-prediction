@@ -275,7 +275,7 @@ boxplot_all <- function(
   results_batch_dir,
   add_dataset_info = "numsamples",
   plot_width = 12,
-  plot_height = 8
+  plot_height = 10
 ) {
   runs <- list.dirs(
     results_batch_dir,
@@ -335,9 +335,11 @@ boxplot_all <- function(
             legend.position = "none",
             legend.title = element_blank(),
             axis.text.x = element_blank(),
+            axis.text.y = element_text(size = 12),
             axis.title = element_blank(),
             axis.ticks.x = element_blank(),
             strip.text.x = element_blank(),
+            strip.text.y = element_text(size = 10),
             panel.grid.major.x = element_blank(),
             panel.grid.minor.y = element_blank()
           ) +
@@ -350,7 +352,7 @@ boxplot_all <- function(
   plot_list[[1]] <- plot_list[[1]] +
     theme(
       axis.ticks.x = element_blank(),
-      strip.text.x = element_text(angle = 90)
+      strip.text.x = element_text(angle = 90, size = 12)
     ) +
     scale_y_continuous(
       trans = "sqrt",
@@ -371,7 +373,8 @@ boxplot_all <- function(
     theme(
       strip.text.x = element_blank(),
       legend.position = "bottom",
-      legend.title = element_text()
+      legend.title = element_text(size = 12),
+      legend.text = element_text(size = 14)
     ) +
     scale_y_continuous(
       trans = "sqrt",
@@ -673,6 +676,7 @@ plot_timeseries <- function(
   ) +
   theme(
     legend.title = element_blank(),
+    legend.text = element_text(size = 14),
     axis.title = element_blank(),
     axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5)
   )

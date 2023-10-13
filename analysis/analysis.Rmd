@@ -37,13 +37,13 @@ source("functions.R")
 set.seed(42)
 # main batch run using run_loopdatasets.bash or run_predwindows.bash
 # wrapper scripts. Prediction windows tests are hard coded
-results_batchdir <- "results/5pergroup"
+results_batch_dir <- "results/5pergroup"
 ```
 
 # five number statistics of sum of reads per data set
 ```{r fivenum_reads}
 datasets <- list.dirs(
-  results_batchdir,
+  results_batch_dir,
   full.names = TRUE,
   recursive = FALSE
 )
@@ -63,18 +63,18 @@ as.data.frame(readstats, check.names = FALSE)
 ## Graph model incl graph clustering with 5 per group
 ```{r}
 boxplot_all(
-  results_batchdir
+  results_batch_dir
 )
 ```
 
 ## Check some clusters from AAE
 ```{r}
 plot_performance(
-  file.path(results_batchdir, "Aalborg E")
+  file.path(results_batch_dir, "Aalborg E")
 )
 ```
 
-# Prediction window test
+# Prediction window test (note: not using results_batch_dir variable)
 ## Aalborg East
 ```{r}
 boxplot_all(
@@ -93,10 +93,91 @@ boxplot_all(
 )
 ```
 
+## Timeseries examples
+```{r}
+dir <- "results/predwindow_randers"
+runs <- list.dirs(
+  dir,
+  recursive = FALSE,
+  full.names = TRUE
+)
+predwindowtest <- lapply(
+  runs,
+  function(rundir) {
+    d <- amp_export_long(
+      combine_abund(
+        rundir,
+        cluster_type = "abund"
+      ),
+      tax_levels = "OTU",
+      metadata_vars = c("Date", "split_dataset")
+    )
+    d[, dataset := basename(rundir)]
+  }
+)
+d <- rbindlist(predwindowtest)
+d[, dataset := gsub("^[^0-9]* +", "", dataset)]
+d[, dataset := factor(
+  dataset,
+  levels = unique(dataset)[order(as.integer(gsub("[^0-9]*", "", unique(dataset))))])
+]
+
+#ASV1
+ASV1 <- d[grepl("^ASV1;", OTU)]
+plot_asv1 <- plot_timeseries(
+  ASV1,
+  save = FALSE
+) +
+  facet_grid(rows = vars(dataset))
+ggsave(
+  file = file.path(
+    dir,
+    "predwindowtest_randers_asv1.png"
+  ),
+  plot = plot_asv1
+)
+
+#ASV2
+ASV2 <- d[grepl("^ASV2;", OTU)]
+plot_asv2 <- plot_timeseries(
+  ASV2,
+  save = FALSE
+) +
+  facet_grid(rows = vars(dataset))
+ggsave(
+  file = file.path(
+    dir,
+    "predwindowtest_randers_asv2.png"
+  ),
+  plot = plot_asv2
+)
+
+#ASV24
+ASV24 <- d[grepl("^ASV24;", OTU)]
+plot_asv24 <- plot_timeseries(
+  ASV24,
+  save = FALSE
+) +
+  facet_grid(rows = vars(dataset))
+ggsave(
+  file = file.path(
+    dir,
+    "predwindowtest_randers_asv24.png"
+  ),
+  plot = plot_asv24
+)
+
+
+#plot_asv24 <- plot_timeseries(ASV24, save = FALSE) +
+#  theme(legend.position = "bottom") +
+#  ggtitle("ASV24 - Nitrospira, defluvii")
+
+```
+
 # PCoA (all WWTPs loop)
 ```{r PCOA_colored_all}
 wwtp_results <- list.dirs(
-  results_batchdir,
+  results_batch_dir,
   full.names = TRUE,
   recursive = FALSE
 )
@@ -118,7 +199,12 @@ plots <- lapply(
       scale_color_manual(
         values = c("grey80", RColorBrewer::brewer.pal(3, "Set2")[c(1:3)])
       ) +
-      theme(legend.title = element_blank())
+      theme(
+        legend.title = element_blank(),
+        legend.text = element_text(size = 16),
+        axis.text = element_text(size = 16),
+        axis.title = element_text(size = 16)
+      )
     ggsave(
       filename = file.path(
         results_batch_dir,
@@ -136,7 +222,7 @@ hideme <- lapply(plots, print)
 ## Time Series examples
 ```{r timeseries}
 wwtp_results <- list.dirs(
-  results_batchdir,
+  results_batch_dir,
   full.names = TRUE,
   recursive = FALSE
 )
@@ -187,7 +273,7 @@ plots <- lapply(
     ASV24 <- long[grepl("^ASV24;", OTU)]
     if(nrow(ASV24) > 0) {
       plot_asv24 <- plot_timeseries(ASV24, save = FALSE) +
-        theme(legend.position = "bottom") +
+        theme(legend.position = "bottom", legend.text = element_text(size = 16)) +
         ggtitle("ASV24 - Nitrospira, defluvii") +
         scale_y_continuous(breaks = breaks_pretty(n = 5))
     } else {
@@ -216,89 +302,9 @@ hideme <- lapply(plots, print)
 
 ```
 
-# Timeseries examples, prediction window tests
-```{r}
-results_batch_dir <- "results/predwindow_randers"
-runs <- list.dirs(
-  results_batch_dir,
-  recursive = FALSE,
-  full.names = TRUE
-)
-predwindowtest <- lapply(
-  runs,
-  function(rundir) {
-    d <- amp_export_long(
-      combine_abund(
-        rundir,
-        cluster_type = "abund"
-      ),
-      tax_levels = "OTU",
-      metadata_vars = c("Date", "split_dataset")
-    )
-    d[, dataset := basename(rundir)]
-  }
-)
-d <- rbindlist(predwindowtest)
-d[, dataset := factor(
-  dataset,
-  levels = unique(dataset)[order(as.integer(gsub("[^0-9]*", "", unique(dataset))))])
-]
-
-#ASV1
-ASV1 <- d[grepl("^ASV1;", OTU)]
-plot_asv1 <- plot_timeseries(
-  ASV1,
-  save = FALSE
-) +
-  facet_grid(rows = vars(dataset))
-ggsave(
-  file = file.path(
-    results_batch_dir,
-    "predwindowtest_aae_asv1.png"
-  ),
-  plot = plot_asv1
-)
-
-#ASV2
-ASV2 <- d[grepl("^ASV2;", OTU)]
-plot_asv2 <- plot_timeseries(
-  ASV2,
-  save = FALSE
-) +
-  facet_grid(rows = vars(dataset))
-ggsave(
-  file = file.path(
-    results_batch_dir,
-    "predwindowtest_aae_asv2.png"
-  ),
-  plot = plot_asv2
-)
-
-#ASV24
-ASV24 <- d[grepl("^ASV24;", OTU)]
-plot_asv24 <- plot_timeseries(
-  ASV24,
-  save = FALSE
-) +
-  facet_grid(rows = vars(dataset))
-ggsave(
-  file = file.path(
-    results_batch_dir,
-    "predwindowtest_aae_asv24.png"
-  ),
-  plot = plot_asv24
-)
-
-
-#plot_asv24 <- plot_timeseries(ASV24, save = FALSE) +
-#  theme(legend.position = "bottom") +
-#  ggtitle("ASV24 - Nitrospira, defluvii")
-
-```
-
 # Heatmap of real vs predicted
 ```{r}
-results_dir <- "results/5pergroup/Aalborg E"
+results_dir <- file.path(results_batch_dir, "Aalborg E")
 d <- combine_abund(
   results_dir,
   cluster_type = "graph"
@@ -331,7 +337,14 @@ realvspredictedheatmap <- amp_heatmap(
   tax_show = 30,
   plot_values = FALSE,
   facet_by = "Date"
-) + theme(strip.text = element_text(angle = 90))
+) +
+  theme(
+    strip.text = element_text(angle = 90, size = 12),
+    axis.text.x = element_text(size = 12),
+    axis.text.y = element_text(size = 14),
+    legend.text = element_text(size = 14),
+    legend.title = element_text(size = 14)
+  )
 ggsave(
   plot = realvspredictedheatmap,
   filename = file.path(
@@ -340,13 +353,13 @@ ggsave(
     paste("realvspredictedheatmap", basename(results_dir), ".png")
   ),
   width = 20,
-  height = 10
+  height = 8
 )
 ```
 
 # Network plots
 ```{r}
-graph_matrix_dir <- "results/5pergroup/Aalborg E/graph_matrix"
+graph_matrix_dir <- file.path(results_batch_dir, "Aalborg E/graph_matrix")
 graph_matrix_list <- list.files(
   graph_matrix_dir,
   pattern = "graph_cluster_*",
@@ -386,7 +399,7 @@ ggsave(
 # Statistical tests of real vs predicted
 ```{r}
 wwtp_results <- list.dirs(
-  results_batchdir,
+  results_batch_dir,
   full.names = TRUE,
   recursive = FALSE
 )
@@ -478,7 +491,7 @@ permanova
 # Prediction accuracy five number stats for all WWTPs+cluster types+error metrics
 ```{r fivenum_BC_ASV}
 runs <- list.dirs(
-  results_batchdir,
+  results_batch_dir,
   full.names = TRUE,
   recursive = FALSE
 )
@@ -495,52 +508,4 @@ combined <- rbindlist(
 #prediction accuracies for each cluster for each dataset+cluster type+error metric
 stats <- combined[, .(fivenum_stats = fivenum(value)), by = .(dataset, cluster_type, error_metric)]
 stats[error_metric == "Bray Curtis", .(median = .SD[3,fivenum_stats]), by = c("dataset", "cluster_type")]
-```
-
-# I dunno
-```{r}
-combine_results <- function(results_batch_dir) {
-  runs <- list.dirs(
-      results_batch_dir,
-      full.names = TRUE,
-      recursive = FALSE
-    )
-    if (length(runs) == 0) {
-      stop("No results folders found, wrong working directory?")
-    }
-
-    d_list <- lapply(runs, read_performance)
-    names(d_list) <- runs
-    combined <- rbindlist(
-      d_list,
-      idcol = "results_folder",
-      fill = TRUE
-    )[
-      !is.na(cluster_type) & value > 0
-    ]
-  return(combined)
-}
-
-results <- combine_results("results_20220726_divmean/")
-results[grepl("Aalborg E", dataset) & cluster_no == 0, ASV := "ASV1"]
-results[grepl("Aalborg E", dataset) & cluster_no == 1, ASV := "ASV2"]
-results[grepl("Aalborg W", dataset) & cluster_no == 1, ASV := "ASV2"]
-results[grepl("Aalborg W", dataset) & cluster_no == 0, ASV := "ASV1"]
-results[grepl("Damhusåen-A", dataset) & cluster_no == 1, ASV := "ASV2"]
-results[grepl("Damhusåen-A", dataset) & cluster_no == 2, ASV := "ASV1"]
-results[grepl("Damhusåen-B", dataset) & cluster_no == 2, ASV := "ASV1"]
-results[grepl("Damhusåen-B", dataset) & cluster_no == 0, ASV := "ASV2"]
-results[grepl("Damhusåen-C", dataset) & cluster_no == 0, ASV := "ASV2"]
-results[grepl("Damhusåen-C", dataset) & cluster_no == 2, ASV := "ASV1"]
-results[grepl("Damhusåen-D", dataset) & cluster_no == 2, ASV := "ASV1"]
-results[grepl("Damhusåen-D", dataset) & cluster_no == 1, ASV := "ASV2"]
-results[grepl("Ejby Mølle", dataset) & cluster_no == 0, ASV := "ASV1"]
-results[grepl("Ejby Mølle", dataset) & cluster_no == 8, ASV := "ASV2"]
-results[grepl("Mariagerfjord", dataset) & cluster_no == 0, ASV := "ASV1"]
-results[grepl("Mariagerfjord", dataset) & cluster_no == 7, ASV := "ASV2"]
-results[grepl("Randers", dataset) & cluster_no == 0, ASV := "ASV2"]
-results[grepl("Randers", dataset) & cluster_no == 12, ASV := "ASV1"]
-results[grepl("Ribe", dataset) & cluster_no == 2, ASV := "ASV1"]
-results <- results[ASV %chin% paste0("ASV", 1:2)]
-
 ```
