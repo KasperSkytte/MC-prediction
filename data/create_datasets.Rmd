@@ -10,6 +10,7 @@ library(ampvis2)
 library(openxlsx)
 library(data.table)
 library(tidyverse)
+library(doFuture)
 
 if (interactive()) {
   if (!grepl("data$", getwd())) {
@@ -24,7 +25,7 @@ This markdown filters samples, makes sure sample metadata is correct, and splits
 ```{r}
 rm(list=ls())
 gc()
-metadata <- fread("metadata/metadata.txt")
+metadata <- fread("amplicon_data/biobank/metadata.txt", encoding = "UTF-8")
 
 if (any(duplicated(metadata$Sample))) {
   stop("One or more sample name(s) are duplicated in sample metadata. Please fix manually")
@@ -45,14 +46,22 @@ FE <- as.Date("2012-9-15",  format = "%Y-%m-%d") # Fall Equinox
 # Convert dates from any year to 2012 dates
 dates <- as.Date(strftime(metadata$Date, format = "2012-%m-%d"))
 #extract periods and set factors for correct chronological order
-metadata$Period <- ifelse (dates >= WS | dates < SE, "Winter", #winter
-                              ifelse (dates >= SE & dates < SS, "Spring", #spring
-                                      ifelse (dates >= SS & dates < FE, "Summer", "Fall"))) #summer, fall
-metadata$Period <- factor(metadata$Period, levels = c("Spring", "Summer", "Fall", "Winter"))
+metadata$Period <- ifelse (
+  dates >= WS | dates < SE, "Winter", #winter
+    ifelse (dates >= SE & dates < SS, "Spring", #spring
+      ifelse (dates >= SS & dates < FE, "Summer", "Fall") #summer, fall
+    )
+  )
+metadata$Period <- factor(
+  metadata$Period,
+  levels = c("Spring", "Summer", "Fall", "Winter")
+)
 
-metadata <- tibble::add_column(metadata,
-                               Week = as.character(lubridate::isoweek(metadata$Date)),
-                               .after = "Date")
+metadata <- tibble::add_column(
+  metadata,
+  Week = as.character(lubridate::isoweek(metadata$Date)),
+  .after = "Date"
+)
 
 setDT(metadata)
 #### fix Plant and ID columns ####
@@ -127,9 +136,9 @@ data.table::fwrite(metadata_out, "metadata.csv")
 # load amplicon data
 ```{r load_data}
 d <- amp_load(
-  otutable = "amplicon_data/ASVtable.tsv.zip",
-  metadata = metadata_out,
-  taxonomy = "amplicon_data/ASVs.R1.midas481.sintax.zip")
+  otutable = "amplicon_data/biobank/ASVtable_midas481.zip",
+  metadata = metadata_out
+)
 ```
 
 # remove samples with few reads, and normalise reads to sample total
@@ -162,45 +171,45 @@ datasets <- c(
 
 # Select and create data subsets
 ```{r export_datasets, eval = TRUE}
+# speed it up a bit by running in parallel (have enough memory!!)
+options("future.globals.maxSize" = 10*1024^3) #increase to 10GB
+future::plan(multisession, workers = 4)
 
-dlist <- lapply(
-  datasets,
-  function(wwtp) {
-    #filter
-    dataset <- amp_subset_samples(
-      ds,
-      Plant %chin% wwtp,
-      normalise = FALSE
-    ) %>%
-      filter_otus(0.1)
+dlist <- foreach(wwtp = datasets, export = ds) %dofuture% {
+  #filter
+  dataset <- amp_subset_samples(
+    ds,
+    Plant %chin% wwtp,
+    normalise = FALSE
+  ) %>%
+    filter_otus(0.1)
 
-    dataset_folder <- paste0("datasets/", wwtp)
-    dir.create(dataset_folder, recursive = TRUE, showWarnings = FALSE)
+  dataset_folder <- paste0("datasets/", wwtp)
+  dir.create(dataset_folder, recursive = TRUE, showWarnings = FALSE)
 
-    #write out abundance table
-    fwrite(
-      data.table(
-        ASV = rownames(dataset$abund),
-        dataset$abund
-      ),
-      file = paste0(dataset_folder, "/ASVtable.csv")
-    )
+  #write out abundance table
+  fwrite(
+    data.table(
+      ASV = rownames(dataset$abund),
+      dataset$abund
+    ),
+    file = paste0(dataset_folder, "/ASVtable.csv")
+  )
 
-    #write out taxonomy
-    fwrite(
-      dataset$tax,
-      file = paste0(dataset_folder, "/taxonomy.csv")
-    )
+  #write out taxonomy
+  fwrite(
+    dataset$tax,
+    file = paste0(dataset_folder, "/taxonomy.csv")
+  )
 
-    #write out metadata
-    fwrite(
-      dataset$metadata,
-      file = paste0(dataset_folder, "/metadata.csv")
-    )
+  #write out metadata
+  fwrite(
+    dataset$metadata,
+    file = paste0(dataset_folder, "/metadata.csv")
+  )
 
-    dataset
-  }
-)
+  dataset
+}
 
 ```
 
