@@ -237,7 +237,7 @@ def find_best_graph(data, iterations, num_clusters, max_epochs, early_stopping, 
         best_performances.append(best_performance)
         best_model.save_weights(f'{results_dir}/graph_{cluster_type}_weights/cluster_{c}')
 
-        prediction = make_prediction(data, best_model)
+        prediction, actual_prediction = make_prediction(data, best_model)
         # reverse transform and overwrite.
         # Better to implement it in data_handler,
         # but this does the job
@@ -277,7 +277,44 @@ def find_best_graph(data, iterations, num_clusters, max_epochs, early_stopping, 
                 max = data.transform_max[data.clusters_idec == c_id],
                 transform = data.transform_type
             )
-
+        
+        if cluster_type == "abund":
+            actual_prediction = rev_transform(
+                DF = actual_prediction,
+                mean = data.transform_mean[data.clusters_abund == c_id],
+                std = data.transform_std[data.clusters_abund == c_id],
+                min = data.transform_min[data.clusters_abund == c_id],
+                max = data.transform_max[data.clusters_abund == c_id],
+                transform = data.transform_type
+            )
+        elif cluster_type == "graph":
+            actual_prediction = rev_transform(
+                DF=actual_prediction,
+                mean=data.transform_mean[data.clusters_graph == c_id],
+                std=data.transform_std[data.clusters_graph == c_id],
+                min=data.transform_min[data.clusters_graph == c_id],
+                max=data.transform_max[data.clusters_graph == c_id],
+                transform=data.transform_type
+            )
+        elif cluster_type == "func":
+            actual_prediction = rev_transform(
+                DF = actual_prediction,
+                mean = data.transform_mean[data.clusters_func == c_id],
+                std = data.transform_std[data.clusters_func == c_id],
+                min = data.transform_min[data.clusters_func == c_id],
+                max = data.transform_max[data.clusters_func == c_id],
+                transform = data.transform_type
+            )
+        elif cluster_type == "idec":
+            actual_prediction = rev_transform(
+                DF = actual_prediction,
+                mean = data.transform_mean[data.clusters_idec == c_id],
+                std = data.transform_std[data.clusters_idec == c_id],
+                min = data.transform_min[data.clusters_idec == c_id],
+                max = data.transform_max[data.clusters_idec == c_id],
+                transform = data.transform_type
+            )
+            
         dates = data.get_metadata(data.all, 'Date').dt.date
         dates_test = data.get_metadata(data.test, 'Date').dt.date
         # Date of the first sample in the test set and
@@ -298,6 +335,7 @@ def find_best_graph(data, iterations, num_clusters, max_epochs, early_stopping, 
         if not path.exists(data_predicted_dir):
             mkdir(data_predicted_dir)
         prediction.to_csv(f'{data_predicted_dir}/graph_{cluster_type}_cluster_{c}_predicted.csv')
+        actual_prediction.to_csv(f'{data_predicted_dir}/graph_{cluster_type}_cluster_{c}_actual_prediction.csv')
         data.all.to_csv(f'{data_predicted_dir}/graph_{cluster_type}_cluster_{c}_dataall.csv')
         data.all_nontrans.to_csv(f'{data_predicted_dir}/graph_{cluster_type}_cluster_{c}_dataall_nontrans.csv')
 
@@ -380,12 +418,16 @@ def find_best_idec(data, iterations, num_clusters, tolerance):
 
 
 def make_prediction(data, lstm_model):
+    actual_prediction = data.all[-data.window_width:].to_numpy().reshape([1, data.window_width, -1])
+    actual_prediction = lstm_model.predict(actual_prediction)
+    actual_prediction = actual_prediction.reshape([data.window_width, -1])
+    
     prediction = lstm_model.predict(data.all_batched)
     prediction = prediction[:, 0]
     index_pred = data.all.index[data.window_width:]
 
     #needs to be reverse transformed for real values
-    return pd.DataFrame(data = prediction, index = index_pred, columns = data.all.columns)
+    return pd.DataFrame(data = prediction, index = index_pred, columns = data.all.columns), pd.DataFrame(data = actual_prediction, columns = data.all.columns)
 
 def create_lstm_model(num_features, predict_timestamp=1):
     """Create a model without tuning hyperparameters.
@@ -449,7 +491,7 @@ def find_best_lstm(data, iterations, num_clusters, max_epochs, early_stopping, c
         best_performances.append(best_performance)
         best_model.save_weights(f'{results_dir}/lstm_{cluster_type}_weights/cluster_{c}')
 
-        prediction = make_prediction(data, best_model)
+        prediction, actual_prediction = make_prediction(data, best_model)
         # reverse transform and overwrite.
         # Better to implement it in data_handler,
         # but this does the job
@@ -481,6 +523,43 @@ def find_best_lstm(data, iterations, num_clusters, max_epochs, early_stopping, c
                 transform = data.transform_type
             )
 
+        if cluster_type == "abund":
+            actual_prediction = rev_transform(
+                DF = actual_prediction,
+                mean = data.transform_mean[data.clusters_abund == c_id],
+                std = data.transform_std[data.clusters_abund == c_id],
+                min = data.transform_min[data.clusters_abund == c_id],
+                max = data.transform_max[data.clusters_abund == c_id],
+                transform = data.transform_type
+            )
+        elif cluster_type == "graph":
+            actual_prediction = rev_transform(
+                DF=actual_prediction,
+                mean=data.transform_mean[data.clusters_graph == c_id],
+                std=data.transform_std[data.clusters_graph == c_id],
+                min=data.transform_min[data.clusters_graph == c_id],
+                max=data.transform_max[data.clusters_graph == c_id],
+                transform=data.transform_type
+            )
+        elif cluster_type == "func":
+            actual_prediction = rev_transform(
+                DF = actual_prediction,
+                mean = data.transform_mean[data.clusters_func == c_id],
+                std = data.transform_std[data.clusters_func == c_id],
+                min = data.transform_min[data.clusters_func == c_id],
+                max = data.transform_max[data.clusters_func == c_id],
+                transform = data.transform_type
+            )
+        elif cluster_type == "idec":
+            actual_prediction = rev_transform(
+                DF = actual_prediction,
+                mean = data.transform_mean[data.clusters_idec == c_id],
+                std = data.transform_std[data.clusters_idec == c_id],
+                min = data.transform_min[data.clusters_idec == c_id],
+                max = data.transform_max[data.clusters_idec == c_id],
+                transform = data.transform_type
+            )
+
         dates = data.get_metadata(data.all, 'Date').dt.date
         dates_test = data.get_metadata(data.test, 'Date').dt.date
         # Date of the first sample in the test set and
@@ -501,6 +580,7 @@ def find_best_lstm(data, iterations, num_clusters, max_epochs, early_stopping, c
         if not path.exists(data_predicted_dir):
             mkdir(data_predicted_dir)
         prediction.to_csv(f'{data_predicted_dir}/lstm_{cluster_type}_cluster_{c}_predicted.csv')
+        actual_prediction.to_csv(f'{data_predicted_dir}/graph_{cluster_type}_cluster_{c}_actual_prediction.csv')
         data.all.to_csv(f'{data_predicted_dir}/lstm_{cluster_type}_cluster_{c}_dataall.csv')
         data.all_nontrans.to_csv(f'{data_predicted_dir}/lstm_{cluster_type}_cluster_{c}_dataall_nontrans.csv')
 
