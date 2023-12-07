@@ -128,8 +128,6 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-results*
-
 data/preprocessed/
 
 data/ASVtable.tsv
@@ -152,3 +150,7 @@ renv/
 .Rprofile
 
 ansible-venv/
+
+**_weights/
+*.h5
+analysis/results/

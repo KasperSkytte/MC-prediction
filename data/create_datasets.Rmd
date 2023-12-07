@@ -25,7 +25,7 @@ This markdown filters samples, makes sure sample metadata is correct, and splits
 ```{r}
 rm(list=ls())
 gc()
-metadata <- fread("amplicon_data/biobank/metadata.txt", encoding = "UTF-8")
+metadata <- fread("amplicon_data/biobank/metadata.txt", encoding = "Latin-1")
 
 if (any(duplicated(metadata$Sample))) {
   stop("One or more sample name(s) are duplicated in sample metadata. Please fix manually")
@@ -148,24 +148,36 @@ ds <- d %>%
 gc()
 datasets <- c(
   "Aalborg E"
-  , "Aalborg W"
-  #, "Avedøre"
-  , "Damhusåen-A"
-  , "Damhusåen-B"
-  , "Damhusåen-C"
-  , "Damhusåen-D"
-  #, "Egå"
-  , "Ejby Mølle"
-  #, "Esbjerg E"
-  #, "Hirtshals"
-  #, "Hjørring"
-  #, "Kalundborg"
-  #, "Lynetten"
-  , "Mariagerfjord"
-  #, "Marselisborg"
-  , "Randers"
-  , "Ribe"
-  #, "Viby"
+  ,"Aalborg W"
+  ,"Avedøre"
+  #,"Bjergmarken" #<- too short
+  #,"Damhusåen-" #<- error in metadata
+  ,"Damhusåen-A"
+  ,"Damhusåen-B"
+  ,"Damhusåen-C"
+  ,"Damhusåen-D"
+  ,"Egå"
+  ,"Ejby Mølle"
+  ,"Esbjerg E"
+  ,"Esbjerg W"
+  ,"Fredericia" #<- industrial plant
+  ,"Haderslev"
+  ,"Hirtshals"
+  ,"Hjørring"
+  ,"Kalundborg" #<- industrial plant
+  ,"Lynetten" #<- maybe too short
+  ,"Mariagerfjord"
+  #,"Marselisborg" #<- too short
+  #,"Marselisborg_DEMON" #<- too short
+  #,"Marselisborg_DEMON_V4" #<- too short
+  #,"Marselisborg_V4" #<- too short
+  #,"Næstved" #<- contains a sampling pause for 2 years
+  ,"Odense NE"
+  ,"Odense NV"
+  ,"Randers"
+  ,"Ribe"
+  ,"Viborg"
+  ,"Viby"
 )
 ```
 
@@ -173,7 +185,7 @@ datasets <- c(
 ```{r export_datasets, eval = TRUE}
 # speed it up a bit by running in parallel (have enough memory!!)
 options("future.globals.maxSize" = 10*1024^3) #increase to 10GB
-future::plan(multisession, workers = 4)
+future::plan(multisession, workers = 12)
 
 dlist <- foreach(wwtp = datasets, export = ds) %dofuture% {
   #filter
@@ -249,6 +261,7 @@ samples_overview_all <- ggplot(
     axis.text.x = element_text(angle = 90))
 
 samples_overview_all
+ggsave("samples_overview_all.png", plot = samples_overview_all)
 ```
 
 # overview of samples over time (only those selected for the paper)
@@ -260,6 +273,7 @@ samples_overview <- ggplot(m[used == "used"], aes(Date, Plant)) +
     axis.title = element_blank(),
     axis.text.x = element_text(angle = 90))
 samples_overview
+ggsave("samples_overview_used.png", plot = samples_overview)
 ```
 
 # Overview of sampling intervals
@@ -277,4 +291,5 @@ sampling_intervals <- ggplot(
   xlab("Sampling interval (days)") +
   scale_x_continuous(trans = "sqrt", breaks = c(1,7,14,21,28,90))
 sampling_intervals
+ggsave("sampling_intervals.png", plot = sampling_intervals)
 ```

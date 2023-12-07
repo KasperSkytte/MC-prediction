@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #This script runs run.bash for different numbers 
 #of predicted samples into the future
-dataset=${dataset:-"Randers"}
+dataset=${dataset:-"Mariagerfjord"}
 npredictions="3 5 10 15 20"
 set -u
 for i in $npredictions
@@ -32,7 +32,7 @@ do
     "max_epochs_lstm": 200,
     "window_size": 10,
     "predict_timestamp": $i,
-    "num_clusters_idec": 5,
+    "num_clusters_idec": 40,
     "tolerance_idec": 0.001,
     "transform": "divmean",
     "cluster_idec": true,
