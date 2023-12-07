@@ -356,14 +356,14 @@ boxplot_all <- function(
     ) +
     scale_y_continuous(
       trans = "sqrt",
-      breaks = breaks_pretty(n = 5)
+      breaks = breaks_pretty(n = 6)
     )
 
   # Increase the number of axis breaks for the middle plot
   plot_list[[2]] <- plot_list[[2]] +
   scale_y_continuous(
     trans = "sqrt",
-    breaks = breaks_pretty(n = 5)
+    breaks = breaks_pretty(n = 7)
   )
 
   # The last plot will be at the bottom and

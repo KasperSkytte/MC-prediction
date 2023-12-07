@@ -28,16 +28,23 @@ require("patchwork")
 require("scales")
 
 #when knitting will always be done in the context of the Rmd file, otherwise not
+#when knitting will always be done in the context of the Rmd file, otherwise not
 if (interactive()) {
   if (!grepl("analysis$", getwd())) {
     setwd("analysis")
   }
+} else {
+  renv::load("..")
 }
+
 source("functions.R")
 set.seed(42)
 # main batch run using run_loopdatasets.bash or run_predwindows.bash
 # wrapper scripts. Prediction windows tests are hard coded
-results_batch_dir <- "results/5pergroup"
+results_batch_dir <- "results/5pergroup_updateddata"
+
+# cluster type to use for examples
+cluster_type <- "graph"
 ```
 
 # five number statistics of sum of reads per data set
@@ -107,7 +114,7 @@ predwindowtest <- lapply(
     d <- amp_export_long(
       combine_abund(
         rundir,
-        cluster_type = "abund"
+        cluster_type = cluster_type
       ),
       tax_levels = "OTU",
       metadata_vars = c("Date", "split_dataset")
@@ -186,7 +193,7 @@ plots <- lapply(
   wwtp_results,
   function(wwtp) {
     plot <- wwtp %>%
-      combine_abund(cluster_type = "abund") %>%
+      combine_abund(cluster_type = cluster_type) %>%
       amp_ordinate(
         type = "pcoa",
         distmeasure = "bray",
@@ -205,6 +212,12 @@ plots <- lapply(
         axis.text = element_text(size = 16),
         axis.title = element_text(size = 16)
       )
+    
+    # real_data <- data.table(plot$data)[predicted == "real"]
+    # # extract first and last row (corresponds to first and last sample in time)
+    # labels_data <- rbindlist(list(real_data[1, ], real_data[.N, ]))
+    # plot <- plot + geom_text(aes(label = Date, color = "black"), data = labels_data)
+    
     ggsave(
       filename = file.path(
         results_batch_dir,
@@ -219,7 +232,7 @@ names(plots) <- basename(wwtp_results)
 hideme <- lapply(plots, print)
 ```
 
-## Time Series examples
+# Time Series examples
 ```{r timeseries}
 wwtp_results <- list.dirs(
   results_batch_dir,
@@ -231,7 +244,7 @@ plots <- lapply(
   function(wwtp) {
     combined <- combine_abund(
       wwtp,
-      cluster_type = "abund"
+      cluster_type = cluster_type
     )
     long <- amp_export_long(
       combined,
@@ -304,10 +317,10 @@ hideme <- lapply(plots, print)
 
 # Heatmap of real vs predicted
 ```{r}
-results_dir <- file.path(results_batch_dir, "Aalborg E")
+results_dir <- file.path(results_batch_dir, "Mariagerfjord")
 d <- combine_abund(
   results_dir,
-  cluster_type = "graph"
+  cluster_type = cluster_type
 )
 test_predicted <- amp_filter_samples(
   d,
@@ -350,10 +363,10 @@ ggsave(
   filename = file.path(
     results_dir,
     "..",
-    paste("realvspredictedheatmap", basename(results_dir), ".png")
+    paste0("realvspredictedheatmap_", basename(results_dir), ".png")
   ),
   width = 20,
-  height = 8
+  height = 12
 )
 ```
 
@@ -409,7 +422,7 @@ statistics <- lapply(
     #read predicted data (incl train+val)
     combined <- combine_abund(
       wwtp,
-      cluster_type = "graph"
+      cluster_type = cluster_type
     )
     #extract predicted samples (test set only)
     predicted <- amp_filter_samples(
