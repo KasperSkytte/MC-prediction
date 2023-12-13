@@ -10,7 +10,6 @@ library(ampvis2)
 library(openxlsx)
 library(data.table)
 library(tidyverse)
-library(doFuture)
 
 if (interactive()) {
   if (!grepl("data$", getwd())) {
@@ -183,15 +182,12 @@ datasets <- c(
 
 # Select and create data subsets
 ```{r export_datasets, eval = TRUE}
-# speed it up a bit by running in parallel (have enough memory!!)
-options("future.globals.maxSize" = 10*1024^3) #increase to 10GB
-future::plan(multisession, workers = 12)
 
-dlist <- foreach(wwtp = datasets, export = ds) %dofuture% {
+for (wwtp in datasets) {
   #filter
   dataset <- amp_subset_samples(
     ds,
-    Plant %chin% wwtp,
+    Plant %in% wwtp,
     normalise = FALSE
   ) %>%
     filter_otus(0.1)
@@ -219,8 +215,6 @@ dlist <- foreach(wwtp = datasets, export = ds) %dofuture% {
     dataset$metadata,
     file = paste0(dataset_folder, "/metadata.csv")
   )
-
-  dataset
 }
 
 ```
@@ -260,7 +254,6 @@ samples_overview_all <- ggplot(
     axis.title = element_blank(),
     axis.text.x = element_text(angle = 90))
 
-samples_overview_all
 ggsave("samples_overview_all.png", plot = samples_overview_all)
 ```
 
@@ -272,7 +265,6 @@ samples_overview <- ggplot(m[used == "used"], aes(Date, Plant)) +
   theme(
     axis.title = element_blank(),
     axis.text.x = element_text(angle = 90))
-samples_overview
 ggsave("samples_overview_used.png", plot = samples_overview)
 ```
 
@@ -290,6 +282,5 @@ sampling_intervals <- ggplot(
   theme(axis.title.y = element_blank()) +
   xlab("Sampling interval (days)") +
   scale_x_continuous(trans = "sqrt", breaks = c(1,7,14,21,28,90))
-sampling_intervals
 ggsave("sampling_intervals.png", plot = sampling_intervals)
 ```

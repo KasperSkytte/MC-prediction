@@ -3,7 +3,6 @@ set -eu
 #set timezone
 export TZ="Europe/Copenhagen"
 export TF_CPP_MIN_LOG_LEVEL=2 #silences tensorflow warnings
-export CUDA_VISIBLE_DEVICES=0
 
 timestamp=$(date '+%Y%m%d_%H%M%S')
 logFile="log_${timestamp}.txt"
@@ -35,7 +34,6 @@ main() {
 
 main |& tee "${results_dir}/${logFile}"
 
-chown 1000:1000 -R ${results_dir}
 mv results "${results_dir}_${timestamp}"
 
 duration=$(printf '%02dh:%02dm:%02ds\n' $(($SECONDS/3600)) $(($SECONDS%3600/60)) $(($SECONDS%60)))
