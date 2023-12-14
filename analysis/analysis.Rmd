@@ -41,7 +41,7 @@ source("functions.R")
 set.seed(42)
 # main batch run using run_loopdatasets.bash or run_predwindows.bash
 # wrapper scripts. Prediction windows tests are hard coded
-results_batch_dir <- "results/5pergroup_updateddata"
+results_batch_dir <- "results/allwwtps"
 
 # cluster type to use for examples
 cluster_type <- "graph"
@@ -69,8 +69,38 @@ as.data.frame(readstats, check.names = FALSE)
 # Prediction accuracy across WWTPs
 ## Graph model incl graph clustering with 5 per group
 ```{r}
-boxplot_all(
-  results_batch_dir
+bp_all_list <- boxplot_all(
+  results_batch_dir,
+  save = FALSE
+)
+
+# customize axis breaks a bit for the specific data
+bp_all_list[["Bray Curtis"]] <- bp_all_list[["Bray Curtis"]] + 
+  scale_y_continuous(
+    trans = "sqrt",
+    breaks = c(0.5, 0.1, 0.15, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8)
+  )
+bp_all_list[["Mean Absolute Error"]] <- bp_all_list[["Mean Absolute Error"]] + 
+  scale_y_continuous(
+    trans = "sqrt",
+    breaks = c(0, 0.2, 0.4, 0.6, 0.8, 1.0, 2, 3, 4, 5, 6)
+  )
+bp_all_list[["Mean Squared Error"]] <- bp_all_list[["Mean Squared Error"]] + 
+  scale_y_continuous(
+    trans = "sqrt",
+    breaks = c(0.5, 1, 5, 10, 20, 30, 40)
+  )
+
+# Compose all plots in the list using patchwork
+bp_all_plot <- purrr::reduce(
+  bp_all_list,
+  `/`
+)
+ggsave(
+  file.path(results_batch_dir, "boxplot_all.png"),
+  plot = bp_all_plot,
+  width = 16,
+  height = 12
 )
 ```
 
@@ -100,9 +130,19 @@ boxplot_all(
 )
 ```
 
+## Randers
+```{r}
+boxplot_all(
+  "results/predwindow_mariagerfjord",
+  add_dataset_info = "predwindow",
+  plot_width = 8,
+  plot_height = 8
+)
+```
+
 ## Timeseries examples
 ```{r}
-dir <- "results/predwindow_randers"
+dir <- "results/predwindow_mariagerfjord"
 runs <- list.dirs(
   dir,
   recursive = FALSE,
@@ -139,7 +179,7 @@ plot_asv1 <- plot_timeseries(
 ggsave(
   file = file.path(
     dir,
-    "predwindowtest_randers_asv1.png"
+    "predwindow_mariagerfjord_asv1.png"
   ),
   plot = plot_asv1
 )
@@ -154,7 +194,7 @@ plot_asv2 <- plot_timeseries(
 ggsave(
   file = file.path(
     dir,
-    "predwindowtest_randers_asv2.png"
+    "predwindow_mariagerfjord_asv2.png"
   ),
   plot = plot_asv2
 )
@@ -169,7 +209,7 @@ plot_asv24 <- plot_timeseries(
 ggsave(
   file = file.path(
     dir,
-    "predwindowtest_randers_asv24.png"
+    "predwindow_mariagerfjord_asv24.png"
   ),
   plot = plot_asv24
 )
@@ -372,7 +412,7 @@ ggsave(
 
 # Network plots
 ```{r}
-graph_matrix_dir <- file.path(results_batch_dir, "Aalborg E/graph_matrix")
+graph_matrix_dir <- file.path(results_batch_dir, "Mariagerfjord/graph_matrix")
 graph_matrix_list <- list.files(
   graph_matrix_dir,
   pattern = "graph_cluster_*",
@@ -404,7 +444,7 @@ ggsave(
   filename = file.path(
     graph_matrix_dir,
     "..",
-    "graph_network_plot.png"
+    "graph_network_plot_mariagerfjord.png"
   )
 )
 ```
@@ -419,11 +459,15 @@ wwtp_results <- list.dirs(
 statistics <- lapply(
   wwtp_results,
   function(wwtp) {
+    cli::cat_print(wwtp)
     #read predicted data (incl train+val)
     combined <- combine_abund(
       wwtp,
       cluster_type = cluster_type
     )
+    combined
+    if(is.null(combined))
+      return(NULL)
     #extract predicted samples (test set only)
     predicted <- amp_filter_samples(
       combined,

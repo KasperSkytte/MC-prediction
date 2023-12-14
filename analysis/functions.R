@@ -274,6 +274,8 @@ read_performance <- function(
 boxplot_all <- function(
   results_batch_dir,
   add_dataset_info = "numsamples",
+  filename = "boxplot_all.png",
+  save = TRUE,
   plot_width = 12,
   plot_height = 10
 ) {
@@ -356,7 +358,7 @@ boxplot_all <- function(
     ) +
     scale_y_continuous(
       trans = "sqrt",
-      breaks = breaks_pretty(n = 6)
+      breaks = breaks_pretty(n = 7)
     )
 
   # Increase the number of axis breaks for the middle plot
@@ -388,14 +390,16 @@ boxplot_all <- function(
     `/`
   )
 
-  ggsave(
-    file.path(dirname(combined[1, results_folder]), "boxplot_all.png"),
-    plot = plot,
-    width = plot_width,
-    height = plot_height
-  )
+  if(isTRUE(save)) {
+    ggsave(
+      file.path(dirname(combined[1, results_folder]), filename),
+      plot = plot,
+      width = plot_width,
+      height = plot_height
+    )
+  }
 
-  return(plot)
+  invisible(plot_list)
 }
 
 #' @title Read predicted abundance files from a single run
@@ -417,6 +421,10 @@ read_abund <- function(results_dir, pattern, sample_prefix = "") {
     include.dirs = FALSE,
     full.names = TRUE
   )
+
+  if (length(abund_files) == 0) {
+    stop("No files found for run: \"", results_dir, "\". Unsuccesful run?")
+  }
   abund_list <- lapply(
     abund_files,
     function(file) {
