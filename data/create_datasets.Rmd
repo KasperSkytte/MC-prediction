@@ -10,6 +10,10 @@ library(ampvis2)
 library(openxlsx)
 library(data.table)
 library(tidyverse)
+# need at least data.table version 1.14.99 to allow writing files with encoding
+if (packageVersion("data.table") < "1.14.99") {
+  stop("data.table must be version 1.14.99 or later. Upgrade with \"data.table::update_dev_pkg()\" or \"install.packages('data.table', repos='https://rdatatable.gitlab.io/data.table', ref = '1.14.99')\" if it's not available on CRAN for your R version.")
+}
 
 if (interactive()) {
   if (!grepl("data$", getwd())) {
@@ -182,7 +186,6 @@ datasets <- c(
 
 # Select and create data subsets
 ```{r export_datasets, eval = TRUE}
-
 for (wwtp in datasets) {
   #filter
   dataset <- amp_subset_samples(
@@ -213,6 +216,8 @@ for (wwtp in datasets) {
   #write out metadata
   fwrite(
     dataset$metadata,
+    bom = TRUE,
+    encoding = "UTF-8",
     file = paste0(dataset_folder, "/metadata.csv")
   )
 }

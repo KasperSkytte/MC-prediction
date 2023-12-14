@@ -1,4 +1,4 @@
-Sample,SeqRun,LibID,Read no,ID,Period,Line,Mean,Plant,Date,Week,Year,Period2,Configuration,Design,Design2,ReturnSludgeSidestream,PrimarySetling,Digester,lat,long,Solids_AerationTank_PointMeasurement,SolidsFraction_AerationTank_PointMeasurement,SVI,DSVI,ExtractionConc,LibraryConc,week_mean_temperature
+﻿Sample,SeqRun,LibID,Read no,ID,Period,Line,Mean,Plant,Date,Week,Year,Period2,Configuration,Design,Design2,ReturnSludgeSidestream,PrimarySetling,Digester,lat,long,Solids_AerationTank_PointMeasurement,SolidsFraction_AerationTank_PointMeasurement,SVI,DSVI,ExtractionConc,LibraryConc,week_mean_temperature
 MQ181221-245,MQ181221,LIB-Aalborg-Vest-LT-379,,"",Winter,Activated sludge,"",Aalborg W,2017-02-07,6,2017,,"","","","","","",,,,,,,,,9.4
 MQ181221-246,MQ181221,LIB-Aalborg-Vest-LT-382,,"",Winter,Activated sludge,"",Aalborg W,2017-02-15,7,2017,,"","","","","","",,,,,,,,,10.7
 MQ181221-247,MQ181221,LIB-Aalborg-Vest-LT-385,,"",Winter,Activated sludge,"",Aalborg W,2017-02-21,8,2017,,"","","","","","",,,,,,,,,

@@ -1,4 +1,4 @@
-Sample,SeqRun,LibID,Read no,ID,Period,Line,Mean,Plant,Date,Week,Year,Period2,Configuration,Design,Design2,ReturnSludgeSidestream,PrimarySetling,Digester,lat,long,Solids_AerationTank_PointMeasurement,SolidsFraction_AerationTank_PointMeasurement,SVI,DSVI,ExtractionConc,LibraryConc,week_mean_temperature
+﻿Sample,SeqRun,LibID,Read no,ID,Period,Line,Mean,Plant,Date,Week,Year,Period2,Configuration,Design,Design2,ReturnSludgeSidestream,PrimarySetling,Digester,lat,long,Solids_AerationTank_PointMeasurement,SolidsFraction_AerationTank_PointMeasurement,SVI,DSVI,ExtractionConc,LibraryConc,week_mean_temperature
 MQ200121-8,MQ200121,LIB-Viborg-LT-525,,"",Summer,"","",Viborg,2018-09-07,36,2018,,"","","","","","",,,,,,,,,
 MQ200121-9,MQ200121,LIB-Viborg-LT-528,,"",Fall,"","",Viborg,2018-10-02,40,2018,,"","","","","","",,,,,,,,,
 MQ200121-10,MQ200121,LIB-Viborg-LT-531,,"",Fall,"","",Viborg,2018-10-11,41,2018,,"","","","","","",,,,,,,,,

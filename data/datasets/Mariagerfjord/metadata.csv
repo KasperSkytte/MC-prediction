@@ -1,4 +1,4 @@
-Sample,SeqRun,LibID,Read no,ID,Period,Line,Mean,Plant,Date,Week,Year,Period2,Configuration,Design,Design2,ReturnSludgeSidestream,PrimarySetling,Digester,lat,long,Solids_AerationTank_PointMeasurement,SolidsFraction_AerationTank_PointMeasurement,SVI,DSVI,ExtractionConc,LibraryConc,week_mean_temperature
+﻿Sample,SeqRun,LibID,Read no,ID,Period,Line,Mean,Plant,Date,Week,Year,Period2,Configuration,Design,Design2,ReturnSludgeSidestream,PrimarySetling,Digester,lat,long,Solids_AerationTank_PointMeasurement,SolidsFraction_AerationTank_PointMeasurement,SVI,DSVI,ExtractionConc,LibraryConc,week_mean_temperature
 MQ181214-141,MQ181214,LIB-Mariagerfjord-LT-74,,"",Spring,"","",Mariagerfjord,2015-06-10,24,2015,,"","","","","","",,,,,,,,,
 MQ181214-142,MQ181214,LIB-Mariagerfjord-LT-80,,"",Summer,"","",Mariagerfjord,2015-08-31,36,2015,,"","","","","","",,,,,,,,,
 MQ181214-143,MQ181214,LIB-Mariagerfjord-LT-83,,"",Summer,"","",Mariagerfjord,2015-09-01,36,2015,,"","","","","","",,,,,,,,,

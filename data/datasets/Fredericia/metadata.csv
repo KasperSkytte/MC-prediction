@@ -1,4 +1,4 @@
-Sample,SeqRun,LibID,Read no,ID,Period,Line,Mean,Plant,Date,Week,Year,Period2,Configuration,Design,Design2,ReturnSludgeSidestream,PrimarySetling,Digester,lat,long,Solids_AerationTank_PointMeasurement,SolidsFraction_AerationTank_PointMeasurement,SVI,DSVI,ExtractionConc,LibraryConc,week_mean_temperature
+﻿Sample,SeqRun,LibID,Read no,ID,Period,Line,Mean,Plant,Date,Week,Year,Period2,Configuration,Design,Design2,ReturnSludgeSidestream,PrimarySetling,Digester,lat,long,Solids_AerationTank_PointMeasurement,SolidsFraction_AerationTank_PointMeasurement,SVI,DSVI,ExtractionConc,LibraryConc,week_mean_temperature
 MQ181116-126,MQ181116,LIB-Fredericia-LT-1,,Fredericia-LT-1,Winter,"","",Fredericia,2015-02-19,8,2015,,"","","","","","",,,,,,,27.82030911,2.786631559,
 MQ181116-131,MQ181116,LIB-Fredericia-LT-24,,Fredericia-LT-24,Fall,"","",Fredericia,2015-11-24,48,2015,,"","","","","","",,,,,,,28.91328422,4.612435329,
 MQ181116-132,MQ181116,LIB-Fredericia-LT-28,,Fredericia-LT-28,Fall,"","",Fredericia,2015-12-01,49,2015,,"","","","","","",,,,,,,26.95122538,3.225471175,

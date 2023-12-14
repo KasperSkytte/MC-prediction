@@ -1,4 +1,4 @@
-Sample,SeqRun,LibID,Read no,ID,Period,Line,Mean,Plant,Date,Week,Year,Period2,Configuration,Design,Design2,ReturnSludgeSidestream,PrimarySetling,Digester,lat,long,Solids_AerationTank_PointMeasurement,SolidsFraction_AerationTank_PointMeasurement,SVI,DSVI,ExtractionConc,LibraryConc,week_mean_temperature
+﻿Sample,SeqRun,LibID,Read no,ID,Period,Line,Mean,Plant,Date,Week,Year,Period2,Configuration,Design,Design2,ReturnSludgeSidestream,PrimarySetling,Digester,lat,long,Solids_AerationTank_PointMeasurement,SolidsFraction_AerationTank_PointMeasurement,SVI,DSVI,ExtractionConc,LibraryConc,week_mean_temperature
 MQ181123-127,MQ181123,LIB-EsbjergE-LT-121,,Esbjerg_Oest-LT-121,Fall,"","",Esbjerg E,2016-10-12,41,2016,,Recirculation,"","","","","",,,,,,,39.06245969,11.6112088,
 MQ181123-128,MQ181123,LIB-EsbjergE-LT-124,,Esbjerg_Oest-LT-124,Fall,"","",Esbjerg E,2016-10-25,43,2016,,Recirculation,"","","","","",,,,,,,58.7781533,10.99012579,
 MQ181123-129,MQ181123,LIB-EsbjergE-LT-127,,Esbjerg_Oest-LT-127,Fall,"","",Esbjerg E,2016-11-09,45,2016,,Recirculation,"","","","","",,,,,,,42.49503367,11.51990622,

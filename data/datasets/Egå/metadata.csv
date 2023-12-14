@@ -1,4 +1,4 @@
-Sample,SeqRun,LibID,Read no,ID,Period,Line,Mean,Plant,Date,Week,Year,Period2,Configuration,Design,Design2,ReturnSludgeSidestream,PrimarySetling,Digester,lat,long,Solids_AerationTank_PointMeasurement,SolidsFraction_AerationTank_PointMeasurement,SVI,DSVI,ExtractionConc,LibraryConc,week_mean_temperature
+﻿Sample,SeqRun,LibID,Read no,ID,Period,Line,Mean,Plant,Date,Week,Year,Period2,Configuration,Design,Design2,ReturnSludgeSidestream,PrimarySetling,Digester,lat,long,Solids_AerationTank_PointMeasurement,SolidsFraction_AerationTank_PointMeasurement,SVI,DSVI,ExtractionConc,LibraryConc,week_mean_temperature
 MQ181123-181,MQ181123,LIB-Egaa-LT-1,,Egaa #1,Summer,"","",Egå,2016-08-31,35,2016,,Recirculation,"","","","","",,,,,,,28.01775981,2.008973583,
 MQ181123-182,MQ181123,LIB-Egaa-LT-4,,Egaa #4,Summer,"","",Egå,2016-09-09,36,2016,,Recirculation,"","","","","",,,,,,,19.0751593,3.425323905,
 MQ181123-183,MQ181123,LIB-Egaa-LT-7,,Egaa #7,Fall,"","",Egå,2016-09-16,37,2016,,Recirculation,"","","","","",,,,,,,19.39632009,2.643443595,

@@ -1,4 +1,4 @@
-Sample,SeqRun,LibID,Read no,ID,Period,Line,Mean,Plant,Date,Week,Year,Period2,Configuration,Design,Design2,ReturnSludgeSidestream,PrimarySetling,Digester,lat,long,Solids_AerationTank_PointMeasurement,SolidsFraction_AerationTank_PointMeasurement,SVI,DSVI,ExtractionConc,LibraryConc,week_mean_temperature
+﻿Sample,SeqRun,LibID,Read no,ID,Period,Line,Mean,Plant,Date,Week,Year,Period2,Configuration,Design,Design2,ReturnSludgeSidestream,PrimarySetling,Digester,lat,long,Solids_AerationTank_PointMeasurement,SolidsFraction_AerationTank_PointMeasurement,SVI,DSVI,ExtractionConc,LibraryConc,week_mean_temperature
 MQ190301-225,MQ190301,LIB-OdenseNE-LT-337,63363,"",Spring,"","",Odense NE,2017-04-16,15,2017,,"","","","","","",,,,,,,,,
 MQ190301-226,MQ190301,LIB-OdenseNE-LT-340,66586,"",Fall,"","",Odense NE,2017-11-23,47,2017,,"","","","","","",,,,,,,,,
 MQ190301-227,MQ190301,LIB-OdenseNE-LT-343,64688,"",Fall,"","",Odense NE,2017-11-29,48,2017,,"","","","","","",,,,,,,,,

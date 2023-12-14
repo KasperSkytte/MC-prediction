@@ -1,4 +1,4 @@
-Sample,SeqRun,LibID,Read no,ID,Period,Line,Mean,Plant,Date,Week,Year,Period2,Configuration,Design,Design2,ReturnSludgeSidestream,PrimarySetling,Digester,lat,long,Solids_AerationTank_PointMeasurement,SolidsFraction_AerationTank_PointMeasurement,SVI,DSVI,ExtractionConc,LibraryConc,week_mean_temperature
+﻿Sample,SeqRun,LibID,Read no,ID,Period,Line,Mean,Plant,Date,Week,Year,Period2,Configuration,Design,Design2,ReturnSludgeSidestream,PrimarySetling,Digester,lat,long,Solids_AerationTank_PointMeasurement,SolidsFraction_AerationTank_PointMeasurement,SVI,DSVI,ExtractionConc,LibraryConc,week_mean_temperature
 MQ190919-39,MQ190919,LIB-Damhusaen-LT-A-159,,"",Spring,A,mean,Damhusåen-A,2019-04-11,15,2019,,"","","","","","",,,,,,,,,
 MQ190919-40,MQ190919,LIB-Damhusaen-LT-A-160,,"",Spring,A,mean,Damhusåen-A,2019-04-15,16,2019,,"","","","","","",,,,,,,,,
 MQ190919-41,MQ190919,LIB-Damhusaen-LT-A-161,,"",Spring,A,mean,Damhusåen-A,2019-04-24,17,2019,,"","","","","","",,,,,,,,,

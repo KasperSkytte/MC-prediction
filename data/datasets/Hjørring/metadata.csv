@@ -1,4 +1,4 @@
-Sample,SeqRun,LibID,Read no,ID,Period,Line,Mean,Plant,Date,Week,Year,Period2,Configuration,Design,Design2,ReturnSludgeSidestream,PrimarySetling,Digester,lat,long,Solids_AerationTank_PointMeasurement,SolidsFraction_AerationTank_PointMeasurement,SVI,DSVI,ExtractionConc,LibraryConc,week_mean_temperature
+﻿Sample,SeqRun,LibID,Read no,ID,Period,Line,Mean,Plant,Date,Week,Year,Period2,Configuration,Design,Design2,ReturnSludgeSidestream,PrimarySetling,Digester,lat,long,Solids_AerationTank_PointMeasurement,SolidsFraction_AerationTank_PointMeasurement,SVI,DSVI,ExtractionConc,LibraryConc,week_mean_temperature
 MQ181214-51,MQ181214,LIB-Hjorring-LT-1,,"",Spring,"","",Hjørring,2015-03-17,12,2015,,"","","","","","",,,,,,,,,
 MQ181214-52,MQ181214,LIB-Hjorring-LT-3,,"",Spring,"","",Hjørring,2015-03-23,13,2015,,"","","","","","",,,,,,,,,
 MQ181214-53,MQ181214,LIB-Hjorring-LT-5,,"",Spring,"","",Hjørring,2015-04-13,16,2015,,"","","","","","",,,,,,,,,

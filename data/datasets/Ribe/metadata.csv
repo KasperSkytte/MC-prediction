@@ -1,4 +1,4 @@
-Sample,SeqRun,LibID,Read no,ID,Period,Line,Mean,Plant,Date,Week,Year,Period2,Configuration,Design,Design2,ReturnSludgeSidestream,PrimarySetling,Digester,lat,long,Solids_AerationTank_PointMeasurement,SolidsFraction_AerationTank_PointMeasurement,SVI,DSVI,ExtractionConc,LibraryConc,week_mean_temperature
+﻿Sample,SeqRun,LibID,Read no,ID,Period,Line,Mean,Plant,Date,Week,Year,Period2,Configuration,Design,Design2,ReturnSludgeSidestream,PrimarySetling,Digester,lat,long,Solids_AerationTank_PointMeasurement,SolidsFraction_AerationTank_PointMeasurement,SVI,DSVI,ExtractionConc,LibraryConc,week_mean_temperature
 MQ181123-242,MQ181123,LIB-Ribe-LT-1,,Ribe-LT-1,Winter,"","",Ribe,2015-02-09,7,2015,,Recirculation,"","","","","",,,,,,,7.413135495,10.98348023,
 MQ181123-243,MQ181123,LIB-Ribe-LT-4,,Ribe-LT-4,Winter,"","",Ribe,2015-03-11,11,2015,,Recirculation,"","","","","",,,,,,,8.198055724,2.463516833,
 MQ181123-244,MQ181123,LIB-Ribe-LT-7,,Ribe-LT-7,Spring,"","",Ribe,2015-03-25,13,2015,,Recirculation,"","","","","",,,,,,,10.19814875,3.979434571,
