@@ -5197,63 +5197,63 @@ MQ220601-169	MQ220601	LIB-EXT-Kalundborg-LT-317					Activated sludge	Kalundborg	
 MQ220601-170	MQ220601	LIB-EXT-Kalundborg-LT21-EXTNEG					CTRL	CTRL																	
 MQ220601-171	MQ220601	LIB-EXT-Kalundborg-LT21-PCRPOS					CTRL	CTRL																	
 MQ220601-172	MQ220601	LIB-EXT-Kalundborg-LT21-PCRNEG					CTRL	CTRL																	
-MQ220601-197	MQ220601	LIB-Aved??óre-LT-137					Activated sludge	Avedoere	08-04-2021	2021															
-MQ220601-198	MQ220601	LIB-Aved??óre-LT-139					Activated sludge	Avedoere	20-04-2021	2021															
-MQ220601-199	MQ220601	LIB-Aved??óre-LT-147					Activated sludge	Avedoere	26-04-2021	2021															
-MQ220601-200	MQ220601	LIB-Aved??óre-LT-149					Activated sludge	Avedoere	10-05-2021	2021															
-MQ220601-201	MQ220601	LIB-Aved??óre-LT-151					Activated sludge	Avedoere	19-05-2021	2021															
-MQ220601-202	MQ220601	LIB-Aved??óre-LT-159					Activated sludge	Avedoere	09-06-2021	2021															
-MQ220601-203	MQ220601	LIB-Aved??óre-LT-163					Activated sludge	Avedoere	16-06-2021	2021															
-MQ220601-204	MQ220601	LIB-Aved??óre-LT-171					Activated sludge	Avedoere	21-06-2021	2021															
-MQ220601-205	MQ220601	LIB-Aved??óre-LT-173					Activated sludge	Avedoere	06-07-2021	2021															
-MQ220601-206	MQ220601	LIB-Aved??óre-LT-175					Activated sludge	Avedoere	15-07-2021	2021															
-MQ220601-207	MQ220601	LIB-Aved??óre-LT-183					Activated sludge	Avedoere	21-07-2021	2021															
-MQ220601-208	MQ220601	LIB-Aved??óre-LT-185					Activated sludge	Avedoere	15-09-2021	2021															
-MQ220601-209	MQ220601	LIB-Aved??óre-LT-193					Activated sludge	Avedoere	17-09-2021	2021															
-MQ220601-210	MQ220601	LIB-Aved??óre-LT-195					Activated sludge	Avedoere	30-09-2021	2021															
-MQ220601-211	MQ220601	LIB-Aved??óre-LT-197					Activated sludge	Avedoere	07-10-2021	2021															
-MQ220601-212	MQ220601	LIB-Aved??óre-LT-199					Activated sludge	Avedoere	18-10-2021	2021															
-MQ220601-213	MQ220601	LIB-Aved??óre-LT-207					Activated sludge	Avedoere	25-10-2021	2021															
-MQ220601-214	MQ220601	LIB-Aved??óre-LT-209					Activated sludge	Avedoere	16-11-2021	2021															
-MQ220601-215	MQ220601	LIB-Aved??óre-LT-211					Activated sludge	Avedoere	19-11-2021	2021															
-MQ220601-216	MQ220601	LIB-Aved??óre-LT-219					Activated sludge	Avedoere	29-11-2021	2021															
-MQ220601-217	MQ220601	LIB-Aved??óre-LT-221					Activated sludge	Avedoere	13-12-2021	2021															
-MQ220601-218	MQ220601	LIB-Aved??óre-LT-223					Activated sludge	Avedoere	16-12-2021	2021															
-MQ220601-219	MQ220601	LIB-Aved??óre-LT-233					Activated sludge	Avedoere	18-01-2022	2022															
-MQ220601-220	MQ220601	LIB-Damhus??óen-LT-B-189					Activated sludge	Damhusaaen	31-03-2021	2021															
-MQ220601-221	MQ220601	LIB-Damhus??óen-LT-B-191					Activated sludge	Damhusaaen	07-04-2021	2021															
-MQ220601-222	MQ220601	LIB-Damhus??óen-LT-B-193					Activated sludge	Damhusaaen	14-04-2021	2021															
-MQ220601-223	MQ220601	LIB-Damhus??óen-LT-B-195					Activated sludge	Damhusaaen	21-04-2021	2021															
-MQ220601-224	MQ220601	LIB-Damhus??óen-LT-B-197					Activated sludge	Damhusaaen	28-04-2021	2021															
-MQ220601-225	MQ220601	LIB-Damhus??óen-LT-B-199					Activated sludge	Damhusaaen	07-05-2021	2021															
-MQ220601-226	MQ220601	LIB-Damhus??óen-LT-B-201					Activated sludge	Damhusaaen	19-05-2021	2021															
-MQ220601-227	MQ220601	LIB-Damhus??óen-LT-B-203					Activated sludge	Damhusaaen	26-05-2021	2021															
-MQ220601-228	MQ220601	LIB-Damhus??óen-LT-B-205					Activated sludge	Damhusaaen	07-06-2021	2021															
-MQ220601-229	MQ220601	LIB-Damhus??óen-LT-B-207					Activated sludge	Damhusaaen	17-06-2021	2021															
-MQ220601-230	MQ220601	LIB-Damhus??óen-LT-B-209					Activated sludge	Damhusaaen	23-06-2021	2021															
-MQ220601-231	MQ220601	LIB-Damhus??óen-LT-B-211					Activated sludge	Damhusaaen	08-07-2021	2021															
-MQ220601-232	MQ220601	LIB-Damhus??óen-LT-B-213					Activated sludge	Damhusaaen	29-07-2021	2021															
-MQ220601-233	MQ220601	LIB-Damhus??óen-LT-B-215					Activated sludge	Damhusaaen	06-08-2021	2021															
-MQ220601-234	MQ220601	LIB-Damhus??óen-LT-B-217					Activated sludge	Damhusaaen	11-08-2021	2021															
-MQ220601-235	MQ220601	LIB-Damhus??óen-LT-B-219					Activated sludge	Damhusaaen	19-08-2021	2021															
-MQ220601-236	MQ220601	LIB-Damhus??óen-LT-B-221					Activated sludge	Damhusaaen	25-08-2021	2021															
-MQ220601-237	MQ220601	LIB-Damhus??óen-LT-B-223					Activated sludge	Damhusaaen	01-09-2021	2021															
-MQ220601-238	MQ220601	LIB-Damhus??óen-LT-B-225					Activated sludge	Damhusaaen	09-09-2021	2021															
-MQ220601-239	MQ220601	LIB-Damhus??óen-LT-B-227					Activated sludge	Damhusaaen	24-09-2021	2021															
-MQ220601-240	MQ220601	LIB-Damhus??óen-LT-B-229					Activated sludge	Damhusaaen	29-09-2021	2021															
-MQ220601-241	MQ220601	LIB-Damhus??óen-LT-B-231					Activated sludge	Damhusaaen	08-10-2021	2021															
-MQ220601-242	MQ220601	LIB-Damhus??óen-LT-B-233					Activated sludge	Damhusaaen	13-10-2021	2021															
-MQ220601-243	MQ220601	LIB-Damhus??óen-LT-B-235					Activated sludge	Damhusaaen	29-10-2021	2021															
-MQ220601-244	MQ220601	LIB-Damhus??óen-LT-B-237					Activated sludge	Damhusaaen	03-11-2021	2021															
-MQ220601-245	MQ220601	LIB-Damhus??óen-LT-B-239					Activated sludge	Damhusaaen	11-11-2021	2021															
-MQ220601-246	MQ220601	LIB-Damhus??óen-LT-B-241					Activated sludge	Damhusaaen	17-11-2021	2021															
-MQ220601-247	MQ220601	LIB-Damhus??óen-LT-B-243					Activated sludge	Damhusaaen	24-11-2021	2021															
-MQ220601-248	MQ220601	LIB-Damhus??óen-LT-B-245					Activated sludge	Damhusaaen	10-12-2021	2021															
-MQ220601-249	MQ220601	LIB-Damhus??óen-LT-B-247					Activated sludge	Damhusaaen	16-12-2021	2021															
-MQ220601-250	MQ220601	LIB-Damhus??óen-LT-B-249					Activated sludge	Damhusaaen	22-12-2021	2021															
-MQ220601-251	MQ220601	LIB-Damhus??óen-LT-B-251					Activated sludge	Damhusaaen	05-01-2022	2022															
-MQ220601-252	MQ220601	LIB-Damhus??óen-LT-B-253					Activated sludge	Damhusaaen	13-01-2022	2022															
-MQ220601-253	MQ220601	LIB-Damhus??óen-LT-B-255					Activated sludge	Damhusaaen	19-01-2022	2022															
+MQ220601-197	MQ220601	LIB-Avedoere-LT-137					Activated sludge	Avedoere	08-04-2021	2021															
+MQ220601-198	MQ220601	LIB-Avedoere-LT-139					Activated sludge	Avedoere	20-04-2021	2021															
+MQ220601-199	MQ220601	LIB-Avedoere-LT-147					Activated sludge	Avedoere	26-04-2021	2021															
+MQ220601-200	MQ220601	LIB-Avedoere-LT-149					Activated sludge	Avedoere	10-05-2021	2021															
+MQ220601-201	MQ220601	LIB-Avedoere-LT-151					Activated sludge	Avedoere	19-05-2021	2021															
+MQ220601-202	MQ220601	LIB-Avedoere-LT-159					Activated sludge	Avedoere	09-06-2021	2021															
+MQ220601-203	MQ220601	LIB-Avedoere-LT-163					Activated sludge	Avedoere	16-06-2021	2021															
+MQ220601-204	MQ220601	LIB-Avedoere-LT-171					Activated sludge	Avedoere	21-06-2021	2021															
+MQ220601-205	MQ220601	LIB-Avedoere-LT-173					Activated sludge	Avedoere	06-07-2021	2021															
+MQ220601-206	MQ220601	LIB-Avedoere-LT-175					Activated sludge	Avedoere	15-07-2021	2021															
+MQ220601-207	MQ220601	LIB-Avedoere-LT-183					Activated sludge	Avedoere	21-07-2021	2021															
+MQ220601-208	MQ220601	LIB-Avedoere-LT-185					Activated sludge	Avedoere	15-09-2021	2021															
+MQ220601-209	MQ220601	LIB-Avedoere-LT-193					Activated sludge	Avedoere	17-09-2021	2021															
+MQ220601-210	MQ220601	LIB-Avedoere-LT-195					Activated sludge	Avedoere	30-09-2021	2021															
+MQ220601-211	MQ220601	LIB-Avedoere-LT-197					Activated sludge	Avedoere	07-10-2021	2021															
+MQ220601-212	MQ220601	LIB-Avedoere-LT-199					Activated sludge	Avedoere	18-10-2021	2021															
+MQ220601-213	MQ220601	LIB-Avedoere-LT-207					Activated sludge	Avedoere	25-10-2021	2021															
+MQ220601-214	MQ220601	LIB-Avedoere-LT-209					Activated sludge	Avedoere	16-11-2021	2021															
+MQ220601-215	MQ220601	LIB-Avedoere-LT-211					Activated sludge	Avedoere	19-11-2021	2021															
+MQ220601-216	MQ220601	LIB-Avedoere-LT-219					Activated sludge	Avedoere	29-11-2021	2021															
+MQ220601-217	MQ220601	LIB-Avedoere-LT-221					Activated sludge	Avedoere	13-12-2021	2021															
+MQ220601-218	MQ220601	LIB-Avedoere-LT-223					Activated sludge	Avedoere	16-12-2021	2021															
+MQ220601-219	MQ220601	LIB-Avedoere-LT-233					Activated sludge	Avedoere	18-01-2022	2022															
+MQ220601-220	MQ220601	LIB-Damhusaaen-LT-B-189					Activated sludge	Damhusaaen	31-03-2021	2021															
+MQ220601-221	MQ220601	LIB-Damhusaaen-LT-B-191					Activated sludge	Damhusaaen	07-04-2021	2021															
+MQ220601-222	MQ220601	LIB-Damhusaaen-LT-B-193					Activated sludge	Damhusaaen	14-04-2021	2021															
+MQ220601-223	MQ220601	LIB-Damhusaaen-LT-B-195					Activated sludge	Damhusaaen	21-04-2021	2021															
+MQ220601-224	MQ220601	LIB-Damhusaaen-LT-B-197					Activated sludge	Damhusaaen	28-04-2021	2021															
+MQ220601-225	MQ220601	LIB-Damhusaaen-LT-B-199					Activated sludge	Damhusaaen	07-05-2021	2021															
+MQ220601-226	MQ220601	LIB-Damhusaaen-LT-B-201					Activated sludge	Damhusaaen	19-05-2021	2021															
+MQ220601-227	MQ220601	LIB-Damhusaaen-LT-B-203					Activated sludge	Damhusaaen	26-05-2021	2021															
+MQ220601-228	MQ220601	LIB-Damhusaaen-LT-B-205					Activated sludge	Damhusaaen	07-06-2021	2021															
+MQ220601-229	MQ220601	LIB-Damhusaaen-LT-B-207					Activated sludge	Damhusaaen	17-06-2021	2021															
+MQ220601-230	MQ220601	LIB-Damhusaaen-LT-B-209					Activated sludge	Damhusaaen	23-06-2021	2021															
+MQ220601-231	MQ220601	LIB-Damhusaaen-LT-B-211					Activated sludge	Damhusaaen	08-07-2021	2021															
+MQ220601-232	MQ220601	LIB-Damhusaaen-LT-B-213					Activated sludge	Damhusaaen	29-07-2021	2021															
+MQ220601-233	MQ220601	LIB-Damhusaaen-LT-B-215					Activated sludge	Damhusaaen	06-08-2021	2021															
+MQ220601-234	MQ220601	LIB-Damhusaaen-LT-B-217					Activated sludge	Damhusaaen	11-08-2021	2021															
+MQ220601-235	MQ220601	LIB-Damhusaaen-LT-B-219					Activated sludge	Damhusaaen	19-08-2021	2021															
+MQ220601-236	MQ220601	LIB-Damhusaaen-LT-B-221					Activated sludge	Damhusaaen	25-08-2021	2021															
+MQ220601-237	MQ220601	LIB-Damhusaaen-LT-B-223					Activated sludge	Damhusaaen	01-09-2021	2021															
+MQ220601-238	MQ220601	LIB-Damhusaaen-LT-B-225					Activated sludge	Damhusaaen	09-09-2021	2021															
+MQ220601-239	MQ220601	LIB-Damhusaaen-LT-B-227					Activated sludge	Damhusaaen	24-09-2021	2021															
+MQ220601-240	MQ220601	LIB-Damhusaaen-LT-B-229					Activated sludge	Damhusaaen	29-09-2021	2021															
+MQ220601-241	MQ220601	LIB-Damhusaaen-LT-B-231					Activated sludge	Damhusaaen	08-10-2021	2021															
+MQ220601-242	MQ220601	LIB-Damhusaaen-LT-B-233					Activated sludge	Damhusaaen	13-10-2021	2021															
+MQ220601-243	MQ220601	LIB-Damhusaaen-LT-B-235					Activated sludge	Damhusaaen	29-10-2021	2021															
+MQ220601-244	MQ220601	LIB-Damhusaaen-LT-B-237					Activated sludge	Damhusaaen	03-11-2021	2021															
+MQ220601-245	MQ220601	LIB-Damhusaaen-LT-B-239					Activated sludge	Damhusaaen	11-11-2021	2021															
+MQ220601-246	MQ220601	LIB-Damhusaaen-LT-B-241					Activated sludge	Damhusaaen	17-11-2021	2021															
+MQ220601-247	MQ220601	LIB-Damhusaaen-LT-B-243					Activated sludge	Damhusaaen	24-11-2021	2021															
+MQ220601-248	MQ220601	LIB-Damhusaaen-LT-B-245					Activated sludge	Damhusaaen	10-12-2021	2021															
+MQ220601-249	MQ220601	LIB-Damhusaaen-LT-B-247					Activated sludge	Damhusaaen	16-12-2021	2021															
+MQ220601-250	MQ220601	LIB-Damhusaaen-LT-B-249					Activated sludge	Damhusaaen	22-12-2021	2021															
+MQ220601-251	MQ220601	LIB-Damhusaaen-LT-B-251					Activated sludge	Damhusaaen	05-01-2022	2022															
+MQ220601-252	MQ220601	LIB-Damhusaaen-LT-B-253					Activated sludge	Damhusaaen	13-01-2022	2022															
+MQ220601-253	MQ220601	LIB-Damhusaaen-LT-B-255					Activated sludge	Damhusaaen	19-01-2022	2022															
 MQ220601-254	MQ220601	LIB-Lynetten-LT-106					Activated sludge	Lynetten	06-04-2021	2021															
 MQ220601-255	MQ220601	LIB-Lynetten-LT-108					Activated sludge	Lynetten	21-04-2021	2021															
 MQ220601-256	MQ220601	LIB-Lynetten-LT-110					Activated sludge	Lynetten	04-05-2021	2021															
@@ -5488,47 +5488,47 @@ MQ230313-199	MQ230313	LIB-Ribe-LT-2022-347					Activated sludge	Ribe	08-12-2022	
 MQ230313-200	MQ230313	LIB-Ribe-LT-2022-348					Activated sludge	Ribe	14-12-2022	2022															
 MQ230313-201	MQ230313	LIB-Ribe-LT-2022-349					Activated sludge	Ribe	21-12-2022	2022															
 MQ230313-202	MQ230313	LIB-Ribe-LT-2022-350					Activated sludge	Ribe	04-01-2023	2022															
-MQ230313-203	MQ230313	LIB-Ejby-M??ólle-LT-890					Activated sludge	Ejby Moelle	01-03-2022	2022															
-MQ230313-204	MQ230313	LIB-Ejby-M??ólle-LT-892					Activated sludge	Ejby Moelle	08-03-2022	2022															
-MQ230313-205	MQ230313	LIB-Ejby-M??ólle-LT-894					Activated sludge	Ejby Moelle	14-03-2022	2022															
-MQ230313-206	MQ230313	LIB-Ejby-M??ólle-LT-896					Activated sludge	Ejby Moelle	22-03-2022	2022															
-MQ230313-207	MQ230313	LIB-Ejby-M??ólle-LT-898					Activated sludge	Ejby Moelle	29-03-2022	2022															
-MQ230313-208	MQ230313	LIB-Ejby-M??ólle-LT-900					Activated sludge	Ejby Moelle	05-04-2022	2022															
-MQ230313-209	MQ230313	LIB-Ejby-M??ólle-LT-902					Activated sludge	Ejby Moelle	12-04-2022	2022															
-MQ230313-210	MQ230313	LIB-Ejby-M??ólle-LT-904					Activated sludge	Ejby Moelle	19-04-2022	2022															
-MQ230313-211	MQ230313	LIB-Ejby-M??ólle-LT-906					Activated sludge	Ejby Moelle	26-04-2022	2022															
-MQ230313-212	MQ230313	LIB-Ejby-M??ólle-LT-908					Activated sludge	Ejby Moelle	03-05-2022	2022															
-MQ230313-213	MQ230313	LIB-Ejby-M??ólle-LT-910					Activated sludge	Ejby Moelle	11-05-2022	2022															
-MQ230313-214	MQ230313	LIB-Ejby-M??ólle-LT-912					Activated sludge	Ejby Moelle	17-05-2022	2022															
-MQ230313-215	MQ230313	LIB-Ejby-M??ólle-LT-914					Activated sludge	Ejby Moelle	24-05-2022	2022															
-MQ230313-216	MQ230313	LIB-Ejby-M??ólle-LT-916					Activated sludge	Ejby Moelle	31-05-2022	2022															
-MQ230313-217	MQ230313	LIB-Ejby-M??ólle-LT-918					Activated sludge	Ejby Moelle	08-06-2022	2022															
-MQ230313-218	MQ230313	LIB-Ejby-M??ólle-LT-920					Activated sludge	Ejby Moelle	14-06-2022	2022															
-MQ230313-219	MQ230313	LIB-Ejby-M??ólle-LT-922					Activated sludge	Ejby Moelle	21-06-2022	2022															
-MQ230313-220	MQ230313	LIB-Ejby-M??ólle-LT-924					Activated sludge	Ejby Moelle	28-06-2022	2022															
-MQ230313-221	MQ230313	LIB-Ejby-M??ólle-LT-926					Activated sludge	Ejby Moelle	05-07-2022	2022															
-MQ230313-222	MQ230313	LIB-Ejby-M??ólle-LT-928					Activated sludge	Ejby Moelle	12-07-2022	2022															
-MQ230313-223	MQ230313	LIB-Ejby-M??ólle-LT-930					Activated sludge	Ejby Moelle	19-07-2022	2022															
-MQ230313-224	MQ230313	LIB-Ejby-M??ólle-LT-932					Activated sludge	Ejby Moelle	26-07-2022	2022															
-MQ230313-225	MQ230313	LIB-Ejby-M??ólle-LT-934					Activated sludge	Ejby Moelle	02-08-2022	2022															
-MQ230313-226	MQ230313	LIB-Ejby-M??ólle-LT-936					Activated sludge	Ejby Moelle	09-08-2022	2022															
-MQ230313-227	MQ230313	LIB-Ejby-M??ólle-LT-938					Activated sludge	Ejby Moelle	16-08-2022	2022															
-MQ230313-228	MQ230313	LIB-Ejby-M??ólle-LT-940					Activated sludge	Ejby Moelle	23-08-2022	2022															
-MQ230313-229	MQ230313	LIB-Ejby-M??ólle-LT-942					Activated sludge	Ejby Moelle	30-08-2022	2022															
-MQ230313-230	MQ230313	LIB-Ejby-M??ólle-LT-944					Activated sludge	Ejby Moelle	06-09-2022	2022															
-MQ230313-231	MQ230313	LIB-Ejby-M??ólle-LT-946					Activated sludge	Ejby Moelle	13-09-2022	2022															
-MQ230313-232	MQ230313	LIB-Ejby-M??ólle-LT-948					Activated sludge	Ejby Moelle	20-09-2022	2022															
-MQ230313-233	MQ230313	LIB-Ejby-M??ólle-LT-950					Activated sludge	Ejby Moelle	27-09-2022	2022															
-MQ230313-234	MQ230313	LIB-Ejby-M??ólle-LT-952					Activated sludge	Ejby Moelle	04-10-2022	2022															
-MQ230313-235	MQ230313	LIB-Ejby-M??ólle-LT-954					Activated sludge	Ejby Moelle	11-10-2022	2022															
-MQ230313-236	MQ230313	LIB-Ejby-M??ólle-LT-956					Activated sludge	Ejby Moelle	18-10-2022	2022															
-MQ230313-237	MQ230313	LIB-Ejby-M??ólle-LT-958					Activated sludge	Ejby Moelle	25-10-2022	2022															
-MQ230313-238	MQ230313	LIB-Ejby-M??ólle-LT-960					Activated sludge	Ejby Moelle	01-11-2022	2022															
-MQ230313-239	MQ230313	LIB-Ejby-M??ólle-LT-962					Activated sludge	Ejby Moelle	08-11-2022	2022															
-MQ230313-240	MQ230313	LIB-Ejby-M??ólle-LT-964					Activated sludge	Ejby Moelle	17-11-2022	2022															
-MQ230313-241	MQ230313	LIB-Ejby-M??ólle-LT-966					Activated sludge	Ejby Moelle	21-11-2022	2022															
-MQ230313-242	MQ230313	LIB-Ejby-M??ólle-LT-968					Activated sludge	Ejby Moelle	28-11-2022	2022															
-MQ230313-243	MQ230313	LIB-Ejby-M??ólle-LT-970					Activated sludge	Ejby Moelle	06-11-2022	2022															
+MQ230313-203	MQ230313	LIB-Ejby-M??ï¿½lle-LT-890					Activated sludge	Ejby Moelle	01-03-2022	2022															
+MQ230313-204	MQ230313	LIB-Ejby-M??ï¿½lle-LT-892					Activated sludge	Ejby Moelle	08-03-2022	2022															
+MQ230313-205	MQ230313	LIB-Ejby-M??ï¿½lle-LT-894					Activated sludge	Ejby Moelle	14-03-2022	2022															
+MQ230313-206	MQ230313	LIB-Ejby-M??ï¿½lle-LT-896					Activated sludge	Ejby Moelle	22-03-2022	2022															
+MQ230313-207	MQ230313	LIB-Ejby-M??ï¿½lle-LT-898					Activated sludge	Ejby Moelle	29-03-2022	2022															
+MQ230313-208	MQ230313	LIB-Ejby-M??ï¿½lle-LT-900					Activated sludge	Ejby Moelle	05-04-2022	2022															
+MQ230313-209	MQ230313	LIB-Ejby-M??ï¿½lle-LT-902					Activated sludge	Ejby Moelle	12-04-2022	2022															
+MQ230313-210	MQ230313	LIB-Ejby-M??ï¿½lle-LT-904					Activated sludge	Ejby Moelle	19-04-2022	2022															
+MQ230313-211	MQ230313	LIB-Ejby-M??ï¿½lle-LT-906					Activated sludge	Ejby Moelle	26-04-2022	2022															
+MQ230313-212	MQ230313	LIB-Ejby-M??ï¿½lle-LT-908					Activated sludge	Ejby Moelle	03-05-2022	2022															
+MQ230313-213	MQ230313	LIB-Ejby-M??ï¿½lle-LT-910					Activated sludge	Ejby Moelle	11-05-2022	2022															
+MQ230313-214	MQ230313	LIB-Ejby-M??ï¿½lle-LT-912					Activated sludge	Ejby Moelle	17-05-2022	2022															
+MQ230313-215	MQ230313	LIB-Ejby-M??ï¿½lle-LT-914					Activated sludge	Ejby Moelle	24-05-2022	2022															
+MQ230313-216	MQ230313	LIB-Ejby-M??ï¿½lle-LT-916					Activated sludge	Ejby Moelle	31-05-2022	2022															
+MQ230313-217	MQ230313	LIB-Ejby-M??ï¿½lle-LT-918					Activated sludge	Ejby Moelle	08-06-2022	2022															
+MQ230313-218	MQ230313	LIB-Ejby-M??ï¿½lle-LT-920					Activated sludge	Ejby Moelle	14-06-2022	2022															
+MQ230313-219	MQ230313	LIB-Ejby-M??ï¿½lle-LT-922					Activated sludge	Ejby Moelle	21-06-2022	2022															
+MQ230313-220	MQ230313	LIB-Ejby-M??ï¿½lle-LT-924					Activated sludge	Ejby Moelle	28-06-2022	2022															
+MQ230313-221	MQ230313	LIB-Ejby-M??ï¿½lle-LT-926					Activated sludge	Ejby Moelle	05-07-2022	2022															
+MQ230313-222	MQ230313	LIB-Ejby-M??ï¿½lle-LT-928					Activated sludge	Ejby Moelle	12-07-2022	2022															
+MQ230313-223	MQ230313	LIB-Ejby-M??ï¿½lle-LT-930					Activated sludge	Ejby Moelle	19-07-2022	2022															
+MQ230313-224	MQ230313	LIB-Ejby-M??ï¿½lle-LT-932					Activated sludge	Ejby Moelle	26-07-2022	2022															
+MQ230313-225	MQ230313	LIB-Ejby-M??ï¿½lle-LT-934					Activated sludge	Ejby Moelle	02-08-2022	2022															
+MQ230313-226	MQ230313	LIB-Ejby-M??ï¿½lle-LT-936					Activated sludge	Ejby Moelle	09-08-2022	2022															
+MQ230313-227	MQ230313	LIB-Ejby-M??ï¿½lle-LT-938					Activated sludge	Ejby Moelle	16-08-2022	2022															
+MQ230313-228	MQ230313	LIB-Ejby-M??ï¿½lle-LT-940					Activated sludge	Ejby Moelle	23-08-2022	2022															
+MQ230313-229	MQ230313	LIB-Ejby-M??ï¿½lle-LT-942					Activated sludge	Ejby Moelle	30-08-2022	2022															
+MQ230313-230	MQ230313	LIB-Ejby-M??ï¿½lle-LT-944					Activated sludge	Ejby Moelle	06-09-2022	2022															
+MQ230313-231	MQ230313	LIB-Ejby-M??ï¿½lle-LT-946					Activated sludge	Ejby Moelle	13-09-2022	2022															
+MQ230313-232	MQ230313	LIB-Ejby-M??ï¿½lle-LT-948					Activated sludge	Ejby Moelle	20-09-2022	2022															
+MQ230313-233	MQ230313	LIB-Ejby-M??ï¿½lle-LT-950					Activated sludge	Ejby Moelle	27-09-2022	2022															
+MQ230313-234	MQ230313	LIB-Ejby-M??ï¿½lle-LT-952					Activated sludge	Ejby Moelle	04-10-2022	2022															
+MQ230313-235	MQ230313	LIB-Ejby-M??ï¿½lle-LT-954					Activated sludge	Ejby Moelle	11-10-2022	2022															
+MQ230313-236	MQ230313	LIB-Ejby-M??ï¿½lle-LT-956					Activated sludge	Ejby Moelle	18-10-2022	2022															
+MQ230313-237	MQ230313	LIB-Ejby-M??ï¿½lle-LT-958					Activated sludge	Ejby Moelle	25-10-2022	2022															
+MQ230313-238	MQ230313	LIB-Ejby-M??ï¿½lle-LT-960					Activated sludge	Ejby Moelle	01-11-2022	2022															
+MQ230313-239	MQ230313	LIB-Ejby-M??ï¿½lle-LT-962					Activated sludge	Ejby Moelle	08-11-2022	2022															
+MQ230313-240	MQ230313	LIB-Ejby-M??ï¿½lle-LT-964					Activated sludge	Ejby Moelle	17-11-2022	2022															
+MQ230313-241	MQ230313	LIB-Ejby-M??ï¿½lle-LT-966					Activated sludge	Ejby Moelle	21-11-2022	2022															
+MQ230313-242	MQ230313	LIB-Ejby-M??ï¿½lle-LT-968					Activated sludge	Ejby Moelle	28-11-2022	2022															
+MQ230313-243	MQ230313	LIB-Ejby-M??ï¿½lle-LT-970					Activated sludge	Ejby Moelle	06-11-2022	2022															
 MQ230313-244	MQ230313	EXT-NEG					EXT-NEG	CTRL	26-01-2023																
 MQ230313-245	MQ230313	PCR-POS					PCR-POS	CTRL																	
 MQ230313-246	MQ230313	PCR-NEG					PCR-NEG	CTRL																	

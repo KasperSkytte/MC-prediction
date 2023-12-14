@@ -154,3 +154,4 @@ ansible-venv/
 **_weights/
 *.h5
 analysis/results/
+results/
