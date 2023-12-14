@@ -5279,13 +5279,13 @@ MQ220601-275	MQ220601	LIB-Lynetten-LT-150					Activated sludge	Lynetten	25-01-20
 MQ220601-276	MQ220601	LIB-LynDamAve-LT21-NEG					CTRL	CTRL																	
 MQ220601-277	MQ220601	LIB-EXT-LynDamAve-LT21-PCRPOS					CTRL	CTRL																	
 MQ220601-278	MQ220601	LIB-EXT-LynDamAve-LT21-PCRNEG					CTRL	CTRL																	
-MQ230309-111	MQ230302	LIB-Viborg-LT-671					Activated sludge	Viborg	25-05-2020	2020															
-MQ230309-112	MQ230303	LIB-Viborg-LT-673					Activated sludge	Viborg	03-06-2020	2020															
-MQ230309-113	MQ230304	LIB-Viborg-LT-675					Activated sludge	Viborg	15-06-2020	2020															
-MQ230309-114	MQ230305	LIB-Viborg-LT-677					Activated sludge	Viborg	02-07-2020	2020															
-MQ230309-115	MQ230306	LIB-Viborg-LT-681					Activated sludge	Viborg	27-07-2020	2020															
-MQ230309-116	MQ230307	LIB-Viborg-LT-683					Activated sludge	Viborg	11-08-2020	2020															
-MQ230309-117	MQ230308	LIB-Viborg-LT-685					Activated sludge	Viborg	18-09-2020	2020															
+MQ230309-111	MQ230309	LIB-Viborg-LT-671					Activated sludge	Viborg	25-05-2020	2020															
+MQ230309-112	MQ230309	LIB-Viborg-LT-673					Activated sludge	Viborg	03-06-2020	2020															
+MQ230309-113	MQ230309	LIB-Viborg-LT-675					Activated sludge	Viborg	15-06-2020	2020															
+MQ230309-114	MQ230309	LIB-Viborg-LT-677					Activated sludge	Viborg	02-07-2020	2020															
+MQ230309-115	MQ230309	LIB-Viborg-LT-681					Activated sludge	Viborg	27-07-2020	2020															
+MQ230309-116	MQ230309	LIB-Viborg-LT-683					Activated sludge	Viborg	11-08-2020	2020															
+MQ230309-117	MQ230309	LIB-Viborg-LT-685					Activated sludge	Viborg	18-09-2020	2020															
 MQ230309-118	MQ230309	LIB-Mariagerfjord-LT-718					Activated sludge	Mariagerfjord	07-01-2021	2021															
 MQ230309-119	MQ230309	LIB-Mariagerfjord-LT-722					Activated sludge	Mariagerfjord	11-01-2021	2021															
 MQ230309-120	MQ230309	LIB-Mariagerfjord-LT-726					Activated sludge	Mariagerfjord	18-01-2021	2021															
@@ -5488,47 +5488,47 @@ MQ230313-199	MQ230313	LIB-Ribe-LT-2022-347					Activated sludge	Ribe	08-12-2022	
 MQ230313-200	MQ230313	LIB-Ribe-LT-2022-348					Activated sludge	Ribe	14-12-2022	2022															
 MQ230313-201	MQ230313	LIB-Ribe-LT-2022-349					Activated sludge	Ribe	21-12-2022	2022															
 MQ230313-202	MQ230313	LIB-Ribe-LT-2022-350					Activated sludge	Ribe	04-01-2023	2022															
-MQ230313-203	MQ230313	LIB-Ejby-M??�lle-LT-890					Activated sludge	Ejby Moelle	01-03-2022	2022															
-MQ230313-204	MQ230313	LIB-Ejby-M??�lle-LT-892					Activated sludge	Ejby Moelle	08-03-2022	2022															
-MQ230313-205	MQ230313	LIB-Ejby-M??�lle-LT-894					Activated sludge	Ejby Moelle	14-03-2022	2022															
-MQ230313-206	MQ230313	LIB-Ejby-M??�lle-LT-896					Activated sludge	Ejby Moelle	22-03-2022	2022															
-MQ230313-207	MQ230313	LIB-Ejby-M??�lle-LT-898					Activated sludge	Ejby Moelle	29-03-2022	2022															
-MQ230313-208	MQ230313	LIB-Ejby-M??�lle-LT-900					Activated sludge	Ejby Moelle	05-04-2022	2022															
-MQ230313-209	MQ230313	LIB-Ejby-M??�lle-LT-902					Activated sludge	Ejby Moelle	12-04-2022	2022															
-MQ230313-210	MQ230313	LIB-Ejby-M??�lle-LT-904					Activated sludge	Ejby Moelle	19-04-2022	2022															
-MQ230313-211	MQ230313	LIB-Ejby-M??�lle-LT-906					Activated sludge	Ejby Moelle	26-04-2022	2022															
-MQ230313-212	MQ230313	LIB-Ejby-M??�lle-LT-908					Activated sludge	Ejby Moelle	03-05-2022	2022															
-MQ230313-213	MQ230313	LIB-Ejby-M??�lle-LT-910					Activated sludge	Ejby Moelle	11-05-2022	2022															
-MQ230313-214	MQ230313	LIB-Ejby-M??�lle-LT-912					Activated sludge	Ejby Moelle	17-05-2022	2022															
-MQ230313-215	MQ230313	LIB-Ejby-M??�lle-LT-914					Activated sludge	Ejby Moelle	24-05-2022	2022															
-MQ230313-216	MQ230313	LIB-Ejby-M??�lle-LT-916					Activated sludge	Ejby Moelle	31-05-2022	2022															
-MQ230313-217	MQ230313	LIB-Ejby-M??�lle-LT-918					Activated sludge	Ejby Moelle	08-06-2022	2022															
-MQ230313-218	MQ230313	LIB-Ejby-M??�lle-LT-920					Activated sludge	Ejby Moelle	14-06-2022	2022															
-MQ230313-219	MQ230313	LIB-Ejby-M??�lle-LT-922					Activated sludge	Ejby Moelle	21-06-2022	2022															
-MQ230313-220	MQ230313	LIB-Ejby-M??�lle-LT-924					Activated sludge	Ejby Moelle	28-06-2022	2022															
-MQ230313-221	MQ230313	LIB-Ejby-M??�lle-LT-926					Activated sludge	Ejby Moelle	05-07-2022	2022															
-MQ230313-222	MQ230313	LIB-Ejby-M??�lle-LT-928					Activated sludge	Ejby Moelle	12-07-2022	2022															
-MQ230313-223	MQ230313	LIB-Ejby-M??�lle-LT-930					Activated sludge	Ejby Moelle	19-07-2022	2022															
-MQ230313-224	MQ230313	LIB-Ejby-M??�lle-LT-932					Activated sludge	Ejby Moelle	26-07-2022	2022															
-MQ230313-225	MQ230313	LIB-Ejby-M??�lle-LT-934					Activated sludge	Ejby Moelle	02-08-2022	2022															
-MQ230313-226	MQ230313	LIB-Ejby-M??�lle-LT-936					Activated sludge	Ejby Moelle	09-08-2022	2022															
-MQ230313-227	MQ230313	LIB-Ejby-M??�lle-LT-938					Activated sludge	Ejby Moelle	16-08-2022	2022															
-MQ230313-228	MQ230313	LIB-Ejby-M??�lle-LT-940					Activated sludge	Ejby Moelle	23-08-2022	2022															
-MQ230313-229	MQ230313	LIB-Ejby-M??�lle-LT-942					Activated sludge	Ejby Moelle	30-08-2022	2022															
-MQ230313-230	MQ230313	LIB-Ejby-M??�lle-LT-944					Activated sludge	Ejby Moelle	06-09-2022	2022															
-MQ230313-231	MQ230313	LIB-Ejby-M??�lle-LT-946					Activated sludge	Ejby Moelle	13-09-2022	2022															
-MQ230313-232	MQ230313	LIB-Ejby-M??�lle-LT-948					Activated sludge	Ejby Moelle	20-09-2022	2022															
-MQ230313-233	MQ230313	LIB-Ejby-M??�lle-LT-950					Activated sludge	Ejby Moelle	27-09-2022	2022															
-MQ230313-234	MQ230313	LIB-Ejby-M??�lle-LT-952					Activated sludge	Ejby Moelle	04-10-2022	2022															
-MQ230313-235	MQ230313	LIB-Ejby-M??�lle-LT-954					Activated sludge	Ejby Moelle	11-10-2022	2022															
-MQ230313-236	MQ230313	LIB-Ejby-M??�lle-LT-956					Activated sludge	Ejby Moelle	18-10-2022	2022															
-MQ230313-237	MQ230313	LIB-Ejby-M??�lle-LT-958					Activated sludge	Ejby Moelle	25-10-2022	2022															
-MQ230313-238	MQ230313	LIB-Ejby-M??�lle-LT-960					Activated sludge	Ejby Moelle	01-11-2022	2022															
-MQ230313-239	MQ230313	LIB-Ejby-M??�lle-LT-962					Activated sludge	Ejby Moelle	08-11-2022	2022															
-MQ230313-240	MQ230313	LIB-Ejby-M??�lle-LT-964					Activated sludge	Ejby Moelle	17-11-2022	2022															
-MQ230313-241	MQ230313	LIB-Ejby-M??�lle-LT-966					Activated sludge	Ejby Moelle	21-11-2022	2022															
-MQ230313-242	MQ230313	LIB-Ejby-M??�lle-LT-968					Activated sludge	Ejby Moelle	28-11-2022	2022															
-MQ230313-243	MQ230313	LIB-Ejby-M??�lle-LT-970					Activated sludge	Ejby Moelle	06-11-2022	2022															
+MQ230313-203	MQ230313	LIB-Ejby Moelle-LT-890					Activated sludge	Ejby Moelle	01-03-2022	2022															
+MQ230313-204	MQ230313	LIB-Ejby Moelle-LT-892					Activated sludge	Ejby Moelle	08-03-2022	2022															
+MQ230313-205	MQ230313	LIB-Ejby Moelle-LT-894					Activated sludge	Ejby Moelle	14-03-2022	2022															
+MQ230313-206	MQ230313	LIB-Ejby Moelle-LT-896					Activated sludge	Ejby Moelle	22-03-2022	2022															
+MQ230313-207	MQ230313	LIB-Ejby Moelle-LT-898					Activated sludge	Ejby Moelle	29-03-2022	2022															
+MQ230313-208	MQ230313	LIB-Ejby Moelle-LT-900					Activated sludge	Ejby Moelle	05-04-2022	2022															
+MQ230313-209	MQ230313	LIB-Ejby Moelle-LT-902					Activated sludge	Ejby Moelle	12-04-2022	2022															
+MQ230313-210	MQ230313	LIB-Ejby Moelle-LT-904					Activated sludge	Ejby Moelle	19-04-2022	2022															
+MQ230313-211	MQ230313	LIB-Ejby Moelle-LT-906					Activated sludge	Ejby Moelle	26-04-2022	2022															
+MQ230313-212	MQ230313	LIB-Ejby Moelle-LT-908					Activated sludge	Ejby Moelle	03-05-2022	2022															
+MQ230313-213	MQ230313	LIB-Ejby Moelle-LT-910					Activated sludge	Ejby Moelle	11-05-2022	2022															
+MQ230313-214	MQ230313	LIB-Ejby Moelle-LT-912					Activated sludge	Ejby Moelle	17-05-2022	2022															
+MQ230313-215	MQ230313	LIB-Ejby Moelle-LT-914					Activated sludge	Ejby Moelle	24-05-2022	2022															
+MQ230313-216	MQ230313	LIB-Ejby Moelle-LT-916					Activated sludge	Ejby Moelle	31-05-2022	2022															
+MQ230313-217	MQ230313	LIB-Ejby Moelle-LT-918					Activated sludge	Ejby Moelle	08-06-2022	2022															
+MQ230313-218	MQ230313	LIB-Ejby Moelle-LT-920					Activated sludge	Ejby Moelle	14-06-2022	2022															
+MQ230313-219	MQ230313	LIB-Ejby Moelle-LT-922					Activated sludge	Ejby Moelle	21-06-2022	2022															
+MQ230313-220	MQ230313	LIB-Ejby Moelle-LT-924					Activated sludge	Ejby Moelle	28-06-2022	2022															
+MQ230313-221	MQ230313	LIB-Ejby Moelle-LT-926					Activated sludge	Ejby Moelle	05-07-2022	2022															
+MQ230313-222	MQ230313	LIB-Ejby Moelle-LT-928					Activated sludge	Ejby Moelle	12-07-2022	2022															
+MQ230313-223	MQ230313	LIB-Ejby Moelle-LT-930					Activated sludge	Ejby Moelle	19-07-2022	2022															
+MQ230313-224	MQ230313	LIB-Ejby Moelle-LT-932					Activated sludge	Ejby Moelle	26-07-2022	2022															
+MQ230313-225	MQ230313	LIB-Ejby Moelle-LT-934					Activated sludge	Ejby Moelle	02-08-2022	2022															
+MQ230313-226	MQ230313	LIB-Ejby Moelle-LT-936					Activated sludge	Ejby Moelle	09-08-2022	2022															
+MQ230313-227	MQ230313	LIB-Ejby Moelle-LT-938					Activated sludge	Ejby Moelle	16-08-2022	2022															
+MQ230313-228	MQ230313	LIB-Ejby Moelle-LT-940					Activated sludge	Ejby Moelle	23-08-2022	2022															
+MQ230313-229	MQ230313	LIB-Ejby Moelle-LT-942					Activated sludge	Ejby Moelle	30-08-2022	2022															
+MQ230313-230	MQ230313	LIB-Ejby Moelle-LT-944					Activated sludge	Ejby Moelle	06-09-2022	2022															
+MQ230313-231	MQ230313	LIB-Ejby Moelle-LT-946					Activated sludge	Ejby Moelle	13-09-2022	2022															
+MQ230313-232	MQ230313	LIB-Ejby Moelle-LT-948					Activated sludge	Ejby Moelle	20-09-2022	2022															
+MQ230313-233	MQ230313	LIB-Ejby Moelle-LT-950					Activated sludge	Ejby Moelle	27-09-2022	2022															
+MQ230313-234	MQ230313	LIB-Ejby Moelle-LT-952					Activated sludge	Ejby Moelle	04-10-2022	2022															
+MQ230313-235	MQ230313	LIB-Ejby Moelle-LT-954					Activated sludge	Ejby Moelle	11-10-2022	2022															
+MQ230313-236	MQ230313	LIB-Ejby Moelle-LT-956					Activated sludge	Ejby Moelle	18-10-2022	2022															
+MQ230313-237	MQ230313	LIB-Ejby Moelle-LT-958					Activated sludge	Ejby Moelle	25-10-2022	2022															
+MQ230313-238	MQ230313	LIB-Ejby Moelle-LT-960					Activated sludge	Ejby Moelle	01-11-2022	2022															
+MQ230313-239	MQ230313	LIB-Ejby Moelle-LT-962					Activated sludge	Ejby Moelle	08-11-2022	2022															
+MQ230313-240	MQ230313	LIB-Ejby Moelle-LT-964					Activated sludge	Ejby Moelle	17-11-2022	2022															
+MQ230313-241	MQ230313	LIB-Ejby Moelle-LT-966					Activated sludge	Ejby Moelle	21-11-2022	2022															
+MQ230313-242	MQ230313	LIB-Ejby Moelle-LT-968					Activated sludge	Ejby Moelle	28-11-2022	2022															
+MQ230313-243	MQ230313	LIB-Ejby Moelle-LT-970					Activated sludge	Ejby Moelle	06-11-2022	2022															
 MQ230313-244	MQ230313	EXT-NEG					EXT-NEG	CTRL	26-01-2023																
 MQ230313-245	MQ230313	PCR-POS					PCR-POS	CTRL																	
 MQ230313-246	MQ230313	PCR-NEG					PCR-NEG	CTRL																	
@@ -5633,3 +5633,107 @@ MQ230328-132	MQ230328	LIB-Mariagerfjord-LT-1034				LIB-Mariagerfjord-LT-1034	Act
 MQ230328-133	MQ230328	Mariagerfjord-EXTNEG				Mariagerfjord-EXTNEG	CTRL	CTRL	30-11-2022																
 MQ230328-134	MQ230328	Mariagerfjord-PCRPOS				Mariagerfjord-PCRPOS	CTRL	CTRL	30-11-2022																
 MQ230328-135	MQ230328	Mariagerfjord-PCRNEG				Mariagerfjord-PCRNEG	CTRL	CTRL	30-11-2022																
+MQ230525-122	MQ230525	LIB-Randers-LT-886					Activated sludge	Randers	10-12-2021																
+MQ230525-123	MQ230525	LIB-Randers-LT-888					Activated sludge	Randers	15-12-2021																
+MQ230525-124	MQ230525	LIB-Randers-LT-890					Activated sludge	Randers	22-12-2021																
+MQ230525-125	MQ230525	LIB-Randers-LT-892					Activated sludge	Randers	30-12-2021																
+MQ230525-126	MQ230525	LIB-Randers-LT-894					Activated sludge	Randers	07-01-2022																
+MQ230525-127	MQ230525	LIB-Randers-LT-896					Activated sludge	Randers	11-01-2022																
+MQ230525-128	MQ230525	LIB-Randers-LT-898					Activated sludge	Randers	19-01-2022																
+MQ230525-129	MQ230525	LIB-Randers-LT-900					Activated sludge	Randers	27-01-2022																
+MQ230525-130	MQ230525	LIB-Randers-LT-902					Activated sludge	Randers	03-02-2022																
+MQ230525-131	MQ230525	LIB-Randers-LT-904					Activated sludge	Randers	10-02-2022																
+MQ230525-132	MQ230525	LIB-Randers-LT-906					Activated sludge	Randers	17-02-2022																
+MQ230525-133	MQ230525	LIB-Randers-LT-908					Activated sludge	Randers	24-02-2022																
+MQ230525-134	MQ230525	LIB-Randers-LT-910					Activated sludge	Randers	01-03-2022																
+MQ230525-135	MQ230525	LIB-Randers-LT-912					Activated sludge	Randers	09-03-2022																
+MQ230525-136	MQ230525	LIB-Randers-LT-914					Activated sludge	Randers	14-03-2022																
+MQ230525-137	MQ230525	LIB-Randers-LT-916					Activated sludge	Randers	25-03-2022																
+MQ230525-138	MQ230525	LIB-Randers-LT-918					Activated sludge	Randers	31-03-2022																
+MQ230525-139	MQ230525	LIB-Randers-LT-920					Activated sludge	Randers	04-04-2022																
+MQ230525-140	MQ230525	LIB-Randers-LT-922					Activated sludge	Randers	13-04-2022																
+MQ230525-141	MQ230525	LIB-Randers-LT-924					Activated sludge	Randers	20-04-2022																
+MQ230525-142	MQ230525	LIB-Randers-LT-926					Activated sludge	Randers	26-04-2022																
+MQ230525-143	MQ230525	LIB-Randers-LT-928					Activated sludge	Randers	03-05-2022																
+MQ230525-144	MQ230525	LIB-Randers-LT-930					Activated sludge	Randers	09-05-2022																
+MQ230525-145	MQ230525	LIB-Randers-LT-932					Activated sludge	Randers	17-05-2022																
+MQ230525-146	MQ230525	LIB-Randers-LT-934					Activated sludge	Randers	25-05-2022																
+MQ230525-147	MQ230525	LIB-Randers-LT-936					Activated sludge	Randers	02-06-2022																
+MQ230525-148	MQ230525	LIB-Randers-LT-938					Activated sludge	Randers	10-06-2022																
+MQ230525-149	MQ230525	LIB-Randers-LT-940					Activated sludge	Randers	15-06-2022																
+MQ230525-150	MQ230525	LIB-Randers-LT-942					Activated sludge	Randers	22-06-2022																
+MQ230525-151	MQ230525	LIB-Randers-LT-944					Activated sludge	Randers	29-06-2022																
+MQ230525-152	MQ230525	LIB-Randers-LT-946					Activated sludge	Randers	06-07-2022																
+MQ230525-153	MQ230525	LIB-Randers-LT-948					Activated sludge	Randers	13-07-2022																
+MQ230525-154	MQ230525	LIB-Randers-LT-950					Activated sludge	Randers	19-07-2022																
+MQ230525-155	MQ230525	LIB-Randers-LT-952					Activated sludge	Randers	27-07-2022																
+MQ230525-156	MQ230525	LIB-Randers-LT-954					Activated sludge	Randers	04-08-2022																
+MQ230525-157	MQ230525	LIB-Randers-LT-956					Activated sludge	Randers	09-08-2022																
+MQ230525-158	MQ230525	LIB-Randers-LT-958					Activated sludge	Randers	16-08-2022																
+MQ230525-159	MQ230525	LIB-Randers-LT-960					Activated sludge	Randers	25-08-2022																
+MQ230525-160	MQ230525	LIB-Randers-LT-962					Activated sludge	Randers	30-08-2022																
+MQ230525-161	MQ230525	LIB-Randers-LT-964					Activated sludge	Randers	06-09-2022																
+MQ230525-162	MQ230525	LIB-Randers-LT-966					Activated sludge	Randers	14-09-2022																
+MQ230525-163	MQ230525	LIB-Randers-LT-968					Activated sludge	Randers	21-09-2022																
+MQ230525-164	MQ230525	LIB-Randers-LT-970					Activated sludge	Randers	30-09-2022																
+MQ230525-165	MQ230525	LIB-Randers-LT-972					Activated sludge	Randers	07-10-2022																
+MQ230525-166	MQ230525	LIB-Randers-LT-974					Activated sludge	Randers	13-10-2022																
+MQ230525-167	MQ230525	LIB-Randers-LT-976					Activated sludge	Randers	21-10-2022																
+MQ230525-168	MQ230525	LIB-Randers-LT-978					Activated sludge	Randers	25-10-2022																
+MQ230525-169	MQ230525	LIB-Randers-LT-980					Activated sludge	Randers	03-11-2022																
+MQ230525-170	MQ230525	LIB-Randers-LT-982					Activated sludge	Randers	09-11-2022																
+MQ230525-171	MQ230525	LIB-Randers-LT-984					Activated sludge	Randers	17-11-2022																
+MQ230525-172	MQ230525	LIB-Randers-LT-986					Activated sludge	Randers	25-11-2022																
+MQ230525-173	MQ230525	EXT neg					CTRL	CTRL																	
+MQ230525-174	MQ230525	PCRpos					CTRL	CTRL																	
+MQ230525-175	MQ230525	PCR neg					CTRL	CTRL																	
+231101-225	MQ231101	LIB-Viborg-LT-671-1					Activated sludge	Viborg	25-05-2020																
+231101-226	MQ231101	LIB-Viborg-LT-673-1					Activated sludge	Viborg	03-06-2020																
+231101-227	MQ231101	LIB-Viborg-LT-675-1					Activated sludge	Viborg	15-06-2020																
+231101-228	MQ231101	LIB-Viborg-LT-677-1					Activated sludge	Viborg	02-07-2020																
+231101-229	MQ231101	LIB-Viborg-LT-681-1					Activated sludge	Viborg	27-07-2020																
+231101-230	MQ231101	LIB-Viborg-LT-683-1					Activated sludge	Viborg	11-08-2020																
+231101-231	MQ231101	LIB-Viborg-LT-685-1					Activated sludge	Viborg	18-09-2020																
+231101-232	MQ231101	LIB-Aalborg-Ost-LT-884-1					Activated sludge	Aalborg E	2021-08-09																
+231101-233	MQ231101	LIB-Aalborg-Ost-LT-886-1					Activated sludge	Aalborg E	2021-08-16																
+231101-234	MQ231101	LIB-Aalborg-Ost-LT-888-1					Activated sludge	Aalborg E	2021-08-23																
+231101-235	MQ231101	LIB-Aalborg-Ost-LT-890-1					Activated sludge	Aalborg E	2021-09-01																
+231101-236	MQ231101	LIB-Aalborg-Ost-LT-892-1					Activated sludge	Aalborg E	2021-09-06																
+231101-237	MQ231101	LIB-Aalborg-Ost-LT-894-1					Activated sludge	Aalborg E	2021-09-13																
+231101-238	MQ231101	LIB-Aalborg-Ost-LT-896-1					Activated sludge	Aalborg E	2021-09-23																
+231101-239	MQ231101	LIB-Aalborg-Ost-LT-898-1					Activated sludge	Aalborg E	2021-09-27																
+231101-240	MQ231101	LIB-Aalborg-Ost-LT-900-1					Activated sludge	Aalborg E	2021-10-04																
+231101-241	MQ231101	LIB-Aalborg-Ost-LT-902-1					Activated sludge	Aalborg E	2021-10-11																
+231101-242	MQ231101	LIB-Aalborg-Ost-LT-904-1					Activated sludge	Aalborg E	2021-10-18																
+231101-243	MQ231101	LIB-Aalborg-Ost-LT-906-1					Activated sludge	Aalborg E	2021-10-26																
+231101-244	MQ231101	LIB-Aalborg-Ost-LT-908-1					Activated sludge	Aalborg E	2021-11-03																
+231101-245	MQ231101	LIB-Aalborg-Ost-LT-910-1					Activated sludge	Aalborg E	2021-11-08																
+231101-246	MQ231101	LIB-Aalborg-Ost-LT-912-1					Activated sludge	Aalborg E	2021-11-17																
+231101-247	MQ231101	LIB-Aalborg-Ost-LT-914-1					Activated sludge	Aalborg E	2021-11-23																
+231101-248	MQ231101	LIB-Aalborg-Ost-LT-916-1					Activated sludge	Aalborg E	2021-11-29																
+231101-249	MQ231101	LIB-Aalborg-Ost-LT-918-1					Activated sludge	Aalborg E	2021-12-07																
+231101-250	MQ231101	LIB-Aalborg-Ost-LT-920-1					Activated sludge	Aalborg E	2021-12-13																
+231101-251	MQ231101	LIB-Aalborg-Ost-LT-922-1					Activated sludge	Aalborg E	2021-12-20																
+231101-252	MQ231101	LIB-Aalborg-Ost-LT-924-1					Activated sludge	Aalborg E	2021-12-29																
+231101-253	MQ231101	LIB-Aalborg-Ost-LT-926-1					Activated sludge	Aalborg E	2022-01-04																
+231101-254	MQ231101	LIB-Aalborg-Ost-LT-928-1					Activated sludge	Aalborg E	2022-01-13																
+231101-255	MQ231101	LIB-Aalborg-Ost-LT-930-1					Activated sludge	Aalborg E	2022-01-19																
+231101-256	MQ231101	LIB-Aalborg-Ost-LT-932-1					Activated sludge	Aalborg E	2022-01-24																
+231101-257	MQ231101	LIB-Aalborg-Ost-LT-934-1					Activated sludge	Aalborg E	2022-02-02																
+231101-258	MQ231101	LIB-Aalborg-Ost-LT-936-1					Activated sludge	Aalborg E	2022-02-09																
+231101-259	MQ231101	LIB-Aalborg-Ost-LT-938-1					Activated sludge	Aalborg E	2022-02-15																
+231101-260	MQ231101	LIB-Aalborg-Ost-LT-940-1					Activated sludge	Aalborg E	2022-02-21																
+231101-261	MQ231101	LIB-Aalborg-Ost-LT-942-1					Activated sludge	Aalborg E	2022-02-28																
+231101-262	MQ231101	LIB-Aalborg-Ost-LT-944-1					Activated sludge	Aalborg E	2022-03-10																
+231101-263	MQ231101	LIB-Aalborg-Ost-LT-946-1					Activated sludge	Aalborg E	2022-03-17																
+231101-264	MQ231101	LIB-Aalborg-Ost-LT-948-1					Activated sludge	Aalborg E	2022-03-21																
+231101-265	MQ231101	LIB-Aalborg-Ost-LT-950-1					Activated sludge	Aalborg E	2022-03-27																
+231101-266	MQ231101	LIB-Aalborg-Ost-LT-952-1					Activated sludge	Aalborg E	2022-04-07																
+231101-267	MQ231101	LIB-Aalborg-Ost-LT-954-1					Activated sludge	Aalborg E	2022-04-11																
+231101-268	MQ231101	LIB-Aalborg-Ost-LT-956-1					Activated sludge	Aalborg E	2022-04-27																
+231101-269	MQ231101	LIB-Aalborg-Ost-LT-958-1					Activated sludge	Aalborg E	2022-05-02																
+231101-270	MQ231101	LIB-Aalborg-Ost-LT-960-1					Activated sludge	Aalborg E	2022-05-11																
+231101-271	MQ231101	LIB-Aalborg-Ost-LT-962-1					Activated sludge	Aalborg E	2022-05-16																
+231101-272	MQ231101	LIB-EXTNEG-Viborg-1					CTRL	CTRL																	
+231101-273	MQ231101	LIB-PCRpos-Viborg-1					CTRL	CTRL																	
+231101-274	MQ231101	LIB-PCRneg-Viborg-1					CTRL	CTRL																	
