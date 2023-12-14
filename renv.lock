@@ -122,6 +122,7 @@
       "RemoteSha": "b702c372bd84fb0e83fdda8e10120f08dc7590db",
       "RemoteHost": "api.github.com",
       "Remotes": "github::kasperskytte/biomformat",
+      "Remotes": "github::kasperskytte/biomformat",
       "Requirements": [
         "R",
         "RColorBrewer",
@@ -143,7 +144,7 @@
         "utils",
         "vegan"
       ],
-      "Hash": "275a3c67f8dbb5dc0350fb32207980ba"
+      "Hash": "83e0da5ae4d99f685956a4719dd8dd9e"
     },
     "ape": {
       "Package": "ape",
@@ -330,7 +331,7 @@
     },
     "cluster": {
       "Package": "cluster",
-      "Version": "2.1.4",
+      "Version": "2.1.5",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
@@ -340,7 +341,7 @@
         "stats",
         "utils"
       ],
-      "Hash": "5edbbabab6ce0bf7900a74fd4358628e"
+      "Hash": "3573ed1b159e50985fa7eaebf32c6188"
     },
     "codetools": {
       "Package": "codetools",
@@ -423,14 +424,19 @@
     },
     "data.table": {
       "Package": "data.table",
-      "Version": "1.14.8",
-      "Source": "Repository",
-      "Repository": "RSPM",
+      "Version": "1.14.99",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteUsername": "Rdatatable",
+      "RemoteRepo": "data.table",
+      "RemoteRef": "master",
+      "RemoteSha": "a6009e87003c81be9c02f1212033663f8d0754a3",
       "Requirements": [
         "R",
         "methods"
       ],
-      "Hash": "b4c06e554f33344e044ccd7fdca750a9"
+      "Hash": "78773f562874162ce31eedbf57c94547"
     },
     "dbplyr": {
       "Package": "dbplyr",
