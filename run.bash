@@ -34,7 +34,7 @@ main() {
 
 main |& tee "${results_dir}/${logFile}"
 
-mv results "${results_dir}_${timestamp}"
+mv "${results_dir}" "${results_dir}_${timestamp}"
 
 duration=$(printf '%02dh:%02dm:%02ds\n' $(($SECONDS/3600)) $(($SECONDS%3600/60)) $(($SECONDS%60)))
 echo "Time elapsed: $duration!"
