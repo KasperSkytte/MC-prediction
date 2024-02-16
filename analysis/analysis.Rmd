@@ -71,38 +71,90 @@ as.data.frame(readstats, check.names = FALSE)
 ```{r}
 bp_all_list <- boxplot_all(
   results_batch_dir,
-  save = FALSE
+  save = TRUE
 )
 
-# customize axis breaks a bit for the specific data
-bp_all_list[["Bray Curtis"]] <- bp_all_list[["Bray Curtis"]] + 
-  scale_y_continuous(
-    trans = "sqrt",
-    breaks = c(0.5, 0.1, 0.15, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8)
-  )
-bp_all_list[["Mean Absolute Error"]] <- bp_all_list[["Mean Absolute Error"]] + 
-  scale_y_continuous(
-    trans = "sqrt",
-    breaks = c(0, 0.2, 0.4, 0.6, 0.8, 1.0, 2, 3, 4, 5, 6)
-  )
-bp_all_list[["Mean Squared Error"]] <- bp_all_list[["Mean Squared Error"]] + 
-  scale_y_continuous(
-    trans = "sqrt",
-    breaks = c(0.5, 1, 5, 10, 20, 30, 40)
-  )
 
-# Compose all plots in the list using patchwork
-bp_all_plot <- purrr::reduce(
-  bp_all_list,
-  `/`
+## Bray-Curtis only, flip x and y (otherwise too big plot for manuscript)
+runs <- list.dirs(
+  results_batch_dir,
+  full.names = TRUE,
+  recursive = FALSE
 )
+
+d_list <- lapply(
+  runs,
+  read_performance,
+  add_dataset_info = "numsamples"
+)
+names(d_list) <- runs
+combined <- rbindlist(
+  d_list,
+  idcol = "results_folder",
+  fill = TRUE
+)[
+  !is.na(cluster_type) & value > 0
+]
+
+# copied from boxplot_all() just for this plot
+#order datasets by the number of samples (extracted from dataset names)
+combined[,unique(dataset)] %>%
+  stringi::stri_extract_all_regex("\\(.*$", "") %>%
+  stringi::stri_extract_all_regex("[0-9]+") %>%
+  as.numeric -> nsamples
+datasets_ordered <- combined[
+  ,
+  unique(dataset)
+][
+  order(nsamples, decreasing = F)
+]
+combined[, dataset := factor(dataset, levels = datasets_ordered)]
+bp_all_BC <- ggplot(
+  combined[error_metric == "Bray Curtis"],
+  aes(
+    value,
+    cluster_type,
+    color = cluster_type
+  )
+) +
+  geom_boxplot(
+    outlier.shape = 1,
+    outlier.size = 1
+  ) +
+  facet_grid(
+    rows = vars(dataset),
+    scales = "free"
+  ) +
+  theme_bw() +
+  theme(
+    legend.position = "bottom",
+    legend.title = element_blank(),
+    legend.text = element_text(size = 14),
+    axis.text.y = element_blank(),
+    axis.text.x = element_text(size = 14),
+    axis.title = element_blank(),
+    axis.ticks.y = element_blank(),
+    #strip.text.x = element_blank(),
+    strip.text.y = element_text(size = 14, angle = 0),
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor.x = element_blank(),
+    panel.grid.major.x = element_line(color = "gray70"),
+    panel.background = element_rect(fill = "white")
+  ) +
+  scale_x_continuous(
+    trans = "sqrt",
+    breaks = c(0.0, 0.05, 0.1, 0.15, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8)
+  ) +
+  scale_color_brewer(palette = "Set2")
+
 ggsave(
-  file.path(results_batch_dir, "boxplot_all.png"),
-  plot = bp_all_plot,
-  width = 16,
-  height = 12
+  file.path(results_batch_dir, "boxplot_all_BC.png"),
+  plot = bp_all_BC,
+  width = 10,
+  height = 15
 )
 ```
+
 
 ## Check some clusters from AAE
 ```{r}
@@ -130,17 +182,43 @@ boxplot_all(
 )
 ```
 
-## Randers
+## Mariagerfjord
 ```{r}
-boxplot_all(
+bp_mar_predwin_list <- boxplot_all(
   "results/predwindow_mariagerfjord",
   add_dataset_info = "predwindow",
-  plot_width = 8,
-  plot_height = 8
+  save = FALSE
+)
+
+
+bp_mar_predwin_list[["Bray Curtis"]] <- bp_mar_predwin_list[["Bray Curtis"]] +
+  scale_y_continuous(
+    trans = "sqrt",
+    breaks = c(0.0, 0.05, 0.1, 0.15, 0.2, 0.3, 0.5, 0.7)
+  ) + expand_limits(y = 0.0)
+bp_mar_predwin_list[["Mean Absolute Error"]] <- bp_mar_predwin_list[["Mean Absolute Error"]] +
+  scale_y_continuous(
+    trans = "sqrt",
+    breaks = c(0.0, 0.5, 1.0, 2.0, 3.0, 4.0)
+  ) + expand_limits(y = 0.0)
+bp_mar_predwin_list[["Mean Squared Error"]] <- bp_mar_predwin_list[["Mean Squared Error"]] +
+  scale_y_continuous(
+    trans = "sqrt",
+    breaks = c(0, 1, 5, 10, 20, 30, 50, 80)
+  ) + expand_limits(y = 0.0)
+bp_mar_predwin_plot <- purrr::reduce(
+  bp_mar_predwin_list,
+  `/`
+)
+ggsave(
+  "results/predwindow_mariagerfjord/boxplot_all.png",
+  plot = bp_mar_predwin_plot,
+  width = 8,
+  height = 10
 )
 ```
 
-## Timeseries examples
+## Timeseries examples (predwindow)
 ```{r}
 dir <- "results/predwindow_mariagerfjord"
 runs <- list.dirs(
@@ -244,14 +322,30 @@ plots <- lapply(
         sample_trajectory_group = "Date"
       ) +
       scale_color_manual(
-        values = c("grey80", RColorBrewer::brewer.pal(3, "Set2")[c(1:3)])
+        values = c("grey80", RColorBrewer::brewer.pal(3, "Set2")[c(2,3,1)]),
+        labels = c(
+          real = "Real",
+          train = "Prediction - Train",
+          val = "Prediction - Validation",
+          test = "Prediction - Test"
+        ),
+        breaks = c(
+          "real",
+          "train",
+          "val",
+          "test"
+        )
       ) +
+      scale_x_continuous(breaks = breaks_pretty(n = 3)) +
+      scale_y_continuous(breaks = breaks_pretty(n = 3)) +
       theme(
         legend.title = element_blank(),
         legend.text = element_text(size = 16),
         axis.text = element_text(size = 16),
-        axis.title = element_text(size = 16)
-      )
+        axis.title = element_text(size = 16),
+        legend.position = "bottom"
+      ) +
+      coord_fixed(ratio = 1)
     
     # real_data <- data.table(plot$data)[predicted == "real"]
     # # extract first and last row (corresponds to first and last sample in time)
@@ -263,13 +357,15 @@ plots <- lapply(
         results_batch_dir,
         paste0("PCoA - ", basename(wwtp), ".png")
       ),
-      plot = plot
+      plot = plot,
+      width = 10,
+      height = 10
     )
     return(plot)
   }
 )
 names(plots) <- basename(wwtp_results)
-hideme <- lapply(plots, print)
+#hideme <- lapply(plots, print)
 ```
 
 # Time Series examples
@@ -364,12 +460,12 @@ d <- combine_abund(
 )
 test_predicted <- amp_filter_samples(
   d,
-  split_dataset %chin% "test",
-  predicted %chin% "predicted"
+  split_dataset %in% "test",
+  predicted %in% "predicted"
 )
 test_real <- amp_filter_samples(
   d,
-  split_dataset %chin% "real",
+  split_dataset %in% "real",
   Date %in% test_predicted$metadata$Date
 )
 test_combined <- amp_merge_ampvis2(
@@ -382,6 +478,29 @@ test_combined$metadata$predicted <- factor(
   levels = c("real", "predicted")
 )
 
+# manually clean up long taxonomy strings and reverse the order
+# this is NOT generic for other datasets, it's just for the manuscript
+clean_tax <- function(charfctr) {
+  charfctr <- gsub(
+    "s__|g__|Ca_[^_]+_|Sulfuritalea_",
+    "",
+    charfctr
+  )
+  charfctr <- sapply(
+    strsplit(
+      charfctr,
+      "; "
+    ),
+    function(x)
+      paste0(rev(x), collapse = "; "),
+    simplify = TRUE
+  )
+  return(charfctr)
+}
+test_combined$tax$OTU <- clean_tax(test_combined$tax$OTU)
+rownames(test_combined$tax) <- clean_tax(rownames(test_combined$tax))
+rownames(test_combined$abund) <- clean_tax(rownames(test_combined$abund))
+
 realvspredictedheatmap <- amp_heatmap(
   test_combined,
   tax_aggregate = "OTU",
@@ -392,12 +511,13 @@ realvspredictedheatmap <- amp_heatmap(
   facet_by = "Date"
 ) +
   theme(
-    strip.text = element_text(angle = 90, size = 12),
-    axis.text.x = element_text(size = 12),
-    axis.text.y = element_text(size = 14),
+    strip.text = element_text(angle = 90, size = 14),
+    axis.text.x = element_text(size = 14),
+    axis.text.y = element_text(size = 16),
     legend.text = element_text(size = 14),
     legend.title = element_text(size = 14)
   )
+
 ggsave(
   plot = realvspredictedheatmap,
   filename = file.path(
@@ -469,18 +589,22 @@ statistics <- lapply(
     if(is.null(combined))
       return(NULL)
     #extract predicted samples (test set only)
-    predicted <- amp_filter_samples(
+    predicted <- suppressMessages({
+      amp_filter_samples(
       combined,
-      split_dataset %chin% "test",
-      predicted %chin% "predicted"
+      split_dataset %in% "test",
+      predicted %in% "predicted"
     )
+    })
     #extract real samples from the same dates as the predicted
     dates <- predicted[["metadata"]][["Date"]]
-    real <- amp_filter_samples(
+    real <- suppressMessages({
+      amp_filter_samples(
       combined,
-      split_dataset %chin% "real",
+      split_dataset %in% "real",
       Date %in% dates
     )
+    })
     combined_test <- amp_merge_ampvis2(
       predicted,
       real,
@@ -564,5 +688,11 @@ combined <- rbindlist(
 ]
 #prediction accuracies for each cluster for each dataset+cluster type+error metric
 stats <- combined[, .(fivenum_stats = fivenum(value)), by = .(dataset, cluster_type, error_metric)]
-stats[error_metric == "Bray Curtis", .(median = .SD[3,fivenum_stats]), by = c("dataset", "cluster_type")]
+
+# extract medians for BC
+mediansBC <- stats[error_metric == "Bray Curtis", .(median = .SD[3,fivenum_stats]), by = c("dataset", "cluster_type")]
+mediansBC[, nsamples := as.integer(gsub("[^0-9]", "", dataset))]
+
+# linear relationship between BC+graph accuracy and number of samples
+summary(lm(nsamples ~ median, data = mediansBC[cluster_type == "Graph"]))
 ```

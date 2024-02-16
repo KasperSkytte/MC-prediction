@@ -333,6 +333,7 @@ boxplot_all <- function(
             cols = vars(dataset),
             scales = "free"
           ) +
+          theme_bw() +
           theme(
             legend.position = "none",
             legend.title = element_blank(),
@@ -342,8 +343,9 @@ boxplot_all <- function(
             axis.ticks.x = element_blank(),
             strip.text.x = element_blank(),
             strip.text.y = element_text(size = 10),
+            panel.grid.minor = element_blank(),
             panel.grid.major.x = element_blank(),
-            panel.grid.minor.y = element_blank()
+            panel.grid.major.y = element_line(color = "gray70")
           ) +
           scale_color_brewer(palette = "Set2")
       }
@@ -594,6 +596,12 @@ combine_abund <- function(results_dir, cluster_type) {
     by_refseq = FALSE
   )
 
+  # Order dataset type (split_dataset) by real-train-val-test
+  combined$metadata$split_dataset <- factor(
+    combined$metadata$split_dataset,
+    levels = c("real", "train", "val", "test")
+  )
+
   return(combined)
 }
 
@@ -655,20 +663,20 @@ plot_timeseries <- function(
     values = c(
       "grey10",
       "#E31A1C",
-      "#33A02C",
-      "#1F78B4"
+      "#1F78B4",
+      "#33A02C"
     )[1:data[, length(unique(split_dataset))]],
     labels = c(
       real = "Real",
       train = "Prediction - Train",
-      test = "Prediction - Test",
-      val = "Prediction - Validation"
+      val = "Prediction - Validation",
+      test = "Prediction - Test"
     )[1:data[, length(unique(split_dataset))]],
     breaks = c(
       "real",
       "train",
-      "test",
-      "val"
+      "val",
+      "test"
     )[1:data[, length(unique(split_dataset))]]
   ) +
   #breaks should start from january, regardless of data
