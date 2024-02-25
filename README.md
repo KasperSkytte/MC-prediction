@@ -1,32 +1,16 @@
-# ASMC-prediction
-Predicting Activated Sludge Microbial Communities based on time series of continuous sludge samples by using graph neural network models.
+# MC-prediction
+Predicting microbial community dynamics based on time series of continuous environmental samples by using graph neural network models. Developed and tested for activated sludge samples specifically, but can also be used for predicting the community dynamics in any other environment, but may require some adjustments. The implementation of the prediction model itself is primarily done in Python, but R is used for pre-formatting data and also for analyzing results.
 
 ## Requirements
 ### Data
-The required data must be in the typical amplicon data format with an abundance table for each ASV/OTU, taxonomy table, and sample metadata. The sample metadata must contain a variable with sampling dates. If it can be loaded succesfully using the [ampvis2](https://kasperskytte.github.io/ampvis2/) R package everything should "just run" as long as there is enough data.
+The required data must be in the typical amplicon data format with an abundance table for each ASV/OTU, taxonomy table, and sample metadata. The sample metadata must contain at least one variable with sampling dates in year-month-day format. As long as the data can be loaded succesfully using the [ampvis2](https://kasperskytte.github.io/ampvis2/) R package, everything should "just run" as long as there is enough data (preferably 100+, but ideally 1000+). The data and results used for the article is under `data/` and can be used as example data.
 
-### Required Python and R packages
-Install required Python packages with `pipenv` based on the lock file, and similarly for R use `renv`. For GPU support ensure you have a version of Tensorflow that matches your nvidia drivers and CUDA.
+### Python and R packages
+Use the conda `environment.yml` file to create an environment with the required software. To installed required R packages, use the `renv.lock` file to restore the R library using the [`renv`](https://rstudio.github.io/renv/articles/renv.html) package.
+For GPU support ensure you have a version of Tensorflow that matches your nvidia drivers and CUDA.
 
 ## Usage
-Simply run the wrapper script `run.bash` will run `reformat.R` to first sort, filter, and format the data, look up known Genus-level functions on the [midasfieldguide.org](https://midasfieldguide.org) etc, and then run `main.py` that will start model training and evaluation.
-
-### Docker (recommended)
-This image has all required tools installed and tested together, and this image have been used to produce the results for the paper.
-Pull image with `docker pull ghcr.io/kasperskytte/asmc-prediction:main` or build scratch from this repository with `docker build -t ghcr.io/kasperskytte/asmc-prediction:main .`. The image does not contain any scripts, it's simply to contain the software and dependencies used (exact versions, tested). Ideally use [development containers](https://code.visualstudio.com/docs/devcontainers/tutorial) with VSCode. Otherwise run through docker:
-```
-docker run -it --rm -v "${PWD}":/tf -u $(id -u):$(id -g) ghcr.io/kasperskytte/asmc-prediction:main run.bash
-
-```
-
-The image has CUDA support to speed up computation if you have a modern nvidia GPU. To enable add the `--gpus all` to the docker run command above and make sure you have installed recent nvidia drivers and the `nvidia-container-toolkit`. With newer versions of Ubuntu, you can simply run
-
-```
-sudo apt-get update
-sudo apt-get install docker.io nvidia-container-toolkit
-```
-
-before starting the container. Remember to restart the docker daemon for the changes to take effect with `sudo systemctl restart dockerd`. If this doesn't work follow the guidelines at https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#install-guide. The container has been based on CUDA version 11.4, but you can adapt.
+Adjust the settings in `config.json` and then run the wrapper script `run.bash`. This will run `reformat.R` to first sort, filter, and format the data, look up known Genus-level functions on the [midasfieldguide.org](https://midasfieldguide.org) etc, and then run `main.py` which will start model training and evaluation.
 
 ## Options in config.json:
 | Parameter | Default value | Description |
@@ -59,18 +43,8 @@ before starting the container. Remember to restart the docker daemon for the cha
 | smoothing_factor |  4 | Data smoothing factor |
 | splits | [0.80, 0,05, 0.15] | Fractions with which to split the data into train+val+test dataset |
 
-vscode extensions:
-R
-quarto
-jupyter
-python
-(pylance)
+## Credit
+Everything in the 'idec/' folder is copied from: https://github.com/XifengGuo/IDEC-toy. Should have been a submodule.
 
-
-## IDEC
-Everything in the 'idec/' folder is from:\
-https://github.com/XifengGuo/IDEC-toy
-
-IDEC is from the paper:\
-Xifeng Guo, Long Gao, Xinwang Liu, Jianping Yin.
+IDEC is from the paper: Xifeng Guo, Long Gao, Xinwang Liu, Jianping Yin.
 [Improved Deep Embedded Clustering with Local Structure Preservation](https://xifengguo.github.io/papers/IJCAI17-IDEC.pdf). IJCAI 2017.
