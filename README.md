@@ -51,6 +51,9 @@ Adjust the settings in `config.json` and then run the wrapper script `run.bash`.
 | smoothing_factor |  4 | Data smoothing factor |
 | splits | [0.80, 0,05, 0.15] | Fractions with which to split the data into train+val+test dataset |
 
+## Article analysis
+The results presented in the article produced using this workflow are available at [figshare](10.6084/m9.figshare.25288159). Unpack into `analysis/` and run the R markdown to reproduce the figures.
+
 ## Credit
 Everything in the 'idec/' folder is copied from: https://github.com/XifengGuo/IDEC-toy. Should have been a submodule.
 
