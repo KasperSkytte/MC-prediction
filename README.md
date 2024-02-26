@@ -9,6 +9,14 @@ The required data must be in the typical amplicon data format with an abundance 
 Use the conda `environment.yml` file to create an environment with the required software. To installed required R packages, use the `renv.lock` file to restore the R library using the [`renv`](https://rstudio.github.io/renv/articles/renv.html) package.
 For GPU support ensure you have a version of Tensorflow that matches your nvidia drivers and CUDA.
 
+### Hardware requirements and performance
+The workflow can run on a standard laptop just fine (as of 2023), but may require extra RAM and a NVIDIA GPU if you really need extra speed, however many other steps in the implementation are the bottlenecks, it's not the model training time itself. Typical processing time is 4-8 hours per dataset under `data/datasets`. Here are some hardware guidelines:
+
+ - 4 cores/8 threads
+ - 16GB RAM, preferably 32GB depending on input data
+ - 100GB storage space
+ - (not required) NVIDIA GPU with CUDA support
+
 ## Usage
 Adjust the settings in `config.json` and then run the wrapper script `run.bash`. This will run `reformat.R` to first sort, filter, and format the data, look up known Genus-level functions on the [midasfieldguide.org](https://midasfieldguide.org) etc, and then run `main.py` which will start model training and evaluation.
 
