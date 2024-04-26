@@ -55,6 +55,8 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     libfribidi-dev \
     libtiff5-dev \
     pandoc \
+    && apt-get clean -y \
+    && rm -rf /var/lib/apt/lists/* \
     #enable multithreaded compilation of packages
     && mkdir -p ~/.R \
     && echo "MAKEFLAGS = -j" > ~/.R/Makevars
@@ -63,6 +65,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 
 RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-py38_23.11.0-2-Linux-x86_64.sh -O /opt/miniconda.sh \
   && /bin/bash /opt/miniconda.sh -b -p /opt/conda \
+  && rm -rf /opt/miniconda.sh \
   && conda env create -f /opt/environment.yml -n mc-prediction
 
 # Make RUN commands use the new environment
@@ -75,11 +78,10 @@ RUN R -e "renv::restore(clean = TRUE, lockfile = '/opt/renv.lock', prompt = FALS
 RUN export DEBIAN_FRONTEND=noninteractive \
   && apt-get update -qqy \
   && apt-get clean -y \
-  && rm -rf /var/lib/apt/lists/* \
+  && rm -rf \
     /tmp/* \
     /opt/environment.yml \
-    /opt/renv.lock \
-    /opt/miniconda.sh
+    /opt/renv.lock
 
 # Install (minimal) LaTeX binaries for R, for the default user only
 RUN R -e "tinytex::install_tinytex()"
