@@ -7,7 +7,7 @@ The required data must be in the typical amplicon data format with an abundance 
 
 ### Python and R packages
 Use the conda `environment.yml` file to create an environment with the required software. To installed required R packages, use the `renv.lock` file to restore the R library using the [`renv`](https://rstudio.github.io/renv/articles/renv.html) package.
-For GPU support ensure you have a version of Tensorflow that matches your nvidia drivers and CUDA.
+For GPU support ensure you have a version of Tensorflow that matches your nvidia drivers and CUDA. It's also necessary to set an environment variable before creating the environment in order to install some required NVIDIA dependencies for network inference: `export PIP_EXTRA_INDEX_URL='https://pypi.nvidia.com'`.
 
 ### Hardware requirements and performance
 The workflow can run on a standard laptop just fine (as of 2023), but may require extra RAM and a NVIDIA GPU if you really need extra speed, however many other steps in the implementation are the bottlenecks, it's not the model training time itself. Typical processing time is 4-8 hours per dataset under `data/datasets`. Here are some hardware guidelines:

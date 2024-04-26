@@ -12,6 +12,9 @@ ARG UPGRADE_PACKAGES="true"
 ARG USERNAME=vscode
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
+# [Optional] Set the default user. Omit if you want to keep the default as root.
+#USER $USERNAME
+
 RUN export DEBIAN_FRONTEND=noninteractive \
   && apt-get update \
   # Remove imagemagick due to https://security-tracker.debian.org/tracker/CVE-2019-10131
@@ -20,39 +23,25 @@ RUN export DEBIAN_FRONTEND=noninteractive \
   && bash /tmp/library-scripts/common-debian.sh "${INSTALL_ZSH}" "${USERNAME}" "${USER_UID}" "${USER_GID}" "${UPGRADE_PACKAGES}" "true" "true" \
   && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
-#
 ENV TF_FORCE_GPU_ALLOW_GROWTH true
-
-# locales
 ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8
-
-#stop Python from generating .pyc files
 ENV PYTHONDONTWRITEBYTECODE 1
-
-#enable Python tracebacks on segfaults
 ENV PYTHONFAULTHANDLER 1
-
-#matplotlib temp dir
 ENV MPLCONFIGDIR /tmp
+ENV PIP_EXTRA_INDEX_URL 'https://pypi.nvidia.com'
+ENV CONDA_DIR /opt/conda
+ENV PATH=${CONDA_DIR}/bin:$PATH
 
-#set R version
-ENV R_VERSION 4.3.1
+COPY renv.lock environment.yml /opt/
 
-WORKDIR /opt
-
-#lock files to manage python and R packages
-COPY Pipfile .
-COPY Pipfile.lock .
-COPY renv.lock .
-
-#download and install R, required system dependencies, and R packages
 RUN export DEBIAN_FRONTEND=noninteractive \
-  && apt-get update -qqy \
-  && apt-get upgrade -qqy \
-  && apt-get -y install --fix-broken --no-install-recommends --no-install-suggests \
+&& apt-get update -qqy \
+&& apt-get upgrade -qqy \
+&& apt-get -y install --fix-broken --no-install-recommends --no-install-suggests \
     git \
     wget \
+    build-essential \
     jq \
     tmux \
     gdebi-core \
@@ -66,49 +55,34 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     libfribidi-dev \
     libtiff5-dev \
     pandoc \
-  #install R from pre-compiled binary
-  && curl -O https://cdn.rstudio.com/r/ubuntu-2004/pkgs/r-${R_VERSION}_1_amd64.deb \
-  && gdebi --non-interactive r-${R_VERSION}_1_amd64.deb \
-  #create symlinks
-  && ln -s /opt/R/${R_VERSION}/bin/R /usr/local/bin/R \
-  && ln -s /opt/R/${R_VERSION}/bin/Rscript /usr/local/bin/Rscript \
-  #enable multithreaded compilation of packages
-  && mkdir -p ~/.R \
-  && echo "MAKEFLAGS = -j" > ~/.R/Makevars \
-  #set CRAN repo to RSPM snapshot on Oct 23, 2021 for ubuntu18
-  && echo "options(repos = c(CRAN = 'https://packagemanager.rstudio.com/cran/__linux__/focal/2021-11-30'), download.file.method = 'libcurl')" >> /opt/R/${R_VERSION}/lib/R/etc/Rprofile.site \
-  #set default renv package cache for all users
-  && echo "RENV_PATHS_CACHE=/opt/R/${R_VERSION}/lib/R/renv-cache/" >> /opt/R/${R_VERSION}/lib/R/etc/Renviron \
-  #remove user library from .libPaths() as it will be used if present in home directory (and mounted)
-  && sed -i s/^R_LIBS_USER=/#R_LIBS_USER=/g /opt/R/${R_VERSION}/lib/R/etc/Renviron \
-  #install renv + required R packages according to the lock file
-  && R -e "install.packages('renv')" \
-  && R -e "renv::consent(provided = TRUE)"
+    #enable multithreaded compilation of packages
+    && mkdir -p ~/.R \
+    && echo "MAKEFLAGS = -j" > ~/.R/Makevars
+    #remove user library from .libPaths() as it will be used if present in home directory (and mounted)
+    #&& sed -i s/^R_LIBS_USER=/#R_LIBS_USER=/g /opt/R/${R_VERSION}/lib/R/etc/Renviron
+
+RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-py38_23.11.0-2-Linux-x86_64.sh -O /opt/miniconda.sh \
+  && /bin/bash /opt/miniconda.sh -b -p /opt/conda \
+  && conda env create -f /opt/environment.yml -n mc-prediction
+
+# Make RUN commands use the new environment
+SHELL ["conda", "run", "-n", "mc-prediction", "/bin/bash", "-c"]
 
 #install R pkgs from lock file
-RUN R -e "renv::restore(library = '/opt/R/${R_VERSION}/lib/R/site-library/', clean = TRUE, lockfile = '/opt/renv.lock', prompt = FALSE)"
+RUN R -e "renv::restore(clean = TRUE, lockfile = '/opt/renv.lock', prompt = FALSE)"
 
-#upgrade pip, install pipenv and python pkgs according to the lock file (system-wide)
-RUN python3 -m pip install \
-    pip \
-    pipenv \
-  && pipenv install --python /usr/bin/python3 --deploy --system --site-packages
-
-#clean up
+# clean up after yourself, mommy doesn't work here
 RUN export DEBIAN_FRONTEND=noninteractive \
   && apt-get update -qqy \
-  # clean up after yourself, mommy doesn't work here
   && apt-get clean -y \
   && rm -rf /var/lib/apt/lists/* \
     /tmp/* \
-    /opt/r-${R_VERSION}_1_amd64.deb \
-    /opt/Pipfile \
-    /opt/*.lock
-
-# [Optional] Set the default user. Omit if you want to keep the default as root.
-USER $USERNAME
+    /opt/environment.yml \
+    /opt/renv.lock \
+    /opt/miniconda.sh
 
 # Install (minimal) LaTeX binaries for R, for the default user only
-#RUN R -e "tinytex::install_tinytex()"
+RUN R -e "tinytex::install_tinytex()"
 
 WORKDIR /tf
+ENTRYPOINT ["conda", "run", "--no-capture-output", "-n", "mc-prediction", "/bin/bash", "-l"]

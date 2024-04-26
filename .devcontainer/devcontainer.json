@@ -1,15 +1,15 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
 // https://github.com/microsoft/vscode-dev-containers/tree/v0.194.0/containers/docker-existing-dockerfile
 {
-	"name": "ASMC-prediction",
-	// "image": "ghcr.io/kasperskytte/asmc-prediction:main",
+	"name": "mc-prediction",
+	"image": "ghcr.io/kasperskytte/mc-prediction:main",
 
-	"build": {
-		// Update the 'dockerFile' property if you aren't using the standard 'Dockerfile' filename.
-		"dockerfile": "../Dockerfile"
-	},
+	// "build": {
+	// 	// Update the 'dockerFile' property if you aren't using the standard 'Dockerfile' filename.
+	// 	"dockerfile": "../Dockerfile"
+	// },
 
-	// "initializeCommand": "docker pull ghcr.io/kasperskytte/asmc-prediction:main",
+	"initializeCommand": "docker pull ghcr.io/kasperskytte/mc-prediction:main",
 
 	// Set *default* container specific settings.json values on container create.
 	"settings": {
@@ -52,6 +52,9 @@
 
 	// Uncomment to connect as a non-root user if you've added one. See https://aka.ms/vscode-remote/containers/non-root.
 	// "remoteUser": "vscode",
+
+	// Don't override entrypoint
+	"overrideCommand": false,
 
 	// Uncomment to keep the container running when disconnecting from it
 	"shutdownAction": "none"

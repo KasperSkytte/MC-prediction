@@ -1,4 +1,4 @@
-name: asmc-prediction
+name: mc-prediction
 channels:
   - conda-forge
 dependencies:
@@ -73,20 +73,20 @@ dependencies:
   - openssl=3.2.0=hd590300_1
   - pango=1.50.14=ha41ecd1_2
   - pcre2=10.40=hc3806b6_0
-  - pip=23.3.1=pyhd8ed1ab_0
+  - pip=23.0.1
   - pixman=0.42.2=h59595ed_0
   - pthread-stubs=0.4=h36c2ea0_1001
-  - python=3.8.18=hd12c33a_0_cpython
+  - python=3.8.18=hd12c33a_0_cpython #python=3.12.3=hab00c5b_0_cpython
   - r-base=4.3.1=h93585b2_6
   - r-renv=1.0.3=r43hc72bb7e_0
   - readline=8.2=h8228510_1
   - sed=4.8=he412f7d_0
-  - setuptools=68.2.2=pyhd8ed1ab_0
+  - setuptools=69.5.1=pyhd8ed1ab_0
   - sqlite=3.44.2=h2c6b66d_0
   - sysroot_linux-64=2.12=he073ed8_16
   - tk=8.6.13=noxft_h4845f30_101
   - tktable=2.10=h0c5db8f_5
-  - wheel=0.42.0=pyhd8ed1ab_0
+  - wheel=0.43.0=pyhd8ed1ab_1
   - xorg-kbproto=1.0.7=h7f98852_1002
   - xorg-libice=1.1.1=hd590300_0
   - xorg-libsm=1.2.4=h7391055_0
@@ -143,7 +143,6 @@ dependencies:
       - pandas==2.0.3
       - pathlib==1.0.1
       - pillow==10.1.0
-      - pipenv==2023.11.15
       - platformdirs==4.1.0
       - prompt-toolkit==3.0.43
       - protobuf==4.25.1
