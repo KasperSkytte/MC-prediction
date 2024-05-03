@@ -2,26 +2,29 @@
 // https://github.com/microsoft/vscode-dev-containers/tree/v0.194.0/containers/docker-existing-dockerfile
 {
 	"name": "mc-prediction",
-	"image": "ghcr.io/kasperskytte/mc-prediction:main",
+	// "image": "ghcr.io/kasperskytte/mc-prediction:main",
 
-	// "build": {
-	// 	// Update the 'dockerFile' property if you aren't using the standard 'Dockerfile' filename.
-	// 	"dockerfile": "../Dockerfile"
-	// },
+	"build": {
+		// Sets the run context to one level up instead of the .devcontainer folder.
+		"context": "..",
+		// Update the 'dockerFile' property if you aren't using the standard 'Dockerfile' filename.
+	 	"dockerfile": "../Dockerfile"
+	},
 
-	"initializeCommand": "docker pull ghcr.io/kasperskytte/mc-prediction:main",
+	// "initializeCommand": "docker pull ghcr.io/kasperskytte/mc-prediction:main",
 
 	// Set *default* container specific settings.json values on container create.
 	"settings": {
+		"python.defaultInterpreterPath": "/opt/conda/envs/mc-prediction/bin/python3.8",
 		"r.bracketedPaste": true,
-		"r.rterm.linux": "/usr/local/bin/radian", //Use this only for Linux
-		"r.lsp.path": "/usr/local/bin/R",
+		"r.rterm.linux": "/opt/conda/envs/mc-prediction/bin/radian",
+		"r.lsp.path": "/opt/conda/envs/mc-prediction/bin/R",
 		"r.lsp.debug": true,
 		"r.lsp.diagnostics": true,
 		"r.rterm.option": [
 			"--no-save",
 			"--no-restore",
-			"--r-binary=/usr/local/bin/R"
+			"--r-binary=/opt/conda/envs/mc-prediction/bin/R"
 	  ]
 	},
 
@@ -52,9 +55,6 @@
 
 	// Uncomment to connect as a non-root user if you've added one. See https://aka.ms/vscode-remote/containers/non-root.
 	// "remoteUser": "vscode",
-
-	// Don't override entrypoint
-	"overrideCommand": false,
 
 	// Uncomment to keep the container running when disconnecting from it
 	"shutdownAction": "none"

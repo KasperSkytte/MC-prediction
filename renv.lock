@@ -1115,6 +1115,11 @@
       ],
       "Hash": "3d5108641f47470611a32d0bdf357a72"
     },
+    "languageserver": {
+      "Package": "languageserver",
+      "Version": "0.3.16",
+      "Source": "Repository"
+    },
     "later": {
       "Package": "later",
       "Version": "1.3.1",

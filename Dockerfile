@@ -66,7 +66,10 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-py38_23.11.0-2-Linux-x86_64.sh -O /opt/miniconda.sh \
   && /bin/bash /opt/miniconda.sh -b -p /opt/conda \
   && rm -rf /opt/miniconda.sh \
-  && conda env create -f /opt/environment.yml -n mc-prediction
+  && conda env create -f /opt/environment.yml -n mc-prediction \
+  && ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh \
+  && echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc \
+  && echo "conda activate mc-prediction" >> ~/.bashrc
 
 # Make RUN commands use the new environment
 SHELL ["conda", "run", "-n", "mc-prediction", "/bin/bash", "-c"]
