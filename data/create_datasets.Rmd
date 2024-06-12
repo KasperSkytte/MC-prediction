@@ -147,7 +147,7 @@ d <- amp_load(
 # remove samples with few reads, and normalise reads to sample total
 ```{r normalise}
 ds <- d %>%
-  amp_subset_samples(minreads = 1000, removeAbsents = TRUE, normalise = TRUE)
+  amp_subset_samples(minreads = 5000, removeAbsents = TRUE, normalise = TRUE) # 1000 removes 117 samples, 5000 removes 210 samples
 gc()
 datasets <- c(
   "Aalborg E"
@@ -186,7 +186,8 @@ datasets <- c(
 
 # Select and create data subsets
 ```{r export_datasets, eval = TRUE}
-for (wwtp in datasets) {
+datasets_list <- lapply(datasets, function(wwtp) { #for (wwtp in datasets) {
+  print(wwtp)
   #filter
   dataset <- amp_subset_samples(
     ds,
@@ -220,8 +221,17 @@ for (wwtp in datasets) {
     encoding = "UTF-8",
     file = paste0(dataset_folder, "/metadata.csv")
   )
-}
+  
+  return(dataset)
+})
 
+# what's the median rel abundance of the least abundant ASV of the top 200 most abundant ASVs for each dataset?
+sapply(
+  datasets_list,
+  function(dataset) {
+    apply(dataset[["abund"]][names(sort(rowSums(dataset[["abund"]]), decreasing = TRUE)[200]),],1, median)
+  }
+) %>% fivenum
 ```
 
 # overview of samples over time (all)

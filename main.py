@@ -96,7 +96,7 @@ def create_graph_model(num_features, predict_timestamp, graph, window_width, ker
         additional_scope = kernel_size - 1
         new_dilation = 1
         for i in range(layers):
-            # dilated convolutions
+            # dilated convolutions (TCN)
             filter_convs.append(keras.layers.Conv2D(filters=dilation_channels, kernel_size=(1, kernel_size),
                                      padding='valid', strides=(1, 1), use_bias=True, dilation_rate=new_dilation))
 
