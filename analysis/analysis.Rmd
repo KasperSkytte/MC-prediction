@@ -28,7 +28,6 @@ require("patchwork")
 require("scales")
 
 #when knitting will always be done in the context of the Rmd file, otherwise not
-#when knitting will always be done in the context of the Rmd file, otherwise not
 if (interactive()) {
   if (!grepl("analysis$", getwd())) {
     setwd("analysis")
@@ -67,7 +66,7 @@ as.data.frame(readstats, check.names = FALSE)
 ```
 
 # Prediction accuracy across WWTPs
-## Graph model incl graph clustering with 5 per group
+## Bray-Curtis only
 ```{r}
 bp_all_list <- boxplot_all(
   results_batch_dir,
@@ -152,6 +151,43 @@ ggsave(
   plot = bp_all_BC,
   width = 10,
   height = 15
+)
+```
+
+## BC+MAE+MSE
+```{r}
+bp_all_list <- boxplot_all(
+  results_batch_dir,
+  save = FALSE
+)
+
+# customize axis breaks a bit for the specific data
+bp_all_list[["Bray Curtis"]] <- bp_all_list[["Bray Curtis"]] +
+  scale_y_continuous(
+    trans = "sqrt",
+    breaks = c(0.5, 0.1, 0.15, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8)
+  )
+bp_all_list[["Mean Absolute Error"]] <- bp_all_list[["Mean Absolute Error"]] +
+  scale_y_continuous(
+    trans = "sqrt",
+    breaks = c(0, 0.2, 0.4, 0.6, 0.8, 1.0, 2, 3, 4, 5, 6)
+  )
+bp_all_list[["Mean Squared Error"]] <- bp_all_list[["Mean Squared Error"]] +
+  scale_y_continuous(
+    trans = "sqrt",
+    breaks = c(0.5, 1, 5, 10, 20, 30, 40)
+  )
+
+# Compose all plots in the list using patchwork
+bp_all_plot <- purrr::reduce(
+  bp_all_list,
+  `/`
+)
+ggsave(
+  file.path(results_batch_dir, "boxplot_all.png"),
+  plot = bp_all_plot,
+  width = 16,
+  height = 12
 )
 ```
 
@@ -301,14 +337,14 @@ ggsave(
 
 # PCoA (all WWTPs loop)
 ```{r PCOA_colored_all}
-wwtp_results <- list.dirs(
+wwtp_results_dirs <- list.dirs(
   results_batch_dir,
   full.names = TRUE,
   recursive = FALSE
 )
 
 plots <- lapply(
-  wwtp_results,
+  wwtp_results_dirs,
   function(wwtp) {
     plot <- wwtp %>%
       combine_abund(cluster_type = cluster_type) %>%
@@ -346,12 +382,12 @@ plots <- lapply(
         legend.position = "bottom"
       ) +
       coord_fixed(ratio = 1)
-    
+
     # real_data <- data.table(plot$data)[predicted == "real"]
     # # extract first and last row (corresponds to first and last sample in time)
     # labels_data <- rbindlist(list(real_data[1, ], real_data[.N, ]))
     # plot <- plot + geom_text(aes(label = Date, color = "black"), data = labels_data)
-    
+
     ggsave(
       filename = file.path(
         results_batch_dir,
@@ -368,15 +404,191 @@ names(plots) <- basename(wwtp_results)
 #hideme <- lapply(plots, print)
 ```
 
+## All WWTPs test data (real+pred) combined
+```{r}
+wwtp_results_dirs <- list.dirs(
+  results_batch_dir,
+  full.names = TRUE,
+  recursive = FALSE
+)#[8] # Egå sometimes has multiple samples per week
+
+#list of all data (train+val+test) from all WWTPs
+allwwtps_testcompare_list <- lapply(
+  wwtp_results_dirs,
+  function(results_dir) {
+    d <- combine_abund(
+      results_dir,
+      cluster_type = cluster_type
+    )
+    test_predicted <- suppressMessages({
+      amp_filter_samples(
+        d,
+        split_dataset %in% "test",
+        predicted %in% "predicted"
+      )
+    })
+    test_real <- suppressMessages({
+      amp_filter_samples(
+        d,
+        split_dataset %in% "real",
+        Date %in% test_predicted$metadata$Date
+      )
+    })
+    test_combined <- amp_merge_ampvis2(
+      test_predicted,
+      test_real,
+      by_refseq = FALSE
+    )
+    test_combined$metadata$predicted <- factor(
+      test_combined$metadata$predicted,
+      levels = c("real", "predicted")
+    )
+    test_combined_long <- amp_export_long(
+      test_combined,
+      tax_levels = "OTU",
+      metadata_vars = c("Date", "predicted")
+    )
+
+    # if/when there are multiple samples per time point, use the mean, and go cast straight away
+    test_combined_long <- dcast(
+      test_combined_long[, .(count = mean(count)), by = c("predicted", "OTU", "Date")],
+      Date+OTU ~ predicted,
+      value.var = "count"
+    )
+    OTU_functions <- fread(
+      file.path(results_dir, "data_reformatted", "taxonomy_wfunctions.csv"),
+      select = c(1, 9:13),
+      data.table = FALSE
+    )
+    test_combined_long_func <- merge(
+      test_combined_long,
+      OTU_functions,
+      by = "OTU",
+      all.x = TRUE,
+      all.y = FALSE
+    )
+    return(test_combined_long_func)
+  }
+)
+names(allwwtps_testcompare_list) <- basename(wwtp_results_dirs)
+allwwtps_testcompare <- rbindlist(allwwtps_testcompare_list, idcol = "dataset")
+allwwtps_testcompare <- tidyr::separate(allwwtps_testcompare, col = "OTU", into = c("OTU", "Species", "Genus"), sep = "; ")
+setDT(allwwtps_testcompare)
+allwwtps_testcompare[AOB == "POS", genus_function := "AOB"]
+allwwtps_testcompare[NOB == "POS", genus_function := "NOB"]
+allwwtps_testcompare[PAO == "POS", genus_function := "PAO"]
+allwwtps_testcompare[GAO == "POS", genus_function := "GAO"]
+allwwtps_testcompare[Filamentous == "POS", genus_function := "Filamentous"]
+allwwtps_testcompare[, dataset := as.factor(dataset)]
+allwwtps_testcompare[, genus_function := as.factor(genus_function)]
+allwwtps_testcompare <- allwwtps_testcompare[real > 0]
+allwwtps_testcompare[predicted == 0, predicted := 0.001]
+allwwtps_testcompare[
+  !is.na(genus_function),
+  MSE := mean((real - predicted)^2),
+  by = c("dataset", "genus_function", "OTU")
+]
+allwwtps_testcompare[
+  !is.na(genus_function),
+  MAE := mean(abs(real - predicted)),
+  by = c("dataset", "genus_function", "OTU")
+]
+allwwtps_testcompare[
+  !is.na(genus_function),
+  AE := abs(real - predicted),
+  by = c("dataset", "genus_function", "OTU")
+]
+allwwtps_testcompare[
+  !is.na(genus_function),
+  MAPE := mean(abs((real - predicted)) / real) * 100,
+  by = c("dataset", "genus_function", "OTU")
+]
+
+# summary of real/predicted errors, all datasets
+allwwtps_testcompare[
+  !is.na(genus_function),
+  .(
+    medianMSE = median(MSE, na.rm = TRUE),
+    medianMAE = median(MAE, na.rm = TRUE),
+    medianAE = median(AE, na.rm = TRUE),
+    medianMAPE = median(MAPE, na.rm = TRUE)
+  ),
+  by = c("genus_function", "dataset")
+]
+
+# summary of real/predicted errors, genus functions only
+allwwtps_testcompare[
+  !is.na(genus_function),
+  .(
+    medianMSE = median(MSE, na.rm = TRUE),
+    medianMAE = median(MAE, na.rm = TRUE),
+    medianAE = median(AE, na.rm = TRUE),
+    medianMAPE = median(MAPE, na.rm = TRUE)
+  ),
+  by = c("genus_function")
+]
+
+# summary of taxonomy
+allwwtps_testcompare[
+  ,
+  .(
+    uniqueOTU = uniqueN(OTU, na.rm = TRUE),
+    uniqueGenus = uniqueN(Genus, na.rm = TRUE),
+    uniqueSpecies = uniqueN(Species, na.rm = TRUE)
+  ),
+  by = "dataset"
+]
+
+# number of unique ASVs with a known function across ALL datasets
+allwwtps_testcompare[!is.na(genus_function), uniqueN(OTU)]
+
+# total unique ASVs  across ALL datasets
+allwwtps_testcompare[, uniqueN(OTU)]
+
+# plotty plot
+plot_genus_func <- ggplot(
+  allwwtps_testcompare[!is.na(genus_function)],
+  aes(x = MAPE, y = dataset, group = dataset)
+) +
+  geom_boxplot() +
+  scale_x_log10(breaks = c(5, 10, 20, 50, 100, 300)) +
+  facet_grid(cols = vars(genus_function)) +
+  theme(axis.title.y = element_blank()) +
+  theme(panel.grid.minor = element_blank())
+plot_genus_func
+
+ggsave(
+  plot = plot_genus_func,
+  filename = file.path(
+    results_batch_dir,
+    "functions_acc.png"
+  ),
+  width = 12,
+  height = 10
+)
+
+ggplot(
+  allwwtps_testcompare[!is.na(genus_function)],
+  aes(x = MAPE, y = genus_function, group = genus_function)
+) +
+  geom_boxplot() +
+  scale_x_log10(breaks = c(5, 10, 20, 50, 100, 300)) +
+  theme(axis.title.y = element_blank()) +
+  theme(panel.grid.minor = element_blank())
+plot_genus_func
+```
+
 # Time Series examples
 ```{r timeseries}
-wwtp_results <- list.dirs(
+wwtp_results_dirs <- list.dirs(
   results_batch_dir,
   full.names = TRUE,
   recursive = FALSE
 )
+
+#list of all data (train+val+test) from all WWTPs
 plots <- lapply(
-  wwtp_results,
+  wwtp_results_dirs,
   function(wwtp) {
     combined <- combine_abund(
       wwtp,
@@ -387,7 +599,7 @@ plots <- lapply(
       tax_levels = "OTU",
       metadata_vars = c("Date", "split_dataset")
     )
-
+    
     #check normal distribution
     #qqplot(ASV1, rnorm(1000, mean = mean(ASV1), sd = sd(ASV1)))
     #qqplot(ASV2, rnorm(1000, mean = mean(ASV2), sd = sd(ASV2)))
@@ -397,7 +609,8 @@ plots <- lapply(
         theme(
           legend.position = "none",
           axis.text.x = element_blank(),
-          axis.ticks.x = element_blank()
+          axis.ticks.x = element_blank(),
+          axis.title.y = element_blank()
         ) +
         ggtitle("ASV1 - Tetrasphaera, midas_s_5") +
         scale_y_continuous(breaks = breaks_pretty(n = 5))
@@ -422,7 +635,11 @@ plots <- lapply(
     ASV24 <- long[grepl("^ASV24;", OTU)]
     if(nrow(ASV24) > 0) {
       plot_asv24 <- plot_timeseries(ASV24, save = FALSE) +
-        theme(legend.position = "bottom", legend.text = element_text(size = 16)) +
+        theme(
+          legend.position = "bottom",
+          legend.text = element_text(size = 16),
+          axis.title.y = element_blank()
+        ) +
         ggtitle("ASV24 - Nitrospira, defluvii") +
         scale_y_continuous(breaks = breaks_pretty(n = 5))
     } else {
@@ -446,8 +663,6 @@ plots <- lapply(
     return(prediction_example)
   }
 )
-names(plots) <- basename(wwtp_results)
-hideme <- lapply(plots, print)
 
 ```
 
@@ -515,8 +730,20 @@ realvspredictedheatmap <- amp_heatmap(
     axis.text.x = element_text(size = 14),
     axis.text.y = element_text(size = 16),
     legend.text = element_text(size = 14),
-    legend.title = element_text(size = 14)
-  )
+    legend.title = element_text(size = 14),
+    legend.position = "bottom"
+  ) +
+    labs(fill = "% Relative Abundance") +
+    scale_fill_gradientn(
+      colours = rev(RColorBrewer::brewer.pal(3, "RdYlBu")),
+      trans = "sqrt",
+      na.value = "#67A9CF",
+      oob = scales::squish,
+      limits = c(0, 5),
+      breaks = c(0, 1, 2, 3, 5),
+      labels = c(0, 1, 2, 3, 5)
+    ) +
+    guides(fill = guide_colourbar(ticks.colour = "black"))
 
 ggsave(
   plot = realvspredictedheatmap,

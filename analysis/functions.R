@@ -693,9 +693,10 @@ plot_timeseries <- function(
   theme(
     legend.title = element_blank(),
     legend.text = element_text(size = 14),
-    axis.title = element_blank(),
+    axis.title.x = element_blank(),
     axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5)
-  )
+  ) +
+  ylab("% Relative Abundance")
 
   if (isTRUE(save)) {
     ggsave(
