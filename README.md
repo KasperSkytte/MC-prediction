@@ -9,8 +9,19 @@ The required data must be in the typical amplicon data format with an abundance 
 Use the conda `environment.yml` file to create an environment with the required software. To installed required R packages, use the `renv.lock` file to restore the R library using the [`renv`](https://rstudio.github.io/renv/articles/renv.html) package.
 For GPU support ensure you have a version of Tensorflow that matches your nvidia drivers and CUDA. It's also necessary to set an environment variable before creating the environment in order to install some required NVIDIA dependencies for network inference: `export PIP_EXTRA_INDEX_URL='https://pypi.nvidia.com'`.
 
+### Docker container
+To facilitate complete reproducibility a (very large) Docker container has been built with **everything** included, and can be used through Docker, Apptainer, Podman, VSCode dev containers (through Docker), or any other OCI compatible container engine:
+```
+docker run -it --nvidia ghcr.io/kasperskytte/mc-prediction:main
+apptainer run --nv docker://ghcr.io/kasperskytte/mc-prediction:main
+```
+
+If you want to accelerate processing by using a GPU ensure the [NVIDIA container toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html) has been installed and configured for Docker or [apptainer](https://apptainer.org/docs/user/latest/gpu.html).
+
+The required software is then available in the conda environment `mc-prediction` inside the container, which can be activate using `conda activate /opt/conda/envs/mc-prediction/`. Depending on how you start the container you may also have to initialize conda first using `. /opt/conda/etc/profile.d/conda.sh`.
+
 ### Hardware requirements and performance
-The workflow can run on a standard laptop just fine (as of 2023), but may require extra RAM and a NVIDIA GPU if you really need extra speed, however many other steps in the implementation are the bottlenecks, it's not the model training time itself. Typical processing time is 4-8 hours per dataset under `data/datasets`. Here are some hardware guidelines:
+The workflow can run on a standard laptop just fine (as of 2023), but may require extra RAM and a NVIDIA GPU if you really need extra speed, however many other steps in the implementation are the bottlenecks, it's not the model training time that takes much time. Typical processing time is 4-8 hours per dataset under `data/datasets`. Here are some hardware guidelines:
 
  - 4 cores/8 threads
  - 16GB RAM, preferably 32GB depending on input data
