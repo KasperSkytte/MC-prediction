@@ -66,13 +66,12 @@ as.data.frame(readstats, check.names = FALSE)
 ```
 
 # Prediction accuracy across WWTPs
-## Bray-Curtis only
+## Bray-Curtis only (Figure 1)
 ```{r}
 bp_all_list <- boxplot_all(
   results_batch_dir,
   save = TRUE
 )
-
 
 ## Bray-Curtis only, flip x and y (otherwise too big plot for manuscript)
 runs <- list.dirs(
