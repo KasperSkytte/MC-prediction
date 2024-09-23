@@ -4,6 +4,8 @@ import tensorflow as tf
 import numpy as np
 
 from sklearn import preprocessing
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import r2_score
 from sklearn.covariance import GraphicalLasso, EmpiricalCovariance
 from tensorflow import keras
 from bray_curtis import BrayCurtis
@@ -237,7 +239,9 @@ def find_best_graph(data, iterations, num_clusters, max_epochs, early_stopping, 
         best_performances.append(best_performance)
         best_model.save_weights(f'{results_dir}/graph_{cluster_type}_weights/cluster_{c}')
 
-        prediction, actual_prediction = make_prediction(data, best_model)
+        prediction, actual_prediction, R_square = make_prediction(data, best_model)
+        R_square.to_csv(f'{R_square_dir}/graph_{cluster_type}_cluster_{c}_R_square.csv')
+        
         # reverse transform and overwrite.
         # Better to implement it in data_handler,
         # but this does the job
@@ -426,8 +430,38 @@ def make_prediction(data, lstm_model):
     prediction = prediction[:, 0]
     index_pred = data.all.index[data.window_width:]
 
+    val_prediction = lstm_model.predict(data.val_batched)
+    test_prediction = lstm_model.predict(data.test_batched)
+    y_pred = np.concatenate([val_prediction, test_prediction], axis=0)
+    y_pred = np.reshape(y_pred, [y_pred.shape[0] * y_pred.shape[1], y_pred.shape[2]])
+
+    current_i = 0
+    for ___, test_i in data.test_batched:
+        if current_i == 0:
+            test_true = test_i
+            current_i += 1
+        else:
+            test_true = np.concatenate([test_true, test_i], axis=0)
+    current_i = 0
+    for ___, val_i in data.val_batched:
+        if current_i == 0:
+            val_true = val_i
+            current_i += 1
+        else:
+            val_true = np.concatenate([val_true, val_i], axis=0)
+
+    y_true = np.concatenate([val_true, test_true], axis=0)
+    y_true = np.reshape(y_true, [y_true.shape[0]*y_true.shape[1], y_true.shape[2]])
+    model = LinearRegression().fit(y_pred, y_true)
+    y_pred = model.predict(y_pred)
+    r2 = r2_score(y_true, y_pred, multioutput='raw_values')
+    r2 = np.reshape(r2, [1, r2.shape[0]])
+
+    predictionpd = pd.DataFrame(data=prediction, index=index_pred, columns=data.all.columns)
+    R_square = pd.DataFrame(data=r2, index=['R_square 1:1'], columns=data.all.columns)
+    
     #needs to be reverse transformed for real values
-    return pd.DataFrame(data = prediction, index = index_pred, columns = data.all.columns), pd.DataFrame(data = actual_prediction, columns = data.all.columns)
+    return predictionpd, pd.DataFrame(data = actual_prediction, columns = data.all.columns), R_square
 
 def create_lstm_model(num_features, predict_timestamp=1):
     """Create a model without tuning hyperparameters.
@@ -491,7 +525,9 @@ def find_best_lstm(data, iterations, num_clusters, max_epochs, early_stopping, c
         best_performances.append(best_performance)
         best_model.save_weights(f'{results_dir}/lstm_{cluster_type}_weights/cluster_{c}')
 
-        prediction, actual_prediction = make_prediction(data, best_model)
+        prediction, actual_prediction, R_square = make_prediction(data, best_model)
+        R_square.to_csv(f'{R_square_dir}/graph_{cluster_type}_cluster_{c}_R_square.csv')
+        
         # reverse transform and overwrite.
         # Better to implement it in data_handler,
         # but this does the job
@@ -603,6 +639,9 @@ if __name__ == '__main__':
     graph_dir = f'{results_dir}/graph_matrix'
     data_predicted_dir = f'{results_dir}/data_predicted'
     data_splits_dir = f'{results_dir}/data_splits'
+    R_square_dir = f'{results_dir}/R_square'
+    if not path.exists(R_square_dir):
+        mkdir(R_square_dir)
 
     if not path.exists(results_dir):
         mkdir(results_dir)
