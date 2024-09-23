@@ -85,13 +85,13 @@ class DataHandler:
     @property
     def val_batched(self):
         """Batches of validation data."""
-        return self._make_batched_dataset(self._all.iloc[self._train_val_index-self.predict_timestamp:self._val_test_index+self.predict_timestamp,
+        return self._make_batched_dataset(self._all.iloc[self._train_val_index-self.window_width:self._val_test_index+self.predict_timestamp,
                        self.clusters], endindex=True)
 
     @property
     def test_batched(self):
         """Batches of test data."""
-        return self._make_batched_dataset(self._all.iloc[self._val_test_index-self.predict_timestamp:, self.clusters], endindex=True)
+        return self._make_batched_dataset(self._all.iloc[self._val_test_index-self.window_width:, self.clusters], endindex=True)
 
     @property
     def all_batched(self):
@@ -122,7 +122,7 @@ class DataHandler:
                 targets=target,
                 length=self.window_width,
                 stride=1,
-                shuffle=True,
+                shuffle=False,
                 end_index=T_ - self.predict_timestamp,
                 batch_size=self.window_batch_size # can find the best from 8 10 16
             )
