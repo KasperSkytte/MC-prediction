@@ -37,6 +37,13 @@ thedata <- amp_load(
   taxonomy = config$taxonomy_file
 )
 
+if(ampvis2:::abundAreCounts(thedata)) {
+  cli::cat_line(
+    "reformat.R: Abundance data looks like count data, normalizing to percentages per sample"
+  )
+  thedata <- ampvis2:::normaliseTo100(thedata)
+}
+
 #aggregate data at chosen taxonomic level, must not be higher than Genus level
 #as functional info is at genus level, so one of: OTU, Species, Genus
 cli::cat_line(

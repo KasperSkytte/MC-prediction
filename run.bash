@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash -l
 set -eu
 #set timezone
 export TZ="Europe/Copenhagen"
