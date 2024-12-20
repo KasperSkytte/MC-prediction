@@ -1,23 +1,22 @@
-#!/usr/bin/env bash
+#!/bin/bash -l
 set -eu
 #set timezone
 export TZ="Europe/Copenhagen"
+export TF_CPP_MIN_LOG_LEVEL=2 #silences tensorflow warnings
 
 timestamp=$(date '+%Y%m%d_%H%M%S')
 logFile="log_${timestamp}.txt"
 
 results_dir=$(cat config.json | jq -r '.results_dir')
-if [ -f "$results_dir" ]
+if [ -d "$results_dir" ]
 then
   echo "Folder ${results_dir} already exists, please clear or move, and then rerun."
   exit 1
 fi
-mkdir -p \
-  "${results_dir}" \
-  "${results_dir}/data_reformatted" \
-  "${results_dir}/figures"
+mkdir -p "${results_dir}"
 
 main() {
+  set -eu
   echo "#################################################"
   echo "Script: $(realpath "$0")"
   echo "System time: $(date '+%Y-%m-%d %H:%M:%S')"
@@ -35,8 +34,7 @@ main() {
 
 main |& tee "${results_dir}/${logFile}"
 
-chown 1000:1000 -R ${results_dir}
-mv results "${results_dir}_${timestamp}"
+mv "${results_dir}" "${results_dir}_${timestamp}"
 
 duration=$(printf '%02dh:%02dm:%02ds\n' $(($SECONDS/3600)) $(($SECONDS%3600/60)) $(($SECONDS%60)))
 echo "Time elapsed: $duration!"

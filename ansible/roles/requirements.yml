@@ -1,0 +1,6 @@
+---
+roles:
+  - name: geerlingguy.pip
+  - name: geerlingguy.docker
+  - name: nvidia.nvidia_driver
+  - name: nvidia.nvidia_docker

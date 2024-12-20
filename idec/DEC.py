@@ -21,11 +21,11 @@ Author:
 from time import time
 import numpy as np
 import keras.backend as K
-from keras.engine.topology import Layer, InputSpec
+from tensorflow.keras.layers import Layer, InputSpec
 from keras.layers import Dense, Input
 from keras.models import Model
-from keras.optimizers import SGD
-from keras.utils.vis_utils import plot_model
+from tensorflow.keras.optimizers import SGD
+from keras.utils import plot_model
 
 from sklearn.cluster import KMeans
 from sklearn import metrics

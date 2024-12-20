@@ -22,7 +22,6 @@ Author:
 from time import time
 import numpy as np
 from keras.models import Model
-# from keras.utils.vis_utils import plot_model
 from sklearn.cluster import KMeans
 from sklearn import metrics
 import os
@@ -174,12 +173,12 @@ class IDEC(object):
         logfile.close()
         print('saving model to: ' + save_dir + '/IDEC_model_final.h5')
         self.model.save_weights(save_dir + '/IDEC_model_final.h5')
-        
+
         return self.y_pred
 
 
 if __name__ == "__main__":
-    # setting the hyper parameters 
+    # setting the hyper parameters
     import argparse
     parser = argparse.ArgumentParser(description='train',
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)

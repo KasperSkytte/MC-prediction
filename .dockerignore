@@ -2,6 +2,6 @@
 **
 
 #except env files
-!Pipfile
-!Pipfile.lock
 !renv.lock
+!environment.yml
+!.devcontainer/

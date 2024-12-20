@@ -1,22 +1,45 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
 // https://github.com/microsoft/vscode-dev-containers/tree/v0.194.0/containers/docker-existing-dockerfile
 {
-	"name": "ASMC-prediction",
+	"name": "mc-prediction",
+	// "image": "ghcr.io/kasperskytte/mc-prediction:main",
 
-	// Sets the run context to one level up instead of the .devcontainer folder.
-	"context": "..",
+	"build": {
+		// Sets the run context to one level up instead of the .devcontainer folder.
+		"context": "..",
+		// Update the 'dockerFile' property if you aren't using the standard 'Dockerfile' filename.
+	 	"dockerfile": "../Dockerfile"
+	},
 
-	// Update the 'dockerFile' property if you aren't using the standard 'Dockerfile' filename.
-	"dockerFile": "../Dockerfile",
+	// "initializeCommand": "docker pull ghcr.io/kasperskytte/mc-prediction:main",
 
 	// Set *default* container specific settings.json values on container create.
-	"settings": {},
-	
+	"settings": {
+		"python.defaultInterpreterPath": "/opt/conda/envs/mc-prediction/bin/python3.8",
+		"r.bracketedPaste": true,
+		"r.rterm.linux": "/opt/conda/envs/mc-prediction/bin/radian",
+		"r.lsp.path": "/opt/conda/envs/mc-prediction/bin/R",
+		"r.lsp.debug": true,
+		"r.lsp.diagnostics": true,
+		"r.rterm.option": [
+			"--no-save",
+			"--no-restore",
+			"--r-binary=/opt/conda/envs/mc-prediction/bin/R"
+	  ]
+	},
+
 	// Add the IDs of extensions you want installed when the container is created.
-	"extensions": [],
+	"extensions": [
+		"REditorSupport.r",
+		"ms-python.python",
+		"christian-kohler.path-intellisense",
+		"TianyiShi.rmarkdown",
+		"tomoki1207.pdf",
+		"tht13.html-preview-vscode"
+	],
 
 	// Enable GPU support for CUDA
-	"runArgs": ["--gpus", "all"],
+	"runArgs": ["--runtime=nvidia"],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
@@ -31,5 +54,8 @@
 	// "mounts": [ "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind" ],
 
 	// Uncomment to connect as a non-root user if you've added one. See https://aka.ms/vscode-remote/containers/non-root.
-	// "remoteUser": "vscode"
+	// "remoteUser": "vscode",
+
+	// Uncomment to keep the container running when disconnecting from it
+	"shutdownAction": "none"
 }

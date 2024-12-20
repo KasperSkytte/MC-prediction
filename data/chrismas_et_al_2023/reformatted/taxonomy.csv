@@ -1,0 +1,1980 @@
+ASV,Genus,Species
+asv_1,Other,asv_1
+asv_2,Other,asv_2
+asv_3,Exophiala,asv_3
+asv_4,Unknown,asv_4
+asv_5,Metschnikowia,asv_5
+asv_7,Cadophora,asv_7
+asv_10,Exophiala,asv_10
+asv_11,Unknown Ascomycota,asv_11
+asv_13,Other,asv_13
+asv_15,Engyodontium,asv_15
+asv_16,Cadophora,asv_16
+asv_17,Cryptococcus,asv_17
+asv_19,Parengyodontium,asv_19
+asv_25,Rhodotorula,asv_25
+asv_27,Unknown,asv_27
+asv_28,Sarocladium,asv_28
+asv_29,Debaryomyces,asv_29
+asv_33,Cladosporium,asv_33
+asv_34,Unknown,asv_34
+asv_36,Epicoccum,asv_36
+asv_37,Cladosporium,asv_37
+asv_40,Unknown,asv_40
+asv_41,Parengyodontium,asv_41
+asv_44,Other,asv_44
+asv_46,Unknown,asv_46
+asv_47,Sporidiobolus,asv_47
+asv_48,Unknown,asv_48
+asv_51,Unknown,asv_51
+asv_52,Unknown,asv_52
+asv_53,Filobasidium,asv_53
+asv_58,Other,asv_58
+asv_59,Unknown,asv_59
+asv_60,Other,asv_60
+asv_61,Penicillium,asv_61
+asv_63,Other,asv_63
+asv_64,Aureobasidium,asv_64
+asv_65,Metschnikowia,asv_65
+asv_72,Saccharomyces,asv_72
+asv_75,Unknown,asv_75
+asv_78,Unknown,asv_78
+asv_80,Simplicillium,asv_80
+asv_81,Kondoa,asv_81
+asv_85,Unknown,asv_85
+asv_86,Unknown,asv_86
+asv_87,Other,asv_87
+asv_89,Rhodotorula,asv_89
+asv_92,Unknown,asv_92
+asv_94,Unknown,asv_94
+asv_95,Symmetrospora,asv_95
+asv_96,Unknown,asv_96
+asv_98,Neoascochyta,asv_98
+asv_100,Unknown,asv_100
+asv_101,Unknown,asv_101
+asv_105,Leucosporidium,asv_105
+asv_106,Unknown,asv_106
+asv_107,Unknown,asv_107
+asv_109,Other,asv_109
+asv_110,Other,asv_110
+asv_111,Unknown,asv_111
+asv_112,Botrytis,asv_112
+asv_115,Symmetrospora,asv_115
+asv_116,Unknown,asv_116
+asv_118,Other,Pleurobrachia pileus
+asv_119,Unknown,asv_119
+asv_120,Other,asv_120
+asv_122,Acremonium,asv_122
+asv_123,Rhodotorula,asv_123
+asv_124,Unknown,asv_124
+asv_126,Unknown,asv_126
+asv_127,Unknown,asv_127
+asv_130,Unknown Ascomycota,asv_130
+asv_132,Exophiala,Exophiala castellanii
+asv_133,Unknown,asv_133
+asv_136,Kondoa,asv_136
+asv_140,Simplicillium,asv_140
+asv_146,Monocillium,asv_146
+asv_148,Unknown,asv_148
+asv_150,Other,asv_150
+asv_151,Leucosporidium,asv_151
+asv_153,Penicillium,asv_153
+asv_155,Unknown,asv_155
+asv_157,Unknown,asv_157
+asv_164,Cystobasidium,asv_164
+asv_165,Wallemia,asv_165
+asv_167,Penicillium,asv_167
+asv_168,Unknown,asv_168
+asv_169,Rhodotorula,asv_169
+asv_172,Unknown,asv_172
+asv_174,Unknown,asv_174
+asv_178,Aspergillus,asv_178
+asv_179,Itersonilia,asv_179
+asv_180,Cutaneotrichosporon,asv_180
+asv_182,Emericellopsis,asv_182
+asv_183,Unknown,asv_183
+asv_185,Dothideomycetes incertae sedis,asv_185
+asv_187,Unknown,asv_187
+asv_188,Unknown,asv_188
+asv_190,Penicillium,asv_190
+asv_192,Aspergillus,asv_192
+asv_193,Dothideomycetes incertae sedis,asv_193
+asv_195,Unknown,asv_195
+asv_197,Meyerozyma,asv_197
+asv_198,Unknown,asv_198
+asv_199,Trametes,asv_199
+asv_202,Unknown,asv_202
+asv_203,Unknown,asv_203
+asv_204,Unknown,asv_204
+asv_206,Unknown,asv_206
+asv_207,Unknown,asv_207
+asv_208,Neophaeotheca,asv_208
+asv_209,Cladosporium,asv_209
+asv_213,Unknown,asv_213
+asv_214,Unknown,asv_214
+asv_216,Unknown,asv_216
+asv_217,Unknown,asv_217
+asv_218,Unknown,asv_218
+asv_219,Unknown,asv_219
+asv_221,Unknown,asv_221
+asv_224,Erythrobasidium,asv_224
+asv_226,Other,asv_226
+asv_228,Unknown,asv_228
+asv_229,Unknown,asv_229
+asv_237,Unknown,asv_237
+asv_238,Vishniacozyma,asv_238
+asv_241,Other,asv_241
+asv_243,Other,Mertensia ovum
+asv_244,Candida,asv_244
+asv_246,Other,asv_246
+asv_248,Unknown,asv_248
+asv_253,Clitocybe,asv_253
+asv_254,Other,asv_254
+asv_256,Cystobasidiomycetes incertae sedis,asv_256
+asv_257,Unknown,asv_257
+asv_258,Unknown,asv_258
+asv_259,Kondoa,asv_259
+asv_261,Penicillium,asv_261
+asv_263,Unknown,asv_263
+asv_269,Leptosphaerulina,asv_269
+asv_270,Unknown,asv_270
+asv_271,Other,asv_271
+asv_272,Other,asv_272
+asv_273,Other,asv_273
+asv_276,Unknown,asv_276
+asv_280,Kondoa,asv_280
+asv_281,Erythrobasidium,asv_281
+asv_282,Exophiala,asv_282
+asv_283,Cladosporium,asv_283
+asv_287,Wallemia,asv_287
+asv_289,Unknown,asv_289
+asv_291,Unknown,asv_291
+asv_292,Unknown,asv_292
+asv_293,Sebacina,asv_293
+asv_299,Unknown,asv_299
+asv_301,Cyberlindnera,asv_301
+asv_305,Unknown,asv_305
+asv_306,Unknown,asv_306
+asv_308,Other,asv_308
+asv_312,Penicillium,asv_312
+asv_313,Pseudeurotium,asv_313
+asv_314,Protomyces,asv_314
+asv_315,Unknown Ascomycota,asv_315
+asv_316,Unknown,asv_316
+asv_317,Other,asv_317
+asv_321,Knufia,asv_321
+asv_324,Unknown,asv_324
+asv_330,Kondoa,asv_330
+asv_332,Wallemia,asv_332
+asv_338,Unknown,asv_338
+asv_342,Vishniacozyma,asv_342
+asv_348,Unknown Ascomycota,asv_348
+asv_349,Unknown,asv_349
+asv_350,Unknown,asv_350
+asv_352,Helotiales incertae sedis,asv_352
+asv_354,Unknown,asv_354
+asv_356,Ramularia,asv_356
+asv_358,Cladosporium,asv_358
+asv_361,Unknown,asv_361
+asv_362,Other,asv_362
+asv_363,Other,asv_363
+asv_364,Alternaria,asv_364
+asv_365,Epicoccum,asv_365
+asv_366,Unknown,asv_366
+asv_368,Resinicium,asv_368
+asv_369,Hortaea,asv_369
+asv_371,Other,asv_371
+asv_373,Nigrograna,Nigrograna obliqua
+asv_376,Protomyces,asv_376
+asv_378,Unknown,asv_378
+asv_384,Unknown,asv_384
+asv_387,Neocatenulostroma,asv_387
+asv_390,Unknown,asv_390
+asv_392,Agaricus,asv_392
+asv_394,Unknown,asv_394
+asv_398,Peniophora,asv_398
+asv_400,Tausonia,asv_400
+asv_401,Unknown,asv_401
+asv_402,Other,asv_402
+asv_403,Neophaeotheca,asv_403
+asv_405,Trametes,asv_405
+asv_409,Xenopyrenochaetopsis,asv_409
+asv_410,Unknown,asv_410
+asv_416,Exophiala,Exophiala castellanii
+asv_417,Other,asv_417
+asv_418,Unknown,asv_418
+asv_419,Unknown,asv_419
+asv_422,Cystobasidium,asv_422
+asv_425,Pithomyces,asv_425
+asv_426,Other,asv_426
+asv_427,Unknown,asv_427
+asv_429,Protomyces,asv_429
+asv_436,Other,asv_436
+asv_437,Unknown,asv_437
+asv_438,Unknown,asv_438
+asv_440,Other,Mertensia ovum
+asv_443,Unknown,asv_443
+asv_444,Unknown,asv_444
+asv_445,Scoliciosporum,asv_445
+asv_446,Unknown,asv_446
+asv_448,Exophiala,asv_448
+asv_452,Cladosporium,asv_452
+asv_453,Unknown,asv_453
+asv_454,Unknown,asv_454
+asv_455,Phialophora,asv_455
+asv_458,Other,asv_458
+asv_459,Unknown,asv_459
+asv_467,Unknown,asv_467
+asv_468,Unknown,asv_468
+asv_470,Other,asv_470
+asv_471,Phoma,asv_471
+asv_472,Other,asv_472
+asv_477,Pleosporales incertae sedis,asv_477
+asv_478,Unknown,asv_478
+asv_482,Microbotryomycetes incertae sedis,asv_482
+asv_483,Unknown,asv_483
+asv_485,Alternaria,asv_485
+asv_486,Unknown,asv_486
+asv_487,Agaricomycetes incertae sedis,asv_487
+asv_489,Unknown,asv_489
+asv_491,Unknown,asv_491
+asv_496,Trichomerium,asv_496
+asv_501,Peniophora,asv_501
+asv_506,Other,asv_506
+asv_507,Rhodotorula,asv_507
+asv_510,Microdochium,asv_510
+asv_512,Other,Pleurobrachia pileus
+asv_514,Exophiala,asv_514
+asv_518,Tolypocladium,asv_518
+asv_519,Unknown,asv_519
+asv_520,Verrucaria,asv_520
+asv_522,Boeremia,asv_522
+asv_524,Unknown,asv_524
+asv_529,Unknown,asv_529
+asv_532,Filobasidium,asv_532
+asv_534,Unknown,asv_534
+asv_535,Unknown,asv_535
+asv_537,Bjerkandera,asv_537
+asv_538,Unknown,asv_538
+asv_544,Phyllactinia,asv_544
+asv_545,Acremonium,asv_545
+asv_546,Epicoccum,asv_546
+asv_550,Unknown,asv_550
+asv_551,Unknown,asv_551
+asv_554,Other,asv_554
+asv_555,Unknown,asv_555
+asv_558,Sebacina,asv_558
+asv_559,Exophiala,asv_559
+asv_560,Ganoderma,asv_560
+asv_564,Other,asv_564
+asv_566,Other,asv_566
+asv_568,Leucosporidium,asv_568
+asv_569,Unknown,asv_569
+asv_570,Cladosporium,asv_570
+asv_572,Unknown,asv_572
+asv_573,Unknown,asv_573
+asv_575,Unknown,asv_575
+asv_578,Unknown,asv_578
+asv_580,Other,asv_580
+asv_581,Exophiala,asv_581
+asv_582,Tremellales incertae sedis,asv_582
+asv_585,Unknown,asv_585
+asv_587,Unknown,asv_587
+asv_591,Monocillium,asv_591
+asv_592,Unknown,asv_592
+asv_593,Hypholoma,asv_593
+asv_594,Filobasidium,asv_594
+asv_597,Unknown,asv_597
+asv_601,Dioszegia,asv_601
+asv_603,Unknown,asv_603
+asv_609,Sphaerulina,asv_609
+asv_610,Unknown,asv_610
+asv_613,Unknown,asv_613
+asv_614,Unknown,asv_614
+asv_619,Penicillium,asv_619
+asv_625,Penicillium,asv_625
+asv_628,Unknown,asv_628
+asv_629,Unknown,asv_629
+asv_630,Verrucaria,asv_630
+asv_631,Unknown,asv_631
+asv_633,Metschnikowia,asv_633
+asv_635,Unknown,asv_635
+asv_636,Myriangium,asv_636
+asv_638,Pseudeurotium,asv_638
+asv_639,Unknown,asv_639
+asv_640,Other,asv_640
+asv_643,Unknown,asv_643
+asv_648,Cadophora,asv_648
+asv_649,Pyrenochaetopsis,asv_649
+asv_650,Unknown,asv_650
+asv_652,Unknown Ascomycota,asv_652
+asv_653,Heterobasidion,asv_653
+asv_655,Unknown,asv_655
+asv_656,Penicillium,asv_656
+asv_657,Unknown,asv_657
+asv_658,Stereum,asv_658
+asv_659,Trametes,asv_659
+asv_661,Unknown,asv_661
+asv_664,Kondoa,asv_664
+asv_665,Unknown Ascomycota,asv_665
+asv_669,Unknown,asv_669
+asv_670,Cystobasidium,asv_670
+asv_671,Mycoacia,asv_671
+asv_673,Unknown,asv_673
+asv_674,Inonotus,asv_674
+asv_675,Unknown,asv_675
+asv_676,Unknown,asv_676
+asv_678,Unknown,asv_678
+asv_680,Other,Rhipidipathes reticulata
+asv_683,Lasiosphaeriaceae incertae sedis,asv_683
+asv_684,Talaromyces ,asv_684
+asv_686,Buckleyzyma,asv_686
+asv_688,Cystobasidium,asv_688
+asv_693,Libertasomyces,Libertasomyces myopori
+asv_695,Unknown,asv_695
+asv_697,Unknown,asv_697
+asv_698,Unknown,asv_698
+asv_700,Unknown,asv_700
+asv_701,Holtermanniella,asv_701
+asv_702,Hortaea,asv_702
+asv_703,Other,asv_703
+asv_705,Capnodiales incertae sedis,asv_705
+asv_707,Penicillium,asv_707
+asv_709,Unknown,asv_709
+asv_712,Unknown,asv_712
+asv_713,Unknown,asv_713
+asv_714,Unknown,asv_714
+asv_716,Unknown Basidiomycota,asv_716
+asv_722,Unknown,asv_722
+asv_724,Other,asv_724
+asv_726,Unknown,asv_726
+asv_727,Filobasidium,asv_727
+asv_729,Cystobasidiomycetes incertae sedis,asv_729
+asv_730,Unknown,asv_730
+asv_734,Other,asv_734
+asv_738,Unknown,asv_738
+asv_741,Agaricomycetes incertae sedis,asv_741
+asv_743,Kondoa,asv_743
+asv_744,Unknown,asv_744
+asv_746,Trichoderma,asv_746
+asv_747,Kondoa,asv_747
+asv_748,Unknown,asv_748
+asv_749,Saxophila,Saxophila tyrrhenica
+asv_750,Unknown,asv_750
+asv_752,Phallus,asv_752
+asv_753,Buckleyzyma,asv_753
+asv_756,Dothideomycetes incertae sedis,asv_756
+asv_758,Unknown,asv_758
+asv_761,Other,asv_761
+asv_763,Aspergillus,asv_763
+asv_767,Unknown,asv_767
+asv_768,Daedaleopsis,asv_768
+asv_769,Unknown,asv_769
+asv_773,Unknown,asv_773
+asv_775,Aspergillus,asv_775
+asv_782,Unknown,asv_782
+asv_787,Unknown,asv_787
+asv_789,Kondoa,asv_789
+asv_791,Unknown,asv_791
+asv_792,Hyphoderma,asv_792
+asv_793,Unknown,asv_793
+asv_796,Unknown,asv_796
+asv_798,Other,asv_798
+asv_802,Wallemia,asv_802
+asv_803,Unknown,asv_803
+asv_805,Capnodiales incertae sedis,asv_805
+asv_806,Other,asv_806
+asv_807,Other,Mertensia ovum
+asv_809,Other,asv_809
+asv_810,Phlebiopsis,asv_810
+asv_811,Trichosporon,asv_811
+asv_813,Other,asv_813
+asv_814,Other,asv_814
+asv_817,Unknown,asv_817
+asv_819,Unknown,asv_819
+asv_824,Unknown,Suhomyces bribrorum
+asv_825,Other,Pleurobrachia pileus
+asv_826,Candida,asv_826
+asv_829,Unknown,asv_829
+asv_838,Unknown,asv_838
+asv_839,Unknown,asv_839
+asv_840,Sistotrema,asv_840
+asv_841,Unknown,asv_841
+asv_845,Unknown,asv_845
+asv_848,Filobasidium,asv_848
+asv_851,Unknown,asv_851
+asv_857,Coniophora,asv_857
+asv_860,Paraphaeosphaeria,asv_860
+asv_861,Unknown,asv_861
+asv_862,Hortaea,asv_862
+asv_863,Fusarium,asv_863
+asv_866,Unknown,asv_866
+asv_868,Unknown,asv_868
+asv_870,Microdochium,asv_870
+asv_875,Heydenia,asv_875
+asv_876,Unknown,asv_876
+asv_880,Unknown,asv_880
+asv_882,Unknown,asv_882
+asv_883,Helotiales incertae sedis,asv_883
+asv_888,Unknown,asv_888
+asv_891,Unknown,asv_891
+asv_893,Vermiconia,asv_893
+asv_899,Other,asv_899
+asv_902,Other,asv_902
+asv_903,Penicillium,asv_903
+asv_906,Unknown,asv_906
+asv_907,Other,asv_907
+asv_908,Unknown,asv_908
+asv_911,Unknown,asv_911
+asv_912,Papiliotrema,asv_912
+asv_914,Naganishia,asv_914
+asv_915,Emericellopsis,asv_915
+asv_916,Curvibasidium,asv_916
+asv_921,Trametes,asv_921
+asv_924,Unknown,asv_924
+asv_925,Unknown,asv_925
+asv_928,Unknown,asv_928
+asv_932,Peniophora,asv_932
+asv_933,Exophiala,asv_933
+asv_934,Paraphoma,asv_934
+asv_938,Neoascochyta,asv_938
+asv_940,Gibellulopsis,asv_940
+asv_943,Malassezia,asv_943
+asv_946,Unknown,asv_946
+asv_947,Naganishia,asv_947
+asv_949,Exophiala,asv_949
+asv_950,Unknown,asv_950
+asv_953,Trichoderma,asv_953
+asv_954,Unknown,asv_954
+asv_956,Didymosphaeriaceae incertae sedis,asv_956
+asv_957,Unknown,asv_957
+asv_960,Ramularia,asv_960
+asv_961,Cryptococcus,asv_961
+asv_964,Cystobasidiomycetes incertae sedis,asv_964
+asv_972,Other,asv_972
+asv_974,Unknown,asv_974
+asv_975,Unknown,asv_975
+asv_979,Tremellales incertae sedis,asv_979
+asv_980,Fusarium,asv_980
+asv_982,Dioszegia,asv_982
+asv_983,Schizophyllum,asv_983
+asv_985,Pseudopithomyces,asv_985
+asv_986,Baeospora,asv_986
+asv_987,Rhodotorula,asv_987
+asv_992,Unknown,asv_992
+asv_996,Unknown,asv_996
+asv_997,Unknown,asv_997
+asv_999,Zalerion,asv_999
+asv_1003,Unknown,asv_1003
+asv_1004,Unknown,asv_1004
+asv_1006,Malassezia,asv_1006
+asv_1014,Hymenopellis,asv_1014
+asv_1015,Unknown,asv_1015
+asv_1017,Rhodotorula,asv_1017
+asv_1019,Aspergillus,asv_1019
+asv_1020,Phomatodes,asv_1020
+asv_1022,Peniophora,asv_1022
+asv_1027,Unknown,asv_1027
+asv_1030,Wallemia,asv_1030
+asv_1031,Unknown,asv_1031
+asv_1032,Unknown,asv_1032
+asv_1033,Unknown,asv_1033
+asv_1035,Eutypella,asv_1035
+asv_1037,Penicillium,asv_1037
+asv_1044,Trichoderma,asv_1044
+asv_1045,Unknown,asv_1045
+asv_1051,Botrytis,asv_1051
+asv_1054,Trametes,asv_1054
+asv_1055,Hypocreales incertae sedis,asv_1055
+asv_1057,Unknown,asv_1057
+asv_1058,Heterobasidion,asv_1058
+asv_1060,Chaetothyriales incertae sedis,asv_1060
+asv_1063,Pringsheimia,asv_1063
+asv_1066,Cercospora,asv_1066
+asv_1068,Dothideomycetes incertae sedis,asv_1068
+asv_1069,Neocucurbitaria,asv_1069
+asv_1073,Taphrina,asv_1073
+asv_1075,Sakaguchia,asv_1075
+asv_1078,Unknown,asv_1078
+asv_1079,Unknown,asv_1079
+asv_1080,Rhodosporidiobolus,asv_1080
+asv_1081,Unknown,asv_1081
+asv_1082,Fusarium,asv_1082
+asv_1083,Unknown,asv_1083
+asv_1086,Unknown,asv_1086
+asv_1087,Tricholomopsis,asv_1087
+asv_1093,Unknown,asv_1093
+asv_1094,Brunneofusispora,asv_1094
+asv_1095,Unknown,asv_1095
+asv_1097,Bradymyces,asv_1097
+asv_1098,Unknown,asv_1098
+asv_1101,Unknown,asv_1101
+asv_1104,Other,Pleurobrachia pileus
+asv_1105,Symmetrospora,asv_1105
+asv_1109,Unknown,asv_1109
+asv_1110,Penicillium,asv_1110
+asv_1123,Peniophora,asv_1123
+asv_1125,Preussia,asv_1125
+asv_1127,Other,asv_1127
+asv_1129,Unknown,asv_1129
+asv_1131,Debaryomyces,asv_1131
+asv_1132,Trichosporon,asv_1132
+asv_1133,Cystofilobasidium,asv_1133
+asv_1134,Other,asv_1134
+asv_1135,Peniophora,asv_1135
+asv_1138,Trechispora,asv_1138
+asv_1139,Unknown,asv_1139
+asv_1141,Other,Mertensia ovum
+asv_1143,Stereum,asv_1143
+asv_1147,Unknown,asv_1147
+asv_1150,Unknown,asv_1150
+asv_1152,Unknown,asv_1152
+asv_1153,Ramularia,asv_1153
+asv_1154,Unknown,asv_1154
+asv_1157,Unknown,asv_1157
+asv_1158,Leptospora,asv_1158
+asv_1160,Thelebolus,asv_1160
+asv_1162,Filobasidium,asv_1162
+asv_1164,Phlebia,asv_1164
+asv_1166,Unknown,asv_1166
+asv_1167,Metarhizium,asv_1167
+asv_1170,Unknown,asv_1170
+asv_1173,Unknown,asv_1173
+asv_1176,Acremonium,asv_1176
+asv_1178,Unknown,asv_1178
+asv_1182,Unknown,asv_1182
+asv_1183,Unknown,asv_1183
+asv_1184,Unknown,asv_1184
+asv_1188,Terana,asv_1188
+asv_1189,Other,asv_1189
+asv_1190,Unknown,asv_1190
+asv_1191,Unknown Ascomycota,Ascomycete sp.
+asv_1194,Unknown,asv_1194
+asv_1197,Unknown,asv_1197
+asv_1202,Stereum,asv_1202
+asv_1204,Curvularia,asv_1204
+asv_1205,Ustilentyloma,asv_1205
+asv_1207,Unknown,asv_1207
+asv_1208,Capnodiales incertae sedis,asv_1208
+asv_1209,Dioszegia,asv_1209
+asv_1210,Taphrina,asv_1210
+asv_1212,Thelebolus,asv_1212
+asv_1213,Unknown,asv_1213
+asv_1215,Stemphylium,asv_1215
+asv_1216,Leprocaulon,asv_1216
+asv_1217,Peniophora,asv_1217
+asv_1219,Protomyces,asv_1219
+asv_1223,Unknown,asv_1223
+asv_1225,Yamadazyma,asv_1225
+asv_1226,Rhodosporidiobolus,asv_1226
+asv_1227,Unknown,asv_1227
+asv_1229,Botrytis,asv_1229
+asv_1230,Other,asv_1230
+asv_1233,Eutypella,asv_1233
+asv_1236,Leucosporidium,asv_1236
+asv_1237,Pringsheimia,asv_1237
+asv_1238,Unknown,asv_1238
+asv_1239,Unknown,asv_1239
+asv_1240,Sistotrema,asv_1240
+asv_1242,Aspergillus,asv_1242
+asv_1243,Unknown,asv_1243
+asv_1244,Sistotrema,asv_1244
+asv_1245,Other,asv_1245
+asv_1252,Unknown,asv_1252
+asv_1253,Capnodiales incertae sedis,asv_1253
+asv_1254,Unknown,Alloascoidea africana
+asv_1256,Kondoa,asv_1256
+asv_1257,Hypholoma,asv_1257
+asv_1259,Chaetothyriales incertae sedis,asv_1259
+asv_1261,Unknown,asv_1261
+asv_1262,Hypholoma,asv_1262
+asv_1263,Unknown,asv_1263
+asv_1264,Unknown,asv_1264
+asv_1270,Unknown,asv_1270
+asv_1273,Knufia,asv_1273
+asv_1274,Unknown,asv_1274
+asv_1280,Unknown,asv_1280
+asv_1282,Mortierella,asv_1282
+asv_1284,Unknown,asv_1284
+asv_1286,Unknown,asv_1286
+asv_1290,Other,asv_1290
+asv_1294,Candida,asv_1294
+asv_1295,Rhodotorula,asv_1295
+asv_1308,Unknown,asv_1308
+asv_1309,Knufia,asv_1309
+asv_1315,Other,asv_1315
+asv_1316,Other,asv_1316
+asv_1319,Unknown,asv_1319
+asv_1320,Trametes,asv_1320
+asv_1322,Aspergillus,asv_1322
+asv_1328,Metschnikowia,asv_1328
+asv_1330,Unknown,asv_1330
+asv_1333,Taphrina,asv_1333
+asv_1334,Unknown,asv_1334
+asv_1336,Pseudeurotium,asv_1336
+asv_1338,Unknown,asv_1338
+asv_1341,Plectosphaerella,asv_1341
+asv_1344,Juxtiphoma,asv_1344
+asv_1346,Unknown,asv_1346
+asv_1348,Nigrograna,asv_1348
+asv_1349,Unknown,asv_1349
+asv_1350,Paraphaeosphaeria,asv_1350
+asv_1353,Unknown,asv_1353
+asv_1354,Unknown,asv_1354
+asv_1355,Unknown,asv_1355
+asv_1356,Unknown,asv_1356
+asv_1357,Unknown,asv_1357
+asv_1361,Unknown,asv_1361
+asv_1362,Sistotrema,asv_1362
+asv_1363,Fusarium,asv_1363
+asv_1364,Unknown,asv_1364
+asv_1365,Trichoderma,asv_1365
+asv_1369,Other,asv_1369
+asv_1370,Unknown,asv_1370
+asv_1371,Unknown,asv_1371
+asv_1372,Unknown,asv_1372
+asv_1374,Myriangium,asv_1374
+asv_1379,Unknown,asv_1379
+asv_1380,Unknown,asv_1380
+asv_1381,Tremellales incertae sedis,asv_1381
+asv_1382,Pyrenochaeta,asv_1382
+asv_1385,Cystofilobasidium,asv_1385
+asv_1386,Unknown,asv_1386
+asv_1387,Peniophora,asv_1387
+asv_1389,Thelebolus,asv_1389
+asv_1393,Unknown,asv_1393
+asv_1394,Apiotrichum,asv_1394
+asv_1398,Unknown,asv_1398
+asv_1399,Unknown,asv_1399
+asv_1401,Unknown,asv_1401
+asv_1407,Unknown,asv_1407
+asv_1410,Unknown,asv_1410
+asv_1413,Unknown,asv_1413
+asv_1419,Unknown,asv_1419
+asv_1422,Unknown,asv_1422
+asv_1423,Neosetophoma,asv_1423
+asv_1424,Unknown,asv_1424
+asv_1425,Unknown,asv_1425
+asv_1426,Pseudeurotium,asv_1426
+asv_1427,Unknown,asv_1427
+asv_1428,Coniochaeta,asv_1428
+asv_1429,Phaeosphaeria,asv_1429
+asv_1430,Unknown,asv_1430
+asv_1434,Other,asv_1434
+asv_1450,Other,asv_1450
+asv_1451,Unknown,asv_1451
+asv_1457,Symmetrospora,asv_1457
+asv_1459,Vishniacozyma,asv_1459
+asv_1460,Unknown,asv_1460
+asv_1461,Trichoderma,asv_1461
+asv_1462,Capronia,asv_1462
+asv_1463,Deconica,asv_1463
+asv_1467,Sebacina,asv_1467
+asv_1468,Other,asv_1468
+asv_1473,Entoloma,asv_1473
+asv_1474,Pycnoporellus,asv_1474
+asv_1475,Devriesia,asv_1475
+asv_1477,Phaeococcomyces,asv_1477
+asv_1479,Vishniacozyma,asv_1479
+asv_1481,Other,asv_1481
+asv_1487,Unknown,asv_1487
+asv_1488,Unknown,asv_1488
+asv_1493,Sistotrema,asv_1493
+asv_1494,Unknown,asv_1494
+asv_1495,Glomeraceae incertae sedis,asv_1495
+asv_1497,Unknown,asv_1497
+asv_1500,Ophiostoma,asv_1500
+asv_1501,Unknown,asv_1501
+asv_1502,Unknown,asv_1502
+asv_1503,Neohortaea,asv_1503
+asv_1505,Urocystis,asv_1505
+asv_1508,Other,asv_1508
+asv_1513,Unknown,asv_1513
+asv_1514,Peniophora,asv_1514
+asv_1517,Unknown,asv_1517
+asv_1518,Unknown,asv_1518
+asv_1520,Other,asv_1520
+asv_1521,Unknown,asv_1521
+asv_1522,Vishniacozyma,asv_1522
+asv_1523,Unknown,asv_1523
+asv_1528,Unknown,asv_1528
+asv_1529,Sistotrema,asv_1529
+asv_1533,Coniosporium,asv_1533
+asv_1534,Cladosporium,asv_1534
+asv_1535,Tolypocladium,asv_1535
+asv_1537,Ombrophila,asv_1537
+asv_1539,Unknown,asv_1539
+asv_1548,Unknown Ascomycota,asv_1548
+asv_1552,Symmetrospora,asv_1552
+asv_1555,Penicillium,asv_1555
+asv_1556,Hyphodontia,asv_1556
+asv_1564,Gibellulopsis,Gibellulopsis nigrescens
+asv_1570,Debaryomyces,asv_1570
+asv_1572,Other,asv_1572
+asv_1573,Other,asv_1573
+asv_1577,Unknown,asv_1577
+asv_1578,Erythrobasidiaceae incertae sedis,asv_1578
+asv_1580,Tetracladium,asv_1580
+asv_1583,Unknown,asv_1583
+asv_1584,Ramularia,asv_1584
+asv_1585,Sporidiobolaceae incertae sedis,asv_1585
+asv_1586,Lecanicillium,Lecanicillium sp.
+asv_1587,Exophiala,asv_1587
+asv_1588,Lichina,asv_1588
+asv_1590,Thermomyces ,asv_1590
+asv_1592,Other,asv_1592
+asv_1597,Hymenochaetopsis,asv_1597
+asv_1599,Unknown,asv_1599
+asv_1600,Neosetophoma,asv_1600
+asv_1604,Unknown,asv_1604
+asv_1607,Unknown,asv_1607
+asv_1609,Other,asv_1609
+asv_1610,Penicillium,asv_1610
+asv_1611,Exophiala,asv_1611
+asv_1612,Agaricales incertae sedis,asv_1612
+asv_1613,Unknown,asv_1613
+asv_1619,Unknown,asv_1619
+asv_1620,Unknown,asv_1620
+asv_1621,Ganoderma,asv_1621
+asv_1622,Unknown,asv_1622
+asv_1623,Thyronectria,asv_1623
+asv_1624,Arthrinium,asv_1624
+asv_1625,Sarocladium ,asv_1625
+asv_1630,Sistotrema,asv_1630
+asv_1634,Microdochium,asv_1634
+asv_1635,Claussenomyces ,asv_1635
+asv_1636,Other,asv_1636
+asv_1639,Candida,[Candida] saitoana
+asv_1640,Trichoderma,asv_1640
+asv_1641,Unknown,asv_1641
+asv_1643,Other,asv_1643
+asv_1644,Candida,[Candida] peoriensis
+asv_1645,Rugosomyces,asv_1645
+asv_1651,Trichothecium,asv_1651
+asv_1652,Cadophora,asv_1652
+asv_1654,Agaricales incertae sedis,asv_1654
+asv_1655,Neohortaea,asv_1655
+asv_1656,Unknown,asv_1656
+asv_1657,Duportella,asv_1657
+asv_1658,Unknown,asv_1658
+asv_1659,Unknown,asv_1659
+asv_1660,Unknown,asv_1660
+asv_1661,Hirsutella,asv_1661
+asv_1664,Unknown,asv_1664
+asv_1667,Unknown Ascomycota,asv_1667
+asv_1669,Fusarium,asv_1669
+asv_1673,Unknown,asv_1673
+asv_1674,Other,asv_1674
+asv_1675,Rhodotorula,asv_1675
+asv_1677,Unknown,asv_1677
+asv_1679,Eutypa,asv_1679
+asv_1682,Naganishia,asv_1682
+asv_1690,Other,asv_1690
+asv_1691,Other,asv_1691
+asv_1696,Unknown,asv_1696
+asv_1698,Hypocreales incertae sedis,asv_1698
+asv_1699,Unknown,asv_1699
+asv_1700,Hypocreales incertae sedis,asv_1700
+asv_1702,Unknown,asv_1702
+asv_1704,Other,asv_1704
+asv_1707,Bisporella,asv_1707
+asv_1709,Peniophora,asv_1709
+asv_1710,Unknown,asv_1710
+asv_1711,Unknown,asv_1711
+asv_1712,Sporobolomyces,asv_1712
+asv_1713,Veronaea,asv_1713
+asv_1716,Stereum,asv_1716
+asv_1717,Unknown,asv_1717
+asv_1725,Unknown,asv_1725
+asv_1726,Clitocybe,asv_1726
+asv_1728,Other,asv_1728
+asv_1729,Tricholomopsis,asv_1729
+asv_1732,Unknown,asv_1732
+asv_1733,Phialophora,asv_1733
+asv_1734,Kondoa,asv_1734
+asv_1739,Stemphylium,asv_1739
+asv_1741,Amylocorticiaceae incertae sedis,asv_1741
+asv_1742,Unknown Ascomycota,asv_1742
+asv_1745,Sakaguchia,asv_1745
+asv_1746,Unknown,asv_1746
+asv_1747,Other,asv_1747
+asv_1748,Didymocyrtis,asv_1748
+asv_1753,Brunneofusispora,asv_1753
+asv_1759,Paraconiothyrium,asv_1759
+asv_1761,Torula,asv_1761
+asv_1762,Simocybe,asv_1762
+asv_1763,Unknown,asv_1763
+asv_1764,Libertasomyces,Libertasomyces platani
+asv_1767,Cladosporium,asv_1767
+asv_1771,Devriesia,asv_1771
+asv_1774,Unknown,asv_1774
+asv_1778,Unknown,asv_1778
+asv_1779,Unknown,asv_1779
+asv_1784,Neodevriesia,asv_1784
+asv_1785,Other,asv_1785
+asv_1788,Taphrina,asv_1788
+asv_1790,Blumeria,asv_1790
+asv_1791,Unknown,asv_1791
+asv_1792,Unknown,asv_1792
+asv_1793,Rhodotorula,asv_1793
+asv_1794,Hyphodontia,asv_1794
+asv_1795,Unknown,asv_1795
+asv_1797,Cladosporium,asv_1797
+asv_1802,Leptospora,asv_1802
+asv_1805,Unknown,asv_1805
+asv_1807,Itersonilia,asv_1807
+asv_1811,Trichosporon,asv_1811
+asv_1812,Unknown,asv_1812
+asv_1816,Cutaneotrichosporon,asv_1816
+asv_1822,Wallemia,asv_1822
+asv_1824,Unknown,asv_1824
+asv_1825,Diatrype,asv_1825
+asv_1826,Unknown,asv_1826
+asv_1831,Other,asv_1831
+asv_1832,Boletaceae incertae sedis,asv_1832
+asv_1838,Toxicocladosporium,asv_1838
+asv_1839,Unknown,asv_1839
+asv_1841,Unknown,asv_1841
+asv_1842,Other,Mertensia ovum
+asv_1843,Cladophialophora,asv_1843
+asv_1844,Acremonium,asv_1844
+asv_1845,Rhizopus,asv_1845
+asv_1846,Unknown,asv_1846
+asv_1848,Trichoderma,asv_1848
+asv_1849,Unknown,asv_1849
+asv_1853,Unknown,asv_1853
+asv_1856,Cystobasidium,asv_1856
+asv_1857,Unknown,asv_1857
+asv_1858,Capnodiales incertae sedis,asv_1858
+asv_1864,Sporobolomyces,asv_1864
+asv_1866,Didymella,asv_1866
+asv_1867,Unknown,asv_1867
+asv_1869,Penicillium,asv_1869
+asv_1870,Cystobasidiaceae incertae sedis,asv_1870
+asv_1871,Other,asv_1871
+asv_1872,Unknown,asv_1872
+asv_1873,Hypocreales incertae sedis,asv_1873
+asv_1876,Unknown,asv_1876
+asv_1879,Unknown,asv_1879
+asv_1881,Other,asv_1881
+asv_1883,Cystobasidium,asv_1883
+asv_1886,Unknown,asv_1886
+asv_1889,Tremella,Tremella neofoliacea
+asv_1890,Pleosporales incertae sedis,asv_1890
+asv_1893,Candida,asv_1893
+asv_1894,Candida,asv_1894
+asv_1895,Ramularia,asv_1895
+asv_1896,Lepista,asv_1896
+asv_1898,Unknown,asv_1898
+asv_1899,Trichoderma,asv_1899
+asv_1903,Unknown,asv_1903
+asv_1906,Sterigmatomyces,asv_1906
+asv_1907,Other,asv_1907
+asv_1911,Exophiala,asv_1911
+asv_1913,Penicillium,asv_1913
+asv_1914,Pseudoophiobolus,asv_1914
+asv_1915,Pleosporales incertae sedis,asv_1915
+asv_1916,Candelariella,asv_1916
+asv_1919,Unknown,asv_1919
+asv_1921,Microbotryomycetes incertae sedis,asv_1921
+asv_1923,Other,asv_1923
+asv_1926,Duportella,asv_1926
+asv_1929,Unknown,asv_1929
+asv_1930,Monodictys,asv_1930
+asv_1932,Peniophorella,asv_1932
+asv_1934,Ascosphaera,asv_1934
+asv_1935,Unknown Ascomycota,asv_1935
+asv_1937,Unknown,asv_1937
+asv_1938,Other,asv_1938
+asv_1939,Chaetothyriales incertae sedis,asv_1939
+asv_1940,Unknown,asv_1940
+asv_1942,Duportella,asv_1942
+asv_1943,Diederichomyces,asv_1943
+asv_1945,Unknown,asv_1945
+asv_1948,Unknown,asv_1948
+asv_1949,Tolypocladium,asv_1949
+asv_1952,Chaetothyriales incertae sedis,asv_1952
+asv_1956,Brevicellicium,asv_1956
+asv_1957,Unknown,asv_1957
+asv_1959,Ophiostoma,asv_1959
+asv_1960,Knufia,asv_1960
+asv_1961,Unknown,asv_1961
+asv_1963,Phlebia,asv_1963
+asv_1964,Neoroussoella,asv_1964
+asv_1965,Phlebia,asv_1965
+asv_1967,Paraphaeosphaeria,asv_1967
+asv_1968,Rhodosporidiobolus,asv_1968
+asv_1971,Unknown,asv_1971
+asv_1972,Acremonium,asv_1972
+asv_1973,Other,asv_1973
+asv_1975,Cladosporium,asv_1975
+asv_1976,Unknown,asv_1976
+asv_1977,Pleurotus,asv_1977
+asv_1979,Unknown,asv_1979
+asv_1986,Metschnikowia,asv_1986
+asv_1987,Candida,asv_1987
+asv_1989,Unknown,asv_1989
+asv_1991,Unknown,asv_1991
+asv_1992,Phaeosphaeria,asv_1992
+asv_1995,Stereum,asv_1995
+asv_1996,Unknown,asv_1996
+asv_1998,Unknown,asv_1998
+asv_2002,Baeospora,asv_2002
+asv_2003,Lecanoromycetes incertae sedis,asv_2003
+asv_2004,Teichospora,asv_2004
+asv_2006,Other,asv_2006
+asv_2009,Collemopsidium,asv_2009
+asv_2014,Pleosporales incertae sedis,asv_2014
+asv_2015,Catillaria,asv_2015
+asv_2017,Hypholoma,asv_2017
+asv_2019,Neoascochyta,asv_2019
+asv_2020,Cladosporium,asv_2020
+asv_2021,Other,asv_2021
+asv_2022,Malassezia,asv_2022
+asv_2023,Fuscoporia,asv_2023
+asv_2024,Agaricales incertae sedis,asv_2024
+asv_2028,Leucosporidium,asv_2028
+asv_2030,Alternaria,asv_2030
+asv_2032,Neoascochyta,asv_2032
+asv_2037,Fraxinicola,asv_2037
+asv_2038,Unknown,asv_2038
+asv_2039,Other,asv_2039
+asv_2042,Other,asv_2042
+asv_2046,Unknown,asv_2046
+asv_2047,Unknown,asv_2047
+asv_2055,Hortaea,asv_2055
+asv_2057,Udeniomyces,asv_2057
+asv_2059,Other,asv_2059
+asv_2061,Baeospora,asv_2061
+asv_2062,Neocatenulostroma,asv_2062
+asv_2063,Unknown,asv_2063
+asv_2065,Phaeococcomyces,asv_2065
+asv_2068,Unknown,asv_2068
+asv_2070,Penicillium,asv_2070
+asv_2080,Phaeosphaeriaceae incertae sedis,asv_2080
+asv_2082,Unknown,asv_2082
+asv_2090,Armillaria,asv_2090
+asv_2091,Unknown,asv_2091
+asv_2092,Unknown,asv_2092
+asv_2094,Byssochlamys,asv_2094
+asv_2095,Unknown,asv_2095
+asv_2099,Unknown,asv_2099
+asv_2100,Tarzetta,asv_2100
+asv_2101,Psathyrella,asv_2101
+asv_2104,Unknown,asv_2104
+asv_2107,Geastrum,asv_2107
+asv_2109,Phlebia,asv_2109
+asv_2112,Lecanicillium,asv_2112
+asv_2114,Itersonilia,asv_2114
+asv_2117,Ramularia,asv_2117
+asv_2130,Unknown,asv_2130
+asv_2131,Fusarium,asv_2131
+asv_2132,Aspergillus,asv_2132
+asv_2135,Unknown,asv_2135
+asv_2136,Peniophora,asv_2136
+asv_2142,Pyrenochaeta ,asv_2142
+asv_2143,Other,asv_2143
+asv_2144,Saitozyma,asv_2144
+asv_2146,Other,asv_2146
+asv_2149,Paradendryphiella,asv_2149
+asv_2150,Unknown,asv_2150
+asv_2151,Neocucurbitaria,asv_2151
+asv_2155,Neophaeotheca,asv_2155
+asv_2156,Other,asv_2156
+asv_2157,Bolbitius,asv_2157
+asv_2159,Unknown,asv_2159
+asv_2167,Didymosphaeriaceae incertae sedis,asv_2167
+asv_2168,Helotiales incertae sedis,asv_2168
+asv_2170,Candida,asv_2170
+asv_2182,Limonomyces,asv_2182
+asv_2183,Unknown,asv_2183
+asv_2184,Peniophorella,asv_2184
+asv_2187,Stachybotrys,asv_2187
+asv_2188,Stagonosporopsis ,asv_2188
+asv_2191,Fusicolla,asv_2191
+asv_2194,Penicillium,asv_2194
+asv_2204,Wickerhamomyces,asv_2204
+asv_2205,Vishniacozyma,asv_2205
+asv_2206,Itersonilia,asv_2206
+asv_2207,Ramularia,asv_2207
+asv_2208,Unknown,asv_2208
+asv_2212,Unknown,asv_2212
+asv_2217,Unknown Ascomycota,asv_2217
+asv_2219,Unknown,asv_2219
+asv_2220,Cephalosporium,asv_2220
+asv_2221,Unknown,asv_2221
+asv_2222,Unknown,asv_2222
+asv_2223,Leptospora,asv_2223
+asv_2225,Hypholoma,asv_2225
+asv_2226,Unknown,asv_2226
+asv_2227,Pichia,asv_2227
+asv_2233,Unknown,asv_2233
+asv_2234,Alternaria,asv_2234
+asv_2235,Devriesia,asv_2235
+asv_2237,Acremonium,asv_2237
+asv_2238,Unknown,asv_2238
+asv_2239,Erythrobasidium,asv_2239
+asv_2240,Unknown,asv_2240
+asv_2242,Unknown,asv_2242
+asv_2243,Symmetrospora,asv_2243
+asv_2246,Unknown,asv_2246
+asv_2249,Septoria,asv_2249
+asv_2250,Unknown,asv_2250
+asv_2254,Sordariomycetes incertae sedis,asv_2254
+asv_2259,Hymenoscyphus,asv_2259
+asv_2260,Exophiala,asv_2260
+asv_2263,Candida,asv_2263
+asv_2264,Paraconiothyrium,asv_2264
+asv_2265,Teichospora,asv_2265
+asv_2267,Unknown,asv_2267
+asv_2269,Ascosphaera,asv_2269
+asv_2270,Other,asv_2270
+asv_2273,Fomitopsis,asv_2273
+asv_2276,Unknown,asv_2276
+asv_2279,Other,asv_2279
+asv_2284,Unknown,Alloascoidea africana
+asv_2285,Plenodomus,asv_2285
+asv_2287,Unknown,asv_2287
+asv_2288,Other,asv_2288
+asv_2292,Typhula,asv_2292
+asv_2295,Other,Mertensia ovum
+asv_2298,Aspergillus,asv_2298
+asv_2300,Parathyridaria,asv_2300
+asv_2301,Parathyridaria,Parathyridaria ramulicola
+asv_2304,Stereum,asv_2304
+asv_2307,Unknown,asv_2307
+asv_2308,Aspergillus,asv_2308
+asv_2312,Other,asv_2312
+asv_2314,Cystobasidium,asv_2314
+asv_2315,Unknown,asv_2315
+asv_2321,Other,asv_2321
+asv_2325,Unknown,asv_2325
+asv_2327,Unknown,asv_2327
+asv_2329,Unknown,asv_2329
+asv_2331,Exophiala,Exophiala castellanii
+asv_2333,Unknown,asv_2333
+asv_2335,Xylaria,asv_2335
+asv_2338,Peniophora,asv_2338
+asv_2339,Westerdykella,asv_2339
+asv_2343,Unknown,asv_2343
+asv_2349,Unknown,asv_2349
+asv_2351,Other,Mertensia ovum
+asv_2353,Other,Paracentrotus lividus
+asv_2356,Unknown,asv_2356
+asv_2357,Acremonium,asv_2357
+asv_2358,Neocallimastix,asv_2358
+asv_2359,Unknown,asv_2359
+asv_2363,Cystobasidium,asv_2363
+asv_2365,Unknown,asv_2365
+asv_2368,Unknown,asv_2368
+asv_2370,Monocillium,asv_2370
+asv_2373,Ascochyta,asv_2373
+asv_2376,Fusarium,asv_2376
+asv_2377,Pichia,asv_2377
+asv_2379,Taphrina,asv_2379
+asv_2382,Unknown,asv_2382
+asv_2383,Unknown,asv_2383
+asv_2385,Exophiala,asv_2385
+asv_2386,Didymella,asv_2386
+asv_2390,Other,asv_2390
+asv_2391,Unknown,asv_2391
+asv_2393,Unknown,asv_2393
+asv_2397,Unknown,asv_2397
+asv_2398,Unknown,asv_2398
+asv_2402,Pyrenochaetopsis,asv_2402
+asv_2406,Unknown,asv_2406
+asv_2407,Unknown,asv_2407
+asv_2409,Unknown,asv_2409
+asv_2411,Cladosporium,asv_2411
+asv_2412,Scopuloides,asv_2412
+asv_2414,Other,asv_2414
+asv_2416,Genolevuria,asv_2416
+asv_2420,Papiliotrema,asv_2420
+asv_2421,Unknown,asv_2421
+asv_2422,Stereum,asv_2422
+asv_2424,Devriesia,asv_2424
+asv_2425,Unknown,asv_2425
+asv_2427,Unknown,asv_2427
+asv_2429,Psathyrella,asv_2429
+asv_2433,Unknown,asv_2433
+asv_2436,Fusarium,asv_2436
+asv_2438,Unknown,asv_2438
+asv_2445,Unknown,asv_2445
+asv_2446,Penicillium,asv_2446
+asv_2447,Unknown,asv_2447
+asv_2451,Unknown,asv_2451
+asv_2458,Unknown,asv_2458
+asv_2460,Unknown,asv_2460
+asv_2462,Venturia,asv_2462
+asv_2464,Plectosphaerella,asv_2464
+asv_2465,Unknown,asv_2465
+asv_2471,Sporormiaceae incertae sedis,asv_2471
+asv_2472,Itersonilia,asv_2472
+asv_2474,Buckleyzyma,asv_2474
+asv_2475,Unknown,asv_2475
+asv_2478,Claviceps,Claviceps arundinis
+asv_2480,Other,asv_2480
+asv_2482,Other,Mertensia ovum
+asv_2483,Agaricomycetes incertae sedis,asv_2483
+asv_2485,Unknown,asv_2485
+asv_2487,Peniophora,asv_2487
+asv_2489,Tetracladium,asv_2489
+asv_2491,Other,asv_2491
+asv_2496,Diatrype,asv_2496
+asv_2497,Unknown,asv_2497
+asv_2498,Acaulospora,asv_2498
+asv_2501,Scoliciosporum,asv_2501
+asv_2503,Candida,asv_2503
+asv_2505,Other,asv_2505
+asv_2506,Calocera,Calocera sp.
+asv_2510,Unknown,asv_2510
+asv_2511,Unknown,asv_2511
+asv_2513,Rhinocladiella,asv_2513
+asv_2517,Niesslia,asv_2517
+asv_2518,Unknown,asv_2518
+asv_2519,Unknown,asv_2519
+asv_2520,Other,asv_2520
+asv_2521,Phallus,asv_2521
+asv_2522,Cryptococcus,asv_2522
+asv_2526,Coprinellus,asv_2526
+asv_2528,Other,asv_2528
+asv_2531,Unknown,asv_2531
+asv_2532,Unknown,asv_2532
+asv_2533,Other,asv_2533
+asv_2535,Candida,asv_2535
+asv_2536,Sporobolomyces,asv_2536
+asv_2540,Helotiales incertae sedis,asv_2540
+asv_2543,Neocatenulostroma,asv_2543
+asv_2544,Tremella,Tremella neofoliacea
+asv_2548,Unknown,asv_2548
+asv_2560,Mortierella,asv_2560
+asv_2561,Unknown,asv_2561
+asv_2563,Fibulomyces,asv_2563
+asv_2565,Microsphaeropsis,asv_2565
+asv_2566,Chordomyces,asv_2566
+asv_2567,Sarocladium,asv_2567
+asv_2569,Trichosporon,asv_2569
+asv_2570,Cutaneotrichosporon,asv_2570
+asv_2572,Ramularia,asv_2572
+asv_2575,Metschnikowia,asv_2575
+asv_2578,Fuscoporia,asv_2578
+asv_2580,Unknown,asv_2580
+asv_2582,Other,asv_2582
+asv_2586,Paraleptosphaeria,asv_2586
+asv_2591,Unknown,asv_2591
+asv_2593,Pyrenochaeta ,asv_2593
+asv_2596,Other,asv_2596
+asv_2597,Ramularia,asv_2597
+asv_2598,Penicillium,asv_2598
+asv_2602,Unknown,asv_2602
+asv_2603,Neodevriesia,asv_2603
+asv_2604,Unknown,asv_2604
+asv_2608,Unknown Ascomycota,asv_2608
+asv_2609,Kalmusia,asv_2609
+asv_2610,Aspergillus,asv_2610
+asv_2611,Other,asv_2611
+asv_2613,Filobasidium,asv_2613
+asv_2615,Solicoccozyma,asv_2615
+asv_2616,Fusarium,asv_2616
+asv_2620,Unknown,asv_2620
+asv_2622,Unknown,asv_2622
+asv_2623,Unknown,asv_2623
+asv_2627,Peniophora,asv_2627
+asv_2628,Peniophora,asv_2628
+asv_2629,Unknown,asv_2629
+asv_2630,Chondrostereum,asv_2630
+asv_2631,Devriesia,asv_2631
+asv_2633,Podospora,asv_2633
+asv_2636,Armillaria,asv_2636
+asv_2638,Dothideomycetes incertae sedis,asv_2638
+asv_2639,Crocicreas,asv_2639
+asv_2643,Tremella,asv_2643
+asv_2645,Crocicreas,asv_2645
+asv_2649,Peniophora,asv_2649
+asv_2652,Other,asv_2652
+asv_2654,Exophiala,asv_2654
+asv_2656,Unknown,asv_2656
+asv_2657,Discosia,asv_2657
+asv_2660,Tremella,Tremella neofoliacea
+asv_2661,Unknown,asv_2661
+asv_2662,Unknown,asv_2662
+asv_2663,Unknown,asv_2663
+asv_2666,Vishniacozyma,asv_2666
+asv_2670,Polyporus,asv_2670
+asv_2672,Physcia,asv_2672
+asv_2677,Xylaria,asv_2677
+asv_2678,Unknown,asv_2678
+asv_2681,Gloiothele,asv_2681
+asv_2682,Unknown Mucoromycota,asv_2682
+asv_2684,Pleosporales incertae sedis,asv_2684
+asv_2686,Heterobasidion,asv_2686
+asv_2689,Trichoderma,asv_2689
+asv_2691,Unknown,asv_2691
+asv_2695,Unknown,asv_2695
+asv_2696,Clitocybe,asv_2696
+asv_2699,Unknown Ascomycota,asv_2699
+asv_2703,Aspergillus,asv_2703
+asv_2704,Unknown,asv_2704
+asv_2705,Lecanorales incertae sedis,asv_2705
+asv_2708,Teichospora,Teichospora nephelii
+asv_2711,Unknown,asv_2711
+asv_2712,Flammulina,asv_2712
+asv_2713,Unknown,asv_2713
+asv_2714,Unknown,asv_2714
+asv_2715,Cutaneotrichosporon,asv_2715
+asv_2717,Unknown,asv_2717
+asv_2718,Unknown,asv_2718
+asv_2719,Unknown,asv_2719
+asv_2727,Acremonium,asv_2727
+asv_2728,Boeremia,asv_2728
+asv_2729,Petrakia,asv_2729
+asv_2730,Kondoa,asv_2730
+asv_2731,Unknown,asv_2731
+asv_2734,Unknown,asv_2734
+asv_2737,Other,asv_2737
+asv_2740,Unknown,asv_2740
+asv_2741,Eutypa,asv_2741
+asv_2742,Unknown,asv_2742
+asv_2743,Other,Apobryophyllum schmidingeri
+asv_2745,Unknown,asv_2745
+asv_2746,Unknown,asv_2746
+asv_2748,	Dioszegia,asv_2748
+asv_2751,Unknown,asv_2751
+asv_2752,Other,asv_2752
+asv_2757,Other,asv_2757
+asv_2758,Leptosphaeria,asv_2758
+asv_2761,Unknown,asv_2761
+asv_2762,Microascus,asv_2762
+asv_2763,Unknown,asv_2763
+asv_2767,Other,asv_2767
+asv_2771,Unknown,asv_2771
+asv_2774,Sporobolomyces,asv_2774
+asv_2775,Other,asv_2775
+asv_2778,Boeremia,asv_2778
+asv_2781,Devriesia,asv_2781
+asv_2784,Unknown,asv_2784
+asv_2785,Exophiala,asv_2785
+asv_2786,Unknown,asv_2786
+asv_2787,Other,asv_2787
+asv_2795,Nigrograna,asv_2795
+asv_2797,Rhinocladiella,asv_2797
+asv_2801,Cryptodiaporthe,asv_2801
+asv_2804,Unknown,asv_2804
+asv_2808,Skeletocutis,asv_2808
+asv_2809,Pholiota,asv_2809
+asv_2813,Tarzetta,asv_2813
+asv_2814,Other,asv_2814
+asv_2815,Unknown,asv_2815
+asv_2822,Other,asv_2822
+asv_2823,Unknown,asv_2823
+asv_2824,Unknown,asv_2824
+asv_2826,Agaricales incertae sedis,asv_2826
+asv_2827,Erythrobasidium,asv_2827
+asv_2828,Unknown,asv_2828
+asv_2829,Other,asv_2829
+asv_2837,Schizopora,asv_2837
+asv_2839,Unknown,asv_2839
+asv_2840,Tremella,Tremella neofoliacea
+asv_2842,Unknown,asv_2842
+asv_2845,Unknown,asv_2845
+asv_2846,Unknown,asv_2846
+asv_2851,Lophiostoma,asv_2851
+asv_2852,Unknown Mucoromycota,asv_2852
+asv_2853,Unknown,asv_2853
+asv_2855,Leptospora,asv_2855
+asv_2858,Unknown,asv_2858
+asv_2860,Mortierella,asv_2860
+asv_2862,Peniophora,asv_2862
+asv_2863,Other,asv_2863
+asv_2864,Vishniacozyma,asv_2864
+asv_2866,Hypochnicium,asv_2866
+asv_2867,Unknown,asv_2867
+asv_2868,Peniophora,asv_2868
+asv_2869,Exophiala,asv_2869
+asv_2871,Wickerhamomyces,asv_2871
+asv_2875,Unknown,asv_2875
+asv_2882,Crocicreas,asv_2882
+asv_2883,Leucosporidium,asv_2883
+asv_2886,Unknown Ascomycota,asv_2886
+asv_2888,Unknown,asv_2888
+asv_2891,Unknown,asv_2891
+asv_2896,Duportella,asv_2896
+asv_2898,Otidea,asv_2898
+asv_2899,Chondrostereum,asv_2899
+asv_2900,Parastagonospora,asv_2900
+asv_2904,Parengyodontium,asv_2904
+asv_2910,Ramalina,asv_2910
+asv_2911,Unknown,asv_2911
+asv_2912,Other,asv_2912
+asv_2913,Other,Pleurobrachia pileus
+asv_2916,Teichospora,asv_2916
+asv_2918,Arthrinium,asv_2918
+asv_2921,Unknown,asv_2921
+asv_2923,Unknown,asv_2923
+asv_2924,Taphrina,asv_2924
+asv_2928,Fuscolachnum,asv_2928
+asv_2930,Xanthoria,asv_2930
+asv_2934,Unknown Ascomycota,asv_2934
+asv_2939,Symmetrospora,asv_2939
+asv_2946,Sporothrix,asv_2946
+asv_2947,Hymenoscyphus,asv_2947
+asv_2948,Wallemia,asv_2948
+asv_2954,Other,asv_2954
+asv_2957,Sistotrema,asv_2957
+asv_2958,Unknown,asv_2958
+asv_2960,Candida,asv_2960
+asv_2962,Unknown,asv_2962
+asv_2970,Aspergillus,Aspergillus versicolor
+asv_2975,Unknown,asv_2975
+asv_2976,Unknown Mucoromycota,asv_2976
+asv_2983,Cladosporium,asv_2983
+asv_2991,Resupinatus,asv_2991
+asv_2994,Unknown,asv_2994
+asv_3004,Candida,asv_3004
+asv_3007,Ascochyta,asv_3007
+asv_3008,Unknown,asv_3008
+asv_3010,Cladosporium,asv_3010
+asv_3013,Backusella,asv_3013
+asv_3017,Exophiala,asv_3017
+asv_3020,Unknown,asv_3020
+asv_3023,Unknown,asv_3023
+asv_3032,Unknown,asv_3032
+asv_3038,Ramularia,Ramularia haroldporteri
+asv_3043,Talaromyces ,asv_3043
+asv_3045,Unknown,asv_3045
+asv_3046,Glomeromycetes incertae sedis,asv_3046
+asv_3048,Protomyces,Protomyces inouyei
+asv_3055,Diploschistes,asv_3055
+asv_3060,Agaricales incertae sedis,asv_3060
+asv_3064,Verrucocladosporium,asv_3064
+asv_3067,Lecanoromycetes incertae sedis,asv_3067
+asv_3068,Agaricomycetes incertae sedis,asv_3068
+asv_3074,Pleosporales incertae sedis,asv_3074
+asv_3076,Leucosporidiella,asv_3076
+asv_3077,Peniophora,asv_3077
+asv_3078,Sterigmatomyces,asv_3078
+asv_3079,Pleosporales incertae sedis,asv_3079
+asv_3080,Unknown,asv_3080
+asv_3084,Unknown,asv_3084
+asv_3090,Unknown,asv_3090
+asv_3092,Resinicium,asv_3092
+asv_3095,Knufia,asv_3095
+asv_3096,Trechisporales incertae sedis,asv_3096
+asv_3097,Lecanoromycetes incertae sedis,asv_3097
+asv_3101,Other,asv_3101
+asv_3103,Peniophora,asv_3103
+asv_3104,Unknown,asv_3104
+asv_3109,Cladosporium,asv_3109
+asv_3113,Unknown,asv_3113
+asv_3114,Hypocreales incertae sedis,asv_3114
+asv_3115,Cercospora,asv_3115
+asv_3120,Periconia,asv_3120
+asv_3121,Unknown,asv_3121
+asv_3124,Other,asv_3124
+asv_3126,Unknown Ascomycota,asv_3126
+asv_3127,Gelidatrema,asv_3127
+asv_3130,Unknown Basidiomycota,asv_3130
+asv_3133,Hypocreales incertae sedis,asv_3133
+asv_3134,Vuilleminia,asv_3134
+asv_3135,Chondrostereum,asv_3135
+asv_3136,Cystobasidium,asv_3136
+asv_3137,Peniophora,asv_3137
+asv_3138,Sarocladium ,Sarocladium dejongiae
+asv_3139,Unknown,asv_3139
+asv_3142,Unknown,asv_3142
+asv_3143,Unknown,asv_3143
+asv_3149,Ascocoryne,asv_3149
+asv_3151,Unknown,asv_3151
+asv_3153,Unknown,asv_3153
+asv_3156,Hormococcus,asv_3156
+asv_3157,Other,asv_3157
+asv_3161,Vuilleminia,asv_3161
+asv_3166,Unknown,asv_3166
+asv_3169,Unknown,asv_3169
+asv_3174,Verrucocladosporium,asv_3174
+asv_3175,Other,Mertensia ovum
+asv_3177,Unknown,asv_3177
+asv_3178,Capnobotryella,asv_3178
+asv_3183,Unknown,asv_3183
+asv_3188,Cutaneotrichosporon,asv_3188
+asv_3189,Acremonium,asv_3189
+asv_3193,Other,asv_3193
+asv_3200,Ochrocladosporium,asv_3200
+asv_3201,Other,asv_3201
+asv_3202,Phlebiopsis,asv_3202
+asv_3203,Sordariomycetes incertae sedis,asv_3203
+asv_3206,Trametes,asv_3206
+asv_3207,Unknown,asv_3207
+asv_3211,Unknown,asv_3211
+asv_3217,Other,asv_3217
+asv_3219,Leucosporidiella,asv_3219
+asv_3224,Aspergillus,asv_3224
+asv_3225,Hypocreales incertae sedis,asv_3225
+asv_3226,Hymenoscyphus,asv_3226
+asv_3227,Unknown,asv_3227
+asv_3228,Dioszegia,asv_3228
+asv_3233,Mycena,asv_3233
+asv_3235,Other,asv_3235
+asv_3236,Unknown,asv_3236
+asv_3240,Other,asv_3240
+asv_3246,Unknown,asv_3246
+asv_3248,Unknown,asv_3248
+asv_3251,Unknown,asv_3251
+asv_3253,Other,asv_3253
+asv_3254,Ypsilina,asv_3254
+asv_3260,Bionectriaceae incertae sedis,asv_3260
+asv_3261,Unknown,asv_3261
+asv_3263,Ramularia,asv_3263
+asv_3267,Rhodotorula,asv_3267
+asv_3269,Unknown,asv_3269
+asv_3270,Other,asv_3270
+asv_3272,Other,asv_3272
+asv_3274,Unknown,asv_3274
+asv_3275,Unknown,asv_3275
+asv_3279,Other,asv_3279
+asv_3281,Unknown,asv_3281
+asv_3284,Unknown,asv_3284
+asv_3288,Other,asv_3288
+asv_3291,Stemphylium,asv_3291
+asv_3293,Unknown,asv_3293
+asv_3303,Other,asv_3303
+asv_3304,Chaetothyriales incertae sedis,asv_3304
+asv_3306,Other,asv_3306
+asv_3312,Unknown,asv_3312
+asv_3314,Unknown,asv_3314
+asv_3316,Phialemonium,asv_3316
+asv_3322,Other,asv_3322
+asv_3323,Unknown Ascomycota,asv_3323
+asv_3327,Daldinia,asv_3327
+asv_3329,Unknown,asv_3329
+asv_3330,Verrucaria,asv_3330
+asv_3335,Unknown,asv_3335
+asv_3336,Wickerhamomyces,asv_3336
+asv_3339,Unknown,asv_3339
+asv_3340,Hannaella,asv_3340
+asv_3342,Unknown,asv_3342
+asv_3345,Unknown,asv_3345
+asv_3349,Paraphaeosphaeria,asv_3349
+asv_3351,Unknown,asv_3351
+asv_3353,Unknown,asv_3353
+asv_3354,Nectria,asv_3354
+asv_3356,Unknown,asv_3356
+asv_3364,Unknown,asv_3364
+asv_3366,Orbilia,asv_3366
+asv_3368,Trichoderma,asv_3368
+asv_3372,Epiglia,asv_3372
+asv_3373,Taphrina,asv_3373
+asv_3374,Other,asv_3374
+asv_3376,Coprinopsis,asv_3376
+asv_3381,Taphrina,asv_3381
+asv_3390,Unknown,asv_3390
+asv_3393,Mrakia,asv_3393
+asv_3394,Neodevriesia,asv_3394
+asv_3395,Unknown,asv_3395
+asv_3401,Unknown,asv_3401
+asv_3405,Unknown Basidiomycota,asv_3405
+asv_3410,Unknown,asv_3410
+asv_3412,Cryptococcus,asv_3412
+asv_3413,Kondoa,asv_3413
+asv_3415,Flagellospora,asv_3415
+asv_3424,Lecanorales incertae sedis,asv_3424
+asv_3430,Cucurbitariaceae incertae sedis,asv_3430
+asv_3431,Paraphaeosphaeria,asv_3431
+asv_3434,Unknown,asv_3434
+asv_3438,Keithomyces,asv_3438
+asv_3445,Neoascochyta,asv_3445
+asv_3446,Hypholoma,asv_3446
+asv_3447,Other,asv_3447
+asv_3453,Unknown,asv_3453
+asv_3454,Unknown Ascomycota,asv_3454
+asv_3461,Unknown,asv_3461
+asv_3463,Unknown,asv_3463
+asv_3465,Unknown,asv_3465
+asv_3466,Kwoniella,asv_3466
+asv_3467,Penicillium,asv_3467
+asv_3470,Tolypocladium,asv_3470
+asv_3473,Pleosporales incertae sedis,asv_3473
+asv_3476,Polysporina,Polysporina subfuscescens
+asv_3477,Neosetophoma,asv_3477
+asv_3484,Mycosphaerella,asv_3484
+asv_3488,Pyrenochaeta,asv_3488
+asv_3490,Unknown,asv_3490
+asv_3491,Bartalinia,asv_3491
+asv_3492,Teichospora,asv_3492
+asv_3493,Unknown,asv_3493
+asv_3500,Other,asv_3500
+asv_3502,Fonsecazyma,asv_3502
+asv_3509,Knufia,asv_3509
+asv_3510,Other,asv_3510
+asv_3517,Unknown,asv_3517
+asv_3526,Tetracladium,asv_3526
+asv_3536,Neosetophoma,asv_3536
+asv_3540,Mortierellales incertae sedis,asv_3540
+asv_3545,Cystobasidium,asv_3545
+asv_3548,Taphrina,asv_3548
+asv_3549,Unknown,asv_3549
+asv_3550,Unknown,asv_3550
+asv_3551,Paraphoma,asv_3551
+asv_3560,Unknown,asv_3560
+asv_3561,Striaticonidium,asv_3561
+asv_3564,Leptosphaeria,Leptosphaeria urticae
+asv_3567,Unknown,asv_3567
+asv_3568,Hypocrea,asv_3568
+asv_3573,Helotiales incertae sedis,asv_3573
+asv_3574,Amphinema,asv_3574
+asv_3575,Microbotryomycetes incertae sedis,asv_3575
+asv_3579,Unknown,asv_3579
+asv_3580,Other,Yarrowia divulgata
+asv_3584,Unknown,asv_3584
+asv_3585,Diatrype,asv_3585
+asv_3587,Peniophora,asv_3587
+asv_3589,Chaetothyriales incertae sedis,asv_3589
+asv_3591,Torula,asv_3591
+asv_3592,Unknown,asv_3592
+asv_3593,Unknown,asv_3593
+asv_3597,Unknown,asv_3597
+asv_3598,Candida,asv_3598
+asv_3600,Unknown Glomeromycota,asv_3600
+asv_3601,Myrmecridium,asv_3601
+asv_3608,Paramicrothyrium,asv_3608
+asv_3619,Unknown,asv_3619
+asv_3622,Symmetrospora,asv_3622
+asv_3624,Unknown,asv_3624
+asv_3625,Other,asv_3625
+asv_3634,Mollisia,asv_3634
+asv_3639,Alatospora,asv_3639
+asv_3641,Unknown,asv_3641
+asv_3646,Unknown Ascomycota,asv_3646
+asv_3647,Unknown,asv_3647
+asv_3651,Ceratobasidium,asv_3651
+asv_3652,Chaetothyriales incertae sedis,asv_3652
+asv_3654,Unknown,asv_3654
+asv_3657,Saccothecium,asv_3657
+asv_3659,Naohidea,asv_3659
+asv_3660,Lachnum,asv_3660
+asv_3664,Unknown,asv_3664
+asv_3665,Leucosporidiella,asv_3665
+asv_3667,Roccellaceae incertae sedis,asv_3667
+asv_3668,Other,asv_3668
+asv_3671,Unknown,asv_3671
+asv_3672,Hyalopeziza,asv_3672
+asv_3680,Taphrina,asv_3680
+asv_3682,Phoma,asv_3682
+asv_3684,Unknown,asv_3684
+asv_3696,Leptosphaeria,asv_3696
+asv_3702,Lycoperdon,asv_3702
+asv_3714,Cosmospora,asv_3714
+asv_3717,Helotiaceae incertae sedis,asv_3717
+asv_3720,Westerdykella,asv_3720
+asv_3729,Devriesia,asv_3729
+asv_3730,Unknown,asv_3730
+asv_3733,Monocillium,asv_3733
+asv_3743,Malasseziales incertae sedis,asv_3743
+asv_3744,Other,asv_3744
+asv_3746,Unknown,asv_3746
+asv_3754,Geastrum,asv_3754
+asv_3755,Leptospora,asv_3755
+asv_3756,Unknown,asv_3756
+asv_3757,Dioszegia,asv_3757
+asv_3761,Didymella,asv_3761
+asv_3764,Pleosporales incertae sedis,asv_3764
+asv_3769,Metapochonia,asv_3769
+asv_3776,Unknown,asv_3776
+asv_3779,Leptospora,asv_3779
+asv_3781,Unknown,asv_3781
+asv_3782,Other,asv_3782
+asv_3784,Ustilentyloma,asv_3784
+asv_3791,Unknown,asv_3791
+asv_3793,Periconia,asv_3793
+asv_3797,Sordaria,asv_3797
+asv_3798,Unknown Basidiomycota,asv_3798
+asv_3804,Other,asv_3804
+asv_3806,Penicillium,asv_3806
+asv_3809,Coprinellus,asv_3809
+asv_3816,Cylindrobasidium,asv_3816
+asv_3817,Talaromyces ,asv_3817
+asv_3818,Sarocladium,asv_3818
+asv_3820,Microdochium,asv_3820
+asv_3827,Peniophoraceae incertae sedis,asv_3827
+asv_3828,Acremonium,asv_3828
+asv_3834,Calloria,asv_3834
+asv_3842,Other,Mertensia ovum
+asv_3847,Tremella,Tremella neofoliacea
+asv_3848,Vishniacozyma,asv_3848
+asv_3853,Exophiala,asv_3853
+asv_3857,Unknown,asv_3857
+asv_3858,Other,asv_3858
+asv_3861,Unknown Ascomycota,asv_3861
+asv_3863,Knufia,Knufia karalitana
+asv_3864,Unknown,asv_3864
+asv_3866,Peniophora,asv_3866
+asv_3868,Unknown,asv_3868
+asv_3873,Unknown,asv_3873
+asv_3877,Mollisia,asv_3877
+asv_3879,Unknown,asv_3879
+asv_3883,Coprinellus,asv_3883
+asv_3885,Other,Pleurobrachia pileus
+asv_3886,Unknown,asv_3886
+asv_3889,Proliferodiscus,asv_3889
+asv_3893,Plectosphaerella,asv_3893
+asv_3904,Microdochium,asv_3904
+asv_3905,Other,asv_3905
+asv_3912,Cystobasidium,asv_3912
+asv_3913,Peniophora,asv_3913
+asv_3917,Cladosporium,Cladosporium domesticum
+asv_3921,Unknown,asv_3921
+asv_3925,Other,asv_3925
+asv_3939,Unknown,asv_3939
+asv_3940,Bradymyces,asv_3940
+asv_3941,Other,asv_3941
+asv_3943,Alatospora,asv_3943
+asv_3946,Aspergillus,asv_3946
+asv_3959,Unknown,asv_3959
+asv_3962,Unknown,asv_3962
+asv_3965,Unknown,asv_3965
+asv_3968,Unknown,asv_3968
+asv_3971,Agaricomycetes incertae sedis,asv_3971
+asv_3977,Neodevriesia,asv_3977
+asv_3980,Glomeromycetes incertae sedis,asv_3980
+asv_3984,Monocillium,asv_3984
+asv_3996,Phaeosphaeria,asv_3996
+asv_3999,Alternaria,asv_3999
+asv_4000,Other,asv_4000
+asv_4015,Climacodon,asv_4015
+asv_4018,Rhodosporidiobolus,asv_4018
+asv_4021,Phialosimplex,asv_4021
+asv_4024,Unknown,asv_4024
+asv_4025,Eutypa,asv_4025
+asv_4031,Other,asv_4031
+asv_4033,Erythrobasidium,asv_4033
+asv_4034,Unknown,asv_4034
+asv_4037,Beauveria,asv_4037
+asv_4045,Rhizodiscina,asv_4045
+asv_4048,Diatrypella,asv_4048
+asv_4049,Papiliotrema,asv_4049
+asv_4054,Unknown,asv_4054
+asv_4055,Unknown,asv_4055
+asv_4068,Saccharata,asv_4068
+asv_4069,Dendrophoma,Dendrophoma cytisporoides
+asv_4071,Unknown,asv_4071
+asv_4076,Unknown,asv_4076
+asv_4079,Devriesia,asv_4079
+asv_4085,Other,Mertensia ovum
+asv_4088,Unknown,asv_4088
+asv_4089,Dictyosporiaceae incertae sedis,asv_4089
+asv_4096,Unknown,asv_4096
+asv_4101,Unknown Mucoromycota,asv_4101
+asv_4104,Pyrenochaeta,asv_4104
+asv_4106,Wallemia,asv_4106
+asv_4107,Leptosphaeria,asv_4107
+asv_4115,Biatriospora,asv_4115
+asv_4116,Unknown,asv_4116
+asv_4118,Dothideomycetes incertae sedis,asv_4118
+asv_4120,Chaetothyriales incertae sedis,asv_4120
+asv_4132,Unknown,asv_4132
+asv_4133,Unknown,asv_4133
+asv_4141,Podospora,asv_4141
+asv_4142,Lecanorales incertae sedis,asv_4142
+asv_4149,Unknown,asv_4149
+asv_4151,Chaetothyriales incertae sedis,asv_4151
+asv_4159,Phanerochaete,asv_4159
+asv_4167,Unknown,asv_4167
+asv_4169,Bensingtonia,asv_4169
+asv_4172,Sarocladium ,Sarocladium dejongiae
+asv_4178,Unknown,asv_4178
+asv_4180,Unknown,asv_4180
+asv_4182,Unknown,asv_4182
+asv_4184,Other,asv_4184
+asv_4189,Sordariomycetes incertae sedis,asv_4189
+asv_4197,Hyalopeziza,asv_4197
+asv_4200,Knufia,Knufia karalitana
+asv_4201,Unknown,asv_4201
+asv_4213,Bullera,asv_4213
+asv_4215,Paraconiothyrium,asv_4215
+asv_4220,Metschnikowia,asv_4220
+asv_4223,Alternaria,asv_4223
+asv_4225,Unknown,asv_4225
+asv_4230,Unknown Ascomycota,asv_4230
+asv_4235,Cadophora,asv_4235
+asv_4246,Trichoderma,asv_4246
+asv_4247,Unknown,asv_4247
+asv_4251,Unknown,asv_4251
+asv_4259,Panaeolus,asv_4259
+asv_4266,Pleosporales incertae sedis,asv_4266
+asv_4287,Periconia,asv_4287
+asv_4295,Preussia,asv_4295
+asv_4298,Other,asv_4298
+asv_4302,Sporopachydermia,Sporopachydermia quercuum
+asv_4306,Unknown,asv_4306
+asv_4307,Vuilleminia,asv_4307
+asv_4309,Unknown,asv_4309
+asv_4310,Rhinocladiella,asv_4310
+asv_4315,Unknown,asv_4315
+asv_4323,Niesslia,asv_4323
+asv_4325,Phialemonium,asv_4325
+asv_4326,Unknown Basidiomycota,asv_4326
+asv_4327,Mortierella,asv_4327
+asv_4333,Erysiphe,asv_4333
+asv_4334,Unknown,asv_4334
+asv_4335,Papiliotrema,asv_4335
+asv_4336,Unknown,asv_4336
+asv_4345,Coprinellus,asv_4345
+asv_4346,Debaryomyces,asv_4346
+asv_4348,Unknown,asv_4348
+asv_4356,Unknown,asv_4356
+asv_4363,Candida,asv_4363
+asv_4369,Antrodia,asv_4369
+asv_4376,Brevicellicium,asv_4376
+asv_4387,Unknown,asv_4387
+asv_4388,Unknown,asv_4388
+asv_4395,Cercospora,asv_4395
+asv_4397,Zymoseptoria,asv_4397
+asv_4407,Unknown,asv_4407
+asv_4412,Other,asv_4412
+asv_4446,Trichoderma,asv_4446
+asv_4447,Peniophora,asv_4447
+asv_4469,Phomatospora,asv_4469
+asv_4475,Unknown,asv_4475
+asv_4481,Leucosporidium,asv_4481
+asv_4484,Phaeosphaeria,asv_4484
+asv_4494,Unknown Ascomycota,asv_4494
+asv_4504,Unknown,asv_4504
+asv_4512,Trichosporon,asv_4512
+asv_4516,Candida,asv_4516
+asv_4527,Filobasidium,asv_4527
+asv_4531,Unknown,asv_4531
+asv_4542,Myrmecridium,asv_4542
+asv_4561,Orbilia,asv_4561
+asv_4570,Unknown,asv_4570
+asv_4574,Unknown,asv_4574
+asv_4575,Unknown,asv_4575
+asv_4577,Cryptococcus,asv_4577
+asv_4582,Unknown,asv_4582
+asv_4583,Acrodontium,Acrodontium neolitseae
+asv_4588,Coniophora,asv_4588
+asv_4592,Byssochlamys,asv_4592
+asv_4600,Coprinopsis,asv_4600
+asv_4606,Unknown,asv_4606
+asv_4611,Unknown,asv_4611
+asv_4618,Catenulostroma,asv_4618
+asv_4623,Other,asv_4623
+asv_4626,Flavoplaca,asv_4626
+asv_4635,Neonectria,asv_4635
+asv_4642,Unknown,asv_4642
+asv_4644,Unknown,asv_4644
+asv_4645,Unknown,asv_4645
+asv_4649,Unknown,asv_4649
+asv_4650,Proliferodiscus,asv_4650
+asv_4655,Unknown,asv_4655
+asv_4660,Unknown,asv_4660
+asv_4665,Unknown,asv_4665
+asv_4680,Sordariomycetes incertae sedis,asv_4680
+asv_4683,Glomeromycotina,asv_4683
+asv_4687,Trametes,asv_4687
+asv_4705,Unknown,asv_4705
+asv_4716,Unknown,asv_4716
+asv_4717,Exophiala,asv_4717
+asv_4719,Unknown,asv_4719
+asv_4722,Unknown,asv_4722
+asv_4724,Paracamarosporium,asv_4724
+asv_4725,Unknown,asv_4725
+asv_4739,Phaeosphaeria,asv_4739
+asv_4744,Dothideomycetes incertae sedis,asv_4744
+asv_4758,Septocylindrium,asv_4758
+asv_4761,Unknown,asv_4761
+asv_4770,Unknown,asv_4770
+asv_4771,Phoma,asv_4771
+asv_4776,Postia,asv_4776
+asv_4781,Aspergillus,Aspergillus ecuadorensis
+asv_4814,Mortierella,asv_4814
+asv_4817,Ramalina,asv_4817
+asv_4821,Unknown,asv_4821
+asv_4822,Dothideomycetes incertae sedis,asv_4822
+asv_4855,Unknown,asv_4855
+asv_4865,Other,asv_4865
+asv_4867,Unknown,asv_4867
+asv_4870,Unknown,asv_4870
+asv_4877,Other,asv_4877
+asv_4892,Podospora,asv_4892
+asv_4893,Unknown,asv_4893
+asv_4900,Unknown,asv_4900
+asv_4911,Dissoconium,asv_4911
+asv_4913,Bagliettoa ,asv_4913
+asv_4922,Unknown,asv_4922
+asv_4923,Pseudozasmidium,asv_4923
+asv_4932,Unknown,asv_4932
+asv_4944,Unknown,asv_4944
+asv_4972,Unknown,asv_4972
+asv_4987,Psathyrella,asv_4987
+asv_4990,Eurotium,asv_4990
+asv_5006,Unknown,asv_5006
+asv_5008,Chordomyces,Chordomyces antarcticum
+asv_5011,Unknown,asv_5011
+asv_5018,Pichia,asv_5018
+asv_5031,Unknown,asv_5031
+asv_5037,Herpotrichiellaceae incertae sedis,asv_5037
+asv_5070,Aspergillus,asv_5070
+asv_5081,Other,Pleurobrachia pileus
+asv_5092,Unknown,asv_5092
+asv_5094,Buckleyzyma,asv_5094
+asv_5098,Sporidiobolus,asv_5098
+asv_5110,Unknown,asv_5110
+asv_5113,Unknown,asv_5113
+asv_5126,Mortierella,asv_5126
+asv_5159,Unknown,asv_5159
+asv_5166,Periconia,asv_5166
+asv_5175,Stereum,asv_5175
+asv_5178,Geastrum,asv_5178
+asv_5196,Unknown,asv_5196
+asv_5198,Dothideomycetes incertae sedis,asv_5198
+asv_5200,Alternaria,asv_5200
+asv_5210,Gymnopus,asv_5210
+asv_5211,Parastagonospora,asv_5211
+asv_5214,Candida,asv_5214
+asv_5220,Unknown,asv_5220
+asv_5226,Phaeosphaeria,asv_5226
+asv_5248,Unknown,asv_5248
+asv_5249,Unknown,asv_5249
+asv_5255,Unknown,asv_5255
+asv_5268,Coprinopsis,asv_5268
+asv_5274,Other,asv_5274
+asv_5293,Unknown,asv_5293
+asv_5304,Unknown,asv_5304
+asv_5308,Unknown,asv_5308
+asv_5310,Unknown,asv_5310
+asv_5316,Unknown,asv_5316
+asv_5324,Unknown,asv_5324
+asv_5332,Exophiala,asv_5332
+asv_5339,Hypholoma,asv_5339
+asv_5355,Parathyridaria,asv_5355
+asv_5369,Acremonium,asv_5369
+asv_5388,Unknown,asv_5388
+asv_5398,Unknown,asv_5398
+asv_5404,Podosphaera,asv_5404
+asv_5428,Unknown,asv_5428
+asv_5445,Other,asv_5445
+asv_5449,Unknown,asv_5449
+asv_5494,Kluyveromyces,Kluyveromyces nonfermentans
+asv_5502,Preussia,asv_5502
+asv_5521,Sporidiobolus,asv_5521
+asv_5524,Cystobasidium,asv_5524
+asv_5525,Unknown,asv_5525
+asv_5560,Mycocalicium,asv_5560
+asv_5591,Cutaneotrichosporon,asv_5591
+asv_5594,Unknown,asv_5594
+asv_5613,Phanerochaete,asv_5613
+asv_5618,Unknown,asv_5618
+asv_5622,Unknown,asv_5622
+asv_5655,Unknown,asv_5655
+asv_5657,Other,asv_5657
+asv_5663,Other,Digitaria exilis
+asv_5669,Peniophora,asv_5669
+asv_5670,Sporidiobolus,asv_5670
+asv_5689,Unknown,asv_5689
+asv_5708,Oberwinklerozyma,Oberwinklerozyma silvestris
+asv_5726,Unknown,asv_5726
+asv_5736,Unknown,asv_5736
+asv_5756,Unknown,asv_5756
+asv_5778,Aureobasidium,asv_5778
+asv_5792,Lophiostoma,asv_5792
+asv_5797,Other,asv_5797
+asv_5800,Unknown Glomeromycota,asv_5800
+asv_5805,Unknown,asv_5805
+asv_5818,Agaricomycetes incertae sedis,asv_5818
+asv_5819,Other,asv_5819
+asv_5823,Unknown,asv_5823
+asv_5860,Trichurus,asv_5860
+asv_5901,Pleosporales incertae sedis,asv_5901
+asv_5931,Unknown,asv_5931
+asv_5938,Cadophora,asv_5938
+asv_5994,Penicillium,asv_5994
+asv_6009,Vanrija,asv_6009
+asv_6010,Unknown,asv_6010
+asv_6014,Other,asv_6014
+asv_6052,Unknown,asv_6052
+asv_6095,Unknown,asv_6095
+asv_6096,Penicillium,asv_6096
+asv_6098,Devriesia,asv_6098
+asv_6107,Chaetothyriales incertae sedis,asv_6107
+asv_6126,Unknown,asv_6126
+asv_6127,Unknown,asv_6127
+asv_6172,Other,asv_6172
+asv_6225,Unknown,asv_6225
+asv_6235,Iodophanus,asv_6235
+asv_6244,Unknown,asv_6244
+asv_6258,Unknown,asv_6258
+asv_6288,Unknown,asv_6288
+asv_6311,Unknown,asv_6311
+asv_6312,Unknown,asv_6312
+asv_6343,Unknown,asv_6343
+asv_6424,Parengyodontium,asv_6424
+asv_6425,Unknown,asv_6425
+asv_6466,Mortierella,asv_6466
+asv_6488,Unknown,asv_6488
+asv_6504,Unknown,asv_6504
+asv_6514,Unknown,asv_6514
+asv_6541,Other,asv_6541
+asv_6600,Unknown,asv_6600
+asv_6633,Other,Pleurobrachia pileus
+asv_6654,Erythrobasidium,asv_6654
+asv_6664,Chloridium,asv_6664
+asv_6692,Lyomyces,asv_6692
+asv_6722,Unknown,asv_6722
+asv_6817,Other,asv_6817
+asv_6857,Unknown,asv_6857
+asv_6858,Unknown,asv_6858
+asv_6925,Cystodendron  ,asv_6925
+asv_6927,Unknown,asv_6927
+asv_6961,Other,asv_6961
+asv_7056,Cercospora,asv_7056
+asv_7097,Unknown,asv_7097
+asv_7123,Unknown,asv_7123
+asv_7147,Unknown,asv_7147
+asv_7185,Cercospora,asv_7185
+asv_7283,Metschnikowia,Metschnikowia zobellii
+asv_7362,Unknown,asv_7362
+asv_7439,Alternaria,asv_7439
+asv_7454,Other,asv_7454
+asv_7493,Unknown,asv_7493
+asv_7574,Unknown,asv_7574
+asv_7584,Blumeria,asv_7584
+asv_7593,Phlebiopsis,asv_7593
+asv_7594,Unknown,asv_7594
+asv_7654,Gremmenia,asv_7654
+asv_7701,Other,asv_7701
+asv_7725,Tausonia,asv_7725
+asv_7777,Unknown,asv_7777
+asv_7813,Pyrenochaeta ,asv_7813
+asv_7933,Byssochlamys,asv_7933
+asv_8005,Other,asv_8005
+asv_8086,Cladosporium,asv_8086
+asv_8243,Marasmius,asv_8243
+asv_8249,Other,asv_8249
+asv_8284,Other,asv_8284
+asv_8325,Unknown,asv_8325
+asv_8385,Unknown,asv_8385
+asv_8544,Unknown,asv_8544
+asv_8664,Lecanoromycetes incertae sedis,asv_8664
+asv_8671,Backusella,asv_8671
+asv_8706,Other,asv_8706
+asv_8727,Cortinarius,asv_8727
+asv_8758,Unknown,asv_8758
+asv_9214,Unknown,asv_9214
+asv_9312,Other,asv_9312
+asv_9365,Thelebolus,asv_9365
+asv_9451,Unknown,asv_9451
+asv_9459,Unknown,asv_9459
+asv_10428,Debaryomyces,asv_10428
+asv_10602,Unknown,asv_10602
+asv_10671,Unknown,asv_10671
+asv_10775,Unknown,asv_10775
+asv_10963,Unknown,asv_10963
+asv_11454,Other,asv_11454
+asv_11985,Coprinellus,asv_11985
+asv_13209,Debaryomyces,asv_13209
+asv_14228,Unknown,asv_14228
+asv_17273,Unknown,asv_17273
+asv_17984,Neocamarosporium,asv_17984
+asv_19062,Unknown,asv_19062
+asv_22436,Unknown,asv_22436
+asv_25354,Emericellopsis,asv_25354

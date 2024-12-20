@@ -18,7 +18,7 @@ def calc_cluster_correlations(abundances, clusters, n_clusters):
             r_values[c].append(1.0)
             p_values[c].append(0.0)
             continue
-        
+
         for i in range(cluster_size):
             for j in range(i+1, cluster_size):
                 r, p = pearsonr(cluster_data[i], cluster_data[j])

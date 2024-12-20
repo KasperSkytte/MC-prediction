@@ -1,0 +1,55 @@
+---
+title: "Biobank (you need at least 32GB memory to run this)"
+output: md_document
+---
+
+# init
+```{r}
+#load data
+library(ampvis2)
+library(biomformat)
+library(tidyverse)
+```
+
+# load data
+```{r}
+biom <- biomformat::read_biom("data/ju_zhang_2014/original/otu_table.biom")
+
+# extract read counts
+abund <- biomformat::biom_data(biom) %>%
+  as.matrix(check.names = FALSE) %>%
+  as.data.frame(check.names = FALSE)
+
+# generate metadata from sample ID's
+metadata <- data.frame(
+  SampleID = colnames(abund),
+  Date = lubridate::as_date(colnames(abund), format = "ST%y-%m-AS")
+)
+
+# load
+d <- amp_load(
+  otutable = abund,
+  taxonomy = "data/ju_zhang_2014/reformatted/midas53.sintax",
+  metadata = metadata
+)
+
+# export
+write.csv(
+  data.frame(OTU = rownames(abund), abund, check.names = FALSE),
+  "data/ju_zhang_2014/reformatted/otutable.csv",
+  quote = FALSE,
+  row.names = FALSE
+)
+write.csv(
+  d$tax,
+  "data/ju_zhang_2014/reformatted/taxonomy.csv",
+  quote = FALSE,
+  row.names = FALSE
+)
+write.csv(
+  d$metadata,
+  "data/ju_zhang_2014/reformatted/metadata.csv",
+  row.names = FALSE,
+  quote = FALSE
+)
+```

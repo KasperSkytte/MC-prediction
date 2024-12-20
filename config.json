@@ -1,10 +1,11 @@
 {
-    "abund_file": "data/datasets/Damhusåen-B/ASVtable.csv",
-    "taxonomy_file": "data/datasets/Damhusåen-B/taxonomy.csv",
+    "abund_file": "data/datasets/Damhusåen-C/ASVtable.csv",
+    "taxonomy_file": "data/datasets/Damhusåen-C/taxonomy.csv",
     "metadata_file": "data/metadata.csv",
     "results_dir": "results",
     "metadata_date_col": "Date",
     "tax_level": "OTU",
+    "tax_add": ["Species", "Genus"],
     "functions": [
         "AOB",
         "NOB",
@@ -15,15 +16,24 @@
     "only_pos_func": false,
     "pseudo_zero": 0.01,
     "max_zeros_pct": 0.60,
-    "num_time_series_used": 10,
-    "iterations": 1,
+    "top_n_taxa": 200,
+    "num_features": 200,
+    "num_per_group": 5,
+    "iterations": 10,
     "max_epochs_lstm": 200,
     "window_size": 10,
-    "idec_nclusters": 5,
+    "predict_timestamp": 10,
+    "num_clusters_idec": 40,
     "tolerance_idec": 0.001,
+    "transform": "divmean",
+    "cluster_idec": true,
+    "cluster_func": true,
+    "cluster_abund": true,
+    "cluster_graph": true,
+    "smoothing_factor": 4,
     "splits": [
         0.80,
-        0.0,
-        0.20
+        0.05,
+        0.15
     ]
 }

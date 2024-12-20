@@ -1,0 +1,51 @@
+---
+# run once on a fresh machine, just comment/uncomment
+# separate play because roles are run before tasks
+# regardless of the order
+- hosts:
+  - localhost
+  become: true
+  tasks:
+    - name: "apt full-upgrade"
+      apt:
+        update_cache: yes
+        upgrade: full
+
+- hosts:
+  - localhost
+  become: true
+  vars:
+    pip_install_packages:
+      - stormssh
+      - docker
+    docker_users:
+      - ubuntu
+    #dont install from Canonicals APT repo
+    nvidia_driver_ubuntu_install_from_cuda_repo: yes
+    #skip rebooting in nvidia.nvidia_driver role
+    nvidia_driver_skip_reboot: yes
+  roles:
+    - geerlingguy.pip
+    - geerlingguy.docker
+    - nvidia.nvidia_docker
+  tasks:
+    #run the tasks from the nvidia.nvidia_driver role to be able to reboot
+    #otherwise the nvidia.nvidia_driver role would hang forever at their reboot
+    #task. They should improve with something like the below.
+    - name: "Include tasks from nvidia.nvidia_driver"
+      import_role:
+        name: nvidia.nvidia_driver
+
+    - name: "Reboot if nvidia drivers have been installed/updated"
+      shell: "sleep 5 && reboot"
+      async: 1
+      poll: 0
+      when: install_driver.changed
+
+    - name: "Wait for reboot to complete"
+      wait_for_connection:
+        connect_timeout: 5
+        sleep: 5
+        delay: 5
+        timeout: 300
+      when: install_driver.changed
