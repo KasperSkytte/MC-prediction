@@ -80,23 +80,25 @@ class DataHandler:
     @property
     def train_batched(self):
         """Batches of training data."""
-        return self._make_batched_dataset(self._all.iloc[:self._train_val_index+self.predict_timestamp, self.clusters], endindex=True)
+        return self._make_batched_dataset(self._all.iloc[:self._train_val_index+self.predict_timestamp, self.clusters],
+                                          True, self.data_timestamps[:self._train_val_index+self.predict_timestamp])
 
     @property
     def val_batched(self):
         """Batches of validation data."""
         return self._make_batched_dataset(self._all.iloc[self._train_val_index-self.window_width:self._val_test_index+self.predict_timestamp,
-                       self.clusters], endindex=True)
+                       self.clusters], True, self.data_timestamps[self._train_val_index-self.window_width:self._val_test_index+self.predict_timestamp])
 
     @property
     def test_batched(self):
         """Batches of test data."""
-        return self._make_batched_dataset(self._all.iloc[self._val_test_index-self.window_width:, self.clusters], endindex=True)
+        return self._make_batched_dataset(self._all.iloc[self._val_test_index-self.window_width:, self.clusters], True,
+                                          self.data_timestamps[self._val_test_index-self.window_width:])
 
     @property
     def all_batched(self):
         """Batches of all the data."""
-        return self._make_batched_dataset(self.all, endindex=False)
+        return self._make_batched_dataset(self.all, False, self.data_timestamps)
 
     @property
     def num_features(self):
@@ -116,9 +118,15 @@ class DataHandler:
         for i in range(self.predict_timestamp-1):
             target = np.concatenate((target, np.roll(dataset, -(i+1), axis=0)), axis=1)
         target = target.reshape([T_, self.predict_timestamp, N_])
+
+        input_data = dataset.reshape([T_, N_, 1])
+        if self.use_timestamps:
+            data_timestamps = np.repeat(data_timestamps, N_, 1)
+            input_data = np.concatenate((input_data, data_timestamps), axis=2)
+        
         if endindex:
             return tf.keras.preprocessing.sequence.TimeseriesGenerator(
-                data=dataset,
+                data=input_data,
                 targets=target,
                 length=self.window_width,
                 stride=1,
@@ -128,7 +136,7 @@ class DataHandler:
             )
         else:
             return tf.keras.preprocessing.sequence.TimeseriesGenerator(
-                data=dataset,
+                data=input_data,
                 targets=target,
                 length=self.window_width,
                 stride=1,
@@ -251,6 +259,12 @@ class DataHandler:
         data_raw, meta, func_tax, clusters_func, functions = load_data(config)
         if self.max_num_features > data_raw.shape[0]:
             self.max_num_features = data_raw.shape[0]
+
+        data_timestamps = meta.Week.to_numpy().astype('float32', copy=False).reshape([-1, 1, 1])
+        data_timestamps = data_timestamps / data_timestamps.max()
+        self.data_timestamps = data_timestamps
+        self.use_timestamps = config['use_timestamps']
+        
         data_raw = data_raw[:self.max_num_features]
         func_tax = func_tax[:self.max_num_features]
         clusters_func = clusters_func[:self.max_num_features]
