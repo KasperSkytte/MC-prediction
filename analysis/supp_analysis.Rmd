@@ -1,0 +1,322 @@
+---
+title: "supp_analysis"
+author: "KSA"
+date: "`r format(Sys.time(), '%Y-%m-%d')`"
+output: md_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  message = FALSE,
+  warning = FALSE,
+  error = FALSE,
+  fig.width = 12,
+  fig.height = 10,
+  cache = FALSE
+)
+require("patchwork")
+require("data.table")
+require("ampvis2")
+require("magrittr")
+require("stringr")
+require("lubridate")
+require("tidygraph")
+require("ggraph")
+require("igraph")
+require("patchwork")
+require("scales")
+
+#when knitting will always be done in the context of the Rmd file, otherwise not
+if (interactive()) {
+  if (!grepl("analysis$", getwd())) {
+    setwd("analysis")
+  }
+} else {
+  renv::load("..")
+}
+
+source("functions.R")
+set.seed(42)
+# main batch run using run_loopdatasets.bash or run_predwindows.bash
+# wrapper scripts. Prediction windows tests are hard coded
+results_batch_dir <- "results/supp_datasets"
+
+# cluster type to use for examples
+cluster_type <- "graph"
+
+cluster_type_colors <- c(
+  "Biological function" = "#422537",
+  "Graph" = "#D58078",
+  "IDEC" = "#86A556",
+  "Ranked abundance" = "#624FB0"
+)
+dataset_colors <- c(
+  "Real" = "#000000",
+  "Prediction - Train" = "#bd2929" ,
+  "Prediction - Validation" = "#e0b01c",
+  "Prediction - Test" = "#16a085"
+)
+```
+
+# All supplementary datasets
+```{r}
+bp_all_list <- boxplot_all(
+  results_batch_dir,
+  save = TRUE,
+  plot_width = 360,
+  plot_height = 370
+)
+```
+
+## five number statistics of sum of reads per data set
+```{r fivenum_reads}
+datasets <- list.dirs(
+  results_batch_dir,
+  full.names = TRUE,
+  recursive = FALSE
+)
+readstats <- datasets %>%
+  lapply(function(dataset) {
+    abund <- fread(
+      file.path(dataset, "data_reformatted", "abundances.csv"),
+      drop = 1
+    )
+    fivenum(rowSums(abund))
+  })
+names(readstats) <- basename(datasets)
+as.data.frame(readstats, check.names = FALSE)
+```
+
+# ju zhang 2014 paper
+```{r}
+results_dir <- file.path(results_batch_dir, "ju_zhang_2014")
+combined <- combine_abund(
+  results_dir,
+  cluster_type = cluster_type
+)
+```
+
+## Time series examples
+```{r}
+long <- amp_export_long(
+  combined,
+  tax_levels = "OTU",
+  metadata_vars = c("Date", "split_dataset", "predicted")
+)
+
+denovo1437 <- long[grepl("^denovo1437;", OTU)]
+denovo1437_ts <- plot_timeseries(denovo1437, save = FALSE) +
+  ggtitle("denovo1437; s__Turicibacter_sanguinis; g__Turicibacter") +
+  theme(
+    legend.position = "none",
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank(),
+    axis.title.y = element_blank()
+  )
+denovo1437_obs_pred <- plot_obs_pred(denovo1437)
+
+denovo4156 <- long[grepl("^denovo4156;", OTU)]
+denovo4156_ts <- plot_timeseries(denovo4156, save = FALSE) +
+  ggtitle("denovo4156; ; g__Mycobacterium") +
+  theme(
+    legend.position = "none",
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank()
+  )
+denovo4156_obs_pred <- plot_obs_pred(denovo4156)
+
+denovo3369 <- long[grepl("^denovo3369;", OTU)]
+denovo3369_ts <- plot_timeseries(denovo3369, save = FALSE) + 
+  ggtitle("denovo3369; s__midas_s_472; g__Tetrasphaera") +
+  theme(
+    legend.position = "bottom",
+    legend.text = element_text(size = 12),
+    axis.title.y = element_blank()
+  )
+denovo3369_obs_pred <- plot_obs_pred(denovo3369)
+
+# "g__Romboutsia"
+# "g__Tetrasphaera"
+
+plot <- denovo1437_ts + denovo1437_obs_pred +
+  denovo4156_ts + denovo4156_obs_pred +
+  denovo3369_ts + denovo3369_obs_pred +
+  plot_layout(
+    ncol = 2,
+    nrow = 3,
+    heights = 4,
+    widths = c(
+      6, 2,
+      6, 2,
+      6, 2
+    )
+  )
+ggsave(
+  plot = plot,
+  filename = file.path(
+    results_batch_dir,
+    paste0(basename(results_dir), ".png")
+  ),
+  width = 250,
+  height = 250,
+  units = "mm",
+  dpi = 600
+)
+```
+
+# caporaso 2011 paper
+```{r}
+results_dir <- file.path(results_batch_dir, "caporaso_et_al_2011")
+combined <- combine_abund(
+  results_dir,
+  cluster_type = cluster_type
+)
+```
+
+## Time series examples
+```{r}
+long <- amp_export_long(
+  combined,
+  tax_levels = "OTU",
+  metadata_vars = c("Date", "split_dataset", "predicted")
+)
+
+genus64 <- long[grepl("^genus64;", OTU)]
+genus64_ts <- plot_timeseries(genus64, save = FALSE) +
+  ggtitle("genus64; s__; g__Parabacteroides") +
+  theme(
+    legend.position = "none",
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank(),
+    axis.title.y = element_blank()
+  )
+genus64_obs_pred <- plot_obs_pred(genus64)
+
+genus69 <- long[grepl("^genus69;", OTU)]
+genus69_ts <- plot_timeseries(genus69, save = FALSE) +
+  ggtitle("genus69; s__; g__") +
+  theme(
+    legend.position = "none",
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank()
+  )
+genus69_obs_pred <- plot_obs_pred(genus69)
+
+genus122 <- long[grepl("^genus122;", OTU)]
+genus122_ts <- plot_timeseries(genus122, save = FALSE) + 
+  ggtitle("genus122; s__; g__Clostridium") +
+  theme(
+    legend.position = "bottom",
+    legend.text = element_text(size = 12),
+    axis.title.y = element_blank()
+  )
+genus122_obs_pred <- plot_obs_pred(genus122)
+
+# "g__Romboutsia"
+# "g__Tetrasphaera"
+
+plot <- genus64_ts + genus64_obs_pred +
+  genus69_ts + genus69_obs_pred +
+  genus122_ts + genus122_obs_pred +
+  plot_layout(
+    ncol = 2,
+    nrow = 3,
+    heights = 4,
+    widths = c(
+      6, 2,
+      6, 2,
+      6, 2
+    )
+  )
+ggsave(
+  plot = plot,
+  filename = file.path(
+    results_batch_dir,
+    paste0(basename(results_dir), ".png")
+  ),
+  width = 250,
+  height = 250,
+  units = "mm",
+  dpi = 600
+)
+# genus163, s__Faecalibacterium
+```
+
+# chrismas 2023 paper
+```{r}
+results_dir <- file.path(results_batch_dir, "chrismas_et_al_2023")
+combined <- combine_abund(
+  results_dir,
+  cluster_type = cluster_type
+)
+```
+
+## Time series examples
+```{r}
+long <- amp_export_long(
+  combined,
+  tax_levels = "OTU",
+  metadata_vars = c("Date", "split_dataset", "predicted")
+)
+
+asv_1 <- long[grepl("^asv_1;", OTU)]
+asv_1_ts <- plot_timeseries(asv_1, save = FALSE) +
+  ggtitle("asv_1; asv_1; Other") +
+  theme(
+    legend.position = "none",
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank(),
+    axis.title.y = element_blank()
+  )
+asv_1_obs_pred <- plot_obs_pred(asv_1)
+
+asv_2 <- long[grepl("^asv_2;", OTU)]
+asv_2_ts <- plot_timeseries(asv_2, save = FALSE) +
+  ggtitle("asv_2; asv_2; Other") +
+  theme(
+    legend.position = "none",
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank()
+  )
+asv_2_obs_pred <- plot_obs_pred(asv_2)
+
+asv_7 <- long[grepl("^asv_7;", OTU)]
+asv_7_ts <- plot_timeseries(asv_7, save = FALSE) + 
+  ggtitle("asv_7; asv_7; Cadophora") +
+  theme(
+    legend.position = "bottom",
+    legend.text = element_text(size = 12),
+    axis.title.y = element_blank()
+  )
+asv_7_obs_pred <- plot_obs_pred(asv_7)
+
+# "g__Romboutsia"
+# "g__Tetrasphaera"
+
+plot <- asv_1_ts + asv_1_obs_pred +
+  asv_2_ts + asv_2_obs_pred +
+  asv_7_ts + asv_7_obs_pred +
+  plot_layout(
+    ncol = 2,
+    nrow = 3,
+    heights = 4,
+    widths = c(
+      6, 2,
+      6, 2,
+      6, 2
+    )
+  )
+ggsave(
+  plot = plot,
+  filename = file.path(
+    results_batch_dir,
+    paste0(basename(results_dir), ".png")
+  ),
+  width = 250,
+  height = 250,
+  units = "mm",
+  dpi = 600
+)
+
+```

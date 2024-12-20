@@ -25,7 +25,9 @@ require("tidygraph")
 require("ggraph")
 require("igraph")
 require("patchwork")
+require("tune")
 require("scales")
+require("stats")
 
 #when knitting will always be done in the context of the Rmd file, otherwise not
 if (interactive()) {
@@ -44,6 +46,19 @@ results_batch_dir <- "results/allwwtps"
 
 # cluster type to use for examples
 cluster_type <- "graph"
+
+cluster_type_colors <- c(
+  "Biological function" = "#422537",
+  "Graph" = "#D58078",
+  "IDEC" = "#86A556",
+  "Ranked abundance" = "#624FB0"
+)
+dataset_colors <- c(
+  "Real" = "#000000",
+  "Prediction - Train" = "#bd2929" ,
+  "Prediction - Validation" = "#e0b01c",
+  "Prediction - Test" = "#16a085"
+)
 ```
 
 # five number statistics of sum of reads per data set
@@ -66,11 +81,13 @@ as.data.frame(readstats, check.names = FALSE)
 ```
 
 # Prediction accuracy across WWTPs
-## Bray-Curtis only (Figure 1)
+## Bray-Curtis only (Figure 2)
 ```{r}
 bp_all_list <- boxplot_all(
   results_batch_dir,
-  save = TRUE
+  save = TRUE,
+  plot_width = 360,
+  plot_height = 370
 )
 
 ## Bray-Curtis only, flip x and y (otherwise too big plot for manuscript)
@@ -106,29 +123,78 @@ datasets_ordered <- combined[
 ][
   order(nsamples, decreasing = F)
 ]
-combined[, dataset := factor(dataset, levels = datasets_ordered)]
+plot_data <- combined[error_metric == "Bray Curtis"]
+plot_data[, dataset := factor(gsub(" \\(", "\n(", dataset), levels = gsub(" \\(", "\n(", datasets_ordered))]
 bp_all_BC <- ggplot(
-  combined[error_metric == "Bray Curtis"],
+  plot_data,
   aes(
     value,
     cluster_type,
-    color = cluster_type
+    color = cluster_type,
+    fill = cluster_type
+  )
+) +
+  geom_boxplot(
+    outlier.shape = 19,
+    outlier.size = 1,
+    alpha = 0.4,
+    linewidth = 0.25
+  ) +
+  facet_wrap(~dataset, ncol = 2, strip.position = "right", dir = "v") +
+  #facet_grid(rows = vars(dataset), scales = "free") +
+  theme_bw() +
+  theme(
+    legend.position = "bottom",
+    legend.title = element_blank(),
+    legend.text = element_text(size = 10),
+    axis.text.y = element_blank(),
+    axis.text.x = element_text(size = 10, angle = 90, vjust = 0.5),
+    axis.title = element_blank(), 
+    axis.ticks.y = element_blank(),
+    #strip.text.x = element_blank(),
+    strip.text.y = element_text(size = 10, angle = 0),
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor.x = element_blank(),
+    panel.grid.major.x = element_line(color = "gray70"),
+    panel.background = element_rect(fill = "white")
+  ) +
+  scale_x_continuous(
+    trans = "sqrt",
+    breaks = c(0.0, 0.05, 0.1, 0.15, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8)
+  ) +
+  scale_colour_manual(values = cluster_type_colors) +
+  scale_fill_manual(values = cluster_type_colors)
+
+ggsave(
+  file.path(results_batch_dir, "boxplot_all_BC.png"),
+  plot = bp_all_BC,
+  width = 180,
+  height = 185,
+  units = "mm",
+  dpi = 600
+)
+```
+
+## Bray-Curtis and graph clusters only
+```{r}
+bp_all_BC_graph <- ggplot(
+  combined[error_metric == "Bray Curtis" & cluster_type == "Graph"],
+  aes(
+    value,
+    dataset,
+    group = dataset
   )
 ) +
   geom_boxplot(
     outlier.shape = 1,
     outlier.size = 1
   ) +
-  facet_grid(
-    rows = vars(dataset),
-    scales = "free"
-  ) +
   theme_bw() +
   theme(
     legend.position = "bottom",
     legend.title = element_blank(),
     legend.text = element_text(size = 14),
-    axis.text.y = element_blank(),
+    #axis.text.y = element_blank(),
     axis.text.x = element_text(size = 14),
     axis.title = element_blank(),
     axis.ticks.y = element_blank(),
@@ -146,14 +212,16 @@ bp_all_BC <- ggplot(
   scale_color_brewer(palette = "Set2")
 
 ggsave(
-  file.path(results_batch_dir, "boxplot_all_BC.png"),
-  plot = bp_all_BC,
-  width = 10,
-  height = 15
+  file.path(results_batch_dir, "boxplot_all_BC_graph.png"),
+  plot = bp_all_BC_graph,
+  width = 180,
+  height = 180,
+  units = "mm",
+  dpi = 600
 )
 ```
 
-## BC+MAE+MSE
+## BC+MAE+MSE (Figure S5)
 ```{r}
 bp_all_list <- boxplot_all(
   results_batch_dir,
@@ -185,11 +253,12 @@ bp_all_plot <- purrr::reduce(
 ggsave(
   file.path(results_batch_dir, "boxplot_all.png"),
   plot = bp_all_plot,
-  width = 16,
-  height = 12
+  width = 180,
+  height = 210,
+  units = "mm",
+  dpi = 600
 )
 ```
-
 
 ## Check some clusters from AAE
 ```{r}
@@ -198,7 +267,8 @@ plot_performance(
 )
 ```
 
-# Prediction window test (note: not using results_batch_dir variable)
+# Prediction window test
+(note: not using results_batch_dir variable)
 ## Aalborg East
 ```{r}
 boxplot_all(
@@ -217,14 +287,13 @@ boxplot_all(
 )
 ```
 
-## Mariagerfjord
+## Mariagerfjord (Figure 6)
 ```{r}
 bp_mar_predwin_list <- boxplot_all(
   "results/predwindow_mariagerfjord",
   add_dataset_info = "predwindow",
   save = FALSE
 )
-
 
 bp_mar_predwin_list[["Bray Curtis"]] <- bp_mar_predwin_list[["Bray Curtis"]] +
   scale_y_continuous(
@@ -245,15 +314,35 @@ bp_mar_predwin_plot <- purrr::reduce(
   bp_mar_predwin_list,
   `/`
 )
+
+bp_mar_predwin_bc <- bp_mar_predwin_list[["Bray Curtis"]] +
+  theme(legend.position = "bottom")
+bp_mar_predwin_bc$data$dataset <- gsub("[^0-9]", "", bp_mar_predwin_bc$data$dataset)
+order <- order(as.numeric(unique(bp_mar_predwin_bc$data$dataset)))
+bp_mar_predwin_bc$data$dataset <- paste(bp_mar_predwin_bc$data$dataset, "samples")
+levels <- unique(bp_mar_predwin_bc$data$dataset)[order]
+bp_mar_predwin_bc$data$dataset <- factor(bp_mar_predwin_bc$data$dataset, levels = levels)
+
+ggsave(
+  "results/predwindow_mariagerfjord/boxplot_all_BC.png",
+  plot = bp_mar_predwin_bc,
+  width = 180,
+  height = 180,
+  units = "mm",
+  dpi = 600
+)
+
 ggsave(
   "results/predwindow_mariagerfjord/boxplot_all.png",
   plot = bp_mar_predwin_plot,
-  width = 8,
-  height = 10
+  width = 180,
+  height = 180,
+  units = "mm",
+  dpi = 600
 )
 ```
 
-## Timeseries examples (predwindow)
+## Timeseries examples (predwindow) (Figure 7)
 ```{r}
 dir <- "results/predwindow_mariagerfjord"
 runs <- list.dirs(
@@ -270,7 +359,7 @@ predwindowtest <- lapply(
         cluster_type = cluster_type
       ),
       tax_levels = "OTU",
-      metadata_vars = c("Date", "split_dataset")
+      metadata_vars = c("Date", "split_dataset", "predicted")
     )
     d[, dataset := basename(rundir)]
   }
@@ -284,63 +373,76 @@ d[, dataset := factor(
 
 #ASV1
 ASV1 <- d[grepl("^ASV1;", OTU)]
-plot_asv1 <- plot_timeseries(
-  ASV1,
-  save = FALSE
-) +
-  facet_grid(rows = vars(dataset))
+plots <- lapply(
+  split(ASV1, ASV1$dataset),
+  function(dataset) {
+    plot_timeseries(
+      dataset,
+      save = FALSE
+    ) +
+    theme(
+      legend.position = "none",
+      axis.text.x = element_blank(),
+      axis.ticks.x = element_blank(),
+      axis.title.y = element_blank()
+    ) +
+    ggtitle(unique(dataset$dataset)) +
+    plot_obs_pred(dataset) +
+    theme(
+      axis.title = element_blank()
+    ) +
+    scale_y_continuous(position = "right")
+  }
+)
+# legend and axis ticks for the last plot
+plots[[length(plots)]][[1]] <- plots[[length(plots)]][[1]] +
+  theme(
+    legend.position = "bottom",
+    axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5),
+    axis.ticks.x = element_line()
+  )
+plots[[length(plots)]][[2]] <- plots[[length(plots)]][[2]] +
+  theme(axis.title.x = element_text(size = 14))
+plots[[3]][[1]] <- plots[[3]][[1]] +
+  theme(
+    axis.title.y = element_text(size = 14)
+  )
+plots[[3]][[2]] <- plots[[3]][[2]] +
+  theme(
+    axis.title.y = element_text(size = 14)
+  )
+
+plot_asv1 <- wrap_plots(
+  plots,
+  ncol = 1,
+  heights = 4,
+  widths = c(6, 2),
+  guides = "auto"
+)
+plot_asv1
+
 ggsave(
   file = file.path(
     dir,
-    "predwindow_mariagerfjord_asv1.png"
+    "asv1.png"
   ),
-  plot = plot_asv1
+  plot = plot_asv1,
+  width = 300,
+  height = 350,
+  units = "mm",
+  dpi = 600
 )
-
 #ASV2
-ASV2 <- d[grepl("^ASV2;", OTU)]
-plot_asv2 <- plot_timeseries(
-  ASV2,
-  save = FALSE
-) +
-  facet_grid(rows = vars(dataset))
-ggsave(
-  file = file.path(
-    dir,
-    "predwindow_mariagerfjord_asv2.png"
-  ),
-  plot = plot_asv2
-)
-
 #ASV24
-ASV24 <- d[grepl("^ASV24;", OTU)]
-plot_asv24 <- plot_timeseries(
-  ASV24,
-  save = FALSE
-) +
-  facet_grid(rows = vars(dataset))
-ggsave(
-  file = file.path(
-    dir,
-    "predwindow_mariagerfjord_asv24.png"
-  ),
-  plot = plot_asv24
-)
-
-
-#plot_asv24 <- plot_timeseries(ASV24, save = FALSE) +
-#  theme(legend.position = "bottom") +
-#  ggtitle("ASV24 - Nitrospira, defluvii")
-
 ```
 
-# PCoA (all WWTPs loop)
+# PCoA (all WWTPs loop) (Figure 5)
 ```{r PCOA_colored_all}
 wwtp_results_dirs <- list.dirs(
   results_batch_dir,
   full.names = TRUE,
   recursive = FALSE
-)
+)[18]
 
 plots <- lapply(
   wwtp_results_dirs,
@@ -357,7 +459,7 @@ plots <- lapply(
         sample_trajectory_group = "Date"
       ) +
       scale_color_manual(
-        values = c("grey80", RColorBrewer::brewer.pal(3, "Set2")[c(2,3,1)]),
+        values = unname(dataset_colors), #c("grey80", RColorBrewer::brewer.pal(3, "Set2")[c(2,3,1)]),
         labels = c(
           real = "Real",
           train = "Prediction - Train",
@@ -393,13 +495,15 @@ plots <- lapply(
         paste0("PCoA - ", basename(wwtp), ".png")
       ),
       plot = plot,
-      width = 10,
-      height = 10
+      width = 250,
+      height = 250,
+      units = "mm",
+      dpi = 600
     )
     return(plot)
   }
 )
-names(plots) <- basename(wwtp_results)
+names(plots) <- basename(wwtp_results_dirs)
 #hideme <- lapply(plots, print)
 ```
 
@@ -544,7 +648,7 @@ allwwtps_testcompare[!is.na(genus_function), uniqueN(OTU)]
 # total unique ASVs  across ALL datasets
 allwwtps_testcompare[, uniqueN(OTU)]
 
-# plotty plot
+# plotty plot (Figure S6)
 plot_genus_func <- ggplot(
   allwwtps_testcompare[!is.na(genus_function)],
   aes(x = MAPE, y = dataset, group = dataset)
@@ -554,7 +658,7 @@ plot_genus_func <- ggplot(
   facet_grid(cols = vars(genus_function)) +
   theme(axis.title.y = element_blank()) +
   theme(panel.grid.minor = element_blank())
-plot_genus_func
+levels(plot_genus_func$data$genus_function) <- c("AOB","NOB","PAO","GAO","Filamentous")
 
 ggsave(
   plot = plot_genus_func,
@@ -562,8 +666,10 @@ ggsave(
     results_batch_dir,
     "functions_acc.png"
   ),
-  width = 12,
-  height = 10
+  width = 300,
+  height = 250,
+  units = "mm",
+  dpi = 600
 )
 
 ggplot(
@@ -577,14 +683,14 @@ ggplot(
 plot_genus_func
 ```
 
-# Time Series examples
+# Time Series examples (for Figure 3)
 ```{r timeseries}
 wwtp_results_dirs <- list.dirs(
   results_batch_dir,
   full.names = TRUE,
   recursive = FALSE
 )
-
+wwtp_results_dirs <- "results/allwwtps/Mariagerfjord"
 #list of all data (train+val+test) from all WWTPs
 plots <- lapply(
   wwtp_results_dirs,
@@ -596,7 +702,7 @@ plots <- lapply(
     long <- amp_export_long(
       combined,
       tax_levels = "OTU",
-      metadata_vars = c("Date", "split_dataset")
+      metadata_vars = c("Date", "split_dataset", "predicted")
     )
     
     #check normal distribution
@@ -604,68 +710,95 @@ plots <- lapply(
     #qqplot(ASV2, rnorm(1000, mean = mean(ASV2), sd = sd(ASV2)))
     ASV1 <- long[grepl("^ASV1;", OTU)]
     if(nrow(ASV1) > 0) {
-      plot_asv1 <- plot_timeseries(ASV1, save = FALSE) +
+      #time series plot
+      plot_ts_asv1 <- plot_timeseries(ASV1, save = FALSE) +
         theme(
           legend.position = "none",
           axis.text.x = element_blank(),
           axis.ticks.x = element_blank(),
           axis.title.y = element_blank()
         ) +
-        ggtitle("ASV1 - Tetrasphaera, midas_s_5") +
+        ggtitle("ASV1 - Tetrasphaera midas_s_5") +
         scale_y_continuous(breaks = breaks_pretty(n = 5))
+
+      # obs vs pred plot
+      plot_obs_pred_asv1 <- plot_obs_pred(ASV1)
     } else {
-      plot_asv1 <- plot_spacer()
+      plot_ts_asv1 <- plot_spacer()
+      plot_obs_pred_asv1 <- plot_spacer()
     }
 
     ASV2 <- long[grepl("^ASV2;", OTU)]
     if(nrow(ASV2) > 0) {
-      plot_asv2 <- plot_timeseries(ASV2, save = FALSE) +
+      plot_ts_asv2 <- plot_timeseries(ASV2, save = FALSE) +
         theme(
           legend.position = "none",
           axis.text.x = element_blank(),
           axis.ticks.x = element_blank()
         ) +
-        ggtitle("ASV2 - Ca. Microthrix, parvicella") +
+        ggtitle("ASV2 - Ca. Microthrix parvicella") +
         scale_y_continuous(breaks = breaks_pretty(n = 5))
+      
+      # obs vs pred plot
+      plot_obs_pred_asv2 <- plot_obs_pred(ASV2)
     } else {
-      plot_asv2 <- plot_spacer()
+      plot_ts_asv2 <- plot_spacer()
+      plot_obs_pred_asv2 <- plot_spacer()
     }
 
     ASV24 <- long[grepl("^ASV24;", OTU)]
     if(nrow(ASV24) > 0) {
-      plot_asv24 <- plot_timeseries(ASV24, save = FALSE) +
+      plot_ts_asv24 <- plot_timeseries(ASV24, save = FALSE) +
         theme(
           legend.position = "bottom",
-          legend.text = element_text(size = 16),
+          legend.text = element_text(size = 12),
           axis.title.y = element_blank()
         ) +
-        ggtitle("ASV24 - Nitrospira, defluvii") +
+        ggtitle("ASV24 - Nitrospira defluvii") +
         scale_y_continuous(breaks = breaks_pretty(n = 5))
+      
+      # obs vs pred plot
+      plot_obs_pred_asv24 <- plot_obs_pred(ASV24)
     } else {
-      plot_asv24 <- plot_spacer()
+      plot_ts_asv24 <- plot_spacer()
+      plot_obs_pred_asv24 <- plot_spacer()
     }
 
-    prediction_example <- plot_asv1 / plot_asv2 / plot_asv24
+    plot <- plot_ts_asv1 + plot_obs_pred_asv1 +
+      plot_ts_asv2 + plot_obs_pred_asv2 +
+      plot_ts_asv24 + plot_obs_pred_asv24 +
+      plot_layout(
+        ncol = 2,
+        nrow = 3,
+        heights = 4,
+        widths = c(
+          6, 2,
+          6, 2,
+          6, 2
+        )
+      )
     ggsave(
-      plot = prediction_example,
+      plot = plot,
       filename = file.path(
         results_batch_dir,
         paste0("timeseries example - ", basename(wwtp), ".png")
       ),
-      width = 10,
-      height = 12
+      width = 250,
+      height = 250,
+      units = "mm",
+      dpi = 600
     )
 
     #plot_timeseries(ASV1, save = TRUE)
     #plot_timeseries(ASV2, save = TRUE)
     #plot_timeseries(ASV3, save = TRUE)
-    return(prediction_example)
+    return(plot)
   }
 )
 
 ```
 
-# Heatmap of real vs predicted
+# Heatmap of real vs predicted (Figure 4)
 ```{r}
 results_dir <- file.path(results_batch_dir, "Mariagerfjord")
 d <- combine_abund(
@@ -744,6 +877,8 @@ realvspredictedheatmap <- amp_heatmap(
     ) +
     guides(fill = guide_colourbar(ticks.colour = "black"))
 
+#realvspredictedheatmap$data$Display <- gsub("[; ]+", " ", realvspredictedheatmap$data$Display)
+
 ggsave(
   plot = realvspredictedheatmap,
   filename = file.path(
@@ -751,12 +886,14 @@ ggsave(
     "..",
     paste0("realvspredictedheatmap_", basename(results_dir), ".png")
   ),
-  width = 20,
-  height = 12
+  width = 450,
+  height = 300,
+  units = "mm",
+  dpi = 600
 )
 ```
 
-# Network plots
+# Network plots (Figure S4)
 ```{r}
 graph_matrix_dir <- file.path(results_batch_dir, "Mariagerfjord/graph_matrix")
 graph_matrix_list <- list.files(
@@ -791,7 +928,11 @@ ggsave(
     graph_matrix_dir,
     "..",
     "graph_network_plot_mariagerfjord.png"
-  )
+  ),
+  width = 88,
+  height = 88,
+  units = "mm",
+  dpi = 600
 )
 ```
 

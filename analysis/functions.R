@@ -207,9 +207,9 @@ read_performance <- function(
 
   dt$dataset <- basename(
     gsub(
-      "\\/ASVtable.*$",
+      "reformatted|data|asvtable.*$|otutable.*$",
       "",
-      logfile[grepl(".*ASVtable.*", line), line]
+      tolower(logfile[grepl(".*asvtable.*|.*otutable.*", tolower(line))])
     )
   )
 
@@ -263,7 +263,7 @@ read_performance <- function(
 }
 
 #' @title Boxplot of model accuracy per batch (produced by loop_datasets.bash)
-#' @description Read all performance summary files from a batch of multiple runs (i.e. WWTPs) and plot a summary boxplot. Will also save the plot to a PNG file in each folder.
+#' @description Read all performance summary files from a batch of multiple runs (i.e. WWTPs) and plot a summary boxplot. Will also save the plot to a PDF file in each folder.
 #'
 #' @param results_batch_dir Path to a folder containing one or more subfolders, each produced by run.bash (i.e. produced by loop_datasets.bash)
 #'
@@ -276,8 +276,8 @@ boxplot_all <- function(
   add_dataset_info = "numsamples",
   filename = "boxplot_all.png",
   save = TRUE,
-  plot_width = 12,
-  plot_height = 10
+  plot_width = 180,
+  plot_height = 185
 ) {
   runs <- list.dirs(
     results_batch_dir,
@@ -321,12 +321,15 @@ boxplot_all <- function(
           aes(
             cluster_type,
             value,
-            color = cluster_type
+            color = cluster_type,
+            fill = cluster_type
           )
         ) +
           geom_boxplot(
-            outlier.shape = 1,
-            outlier.size = 1
+            outlier.shape = 19,
+            outlier.size = 1,
+            alpha = 0.4,
+            linewidth = 0.25
           ) +
           facet_grid(
             rows = vars(error_metric),
@@ -347,7 +350,8 @@ boxplot_all <- function(
             panel.grid.major.x = element_blank(),
             panel.grid.major.y = element_line(color = "gray70")
           ) +
-          scale_color_brewer(palette = "Set2")
+          scale_colour_manual(values = cluster_type_colors) +
+          scale_fill_manual(values = cluster_type_colors)
       }
     )
 
@@ -384,7 +388,7 @@ boxplot_all <- function(
       trans = "sqrt",
       breaks = breaks_pretty(n = 7)
     ) +
-    labs(color = "Clustering type")
+    labs(color = "Clustering type", fill = "Clustering type")
 
   # Compose all plots in the list using patchwork
   plot <- purrr::reduce(
@@ -397,7 +401,9 @@ boxplot_all <- function(
       file.path(dirname(combined[1, results_folder]), filename),
       plot = plot,
       width = plot_width,
-      height = plot_height
+      height = plot_height,
+      units = "mm",
+      dpi = 600
     )
   }
 
@@ -440,7 +446,7 @@ read_abund <- function(results_dir, pattern, sample_prefix = "") {
       #melt to be able to rowbind all files
       abund <- melt(
         file,
-        id.vars = "Sample",
+        id.vars = names(file)[[1]],
         variable.name = "OTU",
         value.name = "abundance"
       )
@@ -462,7 +468,7 @@ read_abund <- function(results_dir, pattern, sample_prefix = "") {
   }
   abund <- dcast(
     abund_dt,
-    OTU~Sample,
+    OTU~eval(parse(text = colnames(abund_dt)[1])),
     value.var = "abundance"
   )
 
@@ -512,6 +518,7 @@ combine_abund <- function(results_dir, cluster_type) {
       full.names = TRUE
     )[[1]]
   )
+  sampleid_col <- names(metadata)[[1]]
 
   #add a split_dataset column with whether
   #the particular dates are used for train, val, or test
@@ -540,13 +547,13 @@ combine_abund <- function(results_dir, cluster_type) {
     #remove it
     if (
       any(
-        metadata_split_datasets[split_dataset == "val"][["Sample"]] %chin%
-        metadata_split_datasets[split_dataset == "test"][["Sample"]]
+        metadata_split_datasets[split_dataset == "val"][[sampleid_col]] %chin%
+        metadata_split_datasets[split_dataset == "test"][[sampleid_col]]
       )
     ) {
       metadata_split_datasets <- metadata_split_datasets[split_dataset != "val"]
     }
-    metadata <- metadata_split_datasets[metadata, on = c("Sample", "Date")]
+    metadata <- metadata_split_datasets[metadata, on = c(sampleid_col, "Date")]
   } else if (sum(dim(metadata_split_datasets)) == 0L) {
     metadata[, split_dataset := "predicted"]
   }
@@ -557,7 +564,7 @@ combine_abund <- function(results_dir, cluster_type) {
     metadata = metadata[
       ,
       .(
-        Sample = paste0("pred_", Sample),
+        Sample = paste0("pred_", eval(parse(text = sampleid_col))),
         Date,
         predicted = "predicted",
         split_dataset
@@ -575,7 +582,7 @@ combine_abund <- function(results_dir, cluster_type) {
     metadata = metadata[
       ,
       .(
-        Sample = paste0("true_", Sample),
+        Sample = paste0("true_", eval(parse(text = sampleid_col))),
         Date,
         predicted = "real",
         #all dates here are from the original data
@@ -610,8 +617,8 @@ plot_timeseries <- function(
   data,
   filename = paste0(deparse(substitute(data)), "_timeseries.png"),
   save = TRUE,
-  plot_width = 14,
-  plot_height = 5
+  plot_width = 180,
+  plot_height = 185
 ) {
   #generate a data frame with x coordinates for
   #alternating background shades for each year
@@ -643,8 +650,10 @@ plot_timeseries <- function(
     color = split_dataset
   )
 ) +
-  geom_point() +
-  geom_line() +
+  geom_line(data = data[split_dataset == "real"]) +
+  geom_point(data = data[split_dataset == "real"]) +
+  geom_line(data = data[split_dataset != "real"], alpha = 0.9) +
+  geom_point(data = data[split_dataset != "real"], alpha = 0.9) +
   geom_rect(
     data = bg_ranges,
     aes(
@@ -659,18 +668,17 @@ plot_timeseries <- function(
   ) +
   geom_vline(xintercept = data[split_dataset == "test", min(Date)]) +
   scale_color_manual(
-    #Colors from RColorBrewer::brewer.pal(6, "Paired")[c(6, 4, 2)]
     values = c(
-      "grey10",
-      "#E31A1C",
-      "#1F78B4",
-      "#33A02C"
+      "black",
+      "#bd2929",
+      "#e0b01c",
+      "#16a085"
     )[1:data[, length(unique(split_dataset))]],
     labels = c(
       real = "Real",
-      train = "Prediction - Train",
-      val = "Prediction - Validation",
-      test = "Prediction - Test"
+      train = "Prediction-Train",
+      val = "Prediction-Validation",
+      test = "Prediction-Test"
     )[1:data[, length(unique(split_dataset))]],
     breaks = c(
       "real",
@@ -691,8 +699,9 @@ plot_timeseries <- function(
     date_labels =  "%Y %b"
   ) +
   theme(
+    legend.position = "bottom",
     legend.title = element_blank(),
-    legend.text = element_text(size = 14),
+    legend.text = element_text(size = 10),
     axis.title.x = element_blank(),
     axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5)
   ) +
@@ -703,11 +712,71 @@ plot_timeseries <- function(
       plot,
       file = filename,
       width = plot_width,
-      height = plot_height
+      height = plot_height,
+      units = "mm",
+      dpi = 600
     )
   }
 
   return(plot)
+}
+
+plot_obs_pred <- function(ampvis2_long) {
+  # cast dataset
+  carsten <- dcast(
+    ampvis2_long[, Sample := gsub("true_|pred_", "", Sample)],
+    Sample + OTU ~ predicted,
+    value.var = "count"
+  )[!is.na(predicted)]
+
+  #calc trendline/regression between obs+pred for each OTU
+  trendy_carsten <- carsten[
+    ,
+    {
+      ss_total <- sum((real - mean(real))^2) # Total sum of squares
+      ss_residual <- sum((real - predicted)^2) # Residual sum of squares compared to 1:1 line
+      rsq <- 1 - (ss_residual / ss_total) # R-squared for the 1:1 line
+      model = lm(predicted ~ real) # normal linear regression model
+      list(
+        rsq_1to1 = rsq,
+        lm_intercept = coef(model)[[1]],
+        lm_slope = coef(model)[[2]],
+        lm_rsq = summary(model)$r.squared
+      )
+    },
+    by = OTU
+  ]
+  d <- carsten
+  ggplot(
+    d,
+    aes(x = predicted, y = real)
+  ) +
+    geom_point() +
+    geom_abline(slope = 1, intercept = 0) +
+    geom_smooth(method = "lm", formula = y ~ x) +
+    annotate(
+      "text",
+      x = -Inf,
+      y = Inf,
+      label = as.expression(
+        bquote(
+          atop(
+            R^2 == .(round(trendy_carsten$lm_rsq, 3)),
+            R[1:1]^2 == .(round(trendy_carsten$rsq_1to1, 3))
+          )
+        )
+      ),
+      hjust = -0.1,
+      vjust = 1,
+      size = 3
+    ) +
+    labs(
+      x = "Prediction",
+      y = "Real"
+    ) +
+    #coord_fixed() +
+    #theme(aspect.ratio = 1) +
+    tune::coord_obs_pred()
 }
 
 plot_graph <- function(
