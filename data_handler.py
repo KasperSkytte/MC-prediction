@@ -110,7 +110,7 @@ class DataHandler:
         else:
             return np.min((self._all.shape[1], self.max_num_features))
 
-    def _make_batched_dataset(self, dataset, endindex):
+    def _make_batched_dataset(self, dataset, endindex, data_timestamps):
         """Create a windowed and batched dataset."""
         dataset = dataset.to_numpy()
         T_, N_ = dataset.shape
