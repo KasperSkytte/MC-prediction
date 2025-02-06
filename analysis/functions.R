@@ -198,7 +198,7 @@ read_performance <- function(
     list.files(
       results_dir,
       pattern = "log_[0-9]*_[0-9]*\\.txt",
-      full.names = T
+      full.names = TRUE
     ),
     sep = "\n",
     header = FALSE,
@@ -207,9 +207,9 @@ read_performance <- function(
 
   dt$dataset <- basename(
     gsub(
-      "reformatted|data|asvtable.*$|otutable.*$",
+      "reformatted|data|ASVtable.*$|otutable.*$",
       "",
-      tolower(logfile[grepl(".*asvtable.*|.*otutable.*", tolower(line))])
+      logfile[grepl("abund_file", line)]
     )
   )
 

@@ -196,7 +196,7 @@ datasets_list <- lapply(datasets, function(wwtp) { #for (wwtp in datasets) {
   ) %>%
     filter_otus(0.1)
 
-  dataset_folder <- paste0("datasets/", wwtp)
+  dataset_folder <- file.path("datasets", wwtp)
   dir.create(dataset_folder, recursive = TRUE, showWarnings = FALSE)
 
   #write out abundance table
@@ -205,13 +205,13 @@ datasets_list <- lapply(datasets, function(wwtp) { #for (wwtp in datasets) {
       ASV = rownames(dataset$abund),
       dataset$abund
     ),
-    file = paste0(dataset_folder, "/ASVtable.csv")
+    file = file.path(dataset_folder, "ASVtable.csv")
   )
 
   #write out taxonomy
   fwrite(
     dataset$tax,
-    file = paste0(dataset_folder, "/taxonomy.csv")
+    file = file.path(dataset_folder, "taxonomy.csv")
   )
 
   #write out metadata
@@ -219,7 +219,7 @@ datasets_list <- lapply(datasets, function(wwtp) { #for (wwtp in datasets) {
     dataset$metadata,
     bom = TRUE,
     encoding = "UTF-8",
-    file = paste0(dataset_folder, "/metadata.csv")
+    file = file.path(dataset_folder, "metadata.csv")
   )
   
   return(dataset)

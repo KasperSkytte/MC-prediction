@@ -15,6 +15,16 @@ knitr::opts_chunk$set(
   fig.height = 10,
   cache = FALSE
 )
+
+#when knitting will always be done in the context of the Rmd file, otherwise not
+if (interactive()) {
+  if (!grepl("analysis$", getwd())) {
+    setwd("analysis")
+  }
+} else {
+  renv::load("..")
+}
+
 require("patchwork")
 require("data.table")
 require("ampvis2")
@@ -26,15 +36,6 @@ require("ggraph")
 require("igraph")
 require("patchwork")
 require("scales")
-
-#when knitting will always be done in the context of the Rmd file, otherwise not
-if (interactive()) {
-  if (!grepl("analysis$", getwd())) {
-    setwd("analysis")
-  }
-} else {
-  renv::load("..")
-}
 
 source("functions.R")
 set.seed(42)

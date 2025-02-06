@@ -155,6 +155,6 @@ ansible-venv/
 *.h5
 analysis/results/
 results/
-
+results_*/
 data/sra_submit/
 analysis/results.zip

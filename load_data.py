@@ -92,7 +92,8 @@ def transform(data, transform = "standardize"):
     """'Normalize' (divide by mean) or 'standardize' (subtract mean and divide my std) the data. Both will scale to [0,1]. Use 'divmean' to only divide by the mean without scaling. 'None' returns the data untouched."""
     transform = transform.lower()
     valid_transformations = ["divmean", "normalize", "standardize", "none"]
-    #result = data
+    # if transform == "none":
+    result = data
     mean = data.mean(axis=1).reshape(-1,1)
     std = data.std(axis=1).reshape(-1,1)
 

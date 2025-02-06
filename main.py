@@ -240,10 +240,10 @@ def find_best_graph(data, iterations, num_clusters, max_epochs, early_stopping, 
                 best_performance = test_performance
 
         best_performances.append(best_performance)
-        best_model.save_weights(f'{results_dir}/graph_{cluster_type}_usetimestamps_{use_timestamps}_weights/cluster_{c}')
+        best_model.save_weights(f'{results_dir}/graph_{cluster_type}_weights/cluster_{c}')
 
         prediction, actual_prediction, R_square = make_prediction(data, best_model, use_timestamps)
-        R_square.to_csv(f'{R_square_dir}/graph_{cluster_type}_usetimestamps_{use_timestamps}_cluster_{c}_R_square.csv')
+        R_square.to_csv(f'{R_square_dir}/graph_{cluster_type}_cluster_{c}_R_square.csv')
         
         # reverse transform and overwrite.
         # Better to implement it in data_handler,
@@ -335,21 +335,21 @@ def find_best_graph(data, iterations, num_clusters, max_epochs, early_stopping, 
             dates = dates,
             asvs = data.all.columns[:4],
             highlight_dates = dates_pred_test_start,
-            save_filename = f'graph_{cluster_type}_cluster_{c}_usetimestamps_{use_timestamps}.png'
+            save_filename = f'graph_{cluster_type}_cluster_{c}.png'
         )
 
         #write predicted values to CSV files
         if not path.exists(data_predicted_dir):
             mkdir(data_predicted_dir)
-        prediction.to_csv(f'{data_predicted_dir}/graph_{cluster_type}_cluster_{c}_usetimestamps_{use_timestamps}_predicted.csv')
-        actual_prediction.to_csv(f'{data_predicted_dir}/graph_{cluster_type}_cluster_{c}_usetimestamps_{use_timestamps}_actual_prediction.csv')
-        data.all.to_csv(f'{data_predicted_dir}/graph_{cluster_type}_cluster_{c}_usetimestamps_{use_timestamps}_dataall.csv')
-        data.all_nontrans.to_csv(f'{data_predicted_dir}/graph_{cluster_type}_cluster_{c}_usetimestamps_{use_timestamps}_dataall_nontrans.csv')
+        prediction.to_csv(f'{data_predicted_dir}/graph_{cluster_type}_cluster_{c}_predicted.csv')
+        actual_prediction.to_csv(f'{data_predicted_dir}/graph_{cluster_type}_cluster_{c}_actual_prediction.csv')
+        data.all.to_csv(f'{data_predicted_dir}/graph_{cluster_type}_cluster_{c}_dataall.csv')
+        data.all_nontrans.to_csv(f'{data_predicted_dir}/graph_{cluster_type}_cluster_{c}_dataall_nontrans.csv')
 
         metric_names = best_model.metrics_names
 
     metric_names[0] = 'bray-curtis'
-    with open(f'{results_dir}/graph_{cluster_type}_usetimestamps_{use_timestamps}_performance.txt', 'w') as outfile:
+    with open(f'{results_dir}/graph_{cluster_type}_performance.txt', 'w') as outfile:
         c = 0
         outfile.write(str(metric_names) + '\n')
         for performance in best_performances:
