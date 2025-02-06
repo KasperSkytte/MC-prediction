@@ -8,7 +8,7 @@ timestamp=$(date '+%Y%m%d_%H%M%S')
 logFile="log_${timestamp}.txt"
 
 results_dir=$(cat config.json | jq -r '.results_dir')
-if [ -d "$results_dir" ]
+if [ -d "$results_dir" ] && [ -n "$(ls -A "$results_dir")" ]
 then
   echo "Folder ${results_dir} already exists, please clear or move, and then rerun."
   exit 1

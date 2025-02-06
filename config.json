@@ -30,6 +30,7 @@
     "cluster_func": true,
     "cluster_abund": true,
     "cluster_graph": true,
+    "use_timestamps": true,
     "smoothing_factor": 4,
     "splits": [
         0.80,

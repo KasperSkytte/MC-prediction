@@ -78,7 +78,7 @@ class gcn(tf.keras.Model):
         return h
 
 
-def create_graph_model(num_features, predict_timestamp, graph, window_width, kernel_size=kernel_size_conf, blocks=2, layers=2):
+def create_graph_model(num_features, predict_timestamp, graph, window_width, use_timestamps, kernel_size=kernel_size_conf, blocks=2, layers=2):
     """Create a model without tuning hyperparameters.
        Returns: a keras graph-model."""
 
@@ -124,9 +124,12 @@ def create_graph_model(num_features, predict_timestamp, graph, window_width, ker
     end_conv_2 = keras.layers.Conv2D(filters=out_dim, kernel_size=(1, 1),
                             padding='valid', strides=(1, 1), use_bias=True)
 
-    input_x_ = tf.keras.Input(shape=(window_width, num_features))
-    input_x = tf.keras.layers.Reshape((window_width, num_features, 1))(input_x_)
-    input_x = tf.keras.layers.Permute((2, 1, 3))(input_x)
+    if use_timestamps:
+        input_x_ = tf.keras.Input(shape=(window_width, num_features, 2))
+    else:
+        input_x_ = tf.keras.Input(shape=(window_width, num_features, 1))
+    # input_x = tf.keras.layers.Reshape((window_width, num_features, 1))(input_x_)
+    input_x = tf.keras.layers.Permute((2, 1, 3))(input_x_)
     if window_width < receptive_field:
         x = tf.keras.layers.ZeroPadding2D(padding=((0, 0), (receptive_field-window_width, 0)))(input_x)
     else:
@@ -171,7 +174,7 @@ def create_graph_model(num_features, predict_timestamp, graph, window_width, ker
     return graph_model
 
 
-def find_best_graph(data, iterations, num_clusters, max_epochs, early_stopping, cluster_type, predict_timestamp=1):
+def find_best_graph(data, iterations, num_clusters, max_epochs, early_stopping, cluster_type, predict_timestamp, use_timestamps):
     print(f'\nFitting {num_clusters} cluster(s) of type {cluster_type}')
     best_performances = []
     metric_names = []
@@ -222,7 +225,7 @@ def find_best_graph(data, iterations, num_clusters, max_epochs, early_stopping, 
         for i in range(iterations):
             print(f'Cluster: {c}, Iteration: {i}')
             graph_model = create_graph_model(data.num_features, predict_timestamp, graph=graph_matrix,
-                                             window_width=data.window_width)
+                                             window_width=data.window_width, use_timestamps=use_timestamps)
             graph_model.fit(data.train_batched,
                            epochs=max_epochs,
                            validation_data=data.val_batched,  # if no val data, it should be test_batched
@@ -239,7 +242,7 @@ def find_best_graph(data, iterations, num_clusters, max_epochs, early_stopping, 
         best_performances.append(best_performance)
         best_model.save_weights(f'{results_dir}/graph_{cluster_type}_weights/cluster_{c}')
 
-        prediction, actual_prediction, R_square = make_prediction(data, best_model)
+        prediction, actual_prediction, R_square = make_prediction(data, best_model, use_timestamps)
         R_square.to_csv(f'{R_square_dir}/graph_{cluster_type}_cluster_{c}_R_square.csv')
         
         # reverse transform and overwrite.
@@ -421,10 +424,16 @@ def find_best_idec(data, iterations, num_clusters, tolerance):
         outfile.write('IDEC: ' + str(best_performance[0]) + '\n')
 
 
-def make_prediction(data, lstm_model):
-    actual_prediction = data.all[-data.window_width:].to_numpy().reshape([1, data.window_width, -1])
+def make_prediction(data, lstm_model, use_timestamps):
+    actual_prediction = data.all[-data.window_width:].to_numpy().reshape([1, data.window_width, -1, 1])
+    if use_timestamps:
+        _, T_, N_, _ = actual_prediction.shape
+        data_timestamps = data.data_timestamps[-data.window_width:].reshape([1, data.window_width, 1, 1])
+        data_timestamps = np.repeat(data_timestamps, N_, 2)
+        actual_prediction = np.concatenate((actual_prediction, data_timestamps), axis=3)
+        
     actual_prediction = lstm_model.predict(actual_prediction)
-    actual_prediction = actual_prediction.reshape([data.window_width, -1])
+    actual_prediction = actual_prediction.reshape([data.predict_timestamp, -1])
     
     prediction = lstm_model.predict(data.all_batched)
     prediction = prediction[:, 0]
@@ -694,7 +703,8 @@ if __name__ == '__main__':
             config['max_epochs_lstm'],
             early_stopping,
             'idec',
-            predict_timestamp=config['predict_timestamp']
+            predict_timestamp=config['predict_timestamp'],
+            use_timestamps=config['use_timestamps']
         )
     
     if config['cluster_func'] == True:
@@ -705,7 +715,8 @@ if __name__ == '__main__':
             config['max_epochs_lstm'],
             early_stopping,
             'func',
-            predict_timestamp=config['predict_timestamp']
+            predict_timestamp=config['predict_timestamp'],
+            use_timestamps=config['use_timestamps']
         )
     
     if config['cluster_abund'] == True:
@@ -716,7 +727,8 @@ if __name__ == '__main__':
             config['max_epochs_lstm'],
             early_stopping,
             'abund',
-            predict_timestamp=config['predict_timestamp']
+            predict_timestamp=config['predict_timestamp'],
+            use_timestamps=config['use_timestamps']
         )
 
     if config['cluster_graph'] == True:
@@ -728,7 +740,8 @@ if __name__ == '__main__':
             config['max_epochs_lstm'],
             early_stopping,
             'graph',
-            predict_timestamp=config['predict_timestamp']
+            predict_timestamp=config['predict_timestamp'],
+            use_timestamps=config['use_timestamps']
         )
     
   # clusters_abund_size   [N / num_features]

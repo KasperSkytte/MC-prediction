@@ -63,7 +63,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     #remove user library from .libPaths() as it will be used if present in home directory (and mounted)
     #&& sed -i s/^R_LIBS_USER=/#R_LIBS_USER=/g /opt/R/${R_VERSION}/lib/R/etc/Renviron
 
-RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-py38_23.11.0-2-Linux-x86_64.sh -O /opt/miniconda.sh \
+RUN wget --quiet https://github.com/conda-forge/miniforge/releases/download/24.11.3-0/Miniforge3-24.11.3-0-Linux-x86_64.sh -O /opt/miniconda.sh \
   && /bin/bash /opt/miniconda.sh -b -p /opt/conda \
   && rm -rf /opt/miniconda.sh \
   && conda env create -f /opt/environment.yml -n mc-prediction \

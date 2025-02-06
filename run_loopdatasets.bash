@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -u
 datasets_folder=data/datasets
-datasets=$(find $datasets_folder/* -maxdepth 0 -type d -exec echo -n '"{}" ' \;)
+#datasets=$(find $datasets_folder/* -maxdepth 0 -type d -exec echo -n '"{}" ' \;)
 
 find ${datasets_folder}/* -maxdepth 0 -type d |\
 while read -r f;
@@ -39,6 +39,7 @@ do
     "cluster_func": true,
     "cluster_abund": true,
     "cluster_graph": true,
+    "use_timestamps": true,
     "smoothing_factor": 4,
     "splits": [
         0.80,
