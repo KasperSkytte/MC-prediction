@@ -57,15 +57,15 @@ class IDEC(object):
         self.centers = []
         self.y_pred = []
 
-    def pretrain(self, x, batch_size=32, epochs=200, optimizer='adam'):
-        save_path = './results/ae_weights/'
+    def pretrain(self, x, batch_size=32, epochs=200, optimizer='adam', save_dir = 'results'):
+        save_path = save_dir + '/ae_weights'
         print('...Pretraining...')
         if not os.path.exists(save_path):
             os.makedirs(save_path)
         self.autoencoder.compile(loss='mse', optimizer=optimizer)  # SGD(lr=0.01, momentum=0.9),
         self.autoencoder.fit(x, x, batch_size=batch_size, epochs=epochs, verbose=0)
-        self.autoencoder.save_weights(save_path + 'ae_weights.h5')
-        print(f'Pretrained weights are saved to {save_path}ae_weights.h5')
+        self.autoencoder.save_weights(save_path + '/ae_weights.h5')
+        print(f'Pretrained weights are saved to {save_path}/ae_weights.h5')
         self.pretrained = True
 
     def load_weights(self, weights_path):  # load weights of IDEC model

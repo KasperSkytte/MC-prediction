@@ -373,7 +373,7 @@ def load_idec_model(input_dim, num_clusters):
     return idec_model
 
 
-def find_best_idec(data, iterations, num_clusters, tolerance):
+def find_best_idec(data, iterations, num_clusters, tolerance, results_dir):
     x = data.data_raw
     y = data.clusters_func
     best_model = None
@@ -383,9 +383,9 @@ def find_best_idec(data, iterations, num_clusters, tolerance):
         print('Iteration:', i+1)
         idec_model = create_idec_model(data.num_samples, num_clusters)
         idec_model.model.summary()
-        idec_model.pretrain(x, batch_size=32, epochs=200, optimizer='adam')
+        idec_model.pretrain(x, batch_size=32, epochs=200, optimizer='adam', save_dir = results_dir + '/idec')
         idec_model.compile(loss=['kld', 'mse'], loss_weights=[0.1, 1], optimizer='adam')
-        idec_model.fit(x, y=y, batch_size=32, tol=tolerance, ae_weights=None)
+        idec_model.fit(x, y=y, batch_size=32, tol=tolerance, ae_weights=None, save_dir = results_dir + '/idec')
         clust_metrics = idec_model.metrics
         data.clusters_idec = idec_model.y_pred
         cluster_sizes, r_values, p_values = calc_cluster_correlations(data.data_raw, data.clusters_idec, num_clusters)
@@ -688,7 +688,7 @@ if __name__ == '__main__':
 
     if config['cluster_idec'] == True:
         # Find best IDEC model.
-        find_best_idec(data, config['iterations'], config['num_clusters_idec'], config['tolerance_idec'])
+        find_best_idec(data, config['iterations'], config['num_clusters_idec'], config['tolerance_idec'], results_dir = results_dir)
 
         # Load the best existing IDEC model.
         idec_model = load_idec_model(data.num_samples, config['num_clusters_idec'])
