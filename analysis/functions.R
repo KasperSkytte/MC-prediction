@@ -618,28 +618,31 @@ plot_timeseries <- function(
   filename = paste0(deparse(substitute(data)), "_timeseries.png"),
   save = TRUE,
   plot_width = 180,
-  plot_height = 185
+  plot_height = 185,
+  add_bg_shades = TRUE
 ) {
-  #generate a data frame with x coordinates for
-  #alternating background shades for each year
-  bg_ranges <- data.frame(
-    xmin = seq(
-      from = floor_date(min(data$Date), "year"),
-      to = floor_date(max(data$Date), "year"),
-      by = "2 years"
-    ),
-    xmax = seq(
-      from = floor_date(min(data$Date), "year"),
-      to = floor_date(max(data$Date), "year"),
-      by = "2 years"
-    ) + years(1)
-  )
+  if(isTRUE(add_bg_shades)) {
+    #generate a data frame with x coordinates for
+    #alternating background shades for each year
+    bg_ranges <- data.frame(
+      xmin = seq(
+        from = floor_date(min(data$Date), "year"),
+        to = floor_date(max(data$Date), "year"),
+        by = "2 years"
+      ),
+      xmax = seq(
+        from = floor_date(min(data$Date), "year"),
+        to = floor_date(max(data$Date), "year"),
+        by = "2 years"
+      ) + years(1)
+    )
 
-  #always start at odd years, if data starts at an even year
-  #add 1 year and delete the last row to skew
-  if (year(min(bg_ranges$xmin)) %% 2 == 0) {
-    bg_ranges[] <- lapply(bg_ranges, `+`, years(1))
-    bg_ranges[-nrow(bg_ranges), ]
+    #always start at odd years, if data starts at an even year
+    #add 1 year and delete the last row to skew
+    if (year(min(bg_ranges$xmin)) %% 2 == 0) {
+      bg_ranges[] <- lapply(bg_ranges, `+`, years(1))
+      bg_ranges[-nrow(bg_ranges), ]
+    }
   }
 
   plot <- ggplot(
@@ -654,18 +657,22 @@ plot_timeseries <- function(
   geom_point(data = data[split_dataset == "real"]) +
   geom_line(data = data[split_dataset != "real"], alpha = 0.9) +
   geom_point(data = data[split_dataset != "real"], alpha = 0.9) +
-  geom_rect(
-    data = bg_ranges,
-    aes(
-      xmin = xmin,
-      xmax = xmax,
-      ymin = -Inf,
-      ymax = Inf
-    ),
-    alpha = 0.15,
-    inherit.aes = FALSE,
-    show.legend = FALSE
-  ) +
+  {
+    if(isTRUE(add_bg_shades)) {
+      geom_rect(
+        data = bg_ranges,
+        aes(
+          xmin = xmin,
+          xmax = xmax,
+          ymin = -Inf,
+          ymax = Inf
+        ),
+        alpha = 0.15,
+        inherit.aes = FALSE,
+        show.legend = FALSE
+      )
+    }
+  } +
   geom_vline(xintercept = data[split_dataset == "test", min(Date)]) +
   scale_color_manual(
     values = c(

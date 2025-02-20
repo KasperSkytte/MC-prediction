@@ -98,7 +98,7 @@ combined <- combine_abund(
 )
 ```
 
-## Time series examples
+## Time series examples (figure S10)
 ```{r}
 long <- amp_export_long(
   combined,
@@ -175,7 +175,7 @@ combined <- combine_abund(
 )
 ```
 
-## Time series examples
+## Time series examples (figure 8)
 ```{r}
 long <- amp_export_long(
   combined,
@@ -183,43 +183,45 @@ long <- amp_export_long(
   metadata_vars = c("Date", "split_dataset", "predicted")
 )
 
-genus64 <- long[grepl("^genus64;", OTU)]
-genus64_ts <- plot_timeseries(genus64, save = FALSE) +
-  ggtitle("genus64; s__; g__Parabacteroides") +
+
+
+# top 3 from https://www.nature.com/articles/nature09944/figures/1
+# this one is extremely low abundant, but prediction works well
+genus46 <- long[grepl("^genus46;", OTU)]
+genus46_ts <- plot_timeseries(genus46, save = FALSE, add_bg_shades = FALSE) +
+  ggtitle("genus46; s__; g__Bifidobacterium") +
   theme(
     legend.position = "none",
     axis.text.x = element_blank(),
     axis.ticks.x = element_blank(),
     axis.title.y = element_blank()
   )
-genus64_obs_pred <- plot_obs_pred(genus64)
+genus46_obs_pred <- plot_obs_pred(genus46)
 
-genus69 <- long[grepl("^genus69;", OTU)]
-genus69_ts <- plot_timeseries(genus69, save = FALSE) +
-  ggtitle("genus69; s__; g__") +
+genus160 <- long[grepl("^genus160;", OTU)]
+genus160_ts <- plot_timeseries(genus160, save = FALSE, add_bg_shades = FALSE) +
+  ggtitle("genus160; s__; g__Bacteroides") +
   theme(
     legend.position = "none",
     axis.text.x = element_blank(),
     axis.ticks.x = element_blank()
   )
-genus69_obs_pred <- plot_obs_pred(genus69)
+genus160_obs_pred <- plot_obs_pred(genus160)
 
-genus122 <- long[grepl("^genus122;", OTU)]
-genus122_ts <- plot_timeseries(genus122, save = FALSE) + 
-  ggtitle("genus122; s__; g__Clostridium") +
+genus163 <- long[grepl("^genus163;", OTU)]
+genus163_ts <- plot_timeseries(genus163, save = FALSE, add_bg_shades = FALSE) +
+  ggtitle("genus163; s__; g__Faecalibacterium") +
   theme(
     legend.position = "bottom",
     legend.text = element_text(size = 12),
     axis.title.y = element_blank()
   )
-genus122_obs_pred <- plot_obs_pred(genus122)
+genus163_obs_pred <- plot_obs_pred(genus163)
 
-# "g__Romboutsia"
-# "g__Tetrasphaera"
 
-plot <- genus64_ts + genus64_obs_pred +
-  genus69_ts + genus69_obs_pred +
-  genus122_ts + genus122_obs_pred +
+plot <- genus46_ts + genus46_obs_pred +
+  genus160_ts + genus160_obs_pred +
+  genus163_ts + genus163_obs_pred +
   plot_layout(
     ncol = 2,
     nrow = 3,
@@ -230,6 +232,7 @@ plot <- genus64_ts + genus64_obs_pred +
       6, 2
     )
   )
+
 ggsave(
   plot = plot,
   filename = file.path(
@@ -253,7 +256,7 @@ combined <- combine_abund(
 )
 ```
 
-## Time series examples
+## Time series examples (figure S11)
 ```{r}
 long <- amp_export_long(
   combined,

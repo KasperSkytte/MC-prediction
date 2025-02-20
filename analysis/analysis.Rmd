@@ -222,7 +222,7 @@ ggsave(
 )
 ```
 
-## BC+MAE+MSE (Figure S5)
+## BC+MAE+MSE (Figure S4)
 ```{r}
 bp_all_list <- boxplot_all(
   results_batch_dir,
@@ -340,6 +340,15 @@ ggsave(
   height = 180,
   units = "mm",
   dpi = 600
+)
+```
+
+## Dataset length test (Figure S5)
+```{r}
+boxplot_all(
+  "results/nsamplestest",
+  plot_width = 220,
+  plot_height = 260
 )
 ```
 
@@ -894,7 +903,7 @@ ggsave(
 )
 ```
 
-# Network plots (Figure S4)
+# Network plots (Figure S3)
 ```{r}
 graph_matrix_dir <- file.path(results_batch_dir, "Mariagerfjord/graph_matrix")
 graph_matrix_list <- list.files(
