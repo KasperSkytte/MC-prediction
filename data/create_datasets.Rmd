@@ -34,6 +34,10 @@ if (any(duplicated(metadata$Sample))) {
   stop("One or more sample name(s) are duplicated in sample metadata. Please fix manually")
 }
 
+# Original "Period" column is untidy and contains a mix variables
+# extract SSelect info into an appropriate column
+metadata[grepl(".*SSelect.*", Period), SSelect := Period]
+
 #filter a few useless samples
 metadata <- filter(metadata, !Sample %chin% paste0("MQ201110-", 309:311))
 metadata$Date <- lubridate::dmy(metadata$Date)
@@ -88,7 +92,6 @@ metadata[Plant %chin% "Damhusåen", Plant := paste0("Damhusåen-", Line)]
 metadata[ID == "Lynetten", Plant := "Lynetten"]
 metadata[ID == "Avedøre", Plant := "Avedøre"]
 #metadata[is.na(Plant) & is.na(Line), Plant := ID]
-
 
 #make sure date column is parsed correctly (year-month-day prefered) and
 #sort chronologically, abundances will be sorted according to metadata by amp_load
