@@ -808,6 +808,130 @@ plots <- lapply(
 
 ```
 
+# SSelect analysis (Aalborg W + Viby, Figure S12+S13)
+```{r}
+wwtp_results_dirs <- c(
+  "results/allwwtps/Aalborg W",
+  "results/allwwtps/Viby"
+)
+
+# When was SSelect first implemented (Aalborg W + Viby) ?
+# this was done manually in the data generation markdown
+# not pretty, I know, but just for a supplementary figure
+#metadata[SSelect == "SSelect",.(min(Date)), by = "Plant"]
+#Aalborg W: 2019-11-05
+#Viby: 2020-01-02
+
+#list of all data (train+val+test) from all WWTPs
+plots <- lapply(
+  wwtp_results_dirs,
+  function(wwtp) {
+    combined <- combine_abund(
+      wwtp,
+      cluster_type = "abund"
+    )
+    long <- amp_export_long(
+      combined,
+      tax_levels = "OTU",
+      metadata_vars = c("Date", "split_dataset", "predicted")
+    )
+    
+    #check normal distribution
+    #qqplot(ASV1, rnorm(1000, mean = mean(ASV1), sd = sd(ASV1)))
+    #qqplot(ASV2, rnorm(1000, mean = mean(ASV2), sd = sd(ASV2)))
+    ASV1 <- long[grepl("^ASV1;", OTU)]
+    if(nrow(ASV1) > 0) {
+      #time series plot
+      plot_ts_asv1 <- plot_timeseries(ASV1, save = FALSE) +
+        theme(
+          legend.position = "none",
+          axis.text.x = element_blank(),
+          axis.ticks.x = element_blank(),
+          axis.title.y = element_blank()
+        ) +
+        ggtitle("ASV1 - Tetrasphaera midas_s_5") +
+        scale_y_continuous(breaks = breaks_pretty(n = 5)) +
+        geom_vline(xintercept = as.Date(switch(basename(wwtp), "Aalborg W" = "2019-11-05", "Viby" = "2020-01-02")), linetype="dashed", color = "blue", size = 1)
+
+      # obs vs pred plot
+      plot_obs_pred_asv1 <- plot_obs_pred(ASV1)
+    } else {
+      plot_ts_asv1 <- plot_spacer()
+      plot_obs_pred_asv1 <- plot_spacer()
+    }
+
+    ASV2 <- long[grepl("^ASV2;", OTU)]
+    if(nrow(ASV2) > 0) {
+      plot_ts_asv2 <- plot_timeseries(ASV2, save = FALSE) +
+        theme(
+          legend.position = "none",
+          axis.text.x = element_blank(),
+          axis.ticks.x = element_blank()
+        ) +
+        ggtitle("ASV2 - Ca. Microthrix parvicella") +
+        scale_y_continuous(breaks = breaks_pretty(n = 5)) +
+        geom_vline(xintercept = as.Date(switch(basename(wwtp), "Aalborg W" = "2019-11-05", "Viby" = "2020-01-02")), linetype="dashed", color = "blue", size = 1)
+      
+      # obs vs pred plot
+      plot_obs_pred_asv2 <- plot_obs_pred(ASV2)
+    } else {
+      plot_ts_asv2 <- plot_spacer()
+      plot_obs_pred_asv2 <- plot_spacer()
+    }
+
+    ASV24 <- long[grepl("^ASV24;", OTU)]
+    if(nrow(ASV24) > 0) {
+      plot_ts_asv24 <- plot_timeseries(ASV24, save = FALSE) +
+        theme(
+          legend.position = "bottom",
+          legend.text = element_text(size = 12),
+          axis.title.y = element_blank()
+        ) +
+        ggtitle("ASV24 - Nitrospira defluvii") +
+        scale_y_continuous(breaks = breaks_pretty(n = 5)) +
+        geom_vline(xintercept = as.Date(switch(basename(wwtp), "Aalborg W" = "2019-11-05", "Viby" = "2020-01-02")), linetype="dashed", color = "blue", size = 1)
+      
+      # obs vs pred plot
+      plot_obs_pred_asv24 <- plot_obs_pred(ASV24)
+    } else {
+      plot_ts_asv24 <- plot_spacer()
+      plot_obs_pred_asv24 <- plot_spacer()
+    }
+
+    plot <- plot_ts_asv1 + plot_obs_pred_asv1 +
+      plot_ts_asv2 + plot_obs_pred_asv2 +
+      plot_ts_asv24 + plot_obs_pred_asv24 +
+      plot_layout(
+        ncol = 2,
+        nrow = 3,
+        heights = 4,
+        widths = c(
+          6, 2,
+          6, 2,
+          6, 2
+        )
+      )
+    ggsave(
+      plot = plot,
+      filename = file.path(
+        results_batch_dir,
+        paste0("timeseries example - ", basename(wwtp), ".png")
+      ),
+      width = 250,
+      height = 250,
+      units = "mm",
+      dpi = 600
+    )
+
+    #plot_timeseries(ASV1, save = TRUE)
+    #plot_timeseries(ASV2, save = TRUE)
+    #plot_timeseries(ASV3, save = TRUE)
+    return(plot)
+  }
+)
+
+```
+
 # Heatmap of real vs predicted (Figure 4)
 ```{r}
 results_dir <- file.path(results_batch_dir, "Mariagerfjord")

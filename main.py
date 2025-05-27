@@ -743,7 +743,7 @@ if __name__ == '__main__':
             predict_timestamp=config['predict_timestamp'],
             use_timestamps=config['use_timestamps']
         )
-    
+    print("Finished processing, enjoy!")
   # clusters_abund_size   [N / num_features]
 
     # # Load existing LSTM models. As they are trained for individual clusters, the type and 

@@ -259,8 +259,7 @@ class DataHandler:
         data_raw, meta, func_tax, clusters_func, functions = load_data(config)
         if self.max_num_features > data_raw.shape[0]:
             self.max_num_features = data_raw.shape[0]
-
-        data_timestamps = meta.Week.to_numpy().astype('float32', copy=False).reshape([-1, 1, 1])
+        data_timestamps = meta[config['metadata_date_col']].to_numpy().astype('float32', copy=False).reshape([-1, 1, 1])
         data_timestamps = data_timestamps / data_timestamps.max()
         self.data_timestamps = data_timestamps
         self.use_timestamps = config['use_timestamps']
