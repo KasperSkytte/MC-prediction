@@ -26,6 +26,7 @@ if (interactive()) {
 }
 
 require("patchwork")
+require("rmarkdown")
 require("data.table")
 require("ampvis2")
 require("magrittr")

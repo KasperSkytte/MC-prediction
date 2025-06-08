@@ -26,6 +26,7 @@ if (interactive()) {
 }
 
 require("patchwork")
+require("rmarkdown")
 require("data.table")
 require("ampvis2")
 require("magrittr")
@@ -408,6 +409,7 @@ plots <- lapply(
 plots[[length(plots)]][[1]] <- plots[[length(plots)]][[1]] +
   theme(
     legend.position = "bottom",
+    legend.text = element_text(size = 16),
     axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5),
     axis.ticks.x = element_line()
   )
@@ -429,7 +431,6 @@ plot_asv1 <- wrap_plots(
   widths = c(6, 2),
   guides = "auto"
 )
-plot_asv1
 
 ggsave(
   file = file.path(
@@ -996,7 +997,7 @@ realvspredictedheatmap <- amp_heatmap(
     axis.text.x = element_text(size = 14),
     axis.text.y = element_text(size = 16),
     legend.text = element_text(size = 14),
-    legend.title = element_text(size = 14),
+    legend.title = element_text(size = 18),
     legend.position = "bottom"
   ) +
     labs(fill = "% Relative Abundance") +

@@ -708,8 +708,9 @@ plot_timeseries <- function(
   theme(
     legend.position = "bottom",
     legend.title = element_blank(),
-    legend.text = element_text(size = 10),
+    legend.text = element_text(size = 12),
     axis.title.x = element_blank(),
+    axis.title.y = element_text(size = 12),
     axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5)
   ) +
   ylab("% Relative Abundance")
@@ -775,7 +776,7 @@ plot_obs_pred <- function(ampvis2_long) {
       ),
       hjust = -0.1,
       vjust = 1,
-      size = 3
+      size = 4
     ) +
     labs(
       x = "Prediction",
