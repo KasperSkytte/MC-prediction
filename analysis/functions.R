@@ -703,6 +703,10 @@ plot_timeseries <- function(
         by = "3 months"
       )
     },
+    limits = c(
+      floor_date(min(data$Date), "3 months"),
+      ceiling_date(max(data$Date), "3 months")
+    ),
     date_labels =  "%Y %b"
   ) +
   theme(
