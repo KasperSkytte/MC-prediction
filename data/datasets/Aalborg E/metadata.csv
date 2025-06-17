@@ -1,326 +1,310 @@
-﻿Sample,SeqRun,LibID,Read no,ID,Period,Line,Mean,Plant,Date,Week,Year,Period2,Configuration,Design,Design2,ReturnSludgeSidestream,PrimarySetling,Digester,lat,long,Solids_AerationTank_PointMeasurement,SolidsFraction_AerationTank_PointMeasurement,SVI,DSVI,ExtractionConc,LibraryConc,week_mean_temperature
-MQ191115-203,MQ191115,LIB-Aalborg-E-LT-580,79589,Aalborg oest #580,Summer,LT-2,"",Aalborg E,2018-08-08,32,2018,,"","","","","","",,,,,,,,,20.4
-MQ191115-204,MQ191115,LIB-Aalborg-E-LT-582,79885,Aalborg oest #582,Summer,LT-1,"",Aalborg E,2018-08-15,33,2018,,"","","","","","",,,,,,,,,18.3
-MQ191115-205,MQ191115,LIB-Aalborg-E-LT-584,74007,Aalborg oest #584,Summer,LT-2,"",Aalborg E,2018-08-21,34,2018,,"","","","","","",,,,,,,,,18.5
-MQ191115-206,MQ191115,LIB-Aalborg-E-LT-586,21597,Aalborg oest #586,Summer,LT-2,"",Aalborg E,2018-08-27,35,2018,,"","","","","","",,,,,,,,,18
-MQ191115-207,MQ191115,LIB-Aalborg-E-LT-588,61117,Aalborg oest #588,Summer,LT-1,"",Aalborg E,2018-09-04,36,2018,,"","","","","","",,,,,,,,,18.9
-MQ191115-208,MQ191115,LIB-Aalborg-E-LT-590,71442,Aalborg oest #590,Summer,LT-4,"",Aalborg E,2018-09-10,37,2018,,"","","","","","",,,,,,,,,17
-MQ191115-209,MQ191115,LIB-Aalborg-E-LT-592,53307,Aalborg oest #592,Fall,LT-2,"",Aalborg E,2018-09-17,38,2018,,"","","","","","",,,,,,,,,17
-MQ191115-210,MQ191115,LIB-Aalborg-E-LT-594,67090,Aalborg oest #594,Fall,LT-2,"",Aalborg E,2018-09-24,39,2018,,"","","","","","",,,,,,,,,15.7
-MQ191115-211,MQ191115,LIB-Aalborg-E-LT-596,14260,Aalborg oest #596,Fall,LT-4,"",Aalborg E,2018-10-01,40,2018,,"","","","","","",,,,,,,,,15.5
-MQ191115-212,MQ191115,LIB-Aalborg-E-LT-598,67091,Aalborg oest #598,Fall,LT-1,"",Aalborg E,2018-10-03,40,2018,,"","","","","","",,,,,,,,,15.5
-MQ191115-213,MQ191115,LIB-Aalborg-E-LT-600,61621,Aalborg oest #600,Fall,LT-1,"",Aalborg E,2018-10-17,42,2018,,"","","","","","",,,,,,,,,17.5
-MQ191115-214,MQ191115,LIB-Aalborg-E-LT-602,8858,Aalborg oest #602,Fall,LT-1,"",Aalborg E,2018-10-23,43,2018,,"","","","","","",,,,,,,,,16.1
-MQ191115-215,MQ191115,LIB-Aalborg-E-LT-604,68588,Aalborg oest #604,Fall,LT-1,"",Aalborg E,2018-11-02,44,2018,,"","","","","","",,,,,,,,,13.4
-MQ191115-216,MQ191115,LIB-Aalborg-E-LT-606,13545,Aalborg oest #606,Fall,LT-1,"",Aalborg E,2018-11-07,45,2018,,"","","","","","",,,,,,,,,
-MQ191115-217,MQ191115,LIB-Aalborg-E-LT-608,127003,Aalborg oest #608,Fall,LT-4,"",Aalborg E,2018-11-13,46,2018,,"","","","","","",,,,,,,,,13.9
-MQ191115-218,MQ191115,LIB-Aalborg-E-LT-610,70323,Aalborg oest #610,Fall,LT-4,"",Aalborg E,2018-11-19,47,2018,,"","","","","","",,,,,,,,,13.4
-MQ191115-219,MQ191115,LIB-Aalborg-E-LT-612,65008,Aalborg oest #612,Fall,LT-1,"",Aalborg E,2018-11-26,48,2018,,"","","","","","",,,,,,,,,11.8
-MQ191115-220,MQ191115,LIB-Aalborg-E-LT-614,70433,Aalborg oest #614,Fall,LT-1,"",Aalborg E,2018-12-03,49,2018,,"","","","","","",,,,,,,,,
-MQ191115-221,MQ191115,LIB-Aalborg-E-LT-616,63431,Aalborg oest #616,Fall,LT-1,"",Aalborg E,2018-12-12,50,2018,,"","","","","","",,,,,,,,,
-MQ191115-222,MQ191115,LIB-Aalborg-E-LT-618,92268,Aalborg oest #618,Winter,LT-4,"",Aalborg E,2018-12-18,51,2018,,"","","","","","",,,,,,,,,
-MQ191115-223,MQ191115,LIB-Aalborg-E-LT-620,13117,Aalborg oest #620,Winter,LT-1,"",Aalborg E,2019-01-04,1,2019,,"","","","","","",,,,,,,,,
-MQ191115-224,MQ191115,LIB-Aalborg-E-LT-622,92799,Aalborg oest #622,Winter,LT-1,"",Aalborg E,2019-01-08,2,2019,,"","","","","","",,,,,,,,,
-MQ191115-225,MQ191115,LIB-Aalborg-E-LT-624,55325,Aalborg oest #624,Winter,LT-1,"",Aalborg E,2019-01-14,3,2019,,"","","","","","",,,,,,,,,
-MQ191115-226,MQ191115,LIB-Aalborg-E-LT-626,84797,Aalborg oest #626,Winter,LT-1,"",Aalborg E,2019-01-22,4,2019,,"","","","","","",,,,,,,,,
-MQ191115-227,MQ191115,LIB-Aalborg-E-LT-628,2589,Aalborg oest #628,Winter,LT-3,"",Aalborg E,2019-01-31,5,2019,,"","","","","","",,,,,,,,,
-MQ191115-228,MQ191115,LIB-Aalborg-E-LT-630,61477,Aalborg oest #630,Winter,LT-1,"",Aalborg E,2019-02-04,6,2019,,"","","","","","",,,,,,,,,
-MQ191115-229,MQ191115,LIB-Aalborg-E-LT-632,83465,Aalborg oest #632,Winter,LT-2,"",Aalborg E,2019-02-14,7,2019,,"","","","","","",,,,,,,,,
-MQ191115-230,MQ191115,LIB-Aalborg-E-LT-634,66243,Aalborg oest #634,Winter,LT-1,"",Aalborg E,2019-02-18,8,2019,,"","","","","","",,,,,,,,,
-MQ191115-231,MQ191115,LIB-Aalborg-E-LT-636,64023,Aalborg oest #636,Winter,LT-2,"",Aalborg E,2019-02-25,9,2019,,"","","","","","",,,,,,,,,
-MQ191115-232,MQ191115,LIB-Aalborg-E-LT-638,69136,Aalborg oest #638,Winter,LT-1,"",Aalborg E,2019-03-04,10,2019,,"","","","","","",,,,,,,,,
-MQ200928-1,MQ200928,LIB-AalborgOst-LT-640,48730,Aalborg Ost -640,Winter,LT-3,"",Aalborg E,2019-03-11,11,2019,,"","","","","","",,,,,,,,,
-MQ200928-2,MQ200928,LIB-AalborgOst-LT-642,47320,Aalborg Ost -642,Spring,LT-3,"",Aalborg E,2019-03-22,12,2019,,"","","","","","",,,,,,,,,
-MQ200928-3,MQ200928,LIB-AalborgOst-LT-644,50444,Aalborg Ost -644,Spring,LT-2,"",Aalborg E,2019-03-25,13,2019,,"","","","","","",,,,,,,,,
-MQ200928-4,MQ200928,LIB-AalborgOst-LT-646,52035,Aalborg Ost -646,Spring,LT-2,"",Aalborg E,2019-04-01,14,2019,,"","","","","","",,,,,,,,,
-MQ200928-5,MQ200928,LIB-AalborgOst-LT-648,49800,Aalborg Ost -648,Spring,LT-1,"",Aalborg E,2019-04-08,15,2019,,"","","","","","",,,,,,,,,
-MQ200928-6,MQ200928,LIB-AalborgOst-LT-650,50358,Aalborg Ost -650,Spring,LT-1,"",Aalborg E,2019-04-15,16,2019,,"","","","","","",,,,,,,,,
-MQ200928-7,MQ200928,LIB-AalborgOst-LT-652,53114,Aalborg Ost -652,Spring,LT-2,"",Aalborg E,2019-04-23,17,2019,,"","","","","","",,,,,,,,,
-MQ200928-8,MQ200928,LIB-AalborgOst-LT-654,44177,Aalborg Ost -654,Spring,LT-2,"",Aalborg E,2019-04-30,18,2019,,"","","","","","",,,,,,,,,
-MQ200928-9,MQ200928,LIB-AalborgOst-LT-656,53732,Aalborg Ost -656,Spring,LT-1,"",Aalborg E,2019-05-07,19,2019,,"","","","","","",,,,,,,,,
-MQ200928-10,MQ200928,LIB-AalborgOst-LT-658,48230,Aalborg Ost -658,Spring,LT-1,"",Aalborg E,2019-05-16,20,2019,,"","","","","","",,,,,,,,,
-MQ200928-11,MQ200928,LIB-AalborgOst-LT-660,53430,Aalborg Ost -660,Spring,LT-2,"",Aalborg E,2019-05-23,21,2019,,"","","","","","",,,,,,,,,
-MQ200928-12,MQ200928,LIB-AalborgOst-LT-662,55370,Aalborg Ost -662,Spring,LT-2,"",Aalborg E,2019-05-28,22,2019,,"","","","","","",,,,,,,,,
-MQ200928-13,MQ200928,LIB-AalborgOst-LT-664,51130,Aalborg Ost -664,Spring,LT-1,"",Aalborg E,2019-06-06,23,2019,,"","","","","","",,,,,,,,,
-MQ200928-14,MQ200928,LIB-AalborgOst-LT-666,53167,Aalborg Ost -666,Spring,LT-1,"",Aalborg E,2019-06-12,24,2019,,"","","","","","",,,,,,,,,
-MQ200928-15,MQ200928,LIB-AalborgOst-LT-668,58055,Aalborg Ost -668,Summer,LT-3,"",Aalborg E,2019-06-19,25,2019,,"","","","","","",,,,,,,,,
-MQ200928-16,MQ200928,LIB-AalborgOst-LT-670,57672,Aalborg Ost -670,Summer,LT-3,"",Aalborg E,2019-06-24,26,2019,,"","","","","","",,,,,,,,,
-MQ200928-17,MQ200928,LIB-AalborgOst-LT-672,53257,Aalborg Ost -672,Summer,LT-1,"",Aalborg E,2019-07-03,27,2019,,"","","","","","",,,,,,,,,
-MQ200928-18,MQ200928,LIB-AalborgOst-LT-674,47653,Aalborg Ost -674,Summer,LT-1,"",Aalborg E,2019-07-08,28,2019,,"","","","","","",,,,,,,,,
-MQ200928-19,MQ200928,LIB-AalborgOst-LT-676,52552,Aalborg Ost -676,Summer,LT-2,"",Aalborg E,2019-07-16,29,2019,,"","","","","","",,,,,,,,,
-MQ200928-20,MQ200928,LIB-AalborgOst-LT-678,51763,Aalborg Ost -678,Summer,LT-2,"",Aalborg E,2019-07-25,30,2019,,"","","","","","",,,,,,,,,
-MQ200928-21,MQ200928,LIB-AalborgOst-LT-680,52155,Aalborg Ost -680,Summer,LT-2,"",Aalborg E,2019-07-30,31,2019,,"","","","","","",,,,,,,,,
-MQ200928-22,MQ200928,LIB-AalborgOst-LT-682,53717,Aalborg Ost -682,Summer,LT-2,"",Aalborg E,2019-08-06,32,2019,,"","","","","","",,,,,,,,,
-MQ200928-23,MQ200928,LIB-AalborgOst-LT-684,54672,Aalborg Ost -684,Summer,LT-3,"",Aalborg E,2019-08-13,33,2019,,"","","","","","",,,,,,,,,
-MQ200928-24,MQ200928,LIB-AalborgOst-LT-686,62575,Aalborg Ost -686,Summer,LT-3,"",Aalborg E,2019-08-22,34,2019,,"","","","","","",,,,,,,,,
-MQ200928-25,MQ200928,LIB-AalborgOst-LT-688,58000,Aalborg Ost -688,Summer,LT-3,"",Aalborg E,2019-08-28,35,2019,,"","","","","","",,,,,,,,,
-MQ200928-26,MQ200928,LIB-AalborgOst-LT-690,53274,Aalborg Ost -690,Summer,LT-3,"",Aalborg E,2019-09-05,36,2019,,"","","","","","",,,,,,,,,
-MQ200928-27,MQ200928,LIB-AalborgOst-LT-692,52389,Aalborg Ost -692,Summer,LT-3,"",Aalborg E,2019-09-10,37,2019,,"","","","","","",,,,,,,,,
-MQ200928-28,MQ200928,LIB-AalborgOst-LT-694,53802,Aalborg Ost -694,Fall,LT-3,"",Aalborg E,2019-09-17,38,2019,,"","","","","","",,,,,,,,,
-MQ200928-29,MQ200928,LIB-AalborgOst-LT-696,54186,Aalborg Ost -696,Fall,LT-1,"",Aalborg E,2019-09-25,39,2019,,"","","","","","",,,,,,,,,
-MQ200928-30,MQ200928,LIB-AalborgOst-LT-698,52074,Aalborg Ost -698,Fall,LT-1,"",Aalborg E,2019-09-30,40,2019,,"","","","","","",,,,,,,,,
-MQ200928-31,MQ200928,LIB-AalborgOst-LT-700,51418,Aalborg Ost -700,Fall,LT-4,"",Aalborg E,2019-10-16,42,2019,,"","","","","","",,,,,,,,,
-MQ200928-33,MQ200928,LIB-AalborgOst-LT-704,56647,Aalborg Ost -704,Fall,LT-2,"",Aalborg E,2019-10-30,44,2019,,"","","","","","",,,,,,,,,
-MQ200928-34,MQ200928,LIB-AalborgOst-LT-706,56976,Aalborg Ost -706,Fall,LT-2,"",Aalborg E,2019-11-12,46,2019,,"","","","","","",,,,,,,,,
-MQ200928-35,MQ200928,LIB-AalborgOst-LT-721,55643,Aalborg Ost -721,Winter,LT-1,"",Aalborg E,2020-01-06,2,2020,,"","","","","","",,,,,,,,,
-MQ200928-36,MQ200928,LIB-AalborgOst-LT-722,58574,Aalborg Ost -722,Winter,LT-1,"",Aalborg E,2020-01-12,2,2020,,"","","","","","",,,,,,,,,
-MQ200928-37,MQ200928,LIB-AalborgOst-LT-724,52788,Aalborg Ost -724,Winter,LT-1,"",Aalborg E,2020-01-21,4,2020,,"","","","","","",,,,,,,,,
-MQ200928-38,MQ200928,LIB-AalborgOst-LT-726,50223,Aalborg Ost -726,Winter,LT-1,"",Aalborg E,2020-02-04,6,2020,,"","","","","","",,,,,,,,,
-MQ200928-39,MQ200928,LIB-AalborgOst-LT-728,58883,Aalborg Ost -728,Winter,LT-1,"",Aalborg E,2020-02-11,7,2020,,"","","","","","",,,,,,,,,
-MQ200928-40,MQ200928,LIB-AalborgOst-LT-730,128296,Aalborg Ost -730,Winter,LT-1,"",Aalborg E,2020-02-17,8,2020,,"","","","","","",,,,,,,,,
-MQ200928-41,MQ200928,LIB-AalborgOst-LT-732,55002,Aalborg Ost -732,Winter,LT-1,"",Aalborg E,2020-02-24,9,2020,,"","","","","","",,,,,,,,,
-MQ200928-42,MQ200928,LIB-AalborgOst-LT-734,52922,Aalborg Ost -734,Winter,LT-1,"",Aalborg E,2020-03-05,10,2020,,"","","","","","",,,,,,,,,
-MQ200928-43,MQ200928,LIB-AalborgOst-LT-736,55372,Aalborg Ost -736,Winter,LT-1,"",Aalborg E,2020-03-09,11,2020,,"","","","","","",,,,,,,,,
-MQ200928-44,MQ200928,LIB-AalborgOst-LT-738,55418,Aalborg Ost -738,Spring,LT-1,"",Aalborg E,2020-03-17,12,2020,,"","","","","","",,,,,,,,,
-MQ200928-45,MQ200928,LIB-AalborgOst-LT-740,51412,Aalborg Ost -740,Spring,LT-1,"",Aalborg E,2020-03-24,13,2020,,"","","","","","",,,,,,,,,
-MQ200928-46,MQ200928,LIB-AalborgOst-LT-742,52455,Aalborg Ost -742,Spring,LT-1,"",Aalborg E,2020-03-31,14,2020,,"","","","","","",,,,,,,,,
-MQ200928-47,MQ200928,LIB-AalborgOst-LT-744,59603,Aalborg Ost -744,Spring,LT-1,"",Aalborg E,2020-04-06,15,2020,,"","","","","","",,,,,,,,,
-MQ200928-48,MQ200928,LIB-AalborgOst-LT-746,59604,Aalborg Ost -746,Spring,LT-1,"",Aalborg E,2020-04-15,16,2020,,"","","","","","",,,,,,,,,
-MQ200928-49,MQ200928,LIB-AalborgOst-LT-748,56257,Aalborg Ost -748,Spring,LT-1,"",Aalborg E,2020-04-21,17,2020,,"","","","","","",,,,,,,,,
-MQ200928-50,MQ200928,LIB-AalborgOst-LT-750,53610,Aalborg Ost -750,Spring,LT-1,"",Aalborg E,2020-04-28,18,2020,,"","","","","","",,,,,,,,,
-MQ200928-51,MQ200928,LIB-AalborgOst-LT-752,54529,Aalborg Ost -752,Spring,LT-1,"",Aalborg E,2020-05-05,19,2020,,"","","","","","",,,,,,,,,
-MQ200928-52,MQ200928,LIB-AalborgOst-LT-754,55529,Aalborg Ost -754,Spring,LT-1,"",Aalborg E,2020-05-11,20,2020,,"","","","","","",,,,,,,,,
-MQ200928-53,MQ200928,LIB-AalborgOst-LT-756,52914,Aalborg Ost -756,Spring,LT-1,"",Aalborg E,2020-05-18,21,2020,,"","","","","","",,,,,,,,,
-MQ200928-54,MQ200928,LIB-AalborgOst-LT-758,58366,Aalborg Ost -758,Spring,LT-1,"",Aalborg E,2020-05-25,22,2020,,"","","","","","",,,,,,,,,
-MQ200928-55,MQ200928,LIB-AalborgOst-LT-760,52470,Aalborg Ost -760,Spring,LT-1,"",Aalborg E,2020-06-05,23,2020,,"","","","","","",,,,,,,,,
-MQ200928-56,MQ200928,LIB-AalborgOst-LT-762,55293,Aalborg Ost -762,Spring,LT-1,"",Aalborg E,2020-06-09,24,2020,,"","","","","","",,,,,,,,,
-MQ200928-57,MQ200928,LIB-AalborgOst-LT-764,55967,Aalborg Ost -764,Summer,LT-1,"",Aalborg E,2020-06-18,25,2020,,"","","","","","",,,,,,,,,
-MQ200928-58,MQ200928,LIB-AalborgOst-LT-766,47287,Aalborg Ost -766,Summer,LT-1,"",Aalborg E,2020-06-24,26,2020,,"","","","","","",,,,,,,,,
-MQ200928-59,MQ200928,LIB-AalborgOst-LT-768,49999,Aalborg Ost -768,Summer,LT-1,"",Aalborg E,2020-06-30,27,2020,,"","","","","","",,,,,,,,,
-MQ200928-60,MQ200928,LIB-AalborgOst-LT-770,50857,Aalborg Ost -770,Summer,LT-1,"",Aalborg E,2020-07-09,28,2020,,"","","","","","",,,,,,,,,
-MQ200928-61,MQ200928,LIB-AalborgOst-LT-772,51086,Aalborg Ost -772,Summer,LT-1,"",Aalborg E,2020-07-14,29,2020,,"","","","","","",,,,,,,,,
-MQ200928-62,MQ200928,LIB-AalborgOst-LT-774,47208,Aalborg Ost -774,Summer,LT-1,"",Aalborg E,2020-07-21,30,2020,,"","","","","","",,,,,,,,,
-MQ200928-63,MQ200928,LIB-AalborgOst-LT-776,46631,Aalborg Ost -776,Summer,LT-1,"",Aalborg E,2020-07-28,31,2020,,"","","","","","",,,,,,,,,
-MQ200928-64,MQ200928,LIB-AalborgOst-LT-778,49331,Aalborg Ost -778,Summer,LT-1,"",Aalborg E,2020-08-05,32,2020,,"","","","","","",,,,,,,,,
-MQ1806029-72,MQ1806029,LIB-AAE-BB-01-A-1,,Aalborg oest #1,Winter,LT-1,"",Aalborg E,2015-03-12,11,2015,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,30.38467819,7.874797875,
-MQ1806029-73,MQ1806029,LIB-AAE-BB-02-A-1,,Aalborg oest #4,Spring,LT-1,"",Aalborg E,2015-04-16,16,2015,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,21.89329787,7.461307461,
-MQ1806029-74,MQ1806029,LIB-AAE-BB-03-A-1,,Aalborg oest #7,Spring,LT-1,"",Aalborg E,2015-05-27,22,2015,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,27.97023351,6.802956803,
-MQ1806029-75,MQ1806029,LIB-AAE-BB-04-A-1,,Aalborg oest #10,Summer,LT-1,"",Aalborg E,2015-06-18,25,2015,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,24.99591761,11.23585124,14.9
-MQ1806029-76,MQ1806029,LIB-AAE-BB-05-A-1,,Aalborg oest #13,Summer,LT-1,"",Aalborg E,2015-07-07,28,2015,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,64.05859986,4.738969739,16.6
-MQ1806029-77,MQ1806029,LIB-AAE-BB-06-A-1,,Aalborg oest #16,Summer,LT-1,"",Aalborg E,2015-08-06,32,2015,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,15.7697063,7.784707785,
-MQ1806029-78,MQ1806029,LIB-AAE-BB-07-A-1,,Aalborg oest #19,Fall,LT-1,"",Aalborg E,2015-09-16,38,2015,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,66.5663564,7.328482328,16.1
-MQ1806029-79,MQ1806029,LIB-AAE-BB-08-A-1,,Aalborg oest #22,Fall,LT-3,"",Aalborg E,2015-09-24,39,2015,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,60.23281312,5.072765073,16.1
-MQ1806029-80,MQ1806029,LIB-AAE-BB-09-A-1,,Aalborg oest #25,Fall,LT-2,"",Aalborg E,2015-09-29,40,2015,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,44.73137845,5.306075306,
-MQ1806029-81,MQ1806029,LIB-AAE-BB-10-A-1,,Aalborg oest #28,Fall,LT-2,"",Aalborg E,2015-10-06,41,2015,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,39.86749714,5.146685147,
-MQ1806029-82,MQ1806029,LIB-AAE-BB-11-A-1,,Aalborg oest #31,Fall,LT-2,"",Aalborg E,2015-10-14,42,2015,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,36.92817319,5.622545623,
-MQ1806029-83,MQ1806029,LIB-AAE-BB-12-A-1,,Aalborg oest #34,Fall,LT-2,"",Aalborg E,2015-10-19,43,2015,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,66.28642079,11.36983137,14.8
-MQ1806029-84,MQ1806029,LIB-AAE-BB-13-A-1,,Aalborg oest #37,Fall,LT-2,"",Aalborg E,2015-10-26,44,2015,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,63.52205659,3.82998383,13.9
-MQ1806029-85,MQ1806029,LIB-AAE-BB-14-A-1,,Aalborg oest #40,Fall,LT-1,"",Aalborg E,2015-11-02,45,2015,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,64.50183125,8.32986833,14.9
-MQ1806029-86,MQ1806029,LIB-AAE-BB-15-A-1,,Aalborg oest #43,Fall,LT-1,"",Aalborg E,2015-11-10,46,2015,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,65.51659785,7.530607531,13.6
-MQ1806029-87,MQ1806029,LIB-AAE-BB-16-A-1,,Aalborg oest #46,Fall,LT-1,"",Aalborg E,2015-11-18,47,2015,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,46.43432011,4.926079926,12.3
-MQ1806029-90,MQ1806029,LIB-AAE-BB-19-A-1,,Aalborg oest #55,Fall,LT-1,"",Aalborg E,2015-12-09,50,2015,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,97.33594607,1.695541696,11.6
-MQ1806029-91,MQ1806029,LIB-AAE-BB-20-A-1,,Aalborg oest #58,Winter,LT-2,"",Aalborg E,2015-12-16,51,2015,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,107.3669723,2.206052206,
-MQ1806029-92,MQ1806029,LIB-AAE-BB-21-A-1,,Aalborg oest #61,Winter,LT-2,"",Aalborg E,2015-12-22,52,2015,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,85.48533837,3.225918226,
-MQ1806029-93,MQ1806029,LIB-AAE-BB-22-A-1,,Aalborg oest #64,Winter,LT-2,"",Aalborg E,2016-01-06,1,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,51.43816922,4.752829753,10.5
-MQ1806029-94,MQ1806029,LIB-AAE-BB-23-A-1,,Aalborg oest #67,Winter,LT-1,"",Aalborg E,2016-01-14,2,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,78.7785476,6.785631786,
-MQ1806029-95,MQ1806029,LIB-AAE-BB-24-A-1,,Aalborg oest #70,Winter,LT-2,"",Aalborg E,2016-01-20,3,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,74.39288964,4.671979672,10.9
-MQ1806029-96,MQ1806029,LIB-AAE-BB-25-A-1,,Aalborg oest #73,Winter,LT-2,"",Aalborg E,2016-02-17,7,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,56.36037045,6.301686302,
-MQ1806029-97,MQ1806029,LIB-AAE-BB-26-A-1,,Aalborg oest #76,Winter,LT-2,"",Aalborg E,2016-02-25,8,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,69.12076889,5.885885886,
-MQ1806029-98,MQ1806029,LIB-AAE-BB-27-A-1,,Aalborg oest #79,Winter,LT-1,"",Aalborg E,2016-03-03,9,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,51.7414328,6.323631324,8.6
-MQ1806029-99,MQ1806029,LIB-AAE-BB-28-A-1,,Aalborg oest #82,Winter,LT-4,"",Aalborg E,2016-03-10,10,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,54.35416521,8.793023793,
-MQ1806029-100,MQ1806029,LIB-AAE-BB-29-A-1,,Aalborg oest #85,Spring,LT-2,"",Aalborg E,2016-03-17,11,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,64.35019945,5.567105567,
-MQ1806029-101,MQ1806029,LIB-AAE-BB-30-A-1,,Aalborg oest #88,Spring,LT-1,"",Aalborg E,2016-03-22,12,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,49.52527585,8.692538693,
-MQ1806029-102,MQ1806029,LIB-AAE-BB-31-A-1,,Aalborg oest #91,Spring,LT-2,"",Aalborg E,2016-03-31,13,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,44.83635431,9.233079233,11.1
-MQ1806029-103,MQ1806029,LIB-AAE-BB-32-A-1,,Aalborg oest #94,Spring,LT-2,"",Aalborg E,2016-04-07,14,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,39.30762591,8.441903442,
-MQ1806029-104,MQ1806029,LIB-AAE-BB-33-A-1,,Aalborg oest #97,Spring,LT-2,"",Aalborg E,2016-04-13,15,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,103.1446101,1.830676831,
-MQ1806029-105,MQ1806029,LIB-AAE-BB-34-A-1,,Aalborg oest #100,Spring,LT-2,"",Aalborg E,2016-04-21,16,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,62.44897007,7.728112728,
-MQ1806029-106,MQ1806029,LIB-AAE-BB-35-A-1,,Aalborg oest #103,Spring,LT-2,"",Aalborg E,2016-04-27,17,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,86.41845709,6.950796951,
-MQ1806029-107,MQ1806029,LIB-AAE-BB-36-A-1,,Aalborg oest #106,Spring,LT-2,"",Aalborg E,2016-05-03,18,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,103.5995054,0.214830215,11.2
-MQ1806029-108,MQ1806029,LIB-AAE-BB-37-A-1,,Aalborg oest #109,Spring,LT-4,"",Aalborg E,2016-05-11,19,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,49.43196398,10.35458535,13.4
-MQ1806029-109,MQ1806029,LIB-AAE-BB-38-A-1,,Aalborg oest #112,Spring,LT-2,"",Aalborg E,2016-05-18,20,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,100.0069984,5.936705937,
-MQ1806029-110,MQ1806029,LIB-AAE-BB-39-A-1,,Aalborg oest #115,Spring,LT-3,"",Aalborg E,2016-05-26,21,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,90.82744302,14.14760915,14
-MQ1806029-111,MQ1806029,LIB-AAE-BB-40-A-1,,Aalborg oest #118,Spring,LT-3,"",Aalborg E,2016-06-01,22,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,69.85559988,6.12959113,
-MQ1806029-112,MQ1806029,LIB-AAE-BB-41-A-1,,Aalborg oest #121,Spring,LT-2,"",Aalborg E,2016-06-08,23,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,10.20598596,7.722337722,18.2
-MQ1806029-113,MQ1806029,LIB-AAE-BB-42-A-1,,Aalborg oest #124,Spring,LT-2,"",Aalborg E,2016-06-14,24,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,6.578486948,6.048741049,17.7
-MQ1806029-114,MQ1806029,LIB-AAE-BB-43-A-1,,Aalborg oest #127,Summer,LT-2,"",Aalborg E,2016-06-22,25,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,83.84071664,6.193116193,17.7
-MQ1806029-115,MQ1806029,LIB-AAE-BB-44-A-1,,Aalborg oest #130,Summer,LT-3,"",Aalborg E,2016-06-30,26,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,96.51946719,4.948024948,17.7
-MQ1806029-116,MQ1806029,LIB-AAE-BB-45-A-1,,Aalborg oest #133,Summer,LT-3,"",Aalborg E,2016-07-06,27,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,55.41558775,10.25756526,17
-MQ1806029-118,MQ1806029,LIB-AAE-BB-47-A-1,,Aalborg oest #139,Summer,LT-2,"",Aalborg E,2016-07-27,30,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,119.8357711,6.205821206,18.1
-MQ1806029-119,MQ1806029,LIB-AAE-BB-48-A-1,,Aalborg oest #142,Summer,LT-3,"",Aalborg E,2016-08-03,31,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,95.24809294,0.642180642,17.4
-MQ1806029-120,MQ1806029,LIB-AAE-BB-49-A-1,,Aalborg oest #145,Summer,LT-1,"",Aalborg E,2016-08-10,32,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,44.91800219,12.02240702,
-MQ1806029-122,MQ1806029,LIB-AAE-BB-51-A-1,,Aalborg oest #151,Summer,LT-1,"",Aalborg E,2016-08-22,34,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,96.20453962,3.812658813,17.1
-MQ1806029-123,MQ1806029,LIB-AAE-BB-52-A-1,,Aalborg oest #316,Summer,LT-4,"",Aalborg E,2016-08-30,35,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,73.56474677,10.05775006,17.2
-MQ1806029-124,MQ1806029,LIB-AAE-BB-53-A-1,,Aalborg oest #319,Summer,LT-3,"",Aalborg E,2016-09-06,36,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,56.92024168,8.64980365,18.7
-MQ1806029-125,MQ1806029,LIB-AAE-BB-54-A-1,,Aalborg oest #322,Fall,LT-2,"",Aalborg E,2016-09-15,37,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,77.44885343,0.945945946,20.3
-MQ1806029-126,MQ1806029,LIB-AAE-BB-55-A-1,,Aalborg oest #325,Fall,LT-3,"",Aalborg E,2016-09-20,38,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,35.06193575,12.77084777,18.1
-MQ1806029-127,MQ1806029,LIB-AAE-BB-56-A-1,,Aalborg oest #328,Fall,LT-1,"",Aalborg E,2016-09-27,39,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,61.27090769,8.123123123,18.2
-MQ1806029-128,MQ1806029,LIB-AAE-BB-57-A-1,,Aalborg oest #331,Fall,LT-1,"",Aalborg E,2016-10-06,40,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,55.28728392,5.623700624,17
-MQ1806029-129,MQ1806029,LIB-AAE-BB-58-A-1,,Aalborg oest #334,Fall,LT-1,"",Aalborg E,2016-10-11,41,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,88.42466233,0.660660661,14.5
-MQ1806029-130,MQ1806029,LIB-AAE-BB-59-A-1,,Aalborg oest #337,Fall,LT-2,"",Aalborg E,2016-10-18,42,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,68.0943383,5.911295911,14.9
-MQ1806029-131,MQ1806029,LIB-AAE-BB-60-A-1,,Aalborg oest #340,Fall,LT-2,"",Aalborg E,2016-10-25,43,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,107.2386684,7.03973204,15.5
-MQ1806029-132,MQ1806029,LIB-AAE-BB-61-A-1,,Aalborg oest #343,Fall,LT-1,"",Aalborg E,2016-11-02,44,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,20.62192362,7.683067683,14.5
-MQ1806029-133,MQ1806029,LIB-AAE-BB-62-A-1,,Aalborg oest #346,Fall,LT-1,"",Aalborg E,2016-11-07,45,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,98.72396016,1.963501964,12
-MQ1806029-134,MQ1806029,LIB-AAE-BB-63-A-1,,Aalborg oest #349,Fall,LT-1,"",Aalborg E,2016-11-17,46,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,55.39225978,5.836220836,
-MQ1806029-135,MQ1806029,LIB-AAE-BB-64-A-1,,Aalborg oest #352,Fall,LT-1,"",Aalborg E,2016-11-24,47,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,76.48074276,3.516978517,11.4
-MQ1806029-136,MQ1806029,LIB-AAE-BB-65-A-1,,Aalborg oest #355,Fall,LT-1,"",Aalborg E,2016-11-29,48,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,2.507756549,1.105336105,10.8
-MQ1806029-137,MQ1806029,LIB-AAE-BB-66-A-1,,Aalborg oest #358,Fall,LT-1,"",Aalborg E,2016-12-06,49,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,129.1203023,7.387387387,10.6
-MQ1806029-138,MQ1806029,LIB-AAE-BB-67-A-1,,Aalborg oest #361,Winter,LT-1,"",Aalborg E,2016-12-15,50,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,88.38967038,7.676137676,10.8
-MQ1806029-139,MQ1806029,LIB-AAE-BB-68-A-1,,Aalborg oest #364,Winter,LT-1,"",Aalborg E,2016-12-20,51,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,92.0055054,12.54908755,10.7
-MQ1806029-140,MQ1806029,LIB-AAE-BB-69-A-1,,Aalborg oest #367,Winter,LT-1,"",Aalborg E,2016-12-29,52,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,153.1714372,2.199122199,
-MQ1806029-141,MQ1806029,LIB-AAE-BB-70-A-1,,Aalborg oest #370,Winter,LT-4,"",Aalborg E,2017-01-03,1,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,60.41943686,8.088473088,10
-MQ1806029-143,MQ1806029,LIB-AAE-BB-72-A-1,,Aalborg oest #376,Winter,LT-4,"",Aalborg E,2017-01-17,3,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,146.6046143,1.763686764,9
-MQ1806029-144,MQ1806029,LIB-AAE-BB-73-A-1,,Aalborg oest #379,Winter,LT-3,"",Aalborg E,2017-01-24,4,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,44.64973056,5.265650266,
-MQ1806029-146,MQ1806029,LIB-AAE-BB-75-A-1,,Aalborg oest #385,Winter,LT-1,"",Aalborg E,2017-02-07,6,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,107.0870366,1.223146223,8.6
-MQ1806029-148,MQ1806029,LIB-AAE-BB-77-A-1,,Aalborg oest #391,Winter,LT-4,"",Aalborg E,2017-02-20,8,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,83.39748525,2.678447678,
-MQ1806029-149,MQ1806029,LIB-AAE-BB-78-A-1,,Aalborg oest #394,Winter,LT-2,"",Aalborg E,2017-02-28,9,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,69.039121,4.080619081,9.1
-MQ1806029-151,MQ1806029,LIB-AAE-BB-80-A-1,,Aalborg oest #400,Winter,LT-1,"",Aalborg E,2017-03-14,11,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,53.4910304,2.606837607,9.1
-MQ1806029-154,MQ1806029,LIB-AAE-BB-81-A-1,,Aalborg oest #403,Spring,LT-1,"",Aalborg E,2017-03-21,12,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,41.04562882,6.175808553,9.5
-MQ1806029-155,MQ1806029,LIB-AAE-BB-82-A-1,,Aalborg oest #406,Spring,LT-4,"",Aalborg E,2017-03-28,13,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,64.88840363,0.889705011,
-MQ1806029-157,MQ1806029,LIB-AAE-BB-84-A-1,,Aalborg oest #412,Spring,LT-4,"",Aalborg E,2017-04-10,15,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,47.06345377,11.16810804,
-MQ1806029-158,MQ1806029,LIB-AAE-BB-85-A-1,,Aalborg oest #415,Spring,LT-4,"",Aalborg E,2017-04-20,16,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,43.85140797,11.9357896,10.2
-MQ1806029-159,MQ1806029,LIB-AAE-BB-86-A-1,,Aalborg oest #418,Spring,LT-1,"",Aalborg E,2017-04-24,17,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,55.31574537,7.993128776,11.5
-MQ1806029-160,MQ1806029,LIB-AAE-BB-87-A-1,,Aalborg oest #421,Spring,LT-3,"",Aalborg E,2017-05-03,18,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,38.02402052,12.67029973,12.1
-MQ1806029-161,MQ1806029,LIB-AAE-BB-88-A-1,,Aalborg oest #424,Spring,LT-1,"",Aalborg E,2017-05-09,19,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,43.29279131,10.45966118,
-MQ1806029-162,MQ1806029,LIB-AAE-BB-89-A-1,,Aalborg oest #427,Spring,LT-2,"",Aalborg E,2017-05-18,20,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,55.26496204,8.593768511,12.5
-MQ1806029-163,MQ1806029,LIB-AAE-BB-90-A-1,,Aalborg oest #430,Spring,LT-3,"",Aalborg E,2017-05-23,21,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,43.45783714,9.991707144,16.3
-MQ1806029-164,MQ1806029,LIB-AAE-BB-91-A-1,,Aalborg oest #433,Spring,LT-1,"",Aalborg E,2017-05-30,22,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,59.835462,11.40030802,16.1
-MQ1806029-166,MQ1806029,LIB-AAE-BB-93-A-1,,Aalborg oest #439,Spring,LT-1,"",Aalborg E,2017-06-13,24,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,54.59208288,1.261698851,16.4
-MQ1806029-167,MQ1806029,LIB-AAE-BB-94-A-1,,Aalborg oest #442,Summer,LT-2,"",Aalborg E,2017-06-20,25,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,31.91732473,7.69458595,17.6
-MQ1806029-168,MQ1806029,LIB-AAE-BB-95-A-1,,Aalborg oest #445,Summer,LT-2,"",Aalborg E,2017-06-27,26,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,52.3449204,2.468901789,16.8
-MQ1806029-169,MQ1806029,LIB-AAE-BB-96-A-1,,Aalborg oest #448,Summer,LT-3,"",Aalborg E,2017-07-06,27,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,58.69283701,4.698495439,
-MQ1806029-170,MQ1806029,LIB-AAE-BB-97-A-1,,Aalborg oest #451,Summer,LT-3,"",Aalborg E,2017-07-12,28,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,81.62151182,6.000473878,17
-MQ1806029-171,MQ1806029,LIB-AAE-BB-98-A-1,,Aalborg oest #454,Summer,LT-2,"",Aalborg E,2017-07-27,30,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,42.86113298,7.465940054,18.2
-MQ1806029-172,MQ1806029,LIB-AAE-BB-99-A-1,,Aalborg oest #457,Summer,LT-2,"",Aalborg E,2017-08-02,31,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,45.47647462,9.225210283,
-MQ1806029-173,MQ1806029,LIB-AAE-BB-100-A-1,,Aalborg oest #460,Summer,LT-1,"",Aalborg E,2017-08-09,32,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,29.27659142,11.41452435,17.4
-MQ1806029-174,MQ1806029,LIB-AAE-BB-101-A-1,,Aalborg oest #463,Summer,LT-3,"",Aalborg E,2017-08-15,33,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,112.3708199,9.210993958,17.1
-MQ1806029-175,MQ1806029,LIB-AAE-BB-102-A-1,,Aalborg oest #466,Summer,LT-1,"",Aalborg E,2017-08-23,34,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,36.4497372,7.144888046,17.2
-MQ1806029-176,MQ1806029,LIB-AAE-BB-103-A-1,,Aalborg oest #469,Summer,LT-1,"",Aalborg E,2017-08-30,35,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,53.61450372,12.9984599,17.7
-MQ1806029-177,MQ1806029,LIB-AAE-BB-104-A-1,,Aalborg oest #472,Summer,LT-1,"",Aalborg E,2017-09-05,36,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,30.05103725,7.384196185,16.6
-MQ1806029-178,MQ1806029,LIB-AAE-BB-105-A-1,,Aalborg oest #475,Summer,LT-3,"",Aalborg E,2017-09-12,37,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,27.02942894,7.903092051,16.1
-MQ191115-159,MQ191115,LIB-Aalborg-E-LT-478,20881,Aalborg oest #478,Fall,LT-2,"",Aalborg E,2017-09-19,38,2017,,"","","","","","",,,,,,,,,16.3
-MQ191115-160,MQ191115,LIB-Aalborg-E-LT-481,63174,Aalborg oest #481,Fall,LT-2,"",Aalborg E,2017-09-26,39,2017,,"","","","","","",,,,,,,,,17.2
-MQ191115-161,MQ191115,LIB-Aalborg-E-LT-484,47612,Aalborg oest #484,Fall,LT-1,"",Aalborg E,2017-10-03,40,2017,,"","","","","","",,,,,,,,,15.2
-MQ191115-162,MQ191115,LIB-Aalborg-E-LT-487,51025,Aalborg oest #487,Fall,LT-1,"",Aalborg E,2017-10-10,41,2017,,"","","","","","",,,,,,,,,15.2
-MQ191115-163,MQ191115,LIB-Aalborg-E-LT-490,64320,Aalborg oest #490,Fall,LT-1,"",Aalborg E,2017-10-18,42,2017,,"","","","","","",,,,,,,,,15.2
-MQ191115-164,MQ191115,LIB-Aalborg-E-LT-493,59727,Aalborg oest #493,Fall,LT-1,"",Aalborg E,2017-10-24,43,2017,,"","","","","","",,,,,,,,,13
-MQ191115-165,MQ191115,LIB-Aalborg-E-LT-496,54213,Aalborg oest #496,Fall,LT-1,"",Aalborg E,2017-11-03,44,2017,,"","","","","","",,,,,,,,,14
-MQ191115-166,MQ191115,LIB-Aalborg-E-LT-499,81666,Aalborg oest #499,Fall,LT-1,"",Aalborg E,2017-11-07,45,2017,,"","","","","","",,,,,,,,,13
-MQ191115-167,MQ191115,LIB-Aalborg-E-LT-502,56379,Aalborg oest #502,Fall,LT-4,"",Aalborg E,2017-11-17,46,2017,,"","","","","","",,,,,,,,,13
-MQ191115-168,MQ191115,LIB-Aalborg-E-LT-505,66670,Aalborg oest #505,Fall,LT-4,"",Aalborg E,2017-11-21,47,2017,,"","","","","","",,,,,,,,,12.1
-MQ191115-169,MQ191115,LIB-Aalborg-E-LT-508,42705,Aalborg oest #508,Fall,LT-4,"",Aalborg E,2017-11-29,48,2017,,"","","","","","",,,,,,,,,10.8
-MQ191115-170,MQ191115,LIB-Aalborg-E-LT-511,56672,Aalborg oest #511,Fall,LT-2,"",Aalborg E,2017-12-06,49,2017,,"","","","","","",,,,,,,,,11.7
-MQ191115-171,MQ191115,LIB-Aalborg-E-LT-514,62554,Aalborg oest #514,Fall,LT-1,"",Aalborg E,2017-12-12,50,2017,,"","","","","","",,,,,,,,,10.5
-MQ191115-172,MQ191115,LIB-Aalborg-E-LT-517,60923,Aalborg oest #517,Winter,LT-1,"",Aalborg E,2017-12-19,51,2017,,"","","","","","",,,,,,,,,10.2
-MQ191115-173,MQ191115,LIB-Aalborg-E-LT-520,55767,Aalborg oest #520,Winter,LT-4,"",Aalborg E,2018-01-04,1,2018,,"","","","","","",,,,,,,,,9.1
-MQ191115-174,MQ191115,LIB-Aalborg-E-LT-522,57194,Aalborg oest #522,Winter,LT-3,"",Aalborg E,2018-01-09,2,2018,,"","","","","","",,,,,,,,,9
-MQ191115-175,MQ191115,LIB-Aalborg-E-LT-524,81884,Aalborg oest #524,Winter,LT-3,"",Aalborg E,2018-01-15,3,2018,,"","","","","","",,,,,,,,,7.9
-MQ191115-176,MQ191115,LIB-Aalborg-E-LT-526,100447,Aalborg oest #526,Winter,LT-1,"",Aalborg E,2018-01-23,4,2018,,"","","","","","",,,,,,,,,9.2
-MQ191115-177,MQ191115,LIB-Aalborg-E-LT-528,64271,Aalborg oest #528,Winter,LT-2,"",Aalborg E,2018-01-30,5,2018,,"","","","","","",,,,,,,,,8.3
-MQ191115-178,MQ191115,LIB-Aalborg-E-LT-530,83728,Aalborg oest #530,Winter,LT-1,"",Aalborg E,2018-02-06,6,2018,,"","","","","","",,,,,,,,,8.3
-MQ191115-179,MQ191115,LIB-Aalborg-E-LT-532,84933,Aalborg oest #532,Winter,LT-2,"",Aalborg E,2018-02-12,7,2018,,"","","","","","",,,,,,,,,7.9
-MQ191115-180,MQ191115,LIB-Aalborg-E-LT-534,86777,Aalborg oest #534,Winter,LT-2,"",Aalborg E,2018-02-21,8,2018,,"","","","","","",,,,,,,,,8.7
-MQ191115-181,MQ191115,LIB-Aalborg-E-LT-536,82231,Aalborg oest #536,Winter,LT-1,"",Aalborg E,2018-02-27,9,2018,,"","","","","","",,,,,,,,,7.9
-MQ191115-182,MQ191115,LIB-Aalborg-E-LT-538,78051,Aalborg oest #538,Winter,LT-1,"",Aalborg E,2018-03-03,9,2018,,"","","","","","",,,,,,,,,7.9
-MQ191115-183,MQ191115,LIB-Aalborg-E-LT-540,101358,Aalborg oest #540,Winter,LT-1,"",Aalborg E,2018-03-12,11,2018,,"","","","","","",,,,,,,,,7.3
-MQ191115-184,MQ191115,LIB-Aalborg-E-LT-542,92818,Aalborg oest #542,Spring,LT-1,"",Aalborg E,2018-03-19,12,2018,,"","","","","","",,,,,,,,,7.8
-MQ191115-185,MQ191115,LIB-Aalborg-E-LT-544,108443,Aalborg oest #544,Spring,LT-1,"",Aalborg E,2018-03-27,13,2018,,"","","","","","",,,,,,,,,9.7
-MQ191115-186,MQ191115,LIB-Aalborg-E-LT-546,94177,Aalborg oest #546,Spring,LT-1,"",Aalborg E,2018-04-04,14,2018,,"","","","","","",,,,,,,,,9.4
-MQ191115-187,MQ191115,LIB-Aalborg-E-LT-548,84929,Aalborg oest #548,Spring,LT-1,"",Aalborg E,2018-04-10,15,2018,,"","","","","","",,,,,,,,,10
-MQ191115-188,MQ191115,LIB-Aalborg-E-LT-550,76975,Aalborg oest #550,Spring,LT-1,"",Aalborg E,2018-04-16,16,2018,,"","","","","","",,,,,,,,,12.6
-MQ191115-189,MQ191115,LIB-Aalborg-E-LT-552,73053,Aalborg oest #552,Spring,LT-1,"",Aalborg E,2018-04-24,17,2018,,"","","","","","",,,,,,,,,12.4
-MQ191115-190,MQ191115,LIB-Aalborg-E-LT-554,50136,Aalborg oest #554,Spring,LT-3,"",Aalborg E,2018-04-30,18,2018,,"","","","","","",,,,,,,,,12.7
-MQ191115-191,MQ191115,LIB-Aalborg-E-LT-556,62363,Aalborg oest #556,Spring,LT-1,"",Aalborg E,2018-05-07,19,2018,,"","","","","","",,,,,,,,,14.7
-MQ191115-192,MQ191115,LIB-Aalborg-E-LT-558,27048,Aalborg oest #558,Spring,LT-2,"",Aalborg E,2018-05-14,20,2018,,"","","","","","",,,,,,,,,14.7
-MQ191115-193,MQ191115,LIB-Aalborg-E-LT-560,51370,Aalborg oest #560,Spring,LT-1,"",Aalborg E,2018-05-22,21,2018,,"","","","","","",,,,,,,,,15.95
-MQ191115-194,MQ191115,LIB-Aalborg-E-LT-562,62995,Aalborg oest #562,Spring,LT-3,"",Aalborg E,2018-05-28,22,2018,,"","","","","","",,,,,,,,,
-MQ191115-195,MQ191115,LIB-Aalborg-E-LT-564,68537,Aalborg oest #564,Spring,LT-1,"",Aalborg E,2018-06-04,23,2018,,"","","","","","",,,,,,,,,18.7
-MQ191115-196,MQ191115,LIB-Aalborg-E-LT-566,62855,Aalborg oest #566,Spring,LT-1,"",Aalborg E,2018-06-11,24,2018,,"","","","","","",,,,,,,,,16.7
-MQ191115-197,MQ191115,LIB-Aalborg-E-LT-568,56893,Aalborg oest #568,Summer,LT-1,"",Aalborg E,2018-06-18,25,2018,,"","","","","","",,,,,,,,,17.1
-MQ191115-198,MQ191115,LIB-Aalborg-E-LT-570,66357,Aalborg oest #570,Summer,LT-1,"",Aalborg E,2018-06-26,26,2018,,"","","","","","",,,,,,,,,18.7
-MQ191115-199,MQ191115,LIB-Aalborg-E-LT-572,73958,Aalborg oest #572,Summer,LT-1,"",Aalborg E,2018-07-02,27,2018,,"","","","","","",,,,,,,,,
-MQ191115-200,MQ191115,LIB-Aalborg-E-LT-574,95185,Aalborg oest #574,Summer,LT-2,"",Aalborg E,2018-07-11,28,2018,,"","","","","","",,,,,,,,,20.6
-MQ191115-201,MQ191115,LIB-Aalborg-E-LT-576,70963,Aalborg oest #576,Summer,LT-1,"",Aalborg E,2018-07-16,29,2018,,"","","","","","",,,,,,,,,20.4
-MQ191115-202,MQ191115,LIB-Aalborg-E-LT-578,90003,Aalborg oest #578,Summer,LT-1,"",Aalborg E,2018-08-02,31,2018,,"","","","","","",,,,,,,,,20.7
-MQ220816-46,MQ220816,LIB-Aalborg-Oest-LT-708,,"",Fall,"","",Aalborg E,2019-12-11,50,2019,,"","","","","","",,,,,,,,,
-MQ220816-47,MQ220816,LIB-Aalborg-Oest-LT-710,,"",Fall,"","",Aalborg E,2019-12-11,50,2019,,"","","","","","",,,,,,,,,
-MQ220816-48,MQ220816,LIB-Aalborg-Oest-LT-712,,"",Fall,"","",Aalborg E,2019-12-11,50,2019,,"","","","","","",,,,,,,,,
-MQ220816-49,MQ220816,LIB-Aalborg-Oest-LT-714,,"",Fall,"","",Aalborg E,2019-12-11,50,2019,,"","","","","","",,,,,,,,,
-MQ220816-50,MQ220816,LIB-Aalborg-Oest-LT-716,,"",Fall,"","",Aalborg E,2019-12-11,50,2019,,"","","","","","",,,,,,,,,
-MQ220816-51,MQ220816,LIB-Aalborg-Oest-LT-718,,"",Fall,"","",Aalborg E,2019-12-11,50,2019,,"","","","","","",,,,,,,,,
-MQ220816-52,MQ220816,LIB-Aalborg-Oest-LT-780,,"",Summer,"","",Aalborg E,2020-08-12,33,2020,,"","","","","","",,,,,,,,,
-MQ220816-53,MQ220816,LIB-Aalborg-Oest-LT-782,,"",Summer,"","",Aalborg E,2020-08-19,34,2020,,"","","","","","",,,,,,,,,
-MQ220816-54,MQ220816,LIB-Aalborg-Oest-LT-784,,"",Summer,"","",Aalborg E,2020-08-27,35,2020,,"","","","","","",,,,,,,,,
-MQ220816-55,MQ220816,LIB-Aalborg-Oest-LT-786,,"",Summer,"","",Aalborg E,2020-08-31,36,2020,,"","","","","","",,,,,,,,,
-MQ220816-56,MQ220816,LIB-Aalborg-Oest-LT-788,,"",Summer,"","",Aalborg E,2020-09-08,37,2020,,"","","","","","",,,,,,,,,
-MQ220816-57,MQ220816,LIB-Aalborg-Oest-LT-790,,"",Summer,"","",Aalborg E,2020-09-14,38,2020,,"","","","","","",,,,,,,,,
-MQ220816-58,MQ220816,LIB-Aalborg-Oest-LT-792,,"",Fall,"","",Aalborg E,2020-09-22,39,2020,,"","","","","","",,,,,,,,,
-MQ220816-59,MQ220816,LIB-Aalborg-Oest-LT-794,,"",Fall,"","",Aalborg E,2020-09-28,40,2020,,"","","","","","",,,,,,,,,
-MQ220816-60,MQ220816,LIB-Aalborg-Oest-LT-796,,"",Fall,"","",Aalborg E,2020-10-05,41,2020,,"","","","","","",,,,,,,,,
-MQ220816-61,MQ220816,LIB-Aalborg-Oest-LT-798,,"",Fall,"","",Aalborg E,2020-10-12,42,2020,,"","","","","","",,,,,,,,,
-MQ220816-62,MQ220816,LIB-Aalborg-Oest-LT-800,,"",Fall,"","",Aalborg E,2020-10-19,43,2020,,"","","","","","",,,,,,,,,
-MQ220816-63,MQ220816,LIB-Aalborg-Oest-LT-802,,"",Fall,"","",Aalborg E,2020-10-26,44,2020,,"","","","","","",,,,,,,,,
-MQ220816-64,MQ220816,LIB-Aalborg-Oest-LT-804,,"",Fall,"","",Aalborg E,2020-11-02,45,2020,,"","","","","","",,,,,,,,,
-MQ220816-65,MQ220816,LIB-Aalborg-Oest-LT-806,,"",Fall,"","",Aalborg E,2020-11-12,46,2020,,"","","","","","",,,,,,,,,
-MQ220816-66,MQ220816,LIB-Aalborg-Oest-LT-808,,"",Fall,"","",Aalborg E,2020-11-16,47,2020,,"","","","","","",,,,,,,,,
-MQ220816-67,MQ220816,LIB-Aalborg-Oest-LT-810,,"",Fall,"","",Aalborg E,2020-11-23,48,2020,,"","","","","","",,,,,,,,,
-MQ220816-68,MQ220816,LIB-Aalborg-Oest-LT-812,,"",Fall,"","",Aalborg E,2020-11-30,49,2020,,"","","","","","",,,,,,,,,
-MQ220816-69,MQ220816,LIB-Aalborg-Oest-LT-814,,"",Fall,"","",Aalborg E,2020-12-07,50,2020,,"","","","","","",,,,,,,,,
-MQ220816-70,MQ220816,LIB-Aalborg-Oest-LT-816,,"",Fall,"","",Aalborg E,2020-12-14,51,2020,,"","","","","","",,,,,,,,,
-MQ220816-71,MQ220816,LIB-Aalborg-Oest-LT-818,,"",Winter,"","",Aalborg E,2020-12-21,52,2020,,"","","","","","",,,,,,,,,
-MQ220816-72,MQ220816,LIB-Aalborg-Oest-LT-820,,"",Winter,"","",Aalborg E,2020-12-28,53,2020,,"","","","","","",,,,,,,,,
-MQ220816-73,MQ220816,LIB-Aalborg-Oest-LT-822,,"",Winter,"","",Aalborg E,2021-01-04,1,2021,,"","","","","","",,,,,,,,,
-MQ220816-74,MQ220816,LIB-Aalborg-Oest-LT-824,,"",Winter,"","",Aalborg E,2021-01-11,2,2021,,"","","","","","",,,,,,,,,
-MQ220816-75,MQ220816,LIB-Aalborg-Oest-LT-826,,"",Winter,"","",Aalborg E,2021-01-18,3,2021,,"","","","","","",,,,,,,,,
-MQ220816-77,MQ220816,LIB-Aalborg-Oest-LT-830,,"",Winter,"","",Aalborg E,2021-02-03,5,2021,,"","","","","","",,,,,,,,,
-MQ220816-78,MQ220816,LIB-Aalborg-Oest-LT-832,,"",Winter,"","",Aalborg E,2021-02-08,6,2021,,"","","","","","",,,,,,,,,
-MQ220816-79,MQ220816,LIB-Aalborg-Oest-LT-834,,"",Winter,"","",Aalborg E,2021-02-15,7,2021,,"","","","","","",,,,,,,,,
-MQ220816-80,MQ220816,LIB-Aalborg-Oest-LT-836,,"",Winter,"","",Aalborg E,2021-02-22,8,2021,,"","","","","","",,,,,,,,,
-MQ220816-81,MQ220816,LIB-Aalborg-Oest-LT-838,,"",Winter,"","",Aalborg E,2021-03-01,9,2021,,"","","","","","",,,,,,,,,
-MQ220816-82,MQ220816,LIB-Aalborg-Oest-LT-840,,"",Winter,"","",Aalborg E,2021-03-08,10,2021,,"","","","","","",,,,,,,,,
-MQ220816-83,MQ220816,LIB-Aalborg-Oest-LT-842,,"",Spring,"","",Aalborg E,2021-03-15,11,2021,,"","","","","","",,,,,,,,,
-MQ220816-84,MQ220816,LIB-Aalborg-Oest-LT-844,,"",Spring,"","",Aalborg E,2021-03-22,12,2021,,"","","","","","",,,,,,,,,
-MQ220816-85,MQ220816,LIB-Aalborg-Oest-LT-846,,"",Spring,"","",Aalborg E,2021-03-30,13,2021,,"","","","","","",,,,,,,,,
-MQ220816-86,MQ220816,LIB-Aalborg-Oest-LT-848,,"",Spring,"","",Aalborg E,2021-04-06,14,2021,,"","","","","","",,,,,,,,,
-MQ220816-87,MQ220816,LIB-Aalborg-Oest-LT-850,,"",Spring,"","",Aalborg E,2021-04-13,15,2021,,"","","","","","",,,,,,,,,
-MQ220816-88,MQ220816,LIB-Aalborg-Oest-LT-852,,"",Spring,"","",Aalborg E,2021-04-19,16,2021,,"","","","","","",,,,,,,,,
-MQ220816-89,MQ220816,LIB-Aalborg-Oest-LT-854,,"",Spring,"","",Aalborg E,2021-04-26,17,2021,,"","","","","","",,,,,,,,,
-MQ220816-90,MQ220816,LIB-Aalborg-Oest-LT-856,,"",Spring,"","",Aalborg E,2021-05-03,18,2021,,"","","","","","",,,,,,,,,
-MQ220816-91,MQ220816,LIB-Aalborg-Oest-LT-858,,"",Spring,"","",Aalborg E,2021-05-10,19,2021,,"","","","","","",,,,,,,,,
-MQ220816-92,MQ220816,LIB-Aalborg-Oest-LT-860,,"",Spring,"","",Aalborg E,2021-05-18,20,2021,,"","","","","","",,,,,,,,,
-MQ220816-93,MQ220816,LIB-Aalborg-Oest-LT-862,,"",Spring,"","",Aalborg E,2021-05-26,21,2021,,"","","","","","",,,,,,,,,
-MQ220816-94,MQ220816,LIB-Aalborg-Oest-LT-864,,"",Spring,"","",Aalborg E,2021-06-01,22,2021,,"","","","","","",,,,,,,,,
-MQ220816-95,MQ220816,LIB-Aalborg-Oest-LT-866,,"",Spring,"","",Aalborg E,2021-06-10,23,2021,,"","","","","","",,,,,,,,,
-MQ220816-96,MQ220816,LIB-Aalborg-Oest-LT-868,,"",Spring,"","",Aalborg E,2021-06-14,24,2021,,"","","","","","",,,,,,,,,
-MQ220816-97,MQ220816,LIB-Aalborg-Oest-LT-870,,"",Summer,"","",Aalborg E,2021-06-22,25,2021,,"","","","","","",,,,,,,,,
-MQ220816-98,MQ220816,LIB-Aalborg-Oest-LT-872,,"",Summer,"","",Aalborg E,2021-06-29,26,2021,,"","","","","","",,,,,,,,,
-MQ220816-99,MQ220816,LIB-Aalborg-Oest-LT-874,,"",Summer,"","",Aalborg E,2021-07-05,27,2021,,"","","","","","",,,,,,,,,
-MQ220816-100,MQ220816,LIB-Aalborg-Oest-LT-876,,"",Summer,"","",Aalborg E,2021-07-13,28,2021,,"","","","","","",,,,,,,,,
-MQ220816-101,MQ220816,LIB-Aalborg-Oest-LT-878,,"",Summer,"","",Aalborg E,2021-07-20,29,2021,,"","","","","","",,,,,,,,,
-MQ220816-102,MQ220816,LIB-Aalborg-Oest-LT-880,,"",Summer,"","",Aalborg E,2021-07-26,30,2021,,"","","","","","",,,,,,,,,
-MQ220816-103,MQ220816,LIB-Aalborg-Oest-LT-882,,"",Summer,"","",Aalborg E,2021-08-02,31,2021,,"","","","","","",,,,,,,,,
-MQ230309-152,MQ230309,LIB-Aalborg-Ost-LT-922,,"",Winter,"",Activated sludge,Aalborg E,2021-12-20,51,2021,,"","","","","","",,,,,,,,,
-MQ230309-153,MQ230309,LIB-Aalborg-Ost-LT-924,,"",Winter,"",Activated sludge,Aalborg E,2021-12-29,52,2021,,"","","","","","",,,,,,,,,
-MQ230309-154,MQ230309,LIB-Aalborg-Ost-LT-926,,"",Winter,"",Activated sludge,Aalborg E,2022-01-04,1,2022,,"","","","","","",,,,,,,,,
-MQ230309-155,MQ230309,LIB-Aalborg-Ost-LT-928,,"",Winter,"",Activated sludge,Aalborg E,2022-01-13,2,2022,,"","","","","","",,,,,,,,,
-MQ230309-156,MQ230309,LIB-Aalborg-Ost-LT-930,,"",Winter,"",Activated sludge,Aalborg E,2022-01-19,3,2022,,"","","","","","",,,,,,,,,
-MQ230309-157,MQ230309,LIB-Aalborg-Ost-LT-932,,"",Winter,"",Activated sludge,Aalborg E,2022-01-24,4,2022,,"","","","","","",,,,,,,,,
-MQ230309-158,MQ230309,LIB-Aalborg-Ost-LT-934,,"",Winter,"",Activated sludge,Aalborg E,2022-02-02,5,2022,,"","","","","","",,,,,,,,,
-MQ230309-160,MQ230309,LIB-Aalborg-Ost-LT-938,,"",Winter,"",Activated sludge,Aalborg E,2022-02-15,7,2022,,"","","","","","",,,,,,,,,
-MQ230309-161,MQ230309,LIB-Aalborg-Ost-LT-940,,"",Winter,"",Activated sludge,Aalborg E,2022-02-21,8,2022,,"","","","","","",,,,,,,,,
-MQ230309-162,MQ230309,LIB-Aalborg-Ost-LT-942,,"",Winter,"",Activated sludge,Aalborg E,2022-02-28,9,2022,,"","","","","","",,,,,,,,,
-MQ230309-163,MQ230309,LIB-Aalborg-Ost-LT-944,,"",Winter,"",Activated sludge,Aalborg E,2022-03-10,10,2022,,"","","","","","",,,,,,,,,
-MQ230309-164,MQ230309,LIB-Aalborg-Ost-LT-946,,"",Spring,"",Activated sludge,Aalborg E,2022-03-17,11,2022,,"","","","","","",,,,,,,,,
-MQ230309-166,MQ230309,LIB-Aalborg-Ost-LT-950,,"",Spring,"",Activated sludge,Aalborg E,2022-03-27,12,2022,,"","","","","","",,,,,,,,,
-MQ230309-167,MQ230309,LIB-Aalborg-Ost-LT-952,,"",Spring,"",Activated sludge,Aalborg E,2022-04-07,14,2022,,"","","","","","",,,,,,,,,
-MQ230309-168,MQ230309,LIB-Aalborg-Ost-LT-954,,"",Spring,"",Activated sludge,Aalborg E,2022-04-11,15,2022,,"","","","","","",,,,,,,,,
-MQ230309-171,MQ230309,LIB-Aalborg-Ost-LT-960,,"",Spring,"",Activated sludge,Aalborg E,2022-05-11,19,2022,,"","","","","","",,,,,,,,,
-MQ230309-172,MQ230309,LIB-Aalborg-Ost-LT-962,,"",Spring,"",Activated sludge,Aalborg E,2022-05-16,20,2022,,"","","","","","",,,,,,,,,
-MQ230309-133,MQ230309,LIB-Aalborg-Ost-LT-884,,"",Summer,"",Activated sludge,Aalborg E,2021-08-09,32,2021,,"","","","","","",,,,,,,,,
-MQ230309-134,MQ230309,LIB-Aalborg-Ost-LT-886,,"",Summer,"",Activated sludge,Aalborg E,2021-08-16,33,2021,,"","","","","","",,,,,,,,,
-MQ230309-135,MQ230309,LIB-Aalborg-Ost-LT-888,,"",Summer,"",Activated sludge,Aalborg E,2021-08-23,34,2021,,"","","","","","",,,,,,,,,
-MQ230309-136,MQ230309,LIB-Aalborg-Ost-LT-890,,"",Summer,"",Activated sludge,Aalborg E,2021-09-01,35,2021,,"","","","","","",,,,,,,,,
-MQ230309-137,MQ230309,LIB-Aalborg-Ost-LT-892,,"",Summer,"",Activated sludge,Aalborg E,2021-09-06,36,2021,,"","","","","","",,,,,,,,,
-MQ230309-138,MQ230309,LIB-Aalborg-Ost-LT-894,,"",Summer,"",Activated sludge,Aalborg E,2021-09-13,37,2021,,"","","","","","",,,,,,,,,
-MQ230309-139,MQ230309,LIB-Aalborg-Ost-LT-896,,"",Fall,"",Activated sludge,Aalborg E,2021-09-23,38,2021,,"","","","","","",,,,,,,,,
-MQ230309-140,MQ230309,LIB-Aalborg-Ost-LT-898,,"",Fall,"",Activated sludge,Aalborg E,2021-09-27,39,2021,,"","","","","","",,,,,,,,,
-MQ230309-141,MQ230309,LIB-Aalborg-Ost-LT-900,,"",Fall,"",Activated sludge,Aalborg E,2021-10-04,40,2021,,"","","","","","",,,,,,,,,
-MQ230309-142,MQ230309,LIB-Aalborg-Ost-LT-902,,"",Fall,"",Activated sludge,Aalborg E,2021-10-11,41,2021,,"","","","","","",,,,,,,,,
-MQ230309-143,MQ230309,LIB-Aalborg-Ost-LT-904,,"",Fall,"",Activated sludge,Aalborg E,2021-10-18,42,2021,,"","","","","","",,,,,,,,,
-MQ230309-144,MQ230309,LIB-Aalborg-Ost-LT-906,,"",Fall,"",Activated sludge,Aalborg E,2021-10-26,43,2021,,"","","","","","",,,,,,,,,
-MQ230309-145,MQ230309,LIB-Aalborg-Ost-LT-908,,"",Fall,"",Activated sludge,Aalborg E,2021-11-03,44,2021,,"","","","","","",,,,,,,,,
-MQ230309-146,MQ230309,LIB-Aalborg-Ost-LT-910,,"",Fall,"",Activated sludge,Aalborg E,2021-11-08,45,2021,,"","","","","","",,,,,,,,,
-MQ230309-147,MQ230309,LIB-Aalborg-Ost-LT-912,,"",Fall,"",Activated sludge,Aalborg E,2021-11-17,46,2021,,"","","","","","",,,,,,,,,
-MQ230309-148,MQ230309,LIB-Aalborg-Ost-LT-914,,"",Fall,"",Activated sludge,Aalborg E,2021-11-23,47,2021,,"","","","","","",,,,,,,,,
-MQ230309-149,MQ230309,LIB-Aalborg-Ost-LT-916,,"",Fall,"",Activated sludge,Aalborg E,2021-11-29,48,2021,,"","","","","","",,,,,,,,,
-MQ230309-150,MQ230309,LIB-Aalborg-Ost-LT-918,,"",Fall,"",Activated sludge,Aalborg E,2021-12-07,49,2021,,"","","","","","",,,,,,,,,
-MQ230309-151,MQ230309,LIB-Aalborg-Ost-LT-920,,"",Fall,"",Activated sludge,Aalborg E,2021-12-13,50,2021,,"","","","","","",,,,,,,,,
+﻿Sample,SeqRun,LibID,Read no,ID,Period,Line,SampleContent,Mean,Plant,Date,Week,Year,V13,Configuration,Design,Design2,ReturnSludgeSidestream,PrimarySetling,Digester,lat,long,Solids_AerationTank_PointMeasurement,SolidsFraction_AerationTank_PointMeasurement,SVI,DSVI,ExtractionConc,LibraryConc,V28,V29,V30,SSelect,week_mean_temperature
+MQ191115-203,MQ191115,LIB-Aalborg-E-LT-580,79589,Aalborg oest #580,Summer,LT2,AS,"",Aalborg E,2018-08-08,32,2018,,"","","","","","",,,,,,,,,,,"",,20.4
+MQ191115-204,MQ191115,LIB-Aalborg-E-LT-582,79885,Aalborg oest #582,Summer,LT1,AS,"",Aalborg E,2018-08-15,33,2018,,"","","","","","",,,,,,,,,,,"",,18.3
+MQ191115-205,MQ191115,LIB-Aalborg-E-LT-584,74007,Aalborg oest #584,Summer,LT2,AS,"",Aalborg E,2018-08-21,34,2018,,"","","","","","",,,,,,,,,,,"",,18.5
+MQ191115-206,MQ191115,LIB-Aalborg-E-LT-586,21597,Aalborg oest #586,Summer,LT2,AS,"",Aalborg E,2018-08-27,35,2018,,"","","","","","",,,,,,,,,,,"",,18
+MQ191115-207,MQ191115,LIB-Aalborg-E-LT-588,61117,Aalborg oest #588,Summer,LT1,AS,"",Aalborg E,2018-09-04,36,2018,,"","","","","","",,,,,,,,,,,"",,18.9
+MQ191115-208,MQ191115,LIB-Aalborg-E-LT-590,71442,Aalborg oest #590,Summer,LT4,AS,"",Aalborg E,2018-09-10,37,2018,,"","","","","","",,,,,,,,,,,"",,17
+MQ191115-209,MQ191115,LIB-Aalborg-E-LT-592,53307,Aalborg oest #592,Fall,LT2,AS,"",Aalborg E,2018-09-17,38,2018,,"","","","","","",,,,,,,,,,,"",,17
+MQ191115-210,MQ191115,LIB-Aalborg-E-LT-594,67090,Aalborg oest #594,Fall,LT2,AS,"",Aalborg E,2018-09-24,39,2018,,"","","","","","",,,,,,,,,,,"",,15.7
+MQ191115-211,MQ191115,LIB-Aalborg-E-LT-596,14260,Aalborg oest #596,Fall,LT4,AS,"",Aalborg E,2018-10-01,40,2018,,"","","","","","",,,,,,,,,,,"",,15.5
+MQ191115-212,MQ191115,LIB-Aalborg-E-LT-598,67091,Aalborg oest #598,Fall,LT1,AS,"",Aalborg E,2018-10-03,40,2018,,"","","","","","",,,,,,,,,,,"",,15.5
+MQ191115-213,MQ191115,LIB-Aalborg-E-LT-600,61621,Aalborg oest #600,Fall,LT1,AS,"",Aalborg E,2018-10-17,42,2018,,"","","","","","",,,,,,,,,,,"",,17.5
+MQ191115-214,MQ191115,LIB-Aalborg-E-LT-602,8858,Aalborg oest #602,Fall,LT1,AS,"",Aalborg E,2018-10-23,43,2018,,"","","","","","",,,,,,,,,,,"",,16.1
+MQ191115-215,MQ191115,LIB-Aalborg-E-LT-604,68588,Aalborg oest #604,Fall,LT1,AS,"",Aalborg E,2018-11-02,44,2018,,"","","","","","",,,,,,,,,,,"",,13.4
+MQ191115-216,MQ191115,LIB-Aalborg-E-LT-606,13545,Aalborg oest #606,Fall,LT1,AS,"",Aalborg E,2018-11-07,45,2018,,"","","","","","",,,,,,,,,,,"",,
+MQ191115-217,MQ191115,LIB-Aalborg-E-LT-608,127003,Aalborg oest #608,Fall,LT4,AS,"",Aalborg E,2018-11-13,46,2018,,"","","","","","",,,,,,,,,,,"",,13.9
+MQ191115-218,MQ191115,LIB-Aalborg-E-LT-610,70323,Aalborg oest #610,Fall,LT4,AS,"",Aalborg E,2018-11-19,47,2018,,"","","","","","",,,,,,,,,,,"",,13.4
+MQ191115-219,MQ191115,LIB-Aalborg-E-LT-612,65008,Aalborg oest #612,Fall,LT1,AS,"",Aalborg E,2018-11-26,48,2018,,"","","","","","",,,,,,,,,,,"",,11.8
+MQ191115-220,MQ191115,LIB-Aalborg-E-LT-614,70433,Aalborg oest #614,Fall,LT1,AS,"",Aalborg E,2018-12-03,49,2018,,"","","","","","",,,,,,,,,,,"",,
+MQ191115-221,MQ191115,LIB-Aalborg-E-LT-616,63431,Aalborg oest #616,Fall,LT1,AS,"",Aalborg E,2018-12-12,50,2018,,"","","","","","",,,,,,,,,,,"",,
+MQ191115-222,MQ191115,LIB-Aalborg-E-LT-618,92268,Aalborg oest #618,Winter,LT4,AS,"",Aalborg E,2018-12-18,51,2018,,"","","","","","",,,,,,,,,,,"",,
+MQ191115-223,MQ191115,LIB-Aalborg-E-LT-620,13117,Aalborg oest #620,Winter,LT1,AS,"",Aalborg E,2019-01-04,1,2019,,"","","","","","",,,,,,,,,,,"",,
+MQ191115-224,MQ191115,LIB-Aalborg-E-LT-622,92799,Aalborg oest #622,Winter,LT1,AS,"",Aalborg E,2019-01-08,2,2019,,"","","","","","",,,,,,,,,,,"",,
+MQ191115-225,MQ191115,LIB-Aalborg-E-LT-624,55325,Aalborg oest #624,Winter,LT1,AS,"",Aalborg E,2019-01-14,3,2019,,"","","","","","",,,,,,,,,,,"",,
+MQ191115-226,MQ191115,LIB-Aalborg-E-LT-626,84797,Aalborg oest #626,Winter,LT1,AS,"",Aalborg E,2019-01-22,4,2019,,"","","","","","",,,,,,,,,,,"",,
+MQ191115-228,MQ191115,LIB-Aalborg-E-LT-630,61477,Aalborg oest #630,Winter,LT1,AS,"",Aalborg E,2019-02-04,6,2019,,"","","","","","",,,,,,,,,,,"",,
+MQ191115-229,MQ191115,LIB-Aalborg-E-LT-632,83465,Aalborg oest #632,Winter,LT2,AS,"",Aalborg E,2019-02-14,7,2019,,"","","","","","",,,,,,,,,,,"",,
+MQ191115-230,MQ191115,LIB-Aalborg-E-LT-634,66243,Aalborg oest #634,Winter,LT1,AS,"",Aalborg E,2019-02-18,8,2019,,"","","","","","",,,,,,,,,,,"",,
+MQ191115-231,MQ191115,LIB-Aalborg-E-LT-636,64023,Aalborg oest #636,Winter,LT2,AS,"",Aalborg E,2019-02-25,9,2019,,"","","","","","",,,,,,,,,,,"",,
+MQ191115-232,MQ191115,LIB-Aalborg-E-LT-638,69136,Aalborg oest #638,Winter,LT1,AS,"",Aalborg E,2019-03-04,10,2019,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-1,MQ200928,LIB-AalborgOst-LT-640,48730,Aalborg Ost -640,Winter,LT3,AS,"",Aalborg E,2019-03-11,11,2019,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-2,MQ200928,LIB-AalborgOst-LT-642,47320,Aalborg Ost -642,Spring,LT3,AS,"",Aalborg E,2019-03-22,12,2019,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-3,MQ200928,LIB-AalborgOst-LT-644,50444,Aalborg Ost -644,Spring,LT2,AS,"",Aalborg E,2019-03-25,13,2019,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-4,MQ200928,LIB-AalborgOst-LT-646,52035,Aalborg Ost -646,Spring,LT2,AS,"",Aalborg E,2019-04-01,14,2019,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-5,MQ200928,LIB-AalborgOst-LT-648,49800,Aalborg Ost -648,Spring,LT1,AS,"",Aalborg E,2019-04-08,15,2019,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-6,MQ200928,LIB-AalborgOst-LT-650,50358,Aalborg Ost -650,Spring,LT1,AS,"",Aalborg E,2019-04-15,16,2019,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-7,MQ200928,LIB-AalborgOst-LT-652,53114,Aalborg Ost -652,Spring,LT2,AS,"",Aalborg E,2019-04-23,17,2019,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-8,MQ200928,LIB-AalborgOst-LT-654,44177,Aalborg Ost -654,Spring,LT2,AS,"",Aalborg E,2019-04-30,18,2019,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-9,MQ200928,LIB-AalborgOst-LT-656,53732,Aalborg Ost -656,Spring,LT1,AS,"",Aalborg E,2019-05-07,19,2019,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-10,MQ200928,LIB-AalborgOst-LT-658,48230,Aalborg Ost -658,Spring,LT1,AS,"",Aalborg E,2019-05-16,20,2019,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-11,MQ200928,LIB-AalborgOst-LT-660,53430,Aalborg Ost -660,Spring,LT2,AS,"",Aalborg E,2019-05-23,21,2019,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-12,MQ200928,LIB-AalborgOst-LT-662,55370,Aalborg Ost -662,Spring,LT2,AS,"",Aalborg E,2019-05-28,22,2019,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-13,MQ200928,LIB-AalborgOst-LT-664,51130,Aalborg Ost -664,Spring,LT1,AS,"",Aalborg E,2019-06-06,23,2019,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-14,MQ200928,LIB-AalborgOst-LT-666,53167,Aalborg Ost -666,Spring,LT1,AS,"",Aalborg E,2019-06-12,24,2019,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-15,MQ200928,LIB-AalborgOst-LT-668,58055,Aalborg Ost -668,Summer,LT3,AS,"",Aalborg E,2019-06-19,25,2019,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-16,MQ200928,LIB-AalborgOst-LT-670,57672,Aalborg Ost -670,Summer,LT3,AS,"",Aalborg E,2019-06-24,26,2019,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-17,MQ200928,LIB-AalborgOst-LT-672,53257,Aalborg Ost -672,Summer,LT1,AS,"",Aalborg E,2019-07-03,27,2019,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-18,MQ200928,LIB-AalborgOst-LT-674,47653,Aalborg Ost -674,Summer,LT1,AS,"",Aalborg E,2019-07-08,28,2019,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-19,MQ200928,LIB-AalborgOst-LT-676,52552,Aalborg Ost -676,Summer,LT2,AS,"",Aalborg E,2019-07-16,29,2019,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-20,MQ200928,LIB-AalborgOst-LT-678,51763,Aalborg Ost -678,Summer,LT2,AS,"",Aalborg E,2019-07-25,30,2019,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-21,MQ200928,LIB-AalborgOst-LT-680,52155,Aalborg Ost -680,Summer,LT2,AS,"",Aalborg E,2019-07-30,31,2019,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-22,MQ200928,LIB-AalborgOst-LT-682,53717,Aalborg Ost -682,Summer,LT2,AS,"",Aalborg E,2019-08-06,32,2019,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-23,MQ200928,LIB-AalborgOst-LT-684,54672,Aalborg Ost -684,Summer,LT3,AS,"",Aalborg E,2019-08-13,33,2019,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-24,MQ200928,LIB-AalborgOst-LT-686,62575,Aalborg Ost -686,Summer,LT3,AS,"",Aalborg E,2019-08-22,34,2019,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-25,MQ200928,LIB-AalborgOst-LT-688,58000,Aalborg Ost -688,Summer,LT3,AS,"",Aalborg E,2019-08-28,35,2019,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-26,MQ200928,LIB-AalborgOst-LT-690,53274,Aalborg Ost -690,Summer,LT3,AS,"",Aalborg E,2019-09-05,36,2019,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-27,MQ200928,LIB-AalborgOst-LT-692,52389,Aalborg Ost -692,Summer,LT3,AS,"",Aalborg E,2019-09-10,37,2019,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-28,MQ200928,LIB-AalborgOst-LT-694,53802,Aalborg Ost -694,Fall,LT3,AS,"",Aalborg E,2019-09-17,38,2019,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-29,MQ200928,LIB-AalborgOst-LT-696,54186,Aalborg Ost -696,Fall,LT1,AS,"",Aalborg E,2019-09-25,39,2019,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-30,MQ200928,LIB-AalborgOst-LT-698,52074,Aalborg Ost -698,Fall,LT1,AS,"",Aalborg E,2019-09-30,40,2019,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-31,MQ200928,LIB-AalborgOst-LT-700,51418,Aalborg Ost -700,Fall,LT4,AS,"",Aalborg E,2019-10-16,42,2019,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-33,MQ200928,LIB-AalborgOst-LT-704,56647,Aalborg Ost -704,Fall,LT2,AS,"",Aalborg E,2019-10-30,44,2019,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-34,MQ200928,LIB-AalborgOst-LT-706,56976,Aalborg Ost -706,Fall,LT2,AS,"",Aalborg E,2019-11-12,46,2019,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-35,MQ200928,LIB-AalborgOst-LT-721,55643,Aalborg Ost -721,Winter,LT1,AS,"",Aalborg E,2020-01-06,2,2020,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-36,MQ200928,LIB-AalborgOst-LT-722,58574,Aalborg Ost -722,Winter,LT1,AS,"",Aalborg E,2020-01-12,2,2020,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-37,MQ200928,LIB-AalborgOst-LT-724,52788,Aalborg Ost -724,Winter,LT1,AS,"",Aalborg E,2020-01-21,4,2020,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-38,MQ200928,LIB-AalborgOst-LT-726,50223,Aalborg Ost -726,Winter,LT1,AS,"",Aalborg E,2020-02-04,6,2020,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-39,MQ200928,LIB-AalborgOst-LT-728,58883,Aalborg Ost -728,Winter,LT1,AS,"",Aalborg E,2020-02-11,7,2020,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-40,MQ200928,LIB-AalborgOst-LT-730,128296,Aalborg Ost -730,Winter,LT1,AS,"",Aalborg E,2020-02-17,8,2020,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-41,MQ200928,LIB-AalborgOst-LT-732,55002,Aalborg Ost -732,Winter,LT1,AS,"",Aalborg E,2020-02-24,9,2020,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-42,MQ200928,LIB-AalborgOst-LT-734,52922,Aalborg Ost -734,Winter,LT1,AS,"",Aalborg E,2020-03-05,10,2020,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-43,MQ200928,LIB-AalborgOst-LT-736,55372,Aalborg Ost -736,Winter,LT1,AS,"",Aalborg E,2020-03-09,11,2020,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-44,MQ200928,LIB-AalborgOst-LT-738,55418,Aalborg Ost -738,Spring,LT1,AS,"",Aalborg E,2020-03-17,12,2020,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-45,MQ200928,LIB-AalborgOst-LT-740,51412,Aalborg Ost -740,Spring,LT1,AS,"",Aalborg E,2020-03-24,13,2020,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-46,MQ200928,LIB-AalborgOst-LT-742,52455,Aalborg Ost -742,Spring,LT1,AS,"",Aalborg E,2020-03-31,14,2020,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-47,MQ200928,LIB-AalborgOst-LT-744,59603,Aalborg Ost -744,Spring,LT1,AS,"",Aalborg E,2020-04-06,15,2020,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-48,MQ200928,LIB-AalborgOst-LT-746,59604,Aalborg Ost -746,Spring,LT1,AS,"",Aalborg E,2020-04-15,16,2020,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-49,MQ200928,LIB-AalborgOst-LT-748,56257,Aalborg Ost -748,Spring,LT1,AS,"",Aalborg E,2020-04-21,17,2020,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-50,MQ200928,LIB-AalborgOst-LT-750,53610,Aalborg Ost -750,Spring,LT1,AS,"",Aalborg E,2020-04-28,18,2020,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-51,MQ200928,LIB-AalborgOst-LT-752,54529,Aalborg Ost -752,Spring,LT1,AS,"",Aalborg E,2020-05-05,19,2020,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-52,MQ200928,LIB-AalborgOst-LT-754,55529,Aalborg Ost -754,Spring,LT1,AS,"",Aalborg E,2020-05-11,20,2020,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-53,MQ200928,LIB-AalborgOst-LT-756,52914,Aalborg Ost -756,Spring,LT1,AS,"",Aalborg E,2020-05-18,21,2020,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-54,MQ200928,LIB-AalborgOst-LT-758,58366,Aalborg Ost -758,Spring,LT1,AS,"",Aalborg E,2020-05-25,22,2020,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-55,MQ200928,LIB-AalborgOst-LT-760,52470,Aalborg Ost -760,Spring,LT1,AS,"",Aalborg E,2020-06-05,23,2020,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-56,MQ200928,LIB-AalborgOst-LT-762,55293,Aalborg Ost -762,Spring,LT1,AS,"",Aalborg E,2020-06-09,24,2020,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-57,MQ200928,LIB-AalborgOst-LT-764,55967,Aalborg Ost -764,Summer,LT1,AS,"",Aalborg E,2020-06-18,25,2020,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-58,MQ200928,LIB-AalborgOst-LT-766,47287,Aalborg Ost -766,Summer,LT1,AS,"",Aalborg E,2020-06-24,26,2020,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-59,MQ200928,LIB-AalborgOst-LT-768,49999,Aalborg Ost -768,Summer,LT1,AS,"",Aalborg E,2020-06-30,27,2020,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-60,MQ200928,LIB-AalborgOst-LT-770,50857,Aalborg Ost -770,Summer,LT1,AS,"",Aalborg E,2020-07-09,28,2020,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-61,MQ200928,LIB-AalborgOst-LT-772,51086,Aalborg Ost -772,Summer,LT1,AS,"",Aalborg E,2020-07-14,29,2020,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-62,MQ200928,LIB-AalborgOst-LT-774,47208,Aalborg Ost -774,Summer,LT1,AS,"",Aalborg E,2020-07-21,30,2020,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-63,MQ200928,LIB-AalborgOst-LT-776,46631,Aalborg Ost -776,Summer,LT1,AS,"",Aalborg E,2020-07-28,31,2020,,"","","","","","",,,,,,,,,,,"",,
+MQ200928-64,MQ200928,LIB-AalborgOst-LT-778,49331,Aalborg Ost -778,Summer,LT1,AS,"",Aalborg E,2020-08-05,32,2020,,"","","","","","",,,,,,,,,,,"",,
+MQ1806029-72,MQ1806029,LIB-AAE-BB-01-A-1,,Aalborg oest #1,Winter,LT1,AS,"",Aalborg E,2015-03-12,11,2015,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,30.38467819,7.874797875,,,"",,
+MQ1806029-73,MQ1806029,LIB-AAE-BB-02-A-1,,Aalborg oest #4,Spring,LT1,AS,"",Aalborg E,2015-04-16,16,2015,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,21.89329787,7.461307461,,,"",,
+MQ1806029-74,MQ1806029,LIB-AAE-BB-03-A-1,,Aalborg oest #7,Spring,LT1,AS,"",Aalborg E,2015-05-27,22,2015,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,27.97023351,6.802956803,,,"",,
+MQ1806029-75,MQ1806029,LIB-AAE-BB-04-A-1,,Aalborg oest #10,Summer,LT1,AS,"",Aalborg E,2015-06-18,25,2015,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,24.99591761,11.23585124,,,"",,14.9
+MQ1806029-76,MQ1806029,LIB-AAE-BB-05-A-1,,Aalborg oest #13,Summer,LT1,AS,"",Aalborg E,2015-07-07,28,2015,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,64.05859986,4.738969739,,,"",,16.6
+MQ1806029-77,MQ1806029,LIB-AAE-BB-06-A-1,,Aalborg oest #16,Summer,LT1,AS,"",Aalborg E,2015-08-06,32,2015,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,15.7697063,7.784707785,,,"",,
+MQ1806029-78,MQ1806029,LIB-AAE-BB-07-A-1,,Aalborg oest #19,Fall,LT1,AS,"",Aalborg E,2015-09-16,38,2015,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,66.5663564,7.328482328,,,"",,16.1
+MQ1806029-79,MQ1806029,LIB-AAE-BB-08-A-1,,Aalborg oest #22,Fall,LT3,AS,"",Aalborg E,2015-09-24,39,2015,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,60.23281312,5.072765073,,,"",,16.1
+MQ1806029-80,MQ1806029,LIB-AAE-BB-09-A-1,,Aalborg oest #25,Fall,LT2,AS,"",Aalborg E,2015-09-29,40,2015,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,44.73137845,5.306075306,,,"",,
+MQ1806029-81,MQ1806029,LIB-AAE-BB-10-A-1,,Aalborg oest #28,Fall,LT2,AS,"",Aalborg E,2015-10-06,41,2015,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,39.86749714,5.146685147,,,"",,
+MQ1806029-82,MQ1806029,LIB-AAE-BB-11-A-1,,Aalborg oest #31,Fall,LT2,AS,"",Aalborg E,2015-10-14,42,2015,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,36.92817319,5.622545623,,,"",,
+MQ1806029-83,MQ1806029,LIB-AAE-BB-12-A-1,,Aalborg oest #34,Fall,LT2,AS,"",Aalborg E,2015-10-19,43,2015,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,66.28642079,11.36983137,,,"",,14.8
+MQ1806029-84,MQ1806029,LIB-AAE-BB-13-A-1,,Aalborg oest #37,Fall,LT2,AS,"",Aalborg E,2015-10-26,44,2015,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,63.52205659,3.82998383,,,"",,13.9
+MQ1806029-85,MQ1806029,LIB-AAE-BB-14-A-1,,Aalborg oest #40,Fall,LT1,AS,"",Aalborg E,2015-11-02,45,2015,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,64.50183125,8.32986833,,,"",,14.9
+MQ1806029-86,MQ1806029,LIB-AAE-BB-15-A-1,,Aalborg oest #43,Fall,LT1,AS,"",Aalborg E,2015-11-10,46,2015,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,65.51659785,7.530607531,,,"",,13.6
+MQ1806029-87,MQ1806029,LIB-AAE-BB-16-A-1,,Aalborg oest #46,Fall,LT1,AS,"",Aalborg E,2015-11-18,47,2015,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,46.43432011,4.926079926,,,"",,12.3
+MQ1806029-90,MQ1806029,LIB-AAE-BB-19-A-1,,Aalborg oest #55,Fall,LT1,AS,"",Aalborg E,2015-12-09,50,2015,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,97.33594607,1.695541696,,,"",,11.6
+MQ1806029-91,MQ1806029,LIB-AAE-BB-20-A-1,,Aalborg oest #58,Winter,LT2,AS,"",Aalborg E,2015-12-16,51,2015,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,107.3669723,2.206052206,,,"",,
+MQ1806029-92,MQ1806029,LIB-AAE-BB-21-A-1,,Aalborg oest #61,Winter,LT2,AS,"",Aalborg E,2015-12-22,52,2015,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,85.48533837,3.225918226,,,"",,
+MQ1806029-93,MQ1806029,LIB-AAE-BB-22-A-1,,Aalborg oest #64,Winter,LT2,AS,"",Aalborg E,2016-01-06,1,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,51.43816922,4.752829753,,,"",,10.5
+MQ1806029-94,MQ1806029,LIB-AAE-BB-23-A-1,,Aalborg oest #67,Winter,LT1,AS,"",Aalborg E,2016-01-14,2,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,78.7785476,6.785631786,,,"",,
+MQ1806029-95,MQ1806029,LIB-AAE-BB-24-A-1,,Aalborg oest #70,Winter,LT2,AS,"",Aalborg E,2016-01-20,3,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,74.39288964,4.671979672,,,"",,10.9
+MQ1806029-96,MQ1806029,LIB-AAE-BB-25-A-1,,Aalborg oest #73,Winter,LT2,AS,"",Aalborg E,2016-02-17,7,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,56.36037045,6.301686302,,,"",,
+MQ1806029-97,MQ1806029,LIB-AAE-BB-26-A-1,,Aalborg oest #76,Winter,LT2,AS,"",Aalborg E,2016-02-25,8,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,69.12076889,5.885885886,,,"",,
+MQ1806029-98,MQ1806029,LIB-AAE-BB-27-A-1,,Aalborg oest #79,Winter,LT1,AS,"",Aalborg E,2016-03-03,9,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,51.7414328,6.323631324,,,"",,8.6
+MQ1806029-99,MQ1806029,LIB-AAE-BB-28-A-1,,Aalborg oest #82,Winter,LT4,AS,"",Aalborg E,2016-03-10,10,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,54.35416521,8.793023793,,,"",,
+MQ1806029-100,MQ1806029,LIB-AAE-BB-29-A-1,,Aalborg oest #85,Spring,LT2,AS,"",Aalborg E,2016-03-17,11,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,64.35019945,5.567105567,,,"",,
+MQ1806029-101,MQ1806029,LIB-AAE-BB-30-A-1,,Aalborg oest #88,Spring,LT1,AS,"",Aalborg E,2016-03-22,12,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,49.52527585,8.692538693,,,"",,
+MQ1806029-102,MQ1806029,LIB-AAE-BB-31-A-1,,Aalborg oest #91,Spring,LT2,AS,"",Aalborg E,2016-03-31,13,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,44.83635431,9.233079233,,,"",,11.1
+MQ1806029-103,MQ1806029,LIB-AAE-BB-32-A-1,,Aalborg oest #94,Spring,LT2,AS,"",Aalborg E,2016-04-07,14,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,39.30762591,8.441903442,,,"",,
+MQ1806029-104,MQ1806029,LIB-AAE-BB-33-A-1,,Aalborg oest #97,Spring,LT2,AS,"",Aalborg E,2016-04-13,15,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,103.1446101,1.830676831,,,"",,
+MQ1806029-105,MQ1806029,LIB-AAE-BB-34-A-1,,Aalborg oest #100,Spring,LT2,AS,"",Aalborg E,2016-04-21,16,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,62.44897007,7.728112728,,,"",,
+MQ1806029-106,MQ1806029,LIB-AAE-BB-35-A-1,,Aalborg oest #103,Spring,LT2,AS,"",Aalborg E,2016-04-27,17,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,86.41845709,6.950796951,,,"",,
+MQ1806029-108,MQ1806029,LIB-AAE-BB-37-A-1,,Aalborg oest #109,Spring,LT4,AS,"",Aalborg E,2016-05-11,19,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,49.43196398,10.35458535,,,"",,13.4
+MQ1806029-109,MQ1806029,LIB-AAE-BB-38-A-1,,Aalborg oest #112,Spring,LT2,AS,"",Aalborg E,2016-05-18,20,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,100.0069984,5.936705937,,,"",,
+MQ1806029-110,MQ1806029,LIB-AAE-BB-39-A-1,,Aalborg oest #115,Spring,LT3,AS,"",Aalborg E,2016-05-26,21,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,90.82744302,14.14760915,,,"",,14
+MQ1806029-111,MQ1806029,LIB-AAE-BB-40-A-1,,Aalborg oest #118,Spring,LT3,AS,"",Aalborg E,2016-06-01,22,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,69.85559988,6.12959113,,,"",,
+MQ1806029-112,MQ1806029,LIB-AAE-BB-41-A-1,,Aalborg oest #121,Spring,LT2,AS,"",Aalborg E,2016-06-08,23,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,10.20598596,7.722337722,,,"",,18.2
+MQ1806029-113,MQ1806029,LIB-AAE-BB-42-A-1,,Aalborg oest #124,Spring,LT2,AS,"",Aalborg E,2016-06-14,24,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,6.578486948,6.048741049,,,"",,17.7
+MQ1806029-114,MQ1806029,LIB-AAE-BB-43-A-1,,Aalborg oest #127,Summer,LT2,AS,"",Aalborg E,2016-06-22,25,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,83.84071664,6.193116193,,,"",,17.7
+MQ1806029-115,MQ1806029,LIB-AAE-BB-44-A-1,,Aalborg oest #130,Summer,LT3,AS,"",Aalborg E,2016-06-30,26,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,96.51946719,4.948024948,,,"",,17.7
+MQ1806029-116,MQ1806029,LIB-AAE-BB-45-A-1,,Aalborg oest #133,Summer,LT3,AS,"",Aalborg E,2016-07-06,27,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,55.41558775,10.25756526,,,"",,17
+MQ1806029-118,MQ1806029,LIB-AAE-BB-47-A-1,,Aalborg oest #139,Summer,LT2,AS,"",Aalborg E,2016-07-27,30,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,119.8357711,6.205821206,,,"",,18.1
+MQ1806029-119,MQ1806029,LIB-AAE-BB-48-A-1,,Aalborg oest #142,Summer,LT3,AS,"",Aalborg E,2016-08-03,31,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,95.24809294,0.642180642,,,"",,17.4
+MQ1806029-120,MQ1806029,LIB-AAE-BB-49-A-1,,Aalborg oest #145,Summer,LT1,AS,"",Aalborg E,2016-08-10,32,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,44.91800219,12.02240702,,,"",,
+MQ1806029-122,MQ1806029,LIB-AAE-BB-51-A-1,,Aalborg oest #151,Summer,LT1,AS,"",Aalborg E,2016-08-22,34,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,96.20453962,3.812658813,,,"",,17.1
+MQ1806029-123,MQ1806029,LIB-AAE-BB-52-A-1,,Aalborg oest #316,Summer,LT4,AS,"",Aalborg E,2016-08-30,35,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,73.56474677,10.05775006,,,"",,17.2
+MQ1806029-124,MQ1806029,LIB-AAE-BB-53-A-1,,Aalborg oest #319,Summer,LT3,AS,"",Aalborg E,2016-09-06,36,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,56.92024168,8.64980365,,,"",,18.7
+MQ1806029-125,MQ1806029,LIB-AAE-BB-54-A-1,,Aalborg oest #322,Fall,LT2,AS,"",Aalborg E,2016-09-15,37,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,77.44885343,0.945945946,,,"",,20.3
+MQ1806029-126,MQ1806029,LIB-AAE-BB-55-A-1,,Aalborg oest #325,Fall,LT3,AS,"",Aalborg E,2016-09-20,38,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,35.06193575,12.77084777,,,"",,18.1
+MQ1806029-127,MQ1806029,LIB-AAE-BB-56-A-1,,Aalborg oest #328,Fall,LT1,AS,"",Aalborg E,2016-09-27,39,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,61.27090769,8.123123123,,,"",,18.2
+MQ1806029-128,MQ1806029,LIB-AAE-BB-57-A-1,,Aalborg oest #331,Fall,LT1,AS,"",Aalborg E,2016-10-06,40,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,55.28728392,5.623700624,,,"",,17
+MQ1806029-129,MQ1806029,LIB-AAE-BB-58-A-1,,Aalborg oest #334,Fall,LT1,AS,"",Aalborg E,2016-10-11,41,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,88.42466233,0.660660661,,,"",,14.5
+MQ1806029-130,MQ1806029,LIB-AAE-BB-59-A-1,,Aalborg oest #337,Fall,LT2,AS,"",Aalborg E,2016-10-18,42,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,68.0943383,5.911295911,,,"",,14.9
+MQ1806029-131,MQ1806029,LIB-AAE-BB-60-A-1,,Aalborg oest #340,Fall,LT2,AS,"",Aalborg E,2016-10-25,43,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,107.2386684,7.03973204,,,"",,15.5
+MQ1806029-132,MQ1806029,LIB-AAE-BB-61-A-1,,Aalborg oest #343,Fall,LT1,AS,"",Aalborg E,2016-11-02,44,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,20.62192362,7.683067683,,,"",,14.5
+MQ1806029-133,MQ1806029,LIB-AAE-BB-62-A-1,,Aalborg oest #346,Fall,LT1,AS,"",Aalborg E,2016-11-07,45,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,98.72396016,1.963501964,,,"",,12
+MQ1806029-134,MQ1806029,LIB-AAE-BB-63-A-1,,Aalborg oest #349,Fall,LT1,AS,"",Aalborg E,2016-11-17,46,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,55.39225978,5.836220836,,,"",,
+MQ1806029-135,MQ1806029,LIB-AAE-BB-64-A-1,,Aalborg oest #352,Fall,LT1,AS,"",Aalborg E,2016-11-24,47,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,76.48074276,3.516978517,,,"",,11.4
+MQ1806029-137,MQ1806029,LIB-AAE-BB-66-A-1,,Aalborg oest #358,Fall,LT1,AS,"",Aalborg E,2016-12-06,49,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,129.1203023,7.387387387,,,"",,10.6
+MQ1806029-138,MQ1806029,LIB-AAE-BB-67-A-1,,Aalborg oest #361,Winter,LT1,AS,"",Aalborg E,2016-12-15,50,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,88.38967038,7.676137676,,,"",,10.8
+MQ1806029-139,MQ1806029,LIB-AAE-BB-68-A-1,,Aalborg oest #364,Winter,LT1,AS,"",Aalborg E,2016-12-20,51,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,92.0055054,12.54908755,,,"",,10.7
+MQ1806029-140,MQ1806029,LIB-AAE-BB-69-A-1,,Aalborg oest #367,Winter,LT1,AS,"",Aalborg E,2016-12-29,52,2016,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,153.1714372,2.199122199,,,"",,
+MQ1806029-141,MQ1806029,LIB-AAE-BB-70-A-1,,Aalborg oest #370,Winter,LT4,AS,"",Aalborg E,2017-01-03,1,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,60.41943686,8.088473088,,,"",,10
+MQ1806029-143,MQ1806029,LIB-AAE-BB-72-A-1,,Aalborg oest #376,Winter,LT4,AS,"",Aalborg E,2017-01-17,3,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,146.6046143,1.763686764,,,"",,9
+MQ1806029-144,MQ1806029,LIB-AAE-BB-73-A-1,,Aalborg oest #379,Winter,LT3,AS,"",Aalborg E,2017-01-24,4,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,44.64973056,5.265650266,,,"",,
+MQ1806029-146,MQ1806029,LIB-AAE-BB-75-A-1,,Aalborg oest #385,Winter,LT1,AS,"",Aalborg E,2017-02-07,6,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,107.0870366,1.223146223,,,"",,8.6
+MQ1806029-148,MQ1806029,LIB-AAE-BB-77-A-1,,Aalborg oest #391,Winter,LT4,AS,"",Aalborg E,2017-02-20,8,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,83.39748525,2.678447678,,,"",,
+MQ1806029-149,MQ1806029,LIB-AAE-BB-78-A-1,,Aalborg oest #394,Winter,LT2,AS,"",Aalborg E,2017-02-28,9,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,69.039121,4.080619081,,,"",,9.1
+MQ1806029-151,MQ1806029,LIB-AAE-BB-80-A-1,,Aalborg oest #400,Winter,LT1,AS,"",Aalborg E,2017-03-14,11,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,53.4910304,2.606837607,,,"",,9.1
+MQ1806029-154,MQ1806029,LIB-AAE-BB-81-A-1,,Aalborg oest #403,Spring,LT1,AS,"",Aalborg E,2017-03-21,12,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,41.04562882,6.175808553,,,"",,9.5
+MQ1806029-155,MQ1806029,LIB-AAE-BB-82-A-1,,Aalborg oest #406,Spring,LT4,AS,"",Aalborg E,2017-03-28,13,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,64.88840363,0.889705011,,,"",,
+MQ1806029-157,MQ1806029,LIB-AAE-BB-84-A-1,,Aalborg oest #412,Spring,LT4,AS,"",Aalborg E,2017-04-10,15,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,47.06345377,11.16810804,,,"",,
+MQ1806029-158,MQ1806029,LIB-AAE-BB-85-A-1,,Aalborg oest #415,Spring,LT4,AS,"",Aalborg E,2017-04-20,16,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,43.85140797,11.9357896,,,"",,10.2
+MQ1806029-159,MQ1806029,LIB-AAE-BB-86-A-1,,Aalborg oest #418,Spring,LT1,AS,"",Aalborg E,2017-04-24,17,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,55.31574537,7.993128776,,,"",,11.5
+MQ1806029-160,MQ1806029,LIB-AAE-BB-87-A-1,,Aalborg oest #421,Spring,LT3,AS,"",Aalborg E,2017-05-03,18,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,38.02402052,12.67029973,,,"",,12.1
+MQ1806029-161,MQ1806029,LIB-AAE-BB-88-A-1,,Aalborg oest #424,Spring,LT1,AS,"",Aalborg E,2017-05-09,19,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,43.29279131,10.45966118,,,"",,
+MQ1806029-162,MQ1806029,LIB-AAE-BB-89-A-1,,Aalborg oest #427,Spring,LT2,AS,"",Aalborg E,2017-05-18,20,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,55.26496204,8.593768511,,,"",,12.5
+MQ1806029-163,MQ1806029,LIB-AAE-BB-90-A-1,,Aalborg oest #430,Spring,LT3,AS,"",Aalborg E,2017-05-23,21,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,43.45783714,9.991707144,,,"",,16.3
+MQ1806029-164,MQ1806029,LIB-AAE-BB-91-A-1,,Aalborg oest #433,Spring,LT1,AS,"",Aalborg E,2017-05-30,22,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,59.835462,11.40030802,,,"",,16.1
+MQ1806029-166,MQ1806029,LIB-AAE-BB-93-A-1,,Aalborg oest #439,Spring,LT1,AS,"",Aalborg E,2017-06-13,24,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,54.59208288,1.261698851,,,"",,16.4
+MQ1806029-167,MQ1806029,LIB-AAE-BB-94-A-1,,Aalborg oest #442,Summer,LT2,AS,"",Aalborg E,2017-06-20,25,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,31.91732473,7.69458595,,,"",,17.6
+MQ1806029-168,MQ1806029,LIB-AAE-BB-95-A-1,,Aalborg oest #445,Summer,LT2,AS,"",Aalborg E,2017-06-27,26,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,52.3449204,2.468901789,,,"",,16.8
+MQ1806029-169,MQ1806029,LIB-AAE-BB-96-A-1,,Aalborg oest #448,Summer,LT3,AS,"",Aalborg E,2017-07-06,27,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,58.69283701,4.698495439,,,"",,
+MQ1806029-170,MQ1806029,LIB-AAE-BB-97-A-1,,Aalborg oest #451,Summer,LT3,AS,"",Aalborg E,2017-07-12,28,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,81.62151182,6.000473878,,,"",,17
+MQ1806029-171,MQ1806029,LIB-AAE-BB-98-A-1,,Aalborg oest #454,Summer,LT2,AS,"",Aalborg E,2017-07-27,30,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,42.86113298,7.465940054,,,"",,18.2
+MQ1806029-172,MQ1806029,LIB-AAE-BB-99-A-1,,Aalborg oest #457,Summer,LT2,AS,"",Aalborg E,2017-08-02,31,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,45.47647462,9.225210283,,,"",,
+MQ1806029-173,MQ1806029,LIB-AAE-BB-100-A-1,,Aalborg oest #460,Summer,LT1,AS,"",Aalborg E,2017-08-09,32,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,29.27659142,11.41452435,,,"",,17.4
+MQ1806029-174,MQ1806029,LIB-AAE-BB-101-A-1,,Aalborg oest #463,Summer,LT3,AS,"",Aalborg E,2017-08-15,33,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,112.3708199,9.210993958,,,"",,17.1
+MQ1806029-175,MQ1806029,LIB-AAE-BB-102-A-1,,Aalborg oest #466,Summer,LT1,AS,"",Aalborg E,2017-08-23,34,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,36.4497372,7.144888046,,,"",,17.2
+MQ1806029-176,MQ1806029,LIB-AAE-BB-103-A-1,,Aalborg oest #469,Summer,LT1,AS,"",Aalborg E,2017-08-30,35,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,53.61450372,12.9984599,,,"",,17.7
+MQ1806029-177,MQ1806029,LIB-AAE-BB-104-A-1,,Aalborg oest #472,Summer,LT1,AS,"",Aalborg E,2017-09-05,36,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,30.05103725,7.384196185,,,"",,16.6
+MQ1806029-178,MQ1806029,LIB-AAE-BB-105-A-1,,Aalborg oest #475,Summer,LT3,AS,"",Aalborg E,2017-09-12,37,2017,,Alternating,EBPR,EBPR,RSS,NO,Digester,57.045161,10.045761,,,,,27.02942894,7.903092051,,,"",,16.1
+MQ191115-159,MQ191115,LIB-Aalborg-E-LT-478,20881,Aalborg oest #478,Fall,LT2,AS,"",Aalborg E,2017-09-19,38,2017,,"","","","","","",,,,,,,,,,,"",,16.3
+MQ191115-160,MQ191115,LIB-Aalborg-E-LT-481,63174,Aalborg oest #481,Fall,LT2,AS,"",Aalborg E,2017-09-26,39,2017,,"","","","","","",,,,,,,,,,,"",,17.2
+MQ191115-161,MQ191115,LIB-Aalborg-E-LT-484,47612,Aalborg oest #484,Fall,LT1,AS,"",Aalborg E,2017-10-03,40,2017,,"","","","","","",,,,,,,,,,,"",,15.2
+MQ191115-162,MQ191115,LIB-Aalborg-E-LT-487,51025,Aalborg oest #487,Fall,LT1,AS,"",Aalborg E,2017-10-10,41,2017,,"","","","","","",,,,,,,,,,,"",,15.2
+MQ191115-163,MQ191115,LIB-Aalborg-E-LT-490,64320,Aalborg oest #490,Fall,LT1,AS,"",Aalborg E,2017-10-18,42,2017,,"","","","","","",,,,,,,,,,,"",,15.2
+MQ191115-164,MQ191115,LIB-Aalborg-E-LT-493,59727,Aalborg oest #493,Fall,LT1,AS,"",Aalborg E,2017-10-24,43,2017,,"","","","","","",,,,,,,,,,,"",,13
+MQ191115-165,MQ191115,LIB-Aalborg-E-LT-496,54213,Aalborg oest #496,Fall,LT1,AS,"",Aalborg E,2017-11-03,44,2017,,"","","","","","",,,,,,,,,,,"",,14
+MQ191115-166,MQ191115,LIB-Aalborg-E-LT-499,81666,Aalborg oest #499,Fall,LT1,AS,"",Aalborg E,2017-11-07,45,2017,,"","","","","","",,,,,,,,,,,"",,13
+MQ191115-167,MQ191115,LIB-Aalborg-E-LT-502,56379,Aalborg oest #502,Fall,LT4,AS,"",Aalborg E,2017-11-17,46,2017,,"","","","","","",,,,,,,,,,,"",,13
+MQ191115-168,MQ191115,LIB-Aalborg-E-LT-505,66670,Aalborg oest #505,Fall,LT4,AS,"",Aalborg E,2017-11-21,47,2017,,"","","","","","",,,,,,,,,,,"",,12.1
+MQ191115-169,MQ191115,LIB-Aalborg-E-LT-508,42705,Aalborg oest #508,Fall,LT4,AS,"",Aalborg E,2017-11-29,48,2017,,"","","","","","",,,,,,,,,,,"",,10.8
+MQ191115-170,MQ191115,LIB-Aalborg-E-LT-511,56672,Aalborg oest #511,Fall,LT2,AS,"",Aalborg E,2017-12-06,49,2017,,"","","","","","",,,,,,,,,,,"",,11.7
+MQ191115-171,MQ191115,LIB-Aalborg-E-LT-514,62554,Aalborg oest #514,Fall,LT1,AS,"",Aalborg E,2017-12-12,50,2017,,"","","","","","",,,,,,,,,,,"",,10.5
+MQ191115-172,MQ191115,LIB-Aalborg-E-LT-517,60923,Aalborg oest #517,Winter,LT1,AS,"",Aalborg E,2017-12-19,51,2017,,"","","","","","",,,,,,,,,,,"",,10.2
+MQ191115-173,MQ191115,LIB-Aalborg-E-LT-520,55767,Aalborg oest #520,Winter,LT4,AS,"",Aalborg E,2018-01-04,1,2018,,"","","","","","",,,,,,,,,,,"",,9.1
+MQ191115-174,MQ191115,LIB-Aalborg-E-LT-522,57194,Aalborg oest #522,Winter,LT3,AS,"",Aalborg E,2018-01-09,2,2018,,"","","","","","",,,,,,,,,,,"",,9
+MQ191115-175,MQ191115,LIB-Aalborg-E-LT-524,81884,Aalborg oest #524,Winter,LT3,AS,"",Aalborg E,2018-01-15,3,2018,,"","","","","","",,,,,,,,,,,"",,7.9
+MQ191115-176,MQ191115,LIB-Aalborg-E-LT-526,100447,Aalborg oest #526,Winter,LT1,AS,"",Aalborg E,2018-01-23,4,2018,,"","","","","","",,,,,,,,,,,"",,9.2
+MQ191115-177,MQ191115,LIB-Aalborg-E-LT-528,64271,Aalborg oest #528,Winter,LT2,AS,"",Aalborg E,2018-01-30,5,2018,,"","","","","","",,,,,,,,,,,"",,8.3
+MQ191115-178,MQ191115,LIB-Aalborg-E-LT-530,83728,Aalborg oest #530,Winter,LT1,AS,"",Aalborg E,2018-02-06,6,2018,,"","","","","","",,,,,,,,,,,"",,8.3
+MQ191115-179,MQ191115,LIB-Aalborg-E-LT-532,84933,Aalborg oest #532,Winter,LT2,AS,"",Aalborg E,2018-02-12,7,2018,,"","","","","","",,,,,,,,,,,"",,7.9
+MQ191115-180,MQ191115,LIB-Aalborg-E-LT-534,86777,Aalborg oest #534,Winter,LT2,AS,"",Aalborg E,2018-02-21,8,2018,,"","","","","","",,,,,,,,,,,"",,8.7
+MQ191115-181,MQ191115,LIB-Aalborg-E-LT-536,82231,Aalborg oest #536,Winter,LT1,AS,"",Aalborg E,2018-02-27,9,2018,,"","","","","","",,,,,,,,,,,"",,7.9
+MQ191115-182,MQ191115,LIB-Aalborg-E-LT-538,78051,Aalborg oest #538,Winter,LT1,AS,"",Aalborg E,2018-03-03,9,2018,,"","","","","","",,,,,,,,,,,"",,7.9
+MQ191115-183,MQ191115,LIB-Aalborg-E-LT-540,101358,Aalborg oest #540,Winter,LT1,AS,"",Aalborg E,2018-03-12,11,2018,,"","","","","","",,,,,,,,,,,"",,7.3
+MQ191115-184,MQ191115,LIB-Aalborg-E-LT-542,92818,Aalborg oest #542,Spring,LT1,AS,"",Aalborg E,2018-03-19,12,2018,,"","","","","","",,,,,,,,,,,"",,7.8
+MQ191115-185,MQ191115,LIB-Aalborg-E-LT-544,108443,Aalborg oest #544,Spring,LT1,AS,"",Aalborg E,2018-03-27,13,2018,,"","","","","","",,,,,,,,,,,"",,9.7
+MQ191115-186,MQ191115,LIB-Aalborg-E-LT-546,94177,Aalborg oest #546,Spring,LT1,AS,"",Aalborg E,2018-04-04,14,2018,,"","","","","","",,,,,,,,,,,"",,9.4
+MQ191115-187,MQ191115,LIB-Aalborg-E-LT-548,84929,Aalborg oest #548,Spring,LT1,AS,"",Aalborg E,2018-04-10,15,2018,,"","","","","","",,,,,,,,,,,"",,10
+MQ191115-188,MQ191115,LIB-Aalborg-E-LT-550,76975,Aalborg oest #550,Spring,LT1,AS,"",Aalborg E,2018-04-16,16,2018,,"","","","","","",,,,,,,,,,,"",,12.6
+MQ191115-189,MQ191115,LIB-Aalborg-E-LT-552,73053,Aalborg oest #552,Spring,LT1,AS,"",Aalborg E,2018-04-24,17,2018,,"","","","","","",,,,,,,,,,,"",,12.4
+MQ191115-190,MQ191115,LIB-Aalborg-E-LT-554,50136,Aalborg oest #554,Spring,LT3,AS,"",Aalborg E,2018-04-30,18,2018,,"","","","","","",,,,,,,,,,,"",,12.7
+MQ191115-191,MQ191115,LIB-Aalborg-E-LT-556,62363,Aalborg oest #556,Spring,LT1,AS,"",Aalborg E,2018-05-07,19,2018,,"","","","","","",,,,,,,,,,,"",,14.7
+MQ191115-192,MQ191115,LIB-Aalborg-E-LT-558,27048,Aalborg oest #558,Spring,LT2,AS,"",Aalborg E,2018-05-14,20,2018,,"","","","","","",,,,,,,,,,,"",,14.7
+MQ191115-193,MQ191115,LIB-Aalborg-E-LT-560,51370,Aalborg oest #560,Spring,LT1,AS,"",Aalborg E,2018-05-22,21,2018,,"","","","","","",,,,,,,,,,,"",,15.95
+MQ191115-194,MQ191115,LIB-Aalborg-E-LT-562,62995,Aalborg oest #562,Spring,LT3,AS,"",Aalborg E,2018-05-28,22,2018,,"","","","","","",,,,,,,,,,,"",,
+MQ191115-195,MQ191115,LIB-Aalborg-E-LT-564,68537,Aalborg oest #564,Spring,LT1,AS,"",Aalborg E,2018-06-04,23,2018,,"","","","","","",,,,,,,,,,,"",,18.7
+MQ191115-196,MQ191115,LIB-Aalborg-E-LT-566,62855,Aalborg oest #566,Spring,LT1,AS,"",Aalborg E,2018-06-11,24,2018,,"","","","","","",,,,,,,,,,,"",,16.7
+MQ191115-197,MQ191115,LIB-Aalborg-E-LT-568,56893,Aalborg oest #568,Summer,LT1,AS,"",Aalborg E,2018-06-18,25,2018,,"","","","","","",,,,,,,,,,,"",,17.1
+MQ191115-198,MQ191115,LIB-Aalborg-E-LT-570,66357,Aalborg oest #570,Summer,LT1,AS,"",Aalborg E,2018-06-26,26,2018,,"","","","","","",,,,,,,,,,,"",,18.7
+MQ191115-199,MQ191115,LIB-Aalborg-E-LT-572,73958,Aalborg oest #572,Summer,LT1,AS,"",Aalborg E,2018-07-02,27,2018,,"","","","","","",,,,,,,,,,,"",,
+MQ191115-200,MQ191115,LIB-Aalborg-E-LT-574,95185,Aalborg oest #574,Summer,LT2,AS,"",Aalborg E,2018-07-11,28,2018,,"","","","","","",,,,,,,,,,,"",,20.6
+MQ191115-201,MQ191115,LIB-Aalborg-E-LT-576,70963,Aalborg oest #576,Summer,LT1,AS,"",Aalborg E,2018-07-16,29,2018,,"","","","","","",,,,,,,,,,,"",,20.4
+MQ191115-202,MQ191115,LIB-Aalborg-E-LT-578,90003,Aalborg oest #578,Summer,LT1,AS,"",Aalborg E,2018-08-02,31,2018,,"","","","","","",,,,,,,,,,,"",,20.7
+MQ220816-46,MQ220816,LIB-Aalborg-Oest-LT-708,,"",Fall,LT1,AS,"",Aalborg E,2019-12-11,50,2019,,"","","","","","",,,,,,,,,,,"",,
+MQ220816-47,MQ220816,LIB-Aalborg-Oest-LT-710,,"",Fall,LT1,AS,"",Aalborg E,2019-12-11,50,2019,,"","","","","","",,,,,,,,,,,"",,
+MQ220816-48,MQ220816,LIB-Aalborg-Oest-LT-712,,"",Fall,LT1,AS,"",Aalborg E,2019-12-11,50,2019,,"","","","","","",,,,,,,,,,,"",,
+MQ220816-49,MQ220816,LIB-Aalborg-Oest-LT-714,,"",Fall,LT1,AS,"",Aalborg E,2019-12-11,50,2019,,"","","","","","",,,,,,,,,,,"",,
+MQ220816-50,MQ220816,LIB-Aalborg-Oest-LT-716,,"",Fall,LT1,AS,"",Aalborg E,2019-12-11,50,2019,,"","","","","","",,,,,,,,,,,"",,
+MQ220816-51,MQ220816,LIB-Aalborg-Oest-LT-718,,"",Fall,LT1,AS,"",Aalborg E,2019-12-11,50,2019,,"","","","","","",,,,,,,,,,,"",,
+MQ220816-54,MQ220816,LIB-Aalborg-Oest-LT-784,,"",Summer,LT1,AS,"",Aalborg E,2020-08-27,35,2020,,"","","","","","",,,,,,,,,,,"",,
+MQ220816-55,MQ220816,LIB-Aalborg-Oest-LT-786,,"",Summer,LT1,AS,"",Aalborg E,2020-08-31,36,2020,,"","","","","","",,,,,,,,,,,"",,
+MQ220816-56,MQ220816,LIB-Aalborg-Oest-LT-788,,"",Summer,LT1,AS,"",Aalborg E,2020-09-08,37,2020,,"","","","","","",,,,,,,,,,,"",,
+MQ220816-57,MQ220816,LIB-Aalborg-Oest-LT-790,,"",Summer,LT1,AS,"",Aalborg E,2020-09-14,38,2020,,"","","","","","",,,,,,,,,,,"",,
+MQ220816-58,MQ220816,LIB-Aalborg-Oest-LT-792,,"",Fall,LT1,AS,"",Aalborg E,2020-09-22,39,2020,,"","","","","","",,,,,,,,,,,"",,
+MQ220816-59,MQ220816,LIB-Aalborg-Oest-LT-794,,"",Fall,LT1,AS,"",Aalborg E,2020-09-28,40,2020,,"","","","","","",,,,,,,,,,,"",,
+MQ220816-61,MQ220816,LIB-Aalborg-Oest-LT-798,,"",Fall,LT1,AS,"",Aalborg E,2020-10-12,42,2020,,"","","","","","",,,,,,,,,,,"",,
+MQ220816-62,MQ220816,LIB-Aalborg-Oest-LT-800,,"",Fall,LT1,AS,"",Aalborg E,2020-10-19,43,2020,,"","","","","","",,,,,,,,,,,"",,
+MQ220816-63,MQ220816,LIB-Aalborg-Oest-LT-802,,"",Fall,LT1,AS,"",Aalborg E,2020-10-26,44,2020,,"","","","","","",,,,,,,,,,,"",,
+MQ220816-64,MQ220816,LIB-Aalborg-Oest-LT-804,,"",Fall,LT1,AS,"",Aalborg E,2020-11-02,45,2020,,"","","","","","",,,,,,,,,,,"",,
+MQ220816-65,MQ220816,LIB-Aalborg-Oest-LT-806,,"",Fall,LT1,AS,"",Aalborg E,2020-11-12,46,2020,,"","","","","","",,,,,,,,,,,"",,
+MQ220816-66,MQ220816,LIB-Aalborg-Oest-LT-808,,"",Fall,LT1,AS,"",Aalborg E,2020-11-16,47,2020,,"","","","","","",,,,,,,,,,,"",,
+MQ220816-67,MQ220816,LIB-Aalborg-Oest-LT-810,,"",Fall,LT1,AS,"",Aalborg E,2020-11-23,48,2020,,"","","","","","",,,,,,,,,,,"",,
+MQ220816-68,MQ220816,LIB-Aalborg-Oest-LT-812,,"",Fall,LT1,AS,"",Aalborg E,2020-11-30,49,2020,,"","","","","","",,,,,,,,,,,"",,
+MQ220816-69,MQ220816,LIB-Aalborg-Oest-LT-814,,"",Fall,LT1,AS,"",Aalborg E,2020-12-07,50,2020,,"","","","","","",,,,,,,,,,,"",,
+MQ220816-70,MQ220816,LIB-Aalborg-Oest-LT-816,,"",Fall,LT1,AS,"",Aalborg E,2020-12-14,51,2020,,"","","","","","",,,,,,,,,,,"",,
+MQ220816-71,MQ220816,LIB-Aalborg-Oest-LT-818,,"",Winter,LT1,AS,"",Aalborg E,2020-12-21,52,2020,,"","","","","","",,,,,,,,,,,"",,
+MQ220816-72,MQ220816,LIB-Aalborg-Oest-LT-820,,"",Winter,LT1,AS,"",Aalborg E,2020-12-28,53,2020,,"","","","","","",,,,,,,,,,,"",,
+MQ220816-73,MQ220816,LIB-Aalborg-Oest-LT-822,,"",Winter,LT1,AS,"",Aalborg E,2021-01-04,1,2021,,"","","","","","",,,,,,,,,,,"",,
+MQ220816-74,MQ220816,LIB-Aalborg-Oest-LT-824,,"",Winter,LT1,AS,"",Aalborg E,2021-01-11,2,2021,,"","","","","","",,,,,,,,,,,"",,
+MQ220816-75,MQ220816,LIB-Aalborg-Oest-LT-826,,"",Winter,LT1,AS,"",Aalborg E,2021-01-18,3,2021,,"","","","","","",,,,,,,,,,,"",,
+MQ220816-77,MQ220816,LIB-Aalborg-Oest-LT-830,,"",Winter,LT1,AS,"",Aalborg E,2021-02-03,5,2021,,"","","","","","",,,,,,,,,,,"",,
+MQ220816-78,MQ220816,LIB-Aalborg-Oest-LT-832,,"",Winter,LT1,AS,"",Aalborg E,2021-02-08,6,2021,,"","","","","","",,,,,,,,,,,"",,
+MQ220816-79,MQ220816,LIB-Aalborg-Oest-LT-834,,"",Winter,LT1,AS,"",Aalborg E,2021-02-15,7,2021,,"","","","","","",,,,,,,,,,,"",,
+MQ220816-80,MQ220816,LIB-Aalborg-Oest-LT-836,,"",Winter,LT1,AS,"",Aalborg E,2021-02-22,8,2021,,"","","","","","",,,,,,,,,,,"",,
+MQ220816-81,MQ220816,LIB-Aalborg-Oest-LT-838,,"",Winter,LT1,AS,"",Aalborg E,2021-03-01,9,2021,,"","","","","","",,,,,,,,,,,"",,
+MQ220816-82,MQ220816,LIB-Aalborg-Oest-LT-840,,"",Winter,LT1,AS,"",Aalborg E,2021-03-08,10,2021,,"","","","","","",,,,,,,,,,,"",,
+MQ220816-83,MQ220816,LIB-Aalborg-Oest-LT-842,,"",Spring,LT1,AS,"",Aalborg E,2021-03-15,11,2021,,"","","","","","",,,,,,,,,,,"",,
+MQ220816-84,MQ220816,LIB-Aalborg-Oest-LT-844,,"",Spring,LT1,AS,"",Aalborg E,2021-03-22,12,2021,,"","","","","","",,,,,,,,,,,"",,
+MQ220816-85,MQ220816,LIB-Aalborg-Oest-LT-846,,"",Spring,LT1,AS,"",Aalborg E,2021-03-30,13,2021,,"","","","","","",,,,,,,,,,,"",,
+MQ220816-86,MQ220816,LIB-Aalborg-Oest-LT-848,,"",Spring,LT1,AS,"",Aalborg E,2021-04-06,14,2021,,"","","","","","",,,,,,,,,,,"",,
+MQ220816-87,MQ220816,LIB-Aalborg-Oest-LT-850,,"",Spring,LT1,AS,"",Aalborg E,2021-04-13,15,2021,,"","","","","","",,,,,,,,,,,"",,
+MQ220816-88,MQ220816,LIB-Aalborg-Oest-LT-852,,"",Spring,LT1,AS,"",Aalborg E,2021-04-19,16,2021,,"","","","","","",,,,,,,,,,,"",,
+MQ220816-89,MQ220816,LIB-Aalborg-Oest-LT-854,,"",Spring,LT1,AS,"",Aalborg E,2021-04-26,17,2021,,"","","","","","",,,,,,,,,,,"",,
+MQ220816-90,MQ220816,LIB-Aalborg-Oest-LT-856,,"",Spring,LT1,AS,"",Aalborg E,2021-05-03,18,2021,,"","","","","","",,,,,,,,,,,"",,
+MQ220816-91,MQ220816,LIB-Aalborg-Oest-LT-858,,"",Spring,LT1,AS,"",Aalborg E,2021-05-10,19,2021,,"","","","","","",,,,,,,,,,,"",,
+MQ220816-92,MQ220816,LIB-Aalborg-Oest-LT-860,,"",Spring,LT1,AS,"",Aalborg E,2021-05-18,20,2021,,"","","","","","",,,,,,,,,,,"",,
+MQ220816-93,MQ220816,LIB-Aalborg-Oest-LT-862,,"",Spring,LT1,AS,"",Aalborg E,2021-05-26,21,2021,,"","","","","","",,,,,,,,,,,"",,
+MQ220816-94,MQ220816,LIB-Aalborg-Oest-LT-864,,"",Spring,LT1,AS,"",Aalborg E,2021-06-01,22,2021,,"","","","","","",,,,,,,,,,,"",,
+MQ220816-95,MQ220816,LIB-Aalborg-Oest-LT-866,,"",Spring,LT1,AS,"",Aalborg E,2021-06-10,23,2021,,"","","","","","",,,,,,,,,,,"",,
+MQ220816-96,MQ220816,LIB-Aalborg-Oest-LT-868,,"",Spring,LT1,AS,"",Aalborg E,2021-06-14,24,2021,,"","","","","","",,,,,,,,,,,"",,
+MQ220816-97,MQ220816,LIB-Aalborg-Oest-LT-870,,"",Summer,LT1,AS,"",Aalborg E,2021-06-22,25,2021,,"","","","","","",,,,,,,,,,,"",,
+MQ220816-98,MQ220816,LIB-Aalborg-Oest-LT-872,,"",Summer,LT1,AS,"",Aalborg E,2021-06-29,26,2021,,"","","","","","",,,,,,,,,,,"",,
+MQ220816-99,MQ220816,LIB-Aalborg-Oest-LT-874,,"",Summer,LT1,AS,"",Aalborg E,2021-07-05,27,2021,,"","","","","","",,,,,,,,,,,"",,
+MQ220816-100,MQ220816,LIB-Aalborg-Oest-LT-876,,"",Summer,LT1,AS,"",Aalborg E,2021-07-13,28,2021,,"","","","","","",,,,,,,,,,,"",,
+MQ220816-101,MQ220816,LIB-Aalborg-Oest-LT-878,,"",Summer,LT1,AS,"",Aalborg E,2021-07-20,29,2021,,"","","","","","",,,,,,,,,,,"",,
+MQ220816-102,MQ220816,LIB-Aalborg-Oest-LT-880,,"",Summer,LT1,AS,"",Aalborg E,2021-07-26,30,2021,,"","","","","","",,,,,,,,,,,"",,
+MQ220816-103,MQ220816,LIB-Aalborg-Oest-LT-882,,"",Summer,LT1,AS,"",Aalborg E,2021-08-02,31,2021,,"","","","","","",,,,,,,,,,,"",,
+MQ230309-152,MQ230309,LIB-Aalborg-Ost-LT-922,,"",Winter,LT1,AS,Activated sludge,Aalborg E,2021-12-20,51,2021,,"","","","","","",,,,,,,,,,,"",,
+MQ230309-153,MQ230309,LIB-Aalborg-Ost-LT-924,,"",Winter,LT1,AS,Activated sludge,Aalborg E,2021-12-29,52,2021,,"","","","","","",,,,,,,,,,,"",,
+MQ230309-154,MQ230309,LIB-Aalborg-Ost-LT-926,,"",Winter,LT1,AS,Activated sludge,Aalborg E,2022-01-04,1,2022,,"","","","","","",,,,,,,,,,,"",,
+MQ230309-155,MQ230309,LIB-Aalborg-Ost-LT-928,,"",Winter,LT1,AS,Activated sludge,Aalborg E,2022-01-13,2,2022,,"","","","","","",,,,,,,,,,,"",,
+MQ230309-156,MQ230309,LIB-Aalborg-Ost-LT-930,,"",Winter,LT1,AS,Activated sludge,Aalborg E,2022-01-19,3,2022,,"","","","","","",,,,,,,,,,,"",,
+MQ230309-157,MQ230309,LIB-Aalborg-Ost-LT-932,,"",Winter,LT1,AS,Activated sludge,Aalborg E,2022-01-24,4,2022,,"","","","","","",,,,,,,,,,,"",,
+MQ230309-158,MQ230309,LIB-Aalborg-Ost-LT-934,,"",Winter,LT1,AS,Activated sludge,Aalborg E,2022-02-02,5,2022,,"","","","","","",,,,,,,,,,,"",,
+MQ230309-160,MQ230309,LIB-Aalborg-Ost-LT-938,,"",Winter,LT1,AS,Activated sludge,Aalborg E,2022-02-15,7,2022,,"","","","","","",,,,,,,,,,,"",,
+MQ230309-161,MQ230309,LIB-Aalborg-Ost-LT-940,,"",Winter,LT1,AS,Activated sludge,Aalborg E,2022-02-21,8,2022,,"","","","","","",,,,,,,,,,,"",,
+MQ230309-162,MQ230309,LIB-Aalborg-Ost-LT-942,,"",Winter,LT1,AS,Activated sludge,Aalborg E,2022-02-28,9,2022,,"","","","","","",,,,,,,,,,,"",,
+MQ230309-164,MQ230309,LIB-Aalborg-Ost-LT-946,,"",Spring,LT1,AS,Activated sludge,Aalborg E,2022-03-17,11,2022,,"","","","","","",,,,,,,,,,,"",,
+MQ230309-171,MQ230309,LIB-Aalborg-Ost-LT-960,,"",Spring,LT1,AS,Activated sludge,Aalborg E,2022-05-11,19,2022,,"","","","","","",,,,,,,,,,,"",,
+MQ230309-172,MQ230309,LIB-Aalborg-Ost-LT-962,,"",Spring,LT1,AS,Activated sludge,Aalborg E,2022-05-16,20,2022,,"","","","","","",,,,,,,,,,,"",,
+MQ230309-135,MQ230309,LIB-Aalborg-Ost-LT-888,,"",Summer,LT1,AS,Activated sludge,Aalborg E,2021-08-23,34,2021,,"","","","","","",,,,,,,,,,,"",,
+MQ230309-136,MQ230309,LIB-Aalborg-Ost-LT-890,,"",Summer,LT1,AS,Activated sludge,Aalborg E,2021-09-01,35,2021,,"","","","","","",,,,,,,,,,,"",,
+MQ230309-137,MQ230309,LIB-Aalborg-Ost-LT-892,,"",Summer,LT1,AS,Activated sludge,Aalborg E,2021-09-06,36,2021,,"","","","","","",,,,,,,,,,,"",,
+MQ230309-138,MQ230309,LIB-Aalborg-Ost-LT-894,,"",Summer,LT1,AS,Activated sludge,Aalborg E,2021-09-13,37,2021,,"","","","","","",,,,,,,,,,,"",,
+MQ230309-139,MQ230309,LIB-Aalborg-Ost-LT-896,,"",Fall,LT1,AS,Activated sludge,Aalborg E,2021-09-23,38,2021,,"","","","","","",,,,,,,,,,,"",,
+MQ230309-140,MQ230309,LIB-Aalborg-Ost-LT-898,,"",Fall,LT1,AS,Activated sludge,Aalborg E,2021-09-27,39,2021,,"","","","","","",,,,,,,,,,,"",,
+MQ230309-141,MQ230309,LIB-Aalborg-Ost-LT-900,,"",Fall,LT1,AS,Activated sludge,Aalborg E,2021-10-04,40,2021,,"","","","","","",,,,,,,,,,,"",,
+MQ230309-144,MQ230309,LIB-Aalborg-Ost-LT-906,,"",Fall,LT1,AS,Activated sludge,Aalborg E,2021-10-26,43,2021,,"","","","","","",,,,,,,,,,,"",,
+MQ230309-145,MQ230309,LIB-Aalborg-Ost-LT-908,,"",Fall,LT1,AS,Activated sludge,Aalborg E,2021-11-03,44,2021,,"","","","","","",,,,,,,,,,,"",,
+MQ230309-147,MQ230309,LIB-Aalborg-Ost-LT-912,,"",Fall,LT1,AS,Activated sludge,Aalborg E,2021-11-17,46,2021,,"","","","","","",,,,,,,,,,,"",,
+MQ230309-149,MQ230309,LIB-Aalborg-Ost-LT-916,,"",Fall,LT1,AS,Activated sludge,Aalborg E,2021-11-29,48,2021,,"","","","","","",,,,,,,,,,,"",,
+MQ230309-150,MQ230309,LIB-Aalborg-Ost-LT-918,,"",Fall,LT1,AS,Activated sludge,Aalborg E,2021-12-07,49,2021,,"","","","","","",,,,,,,,,,,"",,
+MQ230309-151,MQ230309,LIB-Aalborg-Ost-LT-920,,"",Fall,LT1,AS,Activated sludge,Aalborg E,2021-12-13,50,2021,,"","","","","","",,,,,,,,,,,"",,

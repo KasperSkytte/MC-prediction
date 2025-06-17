@@ -49,7 +49,7 @@ Adjust the settings in `config.json` and then run the wrapper script `run.bash`.
 | num_features  |  200 |   |
 | num_per_group |  5 | Max number of taxa per group |
 | iterations    |  10 | Max iterations of model training before continuing |
-| max_epochs_lstm   |  200 | Max number of epochs when using LSTM |
+| max_epochs   |  200 | Max number of epochs when using LSTM |
 | window_size   |  10 | How many samples are used as input for predictions |
 | predict_timestamp |  10 | How many samples into the future to predict for each moving window |
 | num_clusters_idec |  10 | How many IDEC clusters to create (should be automatic though) |

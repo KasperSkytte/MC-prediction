@@ -20,7 +20,7 @@
     "num_features": 200,
     "num_per_group": 5,
     "iterations": 10,
-    "max_epochs_lstm": 200,
+    "max_epochs": 200,
     "window_size": 10,
     "predict_timestamp": 10,
     "num_clusters_idec": 40,
