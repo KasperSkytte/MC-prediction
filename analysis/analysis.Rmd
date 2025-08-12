@@ -168,7 +168,7 @@ bp_all_BC <- ggplot(
   scale_fill_manual(values = cluster_type_colors)
 
 ggsave(
-  file.path(results_batch_dir, "boxplot_all_BC.png"),
+  file.path(results_batch_dir, "boxplot_all_BC.pdf"),
   plot = bp_all_BC,
   width = 180,
   height = 185,
@@ -214,7 +214,7 @@ bp_all_BC_graph <- ggplot(
   scale_color_brewer(palette = "Set2")
 
 ggsave(
-  file.path(results_batch_dir, "boxplot_all_BC_graph.png"),
+  file.path(results_batch_dir, "boxplot_all_BC_graph.pdf"),
   plot = bp_all_BC_graph,
   width = 180,
   height = 180,
@@ -253,7 +253,7 @@ bp_all_plot <- purrr::reduce(
   `/`
 )
 ggsave(
-  file.path(results_batch_dir, "boxplot_all.png"),
+  file.path(results_batch_dir, "boxplot_all.pdf"),
   plot = bp_all_plot,
   width = 180,
   height = 210,
@@ -326,7 +326,7 @@ levels <- unique(bp_mar_predwin_bc$data$dataset)[order]
 bp_mar_predwin_bc$data$dataset <- factor(bp_mar_predwin_bc$data$dataset, levels = levels)
 
 ggsave(
-  "results/predwindow_mariagerfjord/boxplot_all_BC.png",
+  "results/predwindow_mariagerfjord/boxplot_all_BC.pdf",
   plot = bp_mar_predwin_bc,
   width = 180,
   height = 180,
@@ -335,7 +335,7 @@ ggsave(
 )
 
 ggsave(
-  "results/predwindow_mariagerfjord/boxplot_all.png",
+  "results/predwindow_mariagerfjord/boxplot_all.pdf",
   plot = bp_mar_predwin_plot,
   width = 180,
   height = 180,
@@ -435,7 +435,7 @@ plot_asv1 <- wrap_plots(
 ggsave(
   file = file.path(
     dir,
-    "asv1.png"
+    "asv1.pdf"
   ),
   plot = plot_asv1,
   width = 300,
@@ -503,7 +503,7 @@ plots <- lapply(
     ggsave(
       filename = file.path(
         results_batch_dir,
-        paste0("PCoA - ", basename(wwtp), ".png")
+        paste0("PCoA - ", basename(wwtp), ".pdf")
       ),
       plot = plot,
       width = 250,
@@ -675,7 +675,7 @@ ggsave(
   plot = plot_genus_func,
   filename = file.path(
     results_batch_dir,
-    "functions_acc.png"
+    "functions_acc.pdf"
   ),
   width = 300,
   height = 250,
@@ -792,7 +792,7 @@ plots <- lapply(
       plot = plot,
       filename = file.path(
         results_batch_dir,
-        paste0("timeseries example - ", basename(wwtp), ".png")
+        paste0("timeseries example - ", basename(wwtp), ".pdf")
       ),
       width = 250,
       height = 250,
@@ -916,7 +916,7 @@ plots <- lapply(
       plot = plot,
       filename = file.path(
         results_batch_dir,
-        paste0("timeseries example - ", basename(wwtp), ".png")
+        paste0("timeseries example - ", basename(wwtp), ".pdf")
       ),
       width = 250,
       height = 250,
@@ -1019,7 +1019,7 @@ ggsave(
   filename = file.path(
     results_dir,
     "..",
-    paste0("realvspredictedheatmap_", basename(results_dir), ".png")
+    paste0("realvspredictedheatmap_", basename(results_dir), ".pdf")
   ),
   width = 450,
   height = 300,
@@ -1062,7 +1062,7 @@ ggsave(
   filename = file.path(
     graph_matrix_dir,
     "..",
-    "graph_network_plot_mariagerfjord.png"
+    "graph_network_plot_mariagerfjord.pdf"
   ),
   width = 88,
   height = 88,

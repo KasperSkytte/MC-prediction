@@ -5,7 +5,7 @@ Predicting microbial community dynamics based on time series of continuous envir
 
 ## Requirements
 ### Data
-The required data must be in the typical amplicon data format with an abundance table for each ASV/OTU, taxonomy table, and sample metadata. The sample metadata must contain at least one variable with sampling dates in year-month-day format. As long as the data can be loaded succesfully using the [ampvis2](https://kasperskytte.github.io/ampvis2/) R package, everything should "just run" as long as there is enough data (preferably 100+, but ideally 1000+). The data and results used for the article is under `data/` and can be used as example data.
+The required data must be in the typical amplicon data format with an abundance table for each ASV/OTU, taxonomy table, and sample metadata. The sample metadata must contain at least one variable with sampling dates in year-month-day format. As long as the data can be loaded succesfully using the [ampvis2](https://kasperskytte.github.io/ampvis2/) R package, everything should "just run" as long as there is enough data (preferably 100+, but ideally 1000+ samples). The data and results used for the article is under `data/` and can be used as example data.
 
 ### Python and R packages
 Use the conda `environment.yml` file to create an environment with the required software. To installed required R packages, use the `renv.lock` file to restore the R library using the [`renv`](https://rstudio.github.io/renv/articles/renv.html) package.
@@ -61,6 +61,7 @@ Adjust the settings in `config.json` and then run the wrapper script `run.bash`.
 | cluster_func  |  false | Whether to create function clusters and perform model training+testing |
 | cluster_abund |  true | Whether to create ranked abundance clusters and perform model training+testing |
 | cluster_graph |  true | Whether to create graph clusters and perform model training+testing |
+| use_timestamps | true | Whether to take the distance between sample points into account as an additional variable for training the models. |
 | smoothing_factor |  4 | Data smoothing factor |
 | splits | [0.80, 0,05, 0.15] | Fractions with which to split the data into train+val+test dataset |
 

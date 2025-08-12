@@ -158,7 +158,7 @@ ggsave(
   plot = plot,
   filename = file.path(
     results_batch_dir,
-    paste0(basename(results_dir), ".png")
+    paste0(basename(results_dir), ".pdf")
   ),
   width = 250,
   height = 250,
@@ -238,7 +238,7 @@ ggsave(
   plot = plot,
   filename = file.path(
     results_batch_dir,
-    paste0(basename(results_dir), ".png")
+    paste0(basename(results_dir), ".pdf")
   ),
   width = 250,
   height = 250,
@@ -316,7 +316,7 @@ ggsave(
   plot = plot,
   filename = file.path(
     results_batch_dir,
-    paste0(basename(results_dir), ".png")
+    paste0(basename(results_dir), ".pdf")
   ),
   width = 250,
   height = 250,
