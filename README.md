@@ -1,4 +1,4 @@
-[![DOI](https://zenodo.org/badge/369509529.svg)](https://doi.org/10.5281/zenodo.16759738)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.16840270.svg)](https://doi.org/10.5281/zenodo.16840270)
 
 # MC-prediction
 Predicting microbial community dynamics based on time series of continuous environmental samples by using graph neural network models. Developed and tested for activated sludge samples specifically, but can also be used for predicting the community dynamics in any other environment, but may require some adjustments. The implementation of the prediction model itself is primarily done in Python, but R is used for pre-formatting data and also for analyzing results.
