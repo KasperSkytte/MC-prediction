@@ -287,7 +287,7 @@ samples_overview <- ggplot(m[used == "used"], aes(Date, Plant)) +
     axis.title = element_blank(),
     axis.text.x = element_text(angle = 90))
 ggsave(
-  "Figure S2.pdf",
+  "Figure S2.png",
   plot = samples_overview
 )
 
@@ -313,7 +313,7 @@ sampling_intervals <- ggplot(
   xlab("Sampling interval (days)") +
   scale_x_continuous(trans = "sqrt", breaks = c(1,7,14,21,28,90))
 ggsave(
-  "Figure S1.pdf",
+  "Figure S1.png",
   plot = sampling_intervals
 )
 

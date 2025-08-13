@@ -263,10 +263,10 @@ bp_all_plot <- purrr::reduce(
   `/`
 )
 ggsave(
-  file.path(results_batch_dir, "Figure S4.pdf"),
+  file.path(results_batch_dir, "Figure S4.png"),
   plot = bp_all_plot,
-  width = 180,
-  height = 210,
+  width = 300,
+  height = 300,
   units = "mm",
   dpi = 600
 )
@@ -369,7 +369,7 @@ ggsave(
 ```{r}
 plot_list <- boxplot_all(
   "results/nsamplestest",
-  filename = "Figure S5.pdf",
+  filename = "Figure S5.png",
   plot_width = 220,
   plot_height = 260
 )
@@ -544,7 +544,7 @@ plot_asv24 <- wrap_plots(
 ggsave(
   file = file.path(
     dir,
-    "Figure S8.pdf"
+    "Figure S8.png"
   ),
   plot = plot_asv24,
   width = 300,
@@ -812,7 +812,7 @@ ggsave(
   plot = plot_genus_func,
   filename = file.path(
     results_batch_dir,
-    "Figure S6.pdf"
+    "Figure S6.png"
   ),
   width = 300,
   height = 250,
@@ -1107,11 +1107,11 @@ plots <- lapply(
 )
 names(plots) <- basename(wwtp_results_dirs)
 
-# save Mariagerfjord plot again to make it clear that it's Figure 3 for the paper
+# save plot again to make it clear that it's Figure 3 for the paper
 ggsave(
   filename = file.path(
     results_batch_dir,
-    "Figure S12.pdf"
+    "Figure S12.png"
   ),
   plot = plots[["Viby"]],
   width = 250,
@@ -1269,7 +1269,7 @@ ggsave(
   plot = plot,
   filename = file.path(
     results_batch_dir,
-    "Figure S3.pdf"
+    "Figure S3.png"
   ),
   width = 300,
   height = 300,
@@ -1493,7 +1493,7 @@ bp_all_BC <- ggplot(
   scale_fill_manual(values = cluster_type_colors)
 
 ggsave(
-  file.path(results_batch_dir, "Figure S7.pdf"),
+  file.path(results_batch_dir, "Figure S7.png"),
   plot = bp_all_BC,
   width = 180,
   height = 185,

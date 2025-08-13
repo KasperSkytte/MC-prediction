@@ -66,7 +66,7 @@ dataset_colors <- c(
 bp_all_list <- boxplot_all(
   results_batch_dir,
   save = TRUE,
-  filename = "Figure S9.pdf",
+  filename = "Figure S9.png",
   plot_width = 360,
   plot_height = 370
 )
@@ -171,7 +171,7 @@ ggsave(
   plot = plot,
   filename = file.path(
     results_batch_dir,
-    "Figure S11.pdf"
+    "Figure S11.png"
   ),
   width = 250,
   height = 250,
@@ -340,7 +340,7 @@ ggsave(
   plot = plot,
   filename = file.path(
     results_batch_dir,
-    "Figure S10.pdf"
+    "Figure S10.png"
   ),
   width = 250,
   height = 250,
