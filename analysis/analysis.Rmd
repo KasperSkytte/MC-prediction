@@ -168,12 +168,22 @@ bp_all_BC <- ggplot(
   scale_fill_manual(values = cluster_type_colors)
 
 ggsave(
-  file.path(results_batch_dir, "boxplot_all_BC.pdf"),
+  file.path(results_batch_dir, "Figure 2.pdf"),
   plot = bp_all_BC,
   width = 180,
   height = 185,
   units = "mm",
   dpi = 600
+)
+
+# write out plot data
+# embedded new-lines (\n) were added above for plot appearance, remove
+# them before writing out or else they will create new lines in the output file as well
+out <- data.table(bp_all_BC$data)
+out[] <- lapply(out, gsub, pattern = "\n", replacement = " ")
+fwrite(
+  out,
+  file.path(results_batch_dir, "Figure 2.csv")
 )
 ```
 
@@ -253,12 +263,18 @@ bp_all_plot <- purrr::reduce(
   `/`
 )
 ggsave(
-  file.path(results_batch_dir, "boxplot_all.pdf"),
+  file.path(results_batch_dir, "Figure S4.pdf"),
   plot = bp_all_plot,
   width = 180,
   height = 210,
   units = "mm",
   dpi = 600
+)
+
+# write out plot data
+fwrite(
+  bp_all_plot$data,
+  file.path(results_batch_dir, "Figure S4.csv")
 )
 ```
 
@@ -326,7 +342,7 @@ levels <- unique(bp_mar_predwin_bc$data$dataset)[order]
 bp_mar_predwin_bc$data$dataset <- factor(bp_mar_predwin_bc$data$dataset, levels = levels)
 
 ggsave(
-  "results/predwindow_mariagerfjord/boxplot_all_BC.pdf",
+  "results/predwindow_mariagerfjord/Figure 6.pdf",
   plot = bp_mar_predwin_bc,
   width = 180,
   height = 180,
@@ -334,6 +350,11 @@ ggsave(
   dpi = 600
 )
 
+# write out plot data
+fwrite(
+  bp_mar_predwin_bc$data,
+  "results/predwindow_mariagerfjord/Figure 6.csv"
+)
 ggsave(
   "results/predwindow_mariagerfjord/boxplot_all.pdf",
   plot = bp_mar_predwin_plot,
@@ -346,14 +367,27 @@ ggsave(
 
 ## Dataset length test (Figure S5)
 ```{r}
-boxplot_all(
+plot_list <- boxplot_all(
   "results/nsamplestest",
+  filename = "Figure S5.pdf",
   plot_width = 220,
   plot_height = 260
 )
+
+# Compose all plots in the list using patchwork
+plot <- purrr::reduce(
+  plot_list,
+  `/`
+)
+
+# write out plot data
+fwrite(
+  plot$data,
+  file.path("results/nsamplestest", "Figure S5.csv")
+)
 ```
 
-## Timeseries examples (predwindow) (Figure 7)
+## Timeseries examples (predwindow) (Figure 7 + Figure S8)
 ```{r}
 dir <- "results/predwindow_mariagerfjord"
 runs <- list.dirs(
@@ -435,7 +469,7 @@ plot_asv1 <- wrap_plots(
 ggsave(
   file = file.path(
     dir,
-    "asv1.pdf"
+    "Figure 7.pdf"
   ),
   plot = plot_asv1,
   width = 300,
@@ -443,8 +477,92 @@ ggsave(
   units = "mm",
   dpi = 600
 )
+
+# write out plot data, for once a for loop is useful
+for (i in seq_along(plots)) {
+  fwrite(
+    plots[[i]]$data,
+    file.path(
+      dir,
+      paste0("Figure 7 - ", names(plots[i]), ".csv")
+    )
+  )
+}
+
 #ASV2
-#ASV24
+
+#ASV24 (COPY PASTED FROM ASV1, sorry, but just for the submission, once in a lifetime)
+ASV24 <- d[grepl("^ASV24;", OTU)]
+plots <- lapply(
+  split(ASV24, ASV24$dataset),
+  function(dataset) {
+    plot_timeseries(
+      dataset,
+      save = FALSE
+    ) +
+    theme(
+      legend.position = "none",
+      axis.text.x = element_blank(),
+      axis.ticks.x = element_blank(),
+      axis.title.y = element_blank()
+    ) +
+    ggtitle(unique(dataset$dataset)) +
+    plot_obs_pred(dataset) +
+    theme(
+      axis.title = element_blank()
+    ) +
+    scale_y_continuous(position = "right")
+  }
+)
+# legend and axis ticks for the last plot
+plots[[length(plots)]][[1]] <- plots[[length(plots)]][[1]] +
+  theme(
+    legend.position = "bottom",
+    legend.text = element_text(size = 16),
+    axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5),
+    axis.ticks.x = element_line()
+  )
+plots[[length(plots)]][[2]] <- plots[[length(plots)]][[2]] +
+  theme(axis.title.x = element_text(size = 14))
+plots[[3]][[1]] <- plots[[3]][[1]] +
+  theme(
+    axis.title.y = element_text(size = 14)
+  )
+plots[[3]][[2]] <- plots[[3]][[2]] +
+  theme(
+    axis.title.y = element_text(size = 14)
+  )
+
+plot_asv24 <- wrap_plots(
+  plots,
+  ncol = 1,
+  heights = 4,
+  widths = c(6, 2),
+  guides = "auto"
+)
+
+ggsave(
+  file = file.path(
+    dir,
+    "Figure S8.pdf"
+  ),
+  plot = plot_asv24,
+  width = 300,
+  height = 350,
+  units = "mm",
+  dpi = 600
+)
+
+# write out plot data, for once a for loop is useful
+for (i in seq_along(plots)) {
+  fwrite(
+    plots[[i]]$data,
+    file.path(
+      dir,
+      paste0("Figure S8 - ", names(plots[i]), ".csv")
+    )
+  )
+}
 ```
 
 # PCoA (all WWTPs loop) (Figure 5)
@@ -516,9 +634,28 @@ plots <- lapply(
 )
 names(plots) <- basename(wwtp_results_dirs)
 #hideme <- lapply(plots, print)
+
+# save Mariagerfjord plot again to make it clear that it's Figure 5 for the paper
+ggsave(
+  filename = file.path(
+    results_batch_dir,
+    "Figure 5.pdf"
+  ),
+  plot = plots[["Mariagerfjord"]],
+  width = 250,
+  height = 250,
+  units = "mm",
+  dpi = 600
+)
+
+# write out plot data
+fwrite(
+  plots[["Mariagerfjord"]]$data,
+  file.path(results_batch_dir, "Figure 5.csv")
+)
 ```
 
-## All WWTPs test data (real+pred) combined
+# All WWTPs test data (real+pred) combined (Figure S6)
 ```{r}
 wwtp_results_dirs <- list.dirs(
   results_batch_dir,
@@ -659,7 +796,7 @@ allwwtps_testcompare[!is.na(genus_function), uniqueN(OTU)]
 # total unique ASVs  across ALL datasets
 allwwtps_testcompare[, uniqueN(OTU)]
 
-# plotty plot (Figure S6)
+# plotty plot
 plot_genus_func <- ggplot(
   allwwtps_testcompare[!is.na(genus_function)],
   aes(x = MAPE, y = dataset, group = dataset)
@@ -675,12 +812,18 @@ ggsave(
   plot = plot_genus_func,
   filename = file.path(
     results_batch_dir,
-    "functions_acc.pdf"
+    "Figure S6.pdf"
   ),
   width = 300,
   height = 250,
   units = "mm",
   dpi = 600
+)
+
+# write out plot data
+fwrite(
+  plot_genus_func$data,
+  file.path(results_batch_dir, "Figure S6.csv")
 )
 
 ggplot(
@@ -694,14 +837,17 @@ ggplot(
 plot_genus_func
 ```
 
-# Time Series examples (for Figure 3)
+# Time Series examples (Figure 3)
 ```{r timeseries}
 wwtp_results_dirs <- list.dirs(
   results_batch_dir,
   full.names = TRUE,
   recursive = FALSE
 )
+
+# overwriting again to select only the one used in the paper
 wwtp_results_dirs <- "results/allwwtps/Mariagerfjord"
+
 #list of all data (train+val+test) from all WWTPs
 plots <- lapply(
   wwtp_results_dirs,
@@ -806,10 +952,39 @@ plots <- lapply(
     return(plot)
   }
 )
+names(plots) <- basename(wwtp_results_dirs)
+
+# save Mariagerfjord plot again to make it clear that it's Figure 3 for the paper
+ggsave(
+  filename = file.path(
+    results_batch_dir,
+    "Figure 3.pdf"
+  ),
+  plot = plots[["Mariagerfjord"]],
+  width = 250,
+  height = 250,
+  units = "mm",
+  dpi = 600
+)
+
+# write out plot data
+for (i in seq(1,6,2)) {
+  fwrite(
+    plots[["Mariagerfjord"]][[i]]$data,
+    file.path(
+      dir,
+      paste0(
+        "Figure 3 - ",
+        gsub(";.*", "", unique(plots[["Mariagerfjord"]][[i]]$data$OTU)),
+        ".csv"
+      )
+    )
+  )
+}
 
 ```
 
-# SSelect analysis (Aalborg W + Viby, Figure S12+S13)
+# SSelect analysis (Aalborg W + Viby, Figure S12)
 ```{r}
 wwtp_results_dirs <- c(
   "results/allwwtps/Aalborg W",
@@ -930,7 +1105,35 @@ plots <- lapply(
     return(plot)
   }
 )
+names(plots) <- basename(wwtp_results_dirs)
 
+# save Mariagerfjord plot again to make it clear that it's Figure 3 for the paper
+ggsave(
+  filename = file.path(
+    results_batch_dir,
+    "Figure S12.pdf"
+  ),
+  plot = plots[["Viby"]],
+  width = 250,
+  height = 250,
+  units = "mm",
+  dpi = 600
+)
+
+# write out plot data
+for (i in seq(1,6,2)) {
+  fwrite(
+    plots[["Viby"]][[i]]$data,
+    file.path(
+      results_batch_dir,
+      paste0(
+        "Figure S12 - ",
+        gsub(";.*", "", unique(plots[["Viby"]][[i]]$data$OTU)),
+        ".csv"
+      )
+    )
+  )
+}
 ```
 
 # Heatmap of real vs predicted (Figure 4)
@@ -1017,14 +1220,19 @@ realvspredictedheatmap <- amp_heatmap(
 ggsave(
   plot = realvspredictedheatmap,
   filename = file.path(
-    results_dir,
-    "..",
-    paste0("realvspredictedheatmap_", basename(results_dir), ".pdf")
+    results_batch_dir,
+    "Figure 4.pdf"
   ),
   width = 450,
   height = 300,
   units = "mm",
   dpi = 600
+)
+
+# write out plot data
+fwrite(
+  realvspredictedheatmap$data,
+  file.path(results_batch_dir, "Figure 4.csv")
 )
 ```
 
@@ -1060,14 +1268,19 @@ plot
 ggsave(
   plot = plot,
   filename = file.path(
-    graph_matrix_dir,
-    "..",
-    "graph_network_plot_mariagerfjord.pdf"
+    results_batch_dir,
+    "Figure S3.pdf"
   ),
-  width = 88,
-  height = 88,
+  width = 300,
+  height = 300,
   units = "mm",
   dpi = 600
+)
+
+# write out plot data
+fwrite(
+  plot$data,
+  file.path(results_batch_dir, "Figure S3.csv")
 )
 ```
 
@@ -1197,4 +1410,104 @@ mediansBC[, nsamples := as.integer(gsub("[^0-9]", "", dataset))]
 
 # linear relationship between BC+graph accuracy and number of samples
 summary(lm(nsamples ~ median, data = mediansBC[cluster_type == "Graph"]))
+```
+
+# Sampling interval as an extra variable test (Figure S7)
+```{r}
+# just copied from Figure 2, sorry again
+results_batch_dir <- "results/allwwtps_wts"
+
+## Bray-Curtis only, flip x and y (otherwise too big plot for manuscript)
+runs <- list.dirs(
+  results_batch_dir,
+  full.names = TRUE,
+  recursive = FALSE
+)
+
+d_list <- lapply(
+  runs,
+  read_performance,
+  add_dataset_info = "numsamples"
+)
+names(d_list) <- runs
+combined <- rbindlist(
+  d_list,
+  idcol = "results_folder",
+  fill = TRUE
+)[
+  !is.na(cluster_type) & value > 0
+]
+
+# copied from boxplot_all() just for this plot
+#order datasets by the number of samples (extracted from dataset names)
+combined[,unique(dataset)] %>%
+  stringi::stri_extract_all_regex("\\(.*$", "") %>%
+  stringi::stri_extract_all_regex("[0-9]+") %>%
+  as.numeric -> nsamples
+datasets_ordered <- combined[
+  ,
+  unique(dataset)
+][
+  order(nsamples, decreasing = F)
+]
+plot_data <- combined[error_metric == "Bray Curtis"]
+plot_data[, dataset := factor(gsub(" \\(", "\n(", dataset), levels = gsub(" \\(", "\n(", datasets_ordered))]
+bp_all_BC <- ggplot(
+  plot_data,
+  aes(
+    value,
+    cluster_type,
+    color = cluster_type,
+    fill = cluster_type
+  )
+) +
+  geom_boxplot(
+    outlier.shape = 19,
+    outlier.size = 1,
+    alpha = 0.4,
+    linewidth = 0.25
+  ) +
+  facet_wrap(~dataset, ncol = 2, strip.position = "right", dir = "v") +
+  #facet_grid(rows = vars(dataset), scales = "free") +
+  theme_bw() +
+  theme(
+    legend.position = "bottom",
+    legend.title = element_blank(),
+    legend.text = element_text(size = 10),
+    axis.text.y = element_blank(),
+    axis.text.x = element_text(size = 10, angle = 90, vjust = 0.5),
+    axis.title = element_blank(), 
+    axis.ticks.y = element_blank(),
+    #strip.text.x = element_blank(),
+    strip.text.y = element_text(size = 10, angle = 0),
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor.x = element_blank(),
+    panel.grid.major.x = element_line(color = "gray70"),
+    panel.background = element_rect(fill = "white")
+  ) +
+  scale_x_continuous(
+    trans = "sqrt",
+    breaks = c(0.0, 0.05, 0.1, 0.15, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8)
+  ) +
+  scale_colour_manual(values = cluster_type_colors) +
+  scale_fill_manual(values = cluster_type_colors)
+
+ggsave(
+  file.path(results_batch_dir, "Figure S7.pdf"),
+  plot = bp_all_BC,
+  width = 180,
+  height = 185,
+  units = "mm",
+  dpi = 600
+)
+
+# write out plot data
+# embedded new-lines (\n) were added above for plot appearance, remove
+# them before writing out or else they will create new lines in the output file as well
+out <- data.table(bp_all_BC$data)
+out[] <- lapply(out, gsub, pattern = "\n", replacement = " ")
+fwrite(
+  out,
+  file.path(results_batch_dir, "Figure S7.csv")
+)
 ```

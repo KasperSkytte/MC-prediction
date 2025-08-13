@@ -272,10 +272,13 @@ samples_overview_all <- ggplot(
     axis.title = element_blank(),
     axis.text.x = element_text(angle = 90))
 
-ggsave("samples_overview_all.png", plot = samples_overview_all)
+ggsave(
+  "samples_overview_all.png",
+  plot = samples_overview_all
+)
 ```
 
-# overview of samples over time (only those selected for the paper)
+# overview of samples over time (only those selected for the paper, Figure S2)
 ```{r samples_overview, fig.width = 12, fig.height = 8}
 samples_overview <- ggplot(m[used == "used"], aes(Date, Plant)) +
   geom_point() +
@@ -283,10 +286,19 @@ samples_overview <- ggplot(m[used == "used"], aes(Date, Plant)) +
   theme(
     axis.title = element_blank(),
     axis.text.x = element_text(angle = 90))
-ggsave("samples_overview_used.png", plot = samples_overview)
+ggsave(
+  "Figure S2.pdf",
+  plot = samples_overview
+)
+
+# write out plot data
+fwrite(
+  samples_overview$data,
+  "Figure S2.csv"
+)
 ```
 
-# Overview of sampling intervals
+# Overview of sampling intervals (Figure S1)
 ```{r sampling_intervals}
 sampling_intervals <- ggplot(
   m[
@@ -300,5 +312,14 @@ sampling_intervals <- ggplot(
   theme(axis.title.y = element_blank()) +
   xlab("Sampling interval (days)") +
   scale_x_continuous(trans = "sqrt", breaks = c(1,7,14,21,28,90))
-ggsave("sampling_intervals.png", plot = sampling_intervals)
+ggsave(
+  "Figure S1.pdf",
+  plot = sampling_intervals
+)
+
+# write out plot data
+fwrite(
+  sampling_intervals$data,
+  "Figure S1.csv"
+)
 ```

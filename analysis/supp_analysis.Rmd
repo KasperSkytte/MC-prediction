@@ -61,13 +61,26 @@ dataset_colors <- c(
 )
 ```
 
-# All supplementary datasets
+# All supplementary datasets (Figure S9)
 ```{r}
 bp_all_list <- boxplot_all(
   results_batch_dir,
   save = TRUE,
+  filename = "Figure S9.pdf",
   plot_width = 360,
   plot_height = 370
+)
+
+# Compose all plots in the list using patchwork
+plot <- purrr::reduce(
+  bp_all_list,
+  `/`
+)
+
+# write out plot data
+fwrite(
+  plot$data,
+  file.path(results_batch_dir, "Figure S9.csv")
 )
 ```
 
@@ -99,7 +112,7 @@ combined <- combine_abund(
 )
 ```
 
-## Time series examples (figure S10)
+## Time series examples (figure S11)
 ```{r}
 long <- amp_export_long(
   combined,
@@ -158,13 +171,20 @@ ggsave(
   plot = plot,
   filename = file.path(
     results_batch_dir,
-    paste0(basename(results_dir), ".pdf")
+    "Figure S11.pdf"
   ),
   width = 250,
   height = 250,
   units = "mm",
   dpi = 600
 )
+
+# write out plot data
+fwrite(
+  plot$data,
+  file.path(results_batch_dir, "Figure S11.csv")
+)
+
 ```
 
 # caporaso 2011 paper
@@ -183,8 +203,6 @@ long <- amp_export_long(
   tax_levels = "OTU",
   metadata_vars = c("Date", "split_dataset", "predicted")
 )
-
-
 
 # top 3 from https://www.nature.com/articles/nature09944/figures/1
 # this one is extremely low abundant, but prediction works well
@@ -238,7 +256,7 @@ ggsave(
   plot = plot,
   filename = file.path(
     results_batch_dir,
-    paste0(basename(results_dir), ".pdf")
+    "Figure 8.pdf"
   ),
   width = 250,
   height = 250,
@@ -246,6 +264,12 @@ ggsave(
   dpi = 600
 )
 # genus163, s__Faecalibacterium
+
+# write out plot data
+fwrite(
+  plot$data,
+  file.path(results_batch_dir, "Figure 8.csv")
+)
 ```
 
 # chrismas 2023 paper
@@ -257,7 +281,7 @@ combined <- combine_abund(
 )
 ```
 
-## Time series examples (figure S11)
+## Time series examples (figure S10)
 ```{r}
 long <- amp_export_long(
   combined,
@@ -316,7 +340,7 @@ ggsave(
   plot = plot,
   filename = file.path(
     results_batch_dir,
-    paste0(basename(results_dir), ".pdf")
+    "Figure S10.pdf"
   ),
   width = 250,
   height = 250,
@@ -324,4 +348,9 @@ ggsave(
   dpi = 600
 )
 
+# write out plot data
+fwrite(
+  plot$data,
+  file.path(results_batch_dir, "Figure S10.csv")
+)
 ```
