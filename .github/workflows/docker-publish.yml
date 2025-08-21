@@ -7,7 +7,7 @@ name: Docker
 
 on:
   schedule:
-    - cron: '3 10 * * 3'
+    - cron: '43 1 * * *'
   push:
     branches: [ "main" ]
     # Publish semver tags as releases.
@@ -24,7 +24,8 @@ env:
 
 jobs:
   build:
-    runs-on: self-hosted
+
+    runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
@@ -40,7 +41,7 @@ jobs:
       # https://github.com/sigstore/cosign-installer
       - name: Install cosign
         if: github.event_name != 'pull_request'
-        uses: sigstore/cosign-installer@v3.5.0
+        uses: sigstore/cosign-installer@59acb6260d9c0ba8f4a2f9d9b48431a222b68e20 #v3.5.0
         with:
           cosign-release: 'v2.2.4'
 
