@@ -492,7 +492,7 @@ combine_abund <- function(results_dir, cluster_type) {
       "cluster_type must be one of: ",
       paste0(cluster_types, collapse = ", "))
   }
-  #read predicted abundance tables
+  #read predicted abundance tables (from train+val+test)
   pred_abund <- read_abund(
     results_dir = results_dir,
     pattern = paste0("(graph|lstm)_", cluster_type, "_cluster_.+_predicted\\.csv$"),
@@ -504,6 +504,13 @@ combine_abund <- function(results_dir, cluster_type) {
     results_dir = results_dir,
     pattern = paste0("(graph|lstm)_", cluster_type, "_cluster_.+_dataall_nontrans\\.csv$"),
     sample_prefix = "true_"
+  )
+
+  #read actual future prediction tables
+  future_abund <- read_abund(
+    results_dir = results_dir,
+    pattern = paste0("(graph|lstm)_", cluster_type, "_cluster_.+_actual_prediction\\.csv$"),
+    sample_prefix = "future_"
   )
 
   #read dates and sample IDs and use as metadata
@@ -558,7 +565,7 @@ combine_abund <- function(results_dir, cluster_type) {
     metadata[, split_dataset := "predicted"]
   }
 
-  #load predicted and true data
+  #load predicted, true, and future data
   predicted_data <- amp_load(
     otutable = pred_abund,
     metadata = metadata[
@@ -576,7 +583,6 @@ combine_abund <- function(results_dir, cluster_type) {
       "taxonomy_wfunctions.csv"
     )
   )
-
   true_data <- amp_load(
     otutable = true_abund,
     metadata = metadata[
@@ -596,17 +602,32 @@ combine_abund <- function(results_dir, cluster_type) {
       "taxonomy_wfunctions.csv"
     )
   )
+  future_data <- amp_load(
+    otutable = future_abund,
+    taxonomy = file.path(
+      results_dir,
+      "data_reformatted",
+      "taxonomy_wfunctions.csv"
+    )
+  )
+  # generated estimated future dates based on the sampling interval in the original dataset
+  future_data$metadata$predicted <- "future" -> future_data$metadata$split_dataset
+  sampling_interval <- ceiling(mean(diff(sort(unique(true_data$metadata[true_data$metadata$predicted == "real", "Date"])))))
+  future_data$metadata$Date <- max(true_data$metadata$Date) + seq_len(nrow(future_data$metadata)) * sampling_interval
+  future_data$metadata$DummyVariable <- NULL
 
+  # combine the datasets
   combined <- amp_merge_ampvis2(
     predicted_data,
     true_data,
+    future_data,
     by_refseq = FALSE
   )
 
-  # Order dataset type (split_dataset) by real-train-val-test
+  # Order dataset type (split_dataset) by real-train-val-test-future
   combined$metadata$split_dataset <- factor(
     combined$metadata$split_dataset,
-    levels = c("real", "train", "val", "test")
+    levels = c("real", "train", "val", "test", "future")
   )
 
   return(combined)
