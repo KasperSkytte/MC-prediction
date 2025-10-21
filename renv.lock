@@ -235,15 +235,14 @@
     },
     "ampvis2": {
       "Package": "ampvis2",
-      "Version": "2.8.6",
+      "Version": "2.8.10",
       "Source": "GitHub",
       "RemoteType": "github",
       "RemoteUsername": "kasperskytte",
       "RemoteRepo": "ampvis2",
       "RemoteRef": "main",
-      "RemoteSha": "b702c372bd84fb0e83fdda8e10120f08dc7590db",
+      "RemoteSha": "3e2b7baa033e90424e5ac8a375b21593a2851c47",
       "RemoteHost": "api.github.com",
-      "Remotes": "github::kasperskytte/biomformat",
       "Remotes": "github::kasperskytte/biomformat",
       "Requirements": [
         "R",
@@ -266,7 +265,7 @@
         "utils",
         "vegan"
       ],
-      "Hash": "83e0da5ae4d99f685956a4719dd8dd9e"
+      "Hash": "9eeb60e3244c3e3d935c669bb1742503"
     },
     "ape": {
       "Package": "ape",
@@ -1343,13 +1342,13 @@
     },
     "jsonlite": {
       "Package": "jsonlite",
-      "Version": "1.8.7",
+      "Version": "2.0.0",
       "Source": "Repository",
       "Repository": "RSPM",
       "Requirements": [
         "methods"
       ],
-      "Hash": "266a20443ca13c65688b2116d5220f76"
+      "Hash": "b0776f526d36d8bd4a3344a88fe165c4"
     },
     "knitr": {
       "Package": "knitr",
@@ -1878,7 +1877,7 @@
     },
     "purrr": {
       "Package": "purrr",
-      "Version": "1.0.1",
+      "Version": "1.1.0",
       "Source": "Repository",
       "Repository": "RSPM",
       "Requirements": [
@@ -1889,7 +1888,7 @@
         "rlang",
         "vctrs"
       ],
-      "Hash": "d71c815267c640f17ddbf7f16144b4bb"
+      "Hash": "9240cfb47489133f809918a0d3cc60cb"
     },
     "ragg": {
       "Package": "ragg",
@@ -2056,14 +2055,14 @@
     },
     "rlang": {
       "Package": "rlang",
-      "Version": "1.1.1",
+      "Version": "1.1.6",
       "Source": "Repository",
       "Repository": "RSPM",
       "Requirements": [
         "R",
         "utils"
       ],
-      "Hash": "a85c767b55f0bf9b7ad16c6d7baee5bb"
+      "Hash": "892124978869b74935dc3934c42bfe5a"
     },
     "rmarkdown": {
       "Package": "rmarkdown",

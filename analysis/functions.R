@@ -611,7 +611,8 @@ combine_abund <- function(results_dir, cluster_type) {
     )
   )
   # generated estimated future dates based on the sampling interval in the original dataset
-  future_data$metadata$predicted <- "future" -> future_data$metadata$split_dataset
+  future_data$metadata$predicted <- "predicted"
+  future_data$metadata$split_dataset <- "future"
   sampling_interval <- ceiling(mean(diff(sort(unique(true_data$metadata[true_data$metadata$predicted == "real", "Date"])))))
   future_data$metadata$Date <- max(true_data$metadata$Date) + seq_len(nrow(future_data$metadata)) * sampling_interval
   future_data$metadata$DummyVariable <- NULL
