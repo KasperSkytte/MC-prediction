@@ -3,6 +3,8 @@
 # MC-prediction
 Predicting microbial community dynamics based on time series of continuous environmental samples by using graph neural network models. Developed and tested for activated sludge samples specifically, but can also be used for predicting the community dynamics in any other environment, but may require some adjustments. The implementation of the prediction model itself is primarily done in Python, but R is used for pre-formatting data and also for analyzing results.
 
+Published article here: https://www.nature.com/articles/s41467-025-64175-7
+
 ## Requirements
 ### Data
 The required data must be in the typical amplicon data format with an abundance table for each ASV/OTU, taxonomy table, and sample metadata. The sample metadata must contain at least one variable with sampling dates in year-month-day format. As long as the data can be loaded succesfully using the [ampvis2](https://kasperskytte.github.io/ampvis2/) R package, everything should "just run" as long as there is enough data (preferably 100+, but ideally 1000+ samples). The data and results used for the article is under `data/` and can be used as example data.
