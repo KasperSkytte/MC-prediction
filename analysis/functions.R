@@ -194,24 +194,7 @@ read_performance <- function(
 
   dt <- rbindlist(results_list, idcol = "cluster_type")
 
-  logfile <- fread(
-    list.files(
-      results_dir,
-      pattern = "log_[0-9]*_[0-9]*\\.txt",
-      full.names = TRUE
-    ),
-    sep = "\n",
-    header = FALSE,
-    col.names = "line"
-  )
-
-  dt$dataset <- basename(
-    gsub(
-      "reformatted|data|ASVtable.*$|otutable.*$",
-      "",
-      logfile[grepl("abund_file", line)]
-    )
-  )
+  dt$dataset <- basename(results_dir)
 
   #read metadata to get the number of samples to append dataset names
   metadata <- fread(
@@ -227,13 +210,24 @@ read_performance <- function(
   if (add_dataset_info == "numsamples") {
     dt$dataset <- paste0(dt$dataset, " (", nrow(metadata), ")")
   } else if(add_dataset_info == "predwindow") {
-  dt$dataset <- paste0(
-    dt$dataset,
-    " (",
-    gsub(
-      "[^0-9]*",
-      "",
-      logfile[grepl("predict_timestamp", line), line]),
+    logfile <- fread(
+      list.files(
+        results_dir,
+        pattern = "log_[0-9]*_[0-9]*\\.txt",
+        full.names = TRUE
+      ),
+      sep = "\n",
+      header = FALSE,
+      col.names = "line"
+    )
+    dt$dataset <- paste0(
+      dt$dataset,
+      " (",
+      gsub(
+        "[^0-9]*",
+        "",
+        logfile[grepl("predict_timestamp", line), line]
+      ),
       " P.S.)"
     )
   }
@@ -277,7 +271,13 @@ boxplot_all <- function(
   filename = "boxplot_all.png",
   save = TRUE,
   plot_width = 180,
-  plot_height = 185
+  plot_height = 185,
+  cluster_type_colors = c(
+    "Biological function" = "#422537",
+    "Graph" = "#D58078",
+    "IDEC" = "#86A556",
+    "Ranked abundance" = "#624FB0"
+  )
 ) {
   runs <- list.dirs(
     results_batch_dir,
