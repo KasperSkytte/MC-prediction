@@ -6,7 +6,7 @@ suppressPackageStartupMessages({
   require(data.table)
 })
 
-functions_file <- "MiDAS_genusfunctions_20220625.csv"
+functions_file <- "MiDAS_genusfunctions.csv"
 
 #load config
 cli::cat_line(
