@@ -66,7 +66,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 RUN wget --quiet https://github.com/conda-forge/miniforge/releases/download/24.11.3-0/Miniforge3-24.11.3-0-Linux-x86_64.sh -O /opt/miniconda.sh \
   && /bin/bash /opt/miniconda.sh -b -p /opt/conda \
   && rm -rf /opt/miniconda.sh \
-  && conda env create -f /opt/environment.yml -n mc-prediction \
+  && /opt/conda/bin/conda env create -f /opt/environment.yml -n mc-prediction \
   && ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh \
   && echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc \
   && echo "conda activate mc-prediction" >> ~/.bashrc
