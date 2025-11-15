@@ -139,6 +139,11 @@
       ],
       "Hash": "31262fd18481fab05c5e7258dac163ca"
     },
+    "R.utils": {
+      "Package": "R.utils",
+      "Version": "2.13.0",
+      "Source": "Repository"
+    },
     "R6": {
       "Package": "R6",
       "Version": "2.5.1",
