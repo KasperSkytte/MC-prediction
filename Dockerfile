@@ -1,5 +1,5 @@
 #Dockerfile inspired by https://sourcery.ai/blog/python-docker/
-FROM tensorflow/tensorflow:2.13.0rc0-gpu-jupyter
+FROM tensorflow/tensorflow:2.13.0rc0-gpu
 
 # Copy library scripts to execute
 COPY .devcontainer/library-scripts/*.sh .devcontainer/library-scripts/*.env /tmp/library-scripts/
