@@ -329,14 +329,17 @@ def find_best_graph(data, iterations, num_clusters, max_epochs, early_stopping, 
         dates_pred_test_start = [dates_test.iloc[0], dates_test.iloc[data.window_width]]
 
         # Plot prediction results.
-        plot_prediction(
-            data,
-            prediction = prediction,
-            dates = dates,
-            asvs = data.all.columns[:4],
-            highlight_dates = dates_pred_test_start,
-            save_filename = f'graph_{cluster_type}_cluster_{c}.png'
-        )
+        try:
+            plot_prediction(
+                data,
+                prediction = prediction,
+                dates = dates,
+                asvs = data.all.columns[:4],
+                highlight_dates = dates_pred_test_start,
+                save_filename = f'graph_{cluster_type}_cluster_{c}.png'
+            )
+        except Exception as e:
+            print(f'Could not plot predictions for cluster {c} of type {cluster_type}: {e}')
 
         #write predicted values to CSV files
         if not path.exists(data_predicted_dir):
