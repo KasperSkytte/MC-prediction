@@ -599,19 +599,14 @@
     },
     "data.table": {
       "Package": "data.table",
-      "Version": "1.14.99",
-      "Source": "GitHub",
-      "RemoteType": "github",
-      "RemoteHost": "api.github.com",
-      "RemoteUsername": "Rdatatable",
-      "RemoteRepo": "data.table",
-      "RemoteRef": "master",
-      "RemoteSha": "a6009e87003c81be9c02f1212033663f8d0754a3",
+      "Version": "1.17.8",
+      "Source": "Repository",
+      "Repository": "RSPM",
       "Requirements": [
         "R",
         "methods"
       ],
-      "Hash": "78773f562874162ce31eedbf57c94547"
+      "Hash": "1d991cd6160fa7b1fdbd3689034cbd15"
     },
     "dbplyr": {
       "Package": "dbplyr",
@@ -2535,11 +2530,6 @@
         "cpp11"
       ],
       "Hash": "f561504ec2897f4d46f0c7657e488ae1"
-    },
-    "usethis": {
-      "Package": "usethis",
-      "Version": "3.2.1",
-      "Source": "Repository"
     },
     "utf8": {
       "Package": "utf8",
