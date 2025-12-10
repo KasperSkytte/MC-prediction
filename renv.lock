@@ -139,6 +139,11 @@
       ],
       "Hash": "31262fd18481fab05c5e7258dac163ca"
     },
+    "R.utils": {
+      "Package": "R.utils",
+      "Version": "2.13.0",
+      "Source": "Repository"
+    },
     "R6": {
       "Package": "R6",
       "Version": "2.5.1",
@@ -594,19 +599,14 @@
     },
     "data.table": {
       "Package": "data.table",
-      "Version": "1.14.99",
-      "Source": "GitHub",
-      "RemoteType": "github",
-      "RemoteHost": "api.github.com",
-      "RemoteUsername": "Rdatatable",
-      "RemoteRepo": "data.table",
-      "RemoteRef": "master",
-      "RemoteSha": "a6009e87003c81be9c02f1212033663f8d0754a3",
+      "Version": "1.17.8",
+      "Source": "Repository",
+      "Repository": "RSPM",
       "Requirements": [
         "R",
         "methods"
       ],
-      "Hash": "78773f562874162ce31eedbf57c94547"
+      "Hash": "1d991cd6160fa7b1fdbd3689034cbd15"
     },
     "dbplyr": {
       "Package": "dbplyr",
@@ -2530,6 +2530,12 @@
         "cpp11"
       ],
       "Hash": "f561504ec2897f4d46f0c7657e488ae1"
+    },
+    "usethis": {
+      "Package": "usethis",
+      "Version": "3.2.1",
+      "Source": "Repository",
+      "Repository": "CRAN"
     },
     "utf8": {
       "Package": "utf8",
