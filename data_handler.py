@@ -81,24 +81,24 @@ class DataHandler:
     def train_batched(self):
         """Batches of training data."""
         return self._make_batched_dataset(self._all.iloc[:self._train_val_index+self.predict_timestamp, self.clusters],
-                                          True, self.data_timestamps[:self._train_val_index+self.predict_timestamp])
+                                          True, self.data_timestamps[:self._train_val_index+self.predict_timestamp], self.data_temperature[:self._train_val_index+self.predict_timestamp])
 
     @property
     def val_batched(self):
         """Batches of validation data."""
         return self._make_batched_dataset(self._all.iloc[self._train_val_index-self.window_width:self._val_test_index+self.predict_timestamp,
-                       self.clusters], True, self.data_timestamps[self._train_val_index-self.window_width:self._val_test_index+self.predict_timestamp])
+                       self.clusters], True, self.data_timestamps[self._train_val_index-self.window_width:self._val_test_index+self.predict_timestamp], self.data_temperature[self._train_val_index-self.window_width:self._val_test_index+self.predict_timestamp])
 
     @property
     def test_batched(self):
         """Batches of test data."""
         return self._make_batched_dataset(self._all.iloc[self._val_test_index-self.window_width:, self.clusters], True,
-                                          self.data_timestamps[self._val_test_index-self.window_width:])
+                                          self.data_timestamps[self._val_test_index-self.window_width:], self.data_temperature[self._val_test_index-self.window_width:])
 
     @property
     def all_batched(self):
         """Batches of all the data."""
-        return self._make_batched_dataset(self.all, False, self.data_timestamps)
+        return self._make_batched_dataset(self.all, False, self.data_timestamps, self.data_temperature)
 
     @property
     def num_features(self):
@@ -110,7 +110,7 @@ class DataHandler:
         else:
             return np.min((self._all.shape[1], self.max_num_features))
 
-    def _make_batched_dataset(self, dataset, endindex, data_timestamps):
+    def _make_batched_dataset(self, dataset, endindex, data_timestamps, data_temperature):
         """Create a windowed and batched dataset."""
         dataset = dataset.to_numpy()
         T_, N_ = dataset.shape
@@ -124,6 +124,10 @@ class DataHandler:
             data_timestamps = np.repeat(data_timestamps, N_, 1)
             input_data = np.concatenate((input_data, data_timestamps), axis=2)
         
+        if self.use_temperature:
+            data_temperature = np.repeat(data_temperature, N_, 1)
+            input_data = np.concatenate((input_data, data_temperature), axis=2)
+
         if endindex:
             return tf.keras.preprocessing.sequence.TimeseriesGenerator(
                 data=input_data,
@@ -264,6 +268,12 @@ class DataHandler:
         self.data_timestamps = data_timestamps
         self.use_timestamps = config['use_timestamps']
         
+        data_temperature = meta[config['metadata_temperature_col']].to_numpy().astype('float32', copy=False).reshape([-1, 1, 1])
+        data_temperature = data_temperature / data_temperature.max()
+        self.data_temperature = data_temperature
+        self.use_temperature = config['use_temperature']
+        
+
         data_raw = data_raw[:self.max_num_features]
         func_tax = func_tax[:self.max_num_features]
         clusters_func = clusters_func[:self.max_num_features]

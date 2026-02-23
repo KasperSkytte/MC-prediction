@@ -57,6 +57,10 @@ def load_data(config):
     meta = pd.read_csv(pp_dir + 'metadata.csv', index_col=0, parse_dates=['Date'])
     meta.sort_values(by='Date', inplace=True)
 
+    # if config['use_temperature'] or config['con_temperature']:
+    valid_mask = meta[config['metadata_temperature_col']].notna()
+    meta = meta[valid_mask]
+        
     # also sort samples in abund chronologically according to metadata
     abund = abund.reindex(index=meta.index, copy=False)
 
