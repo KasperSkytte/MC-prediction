@@ -107,7 +107,13 @@ def create_graph_model(num_features, predict_timestamp, graph, window_width, use
     """Create a model without tuning hyperparameters.
        Returns: a keras graph-model."""
 
-    out_dim = predict_timestamp
+    out_dim = max(predict_timestamp)
+    predict_timestamp.sort(reverse=True)
+    predict_sum = 0
+    for leng in predict_timestamp:
+        predict_sum += leng
+    # print(predict_sum," predictsum")
+    predict_timestamp_len = len(predict_timestamp)
     start_conv = keras.layers.Conv2D(filters=residual_channels, kernel_size=(1, 1),
                                      padding='same', strides=(1, 1), use_bias=True)
     receptive_field = 1
@@ -146,17 +152,14 @@ def create_graph_model(num_features, predict_timestamp, graph, window_width, use
     end_conv_1 = keras.layers.Conv2D(filters=end_channels, kernel_size=(1, 1),
                                     padding='valid', strides=(1, 1), use_bias=True)
 
-    end_conv_2 = keras.layers.Conv2D(filters=out_dim, kernel_size=(1, 1),
+    # end_conv_2 = keras.layers.Conv2D(filters=out_dim, kernel_size=(1, 1),
+    #                         padding='valid', strides=(1, 1), use_bias=True)
+    end_conv_2 = []
+    for i in predict_timestamp:
+        conv2_i = keras.layers.Conv2D(filters=i, kernel_size=(1, 1),
                             padding='valid', strides=(1, 1), use_bias=True)
+        end_conv_2.append(conv2_i)
 
-    end_conv_2_1 = keras.layers.Conv2D(filters=1, kernel_size=(1, 1),
-                            padding='valid', strides=(1, 1), use_bias=True)
-    end_conv_2_3 = keras.layers.Conv2D(filters=3, kernel_size=(1, 1),
-                            padding='valid', strides=(1, 1), use_bias=True)
-    end_conv_2_5 = keras.layers.Conv2D(filters=5, kernel_size=(1, 1),
-                            padding='valid', strides=(1, 1), use_bias=True)
-    end_conv_2_10 = keras.layers.Conv2D(filters=10, kernel_size=(1, 1),
-                            padding='valid', strides=(1, 1), use_bias=True)
     
     cov_conv = keras.layers.Conv2D(filters=residual_channels, kernel_size=(1, 1),
                                      padding='same', strides=(1, 1), use_bias=True)
@@ -242,37 +245,33 @@ def create_graph_model(num_features, predict_timestamp, graph, window_width, use
     x = tf.nn.relu(skip)
     x = tf.reduce_mean(x, axis=-2, keepdims=True)
     x = tf.nn.relu(end_conv_1(x))
-    # x = end_conv_2(x)
-    x10 = end_conv_2_10(x)
-    x5 = end_conv_2_5(x)
-    x3 = end_conv_2_3(x)
-    x1 = end_conv_2_1(x)
-    x_combined = tf.keras.layers.Concatenate(axis=-1)([
-        x10, x5, x3, x1
-    ])
-    x = tf.keras.layers.Reshape((num_features, 10+5+3+1))(x_combined)
+    
+    result = []
+    for j in range(len(end_conv_2)):
+        xj = end_conv_2[j](x)
+        result.append(xj)
+    x_combined = tf.keras.layers.Concatenate(axis=-1)(result)
+    x = tf.keras.layers.Reshape((num_features, predict_sum))(x_combined)
     x = tf.keras.layers.Permute((2, 1))(x)
     graph_model = tf.keras.Model(inputs=input_x_, outputs=x)
 
     loc_loss = LocLoss(
-        c_id = c_id
+        c_id = c_id,
+        predict_timestamp=predict_timestamp
     )
-    dmse1 = denormalized_mse(c_id, 1, name="mse_1")
-    dmae1 = denormalized_mae(c_id, 1, name="mae_1")
-    dmse3 = denormalized_mse(c_id, 3, name="mse_3")
-    dmae3 = denormalized_mae(c_id, 3, name="mae_3")
-    dmse5 = denormalized_mse(c_id, 5, name="mse_5")
-    dmae5 = denormalized_mae(c_id, 5, name="mae_5")
-    dmse10 = denormalized_mse(c_id, 10, name="mse_10")
-    dmae10 = denormalized_mae(c_id, 10, name="mae_10")
-    d1 = denormalized_bray_curtis(c_id, 1, name="bray_curtis_1")
-    d3 = denormalized_bray_curtis(c_id, 3, name="bray_curtis_3")
-    d5 = denormalized_bray_curtis(c_id, 5, name="bray_curtis_5")
-    d10 = denormalized_bray_curtis(c_id, 10, name="bray_curtis_10")
+    metrics_list = []
+
+    # 循环遍历每个时间步长，添加对应的 metrics
+    cnt = 0
+    for t in predict_timestamp:
+        metrics_list.append(denormalized_mse(c_id, t, cnt, name=f"mse_{t}"))
+        metrics_list.append(denormalized_mae(c_id, t, cnt, name=f"mae_{t}"))
+        metrics_list.append(denormalized_bray_curtis(c_id, t, cnt, name=f"bray_curtis_{t}"))
+        cnt += t
 
     graph_model.compile(loss = loc_loss,
                   optimizer = keras.optimizers.Adam(learning_rate=0.001),
-                  metrics = [dmse1, dmae1, dmse3, dmae3, dmse5, dmae5, dmse10, dmae10, d1, d3, d5, d10])
+                  metrics = metrics_list)
     return graph_model
 
 def create_baseline_model(num_features, predict_timestamp, graph, window_width, use_timestamps, use_temperature, c_id, kernel_size=kernel_size_conf, blocks=2, layers=2):
@@ -372,8 +371,8 @@ def create_baseline_model(num_features, predict_timestamp, graph, window_width, 
     loc_loss = LocLoss_baseline(
         c_id = c_id
     )
-    dmse = denormalized_mse(c_id,0,name="mse")
-    dmae = denormalized_mae(c_id,0,name="mae")
+    dmse = denormalized_mse(c_id,0,0,name="mse")
+    dmae = denormalized_mae(c_id,0,0,name="mae")
     # d = denormalized_bray_curtis(c_id,0,name="bray_curtis")
 
     graph_model.compile(loss = loc_loss,
@@ -381,7 +380,7 @@ def create_baseline_model(num_features, predict_timestamp, graph, window_width, 
                   metrics = [dmse, dmae])
     return graph_model
 
-def denormalized_mae(c_id, horizon, name="denormalized_mae1"):
+def denormalized_mae(c_id, horizon, cnt, name="denormalized_mae1"):
     """创建返归一化后的平均绝对误差指标"""
     # 确保统计量是张量
     mean=data.transform_mean[data.clusters_graph == c_id]
@@ -397,29 +396,18 @@ def denormalized_mae(c_id, horizon, name="denormalized_mae1"):
         return result
     
     def metric(y_true, y_pred):
-        if horizon == 1:
-            y_true_denorm = denormalize(y_true[:,:1,:])
-            y_pred_denorm = denormalize(y_pred[:,18:19,:])
-        elif horizon == 3:
-            y_true_denorm = denormalize(y_true[:,:3,:])
-            y_pred_denorm = denormalize(y_pred[:,15:18,:])
-        elif horizon == 5:
-            y_true_denorm = denormalize(y_true[:,:5,:])
-            y_pred_denorm = denormalize(y_pred[:,10:15,:])
-        elif horizon == 10:
-            y_true_denorm = denormalize(y_true[:,:10,:])
-            y_pred_denorm = denormalize(y_pred[:,:10,:])
-        elif horizon == 0:
+        if horizon == 0:
             y_true_denorm = denormalize(y_true)
             y_pred_denorm = denormalize(y_pred)
         else:
-            print("ilegal horizon")
+            y_true_denorm = denormalize(y_true[:,:horizon,:])
+            y_pred_denorm = denormalize(y_pred[:,cnt:cnt+horizon,:])
         return tf.reduce_mean(tf.abs(y_true_denorm - y_pred_denorm))
     metric.__name__ = f"{name}"
     return metric
 
 
-def denormalized_mse(c_id, horizon, name="denormalized_mse1"):
+def denormalized_mse(c_id, horizon, cnt, name="denormalized_mse1"):
     """创建返归一化后的平均绝对误差指标"""
     
     # 确保统计量是张量
@@ -437,30 +425,19 @@ def denormalized_mse(c_id, horizon, name="denormalized_mse1"):
         return result
     
     def metric(y_true, y_pred):
-        if horizon == 1:
-            y_true_denorm = denormalize(y_true[:,:1,:])
-            y_pred_denorm = denormalize(y_pred[:,18:19,:])
-        elif horizon == 3:
-            y_true_denorm = denormalize(y_true[:,:3,:])
-            y_pred_denorm = denormalize(y_pred[:,15:18,:])
-        elif horizon == 5:
-            y_true_denorm = denormalize(y_true[:,:5,:])
-            y_pred_denorm = denormalize(y_pred[:,10:15,:])
-        elif horizon == 10:
-            y_true_denorm = denormalize(y_true[:,:10,:])
-            y_pred_denorm = denormalize(y_pred[:,:10,:])
-        elif horizon == 0:
+        if horizon == 0:
             y_true_denorm = denormalize(y_true)
             y_pred_denorm = denormalize(y_pred)
         else:
-            print("ilegal horizon")
+            y_true_denorm = denormalize(y_true[:,:horizon,:])
+            y_pred_denorm = denormalize(y_pred[:,cnt:cnt+horizon,:])
         return tf.reduce_mean(tf.square(y_true_denorm - y_pred_denorm))
     metric.__name__ = f"{name}"
     return metric
 
 
 
-def denormalized_bray_curtis(c_id, horizon, name="denormalized_1"):
+def denormalized_bray_curtis(c_id, horizon, cnt, name="denormalized_1"):
     
     # 确保统计量是张量
     mean=data.transform_mean[data.clusters_graph == c_id]
@@ -477,23 +454,13 @@ def denormalized_bray_curtis(c_id, horizon, name="denormalized_1"):
         return result
     
     def metric(y_true, y_pred):
-        if horizon == 1:
-            y_true_denorm = denormalize(y_true[:,:1,:])
-            y_pred_denorm = denormalize(y_pred[:,18:19,:])
-        elif horizon == 3:
-            y_true_denorm = denormalize(y_true[:,:3,:])
-            y_pred_denorm = denormalize(y_pred[:,15:18,:])
-        elif horizon == 5:
-            y_true_denorm = denormalize(y_true[:,:5,:])
-            y_pred_denorm = denormalize(y_pred[:,10:15,:])
-        elif horizon == 10:
-            y_true_denorm = denormalize(y_true[:,:10,:])
-            y_pred_denorm = denormalize(y_pred[:,:10,:])
-        elif horizon == 0:
+        if horizon == 0:
             y_true_denorm = denormalize(y_true)
             y_pred_denorm = denormalize(y_pred)
         else:
-            print("ilegal horizon")
+            y_true_denorm = denormalize(y_true[:,:horizon,:])
+            y_pred_denorm = denormalize(y_pred[:,cnt:cnt+horizon,:])
+        
         C_ij = tf.keras.backend.minimum(y_pred_denorm, y_true_denorm)
         C_ij = tf.keras.backend.sum(C_ij, axis=-1)
 
@@ -538,10 +505,11 @@ class LocLoss_baseline(keras.losses.Loss):
         return tf.keras.backend.mean(1 - ((2*C_ij) / (S_i+S_j+0.001)))
 
 class LocLoss(keras.losses.Loss):
-    def __init__(self, c_id, name="custom_loss"):
+    def __init__(self, c_id, predict_timestamp, name="custom_loss"):
         super().__init__(name=name)
         # these are some extra arguments:
         self.c_id = c_id
+        self.predict_timestamp = predict_timestamp
 
     def call(self, y_true, y_pred):
         true = tf.cast(y_true, tf.float32)
@@ -556,51 +524,38 @@ class LocLoss(keras.losses.Loss):
 
         real_true = true * mean
         real_pred = pred * mean
-        y_true1 = real_true[:,:1,:]
-        y_true3 = real_true[:,:3,:]
-        y_true5 = real_true[:,:5,:]
-        y_true10 = real_true[:,:10,:]
+        y_true_list = []
+        pred_list = []
+        now = 0
+        for i in self.predict_timestamp:
+            y_truei = real_true[:,:i,:]
+            predi = real_pred[:,now:now+i,:]
+            now = now + i
+            y_true_list.append(y_truei)
+            pred_list.append(predi)
+        # y_true1 = real_true[:,:1,:]
+        # y_true3 = real_true[:,:3,:]
+        # y_true5 = real_true[:,:5,:]
+        # y_true10 = real_true[:,:10,:]
 
-        pred10 = real_pred[:,:10,:]
-        pred5 = real_pred[:,10:15,:]
-        pred3 = real_pred[:,15:18,:]
-        pred1 = real_pred[:,18:19,:]
+        # pred10 = real_pred[:,:10,:]
+        # pred5 = real_pred[:,10:15,:]
+        # pred3 = real_pred[:,15:18,:]
+        # pred1 = real_pred[:,18:19,:]
+        loss_list = []
+        for (predii, real) in zip(pred_list, y_true_list):
+            C_ij = tf.keras.backend.minimum(predii, real)
+            C_ij = tf.keras.backend.sum(C_ij, axis=-1)
 
-        C_ij = tf.keras.backend.minimum(pred10, y_true10)
-        C_ij = tf.keras.backend.sum(C_ij, axis=-1)
+            # Calculate the sum of each sample.
+            S_i = tf.keras.backend.sum(real, axis=-1)
+            S_j = tf.keras.backend.sum(predii, axis=-1)
+            # Calculate and return Bray-Curtis dissimilarity.
+            lossi = tf.keras.backend.mean(1 - ((2*C_ij) / (S_i+S_j+0.001)))
+            loss_list.append(lossi) 
 
-        # Calculate the sum of each sample.
-        S_i = tf.keras.backend.sum(y_true10, axis=-1)
-        S_j = tf.keras.backend.sum(pred10, axis=-1)
-        # Calculate and return Bray-Curtis dissimilarity.
-        loss10 = tf.keras.backend.mean(1 - ((2*C_ij) / (S_i+S_j+0.001)))
-
-        C_ij = tf.keras.backend.minimum(pred5, y_true5)
-        C_ij = tf.keras.backend.sum(C_ij, axis=-1)
-
-        # Calculate the sum of each sample.
-        S_i = tf.keras.backend.sum(y_true5, axis=-1)
-        S_j = tf.keras.backend.sum(pred5, axis=-1)
-        # Calculate and return Bray-Curtis dissimilarity.
-        loss5 = tf.keras.backend.mean(1 - ((2*C_ij) / (S_i+S_j+0.001)))
-        C_ij = tf.keras.backend.minimum(pred3, y_true3)
-        C_ij = tf.keras.backend.sum(C_ij, axis=-1)
-
-        # Calculate the sum of each sample.
-        S_i = tf.keras.backend.sum(y_true3, axis=-1)
-        S_j = tf.keras.backend.sum(pred3, axis=-1)
-        # Calculate and return Bray-Curtis dissimilarity.
-        loss3 = tf.keras.backend.mean(1 - ((2*C_ij) / (S_i+S_j+0.001)))
-
-        C_ij = tf.keras.backend.minimum(pred1, y_true1)
-        C_ij = tf.keras.backend.sum(C_ij, axis=-1)
-
-        # Calculate the sum of each sample.
-        S_i = tf.keras.backend.sum(y_true1, axis=-1)
-        S_j = tf.keras.backend.sum(pred1, axis=-1)
-        # Calculate and return Bray-Curtis dissimilarity.
-        loss1 = tf.keras.backend.mean(1 - ((2*C_ij) / (S_i+S_j+0.001)))
-        return loss1 + loss3 + loss5 + loss10
+        loss_sum = sum(loss_list)
+        return loss_sum
 
 def find_best_graph(data, iterations, num_clusters, max_epochs, early_stopping, cluster_type, predict_timestamp, use_baseline, use_timestamps, use_temperature):
     print(f'\nFitting {num_clusters} cluster(s) of type {cluster_type}')
@@ -656,7 +611,12 @@ def find_best_graph(data, iterations, num_clusters, max_epochs, early_stopping, 
                 graph_model = create_graph_model(data.num_features, predict_timestamp, graph=graph_matrix,
                                                 window_width=data.window_width, use_timestamps=use_timestamps, use_temperature=use_temperature, c_id=c_id)
             else:
-                graph_model = create_baseline_model(data.num_features, predict_timestamp, graph=graph_matrix,
+                if isinstance(predict_timestamp, list):
+                    if len(predict_timestamp) > 1:
+                        print("The baseline model does not support multiple predict timestamps.")
+                        print(f"now predict timestamp is {max(predict_timestamp)}")
+                    pt = max(predict_timestamp)
+                graph_model = create_baseline_model(data.num_features, pt, graph=graph_matrix,
                                                 window_width=data.window_width, use_timestamps=use_timestamps, use_temperature=use_temperature, c_id=c_id)
             graph_model.fit(data.train_batched,
                            epochs=max_epochs,
@@ -677,309 +637,85 @@ def find_best_graph(data, iterations, num_clusters, max_epochs, early_stopping, 
         best_model.save_weights(f'{results_dir}/graph_{cluster_type}_weights/cluster_{c}')
 
         if use_baseline is False:
-            prediction_10, prediction_5, prediction_3, prediction_1, actual_prediction_10, actual_prediction_5, actual_prediction_3, actual_prediction_1, R_square_10, R_square_5, R_square_3, R_square_1 = make_prediction(data, best_model, use_baseline, use_timestamps, use_temperature)
-            R_square_10.to_csv(f'{R_square_dir}/graph_{cluster_type}_cluster_{c}_R_square_10.csv')
-            R_square_5.to_csv(f'{R_square_dir}/graph_{cluster_type}_cluster_{c}_R_square_5.csv')
-            R_square_3.to_csv(f'{R_square_dir}/graph_{cluster_type}_cluster_{c}_R_square_3.csv')
-            R_square_1.to_csv(f'{R_square_dir}/graph_{cluster_type}_cluster_{c}_R_square_1.csv')
+            prediction_dict, actual_prediction_dict, R_square_dict = make_prediction(data, best_model, use_baseline, use_timestamps, use_temperature, predict_timestamp)
+            for i in predict_timestamp:
+                R_square_dict[i].to_csv(f'{R_square_dir}/graph_{cluster_type}_cluster_{c}_R_square_{i}.csv')
+                          
+                if cluster_type == "abund":
+                    prediction_dict[i] = rev_transform(
+                        DF = prediction_dict[i],
+                        mean = data.transform_mean[data.clusters_abund == c_id],
+                        std = data.transform_std[data.clusters_abund == c_id],
+                        min = data.transform_min[data.clusters_abund == c_id],
+                        max = data.transform_max[data.clusters_abund == c_id],
+                        transform = data.transform_type
+                    )
+                elif cluster_type == "graph":
+                    prediction_dict[i] = rev_transform(
+                        DF=prediction_dict[i],
+                        mean=data.transform_mean[data.clusters_graph == c_id],
+                        std=data.transform_std[data.clusters_graph == c_id],
+                        min=data.transform_min[data.clusters_graph == c_id],
+                        max=data.transform_max[data.clusters_graph == c_id],
+                        transform=data.transform_type
+                    )
+                elif cluster_type == "func":
+                    prediction_dict[i] = rev_transform(
+                        DF = prediction_dict[i],
+                        mean = data.transform_mean[data.clusters_func == c_id],
+                        std = data.transform_std[data.clusters_func == c_id],
+                        min = data.transform_min[data.clusters_func == c_id],
+                        max = data.transform_max[data.clusters_func == c_id],
+                        transform = data.transform_type
+                    )
+                elif cluster_type == "idec":
+                    prediction_dict[i] = rev_transform(
+                        DF = prediction_dict[i],
+                        mean = data.transform_mean[data.clusters_idec == c_id],
+                        std = data.transform_std[data.clusters_idec == c_id],
+                        min = data.transform_min[data.clusters_idec == c_id],
+                        max = data.transform_max[data.clusters_idec == c_id],
+                        transform = data.transform_type
+                    )
             
-            if cluster_type == "abund":
-                prediction_10 = rev_transform(
-                    DF = prediction_10,
-                    mean = data.transform_mean[data.clusters_abund == c_id],
-                    std = data.transform_std[data.clusters_abund == c_id],
-                    min = data.transform_min[data.clusters_abund == c_id],
-                    max = data.transform_max[data.clusters_abund == c_id],
-                    transform = data.transform_type
-                )
-            elif cluster_type == "graph":
-                prediction_10 = rev_transform(
-                    DF=prediction_10,
-                    mean=data.transform_mean[data.clusters_graph == c_id],
-                    std=data.transform_std[data.clusters_graph == c_id],
-                    min=data.transform_min[data.clusters_graph == c_id],
-                    max=data.transform_max[data.clusters_graph == c_id],
-                    transform=data.transform_type
-                )
-            elif cluster_type == "func":
-                prediction_10 = rev_transform(
-                    DF = prediction_10,
-                    mean = data.transform_mean[data.clusters_func == c_id],
-                    std = data.transform_std[data.clusters_func == c_id],
-                    min = data.transform_min[data.clusters_func == c_id],
-                    max = data.transform_max[data.clusters_func == c_id],
-                    transform = data.transform_type
-                )
-            elif cluster_type == "idec":
-                prediction_10 = rev_transform(
-                    DF = prediction_10,
-                    mean = data.transform_mean[data.clusters_idec == c_id],
-                    std = data.transform_std[data.clusters_idec == c_id],
-                    min = data.transform_min[data.clusters_idec == c_id],
-                    max = data.transform_max[data.clusters_idec == c_id],
-                    transform = data.transform_type
-                )
-            
-            if cluster_type == "abund":
-                prediction_5 = rev_transform(
-                    DF = prediction_5,
-                    mean = data.transform_mean[data.clusters_abund == c_id],
-                    std = data.transform_std[data.clusters_abund == c_id],
-                    min = data.transform_min[data.clusters_abund == c_id],
-                    max = data.transform_max[data.clusters_abund == c_id],
-                    transform = data.transform_type
-                )
-            elif cluster_type == "graph":
-                prediction_5 = rev_transform(
-                    DF=prediction_5,
-                    mean=data.transform_mean[data.clusters_graph == c_id],
-                    std=data.transform_std[data.clusters_graph == c_id],
-                    min=data.transform_min[data.clusters_graph == c_id],
-                    max=data.transform_max[data.clusters_graph == c_id],
-                    transform=data.transform_type
-                )
-            elif cluster_type == "func":
-                prediction_5 = rev_transform(
-                    DF = prediction_5,
-                    mean = data.transform_mean[data.clusters_func == c_id],
-                    std = data.transform_std[data.clusters_func == c_id],
-                    min = data.transform_min[data.clusters_func == c_id],
-                    max = data.transform_max[data.clusters_func == c_id],
-                    transform = data.transform_type
-                )
-            elif cluster_type == "idec":
-                prediction_5 = rev_transform(
-                    DF = prediction_5,
-                    mean = data.transform_mean[data.clusters_idec == c_id],
-                    std = data.transform_std[data.clusters_idec == c_id],
-                    min = data.transform_min[data.clusters_idec == c_id],
-                    max = data.transform_max[data.clusters_idec == c_id],
-                    transform = data.transform_type
-                )
-            
-            if cluster_type == "abund":
-                prediction_3 = rev_transform(
-                    DF = prediction_3,
-                    mean = data.transform_mean[data.clusters_abund == c_id],
-                    std = data.transform_std[data.clusters_abund == c_id],
-                    min = data.transform_min[data.clusters_abund == c_id],
-                    max = data.transform_max[data.clusters_abund == c_id],
-                    transform = data.transform_type
-                )
-            elif cluster_type == "graph":
-                prediction_3 = rev_transform(
-                    DF=prediction_3,
-                    mean=data.transform_mean[data.clusters_graph == c_id],
-                    std=data.transform_std[data.clusters_graph == c_id],
-                    min=data.transform_min[data.clusters_graph == c_id],
-                    max=data.transform_max[data.clusters_graph == c_id],
-                    transform=data.transform_type
-                )
-            elif cluster_type == "func":
-                prediction_3 = rev_transform(
-                    DF = prediction_3,
-                    mean = data.transform_mean[data.clusters_func == c_id],
-                    std = data.transform_std[data.clusters_func == c_id],
-                    min = data.transform_min[data.clusters_func == c_id],
-                    max = data.transform_max[data.clusters_func == c_id],
-                    transform = data.transform_type
-                )
-            elif cluster_type == "idec":
-                prediction_3 = rev_transform(
-                    DF = prediction_3,
-                    mean = data.transform_mean[data.clusters_idec == c_id],
-                    std = data.transform_std[data.clusters_idec == c_id],
-                    min = data.transform_min[data.clusters_idec == c_id],
-                    max = data.transform_max[data.clusters_idec == c_id],
-                    transform = data.transform_type
-                )
-            
-            if cluster_type == "abund":
-                prediction_1 = rev_transform(
-                    DF = prediction_1,
-                    mean = data.transform_mean[data.clusters_abund == c_id],
-                    std = data.transform_std[data.clusters_abund == c_id],
-                    min = data.transform_min[data.clusters_abund == c_id],
-                    max = data.transform_max[data.clusters_abund == c_id],
-                    transform = data.transform_type
-                )
-            elif cluster_type == "graph":
-                prediction_1 = rev_transform(
-                    DF=prediction_1,
-                    mean=data.transform_mean[data.clusters_graph == c_id],
-                    std=data.transform_std[data.clusters_graph == c_id],
-                    min=data.transform_min[data.clusters_graph == c_id],
-                    max=data.transform_max[data.clusters_graph == c_id],
-                    transform=data.transform_type
-                )
-            elif cluster_type == "func":
-                prediction_1 = rev_transform(
-                    DF = prediction_1,
-                    mean = data.transform_mean[data.clusters_func == c_id],
-                    std = data.transform_std[data.clusters_func == c_id],
-                    min = data.transform_min[data.clusters_func == c_id],
-                    max = data.transform_max[data.clusters_func == c_id],
-                    transform = data.transform_type
-                )
-            elif cluster_type == "idec":
-                prediction_1 = rev_transform(
-                    DF = prediction_1,
-                    mean = data.transform_mean[data.clusters_idec == c_id],
-                    std = data.transform_std[data.clusters_idec == c_id],
-                    min = data.transform_min[data.clusters_idec == c_id],
-                    max = data.transform_max[data.clusters_idec == c_id],
-                    transform = data.transform_type
-                )
-            
-            if cluster_type == "abund":
-                actual_prediction_10 = rev_transform(
-                    DF = actual_prediction_10,
-                    mean = data.transform_mean[data.clusters_abund == c_id],
-                    std = data.transform_std[data.clusters_abund == c_id],
-                    min = data.transform_min[data.clusters_abund == c_id],
-                    max = data.transform_max[data.clusters_abund == c_id],
-                    transform = data.transform_type
-                )
-            elif cluster_type == "graph":
-                actual_prediction_10 = rev_transform(
-                    DF=actual_prediction_10,
-                    mean=data.transform_mean[data.clusters_graph == c_id],
-                    std=data.transform_std[data.clusters_graph == c_id],
-                    min=data.transform_min[data.clusters_graph == c_id],
-                    max=data.transform_max[data.clusters_graph == c_id],
-                    transform=data.transform_type
-                )
-            elif cluster_type == "func":
-                actual_prediction_10 = rev_transform(
-                    DF = actual_prediction_10,
-                    mean = data.transform_mean[data.clusters_func == c_id],
-                    std = data.transform_std[data.clusters_func == c_id],
-                    min = data.transform_min[data.clusters_func == c_id],
-                    max = data.transform_max[data.clusters_func == c_id],
-                    transform = data.transform_type
-                )
-            elif cluster_type == "idec":
-                actual_prediction_10 = rev_transform(
-                    DF = actual_prediction_10,
-                    mean = data.transform_mean[data.clusters_idec == c_id],
-                    std = data.transform_std[data.clusters_idec == c_id],
-                    min = data.transform_min[data.clusters_idec == c_id],
-                    max = data.transform_max[data.clusters_idec == c_id],
-                    transform = data.transform_type
-                )
-            
-            if cluster_type == "abund":
-                actual_prediction_5 = rev_transform(
-                    DF = actual_prediction_5,
-                    mean = data.transform_mean[data.clusters_abund == c_id],
-                    std = data.transform_std[data.clusters_abund == c_id],
-                    min = data.transform_min[data.clusters_abund == c_id],
-                    max = data.transform_max[data.clusters_abund == c_id],
-                    transform = data.transform_type
-                )
-            elif cluster_type == "graph":
-                actual_prediction_5 = rev_transform(
-                    DF=actual_prediction_5,
-                    mean=data.transform_mean[data.clusters_graph == c_id],
-                    std=data.transform_std[data.clusters_graph == c_id],
-                    min=data.transform_min[data.clusters_graph == c_id],
-                    max=data.transform_max[data.clusters_graph == c_id],
-                    transform=data.transform_type
-                )
-            elif cluster_type == "func":
-                actual_prediction_5 = rev_transform(
-                    DF = actual_prediction_5,
-                    mean = data.transform_mean[data.clusters_func == c_id],
-                    std = data.transform_std[data.clusters_func == c_id],
-                    min = data.transform_min[data.clusters_func == c_id],
-                    max = data.transform_max[data.clusters_func == c_id],
-                    transform = data.transform_type
-                )
-            elif cluster_type == "idec":
-                actual_prediction_5 = rev_transform(
-                    DF = actual_prediction_5,
-                    mean = data.transform_mean[data.clusters_idec == c_id],
-                    std = data.transform_std[data.clusters_idec == c_id],
-                    min = data.transform_min[data.clusters_idec == c_id],
-                    max = data.transform_max[data.clusters_idec == c_id],
-                    transform = data.transform_type
-                )
-            
-            if cluster_type == "abund":
-                actual_prediction_3 = rev_transform(
-                    DF = actual_prediction_3,
-                    mean = data.transform_mean[data.clusters_abund == c_id],
-                    std = data.transform_std[data.clusters_abund == c_id],
-                    min = data.transform_min[data.clusters_abund == c_id],
-                    max = data.transform_max[data.clusters_abund == c_id],
-                    transform = data.transform_type
-                )
-            elif cluster_type == "graph":
-                actual_prediction_3 = rev_transform(
-                    DF=actual_prediction_3,
-                    mean=data.transform_mean[data.clusters_graph == c_id],
-                    std=data.transform_std[data.clusters_graph == c_id],
-                    min=data.transform_min[data.clusters_graph == c_id],
-                    max=data.transform_max[data.clusters_graph == c_id],
-                    transform=data.transform_type
-                )
-            elif cluster_type == "func":
-                actual_prediction_3 = rev_transform(
-                    DF = actual_prediction_3,
-                    mean = data.transform_mean[data.clusters_func == c_id],
-                    std = data.transform_std[data.clusters_func == c_id],
-                    min = data.transform_min[data.clusters_func == c_id],
-                    max = data.transform_max[data.clusters_func == c_id],
-                    transform = data.transform_type
-                )
-            elif cluster_type == "idec":
-                actual_prediction_3 = rev_transform(
-                    DF = actual_prediction_3,
-                    mean = data.transform_mean[data.clusters_idec == c_id],
-                    std = data.transform_std[data.clusters_idec == c_id],
-                    min = data.transform_min[data.clusters_idec == c_id],
-                    max = data.transform_max[data.clusters_idec == c_id],
-                    transform = data.transform_type
-                )
-            
-            if cluster_type == "abund":
-                actual_prediction_1 = rev_transform(
-                    DF = actual_prediction_1,
-                    mean = data.transform_mean[data.clusters_abund == c_id],
-                    std = data.transform_std[data.clusters_abund == c_id],
-                    min = data.transform_min[data.clusters_abund == c_id],
-                    max = data.transform_max[data.clusters_abund == c_id],
-                    transform = data.transform_type
-                )
-            elif cluster_type == "graph":
-                actual_prediction_1 = rev_transform(
-                    DF=actual_prediction_1,
-                    mean=data.transform_mean[data.clusters_graph == c_id],
-                    std=data.transform_std[data.clusters_graph == c_id],
-                    min=data.transform_min[data.clusters_graph == c_id],
-                    max=data.transform_max[data.clusters_graph == c_id],
-                    transform=data.transform_type
-                )
-            elif cluster_type == "func":
-                actual_prediction_1 = rev_transform(
-                    DF = actual_prediction_1,
-                    mean = data.transform_mean[data.clusters_func == c_id],
-                    std = data.transform_std[data.clusters_func == c_id],
-                    min = data.transform_min[data.clusters_func == c_id],
-                    max = data.transform_max[data.clusters_func == c_id],
-                    transform = data.transform_type
-                )
-            elif cluster_type == "idec":
-                actual_prediction_1 = rev_transform(
-                    DF = actual_prediction_1,
-                    mean = data.transform_mean[data.clusters_idec == c_id],
-                    std = data.transform_std[data.clusters_idec == c_id],
-                    min = data.transform_min[data.clusters_idec == c_id],
-                    max = data.transform_max[data.clusters_idec == c_id],
-                    transform = data.transform_type
-                )
+                if cluster_type == "abund":
+                    actual_prediction_dict[i] = rev_transform(
+                        DF = actual_prediction_dict[i],
+                        mean = data.transform_mean[data.clusters_abund == c_id],
+                        std = data.transform_std[data.clusters_abund == c_id],
+                        min = data.transform_min[data.clusters_abund == c_id],
+                        max = data.transform_max[data.clusters_abund == c_id],
+                        transform = data.transform_type
+                    )
+                elif cluster_type == "graph":
+                    actual_prediction_dict[i] = rev_transform(
+                        DF=actual_prediction_dict[i],
+                        mean=data.transform_mean[data.clusters_graph == c_id],
+                        std=data.transform_std[data.clusters_graph == c_id],
+                        min=data.transform_min[data.clusters_graph == c_id],
+                        max=data.transform_max[data.clusters_graph == c_id],
+                        transform=data.transform_type
+                    )
+                elif cluster_type == "func":
+                    actual_prediction_dict[i] = rev_transform(
+                        DF = actual_prediction_dict[i],
+                        mean = data.transform_mean[data.clusters_func == c_id],
+                        std = data.transform_std[data.clusters_func == c_id],
+                        min = data.transform_min[data.clusters_func == c_id],
+                        max = data.transform_max[data.clusters_func == c_id],
+                        transform = data.transform_type
+                    )
+                elif cluster_type == "idec":
+                    actual_prediction_dict[i] = rev_transform(
+                        DF = actual_prediction_dict[i],
+                        mean = data.transform_mean[data.clusters_idec == c_id],
+                        std = data.transform_std[data.clusters_idec == c_id],
+                        min = data.transform_min[data.clusters_idec == c_id],
+                        max = data.transform_max[data.clusters_idec == c_id],
+                        transform = data.transform_type
+                    )
         else:
-            prediction, actual_prediction, R_square = make_prediction(data, best_model, use_baseline, use_timestamps, use_temperature)
+            prediction, actual_prediction, R_square = make_prediction(data, best_model, use_baseline, use_timestamps, use_temperature,0)
             R_square.to_csv(f'{R_square_dir}/graph_{cluster_type}_cluster_{c}_R_square.csv')
             
             # reverse transform and overwrite.
@@ -1068,38 +804,18 @@ def find_best_graph(data, iterations, num_clusters, max_epochs, early_stopping, 
         # Plot prediction results.
         try:
             if use_baseline is False:
-                plot_prediction(
-                    data,
-                    prediction = prediction_10,
-                    dates = dates,
-                    asvs = data.all.columns[:4],
-                    highlight_dates = dates_pred_test_start,
-                    save_filename = f'graph_{cluster_type}_cluster_{c}_10.png'
-                )
-                plot_prediction(
-                    data,
-                    prediction = prediction_5,
-                    dates = dates,
-                    asvs = data.all.columns[:4],
-                    highlight_dates = dates_pred_test_start,
-                    save_filename = f'graph_{cluster_type}_cluster_{c}_5.png'
-                )
-                plot_prediction(
-                    data,
-                    prediction = prediction_3,
-                    dates = dates,
-                    asvs = data.all.columns[:4],
-                    highlight_dates = dates_pred_test_start,
-                    save_filename = f'graph_{cluster_type}_cluster_{c}_3.png'
-                )
-                plot_prediction(
-                    data,
-                    prediction = prediction_1,
-                    dates = dates,
-                    asvs = data.all.columns[:4],
-                    highlight_dates = dates_pred_test_start,
-                    save_filename = f'graph_{cluster_type}_cluster_{c}_1.png'
-                )
+                cnt = 0
+                for i in predict_timestamp:
+                    plot_prediction(
+                        data,
+                        prediction = prediction_dict[i],
+                        dates = dates,
+                        asvs = data.all.columns[:4],
+                        highlight_dates = dates_pred_test_start,
+                        save_filename = f'graph_{cluster_type}_cluster_{c}_{i}.png'
+                    )
+                    cnt+=1
+    
             else:
                 plot_prediction(
                     data,
@@ -1117,14 +833,11 @@ def find_best_graph(data, iterations, num_clusters, max_epochs, early_stopping, 
             mkdir(data_predicted_dir)
 
         if use_baseline is False:
-            prediction_10.to_csv(f'{data_predicted_dir}/graph_{cluster_type}_cluster_{c}_predicted_10.csv')
-            actual_prediction_10.to_csv(f'{data_predicted_dir}/graph_{cluster_type}_cluster_{c}_actual_prediction_10.csv')
-            prediction_5.to_csv(f'{data_predicted_dir}/graph_{cluster_type}_cluster_{c}_predicted_5.csv')
-            actual_prediction_5.to_csv(f'{data_predicted_dir}/graph_{cluster_type}_cluster_{c}_actual_prediction_5.csv')
-            prediction_3.to_csv(f'{data_predicted_dir}/graph_{cluster_type}_cluster_{c}_predicted_3.csv')
-            actual_prediction_3.to_csv(f'{data_predicted_dir}/graph_{cluster_type}_cluster_{c}_actual_prediction_3.csv')
-            prediction_1.to_csv(f'{data_predicted_dir}/graph_{cluster_type}_cluster_{c}_predicted_1.csv')
-            actual_prediction_1.to_csv(f'{data_predicted_dir}/graph_{cluster_type}_cluster_{c}_actual_prediction_1.csv')
+            cnt = 0
+            for i in predict_timestamp:
+                prediction_dict[i].to_csv(f'{data_predicted_dir}/graph_{cluster_type}_cluster_{c}_predicted_{i}.csv')
+                actual_prediction_dict[i].to_csv(f'{data_predicted_dir}/graph_{cluster_type}_cluster_{c}_actual_prediction_{i}.csv')
+                cnt+=1
         else:
             prediction.to_csv(f'{data_predicted_dir}/graph_{cluster_type}_cluster_{c}_predicted.csv')
             actual_prediction.to_csv(f'{data_predicted_dir}/graph_{cluster_type}_cluster_{c}_actual_prediction.csv')
@@ -1132,6 +845,81 @@ def find_best_graph(data, iterations, num_clusters, max_epochs, early_stopping, 
         data.all_nontrans.to_csv(f'{data_predicted_dir}/graph_{cluster_type}_cluster_{c}_dataall_nontrans.csv')
 
         metric_names = best_model.metrics_names
+
+    # merge output files with all clusters
+    if use_baseline is False:
+        for j in predict_timestamp:
+            merged = None
+            for i in range(num_clusters):
+                df = pd.read_csv(f"{data_predicted_dir}/graph_{cluster_type}_cluster_{i}_predicted_{j}.csv", index_col=0)
+                # df = df.add_prefix(f'cluster_{i}_')
+                if merged is None:
+                    merged = df
+                else:
+                    merged = merged.join(df, how='outer')  
+            merged.reset_index(inplace=True)
+            merged.rename(columns={'index': 'time_step'}, inplace=True)
+            merged.to_csv(f'{data_predicted_dir}/graph_{cluster_type}_all_predicted_{j}.csv', index=False)
+
+            merged = None
+            for i in range(num_clusters):
+                df = pd.read_csv(f'{data_predicted_dir}/graph_{cluster_type}_cluster_{i}_actual_prediction_{j}.csv', index_col=0)
+                # df = df.add_prefix(f'cluster_{i}_')
+                if merged is None:
+                    merged = df
+                else:
+                    merged = merged.join(df, how='outer')  
+            merged.reset_index(inplace=True)
+            merged.rename(columns={'index': 'time_step'}, inplace=True)
+            merged.to_csv(f'{data_predicted_dir}/graph_{cluster_type}_all_actual_prediction_{j}.csv', index=False)
+    else:
+        merged = None
+        for i in range(num_clusters):
+            df = pd.read_csv(f"{data_predicted_dir}/graph_{cluster_type}_cluster_{i}_predicted.csv", index_col=0)
+            # df = df.add_prefix(f'cluster_{i}_')
+            if merged is None:
+                merged = df
+            else:
+                merged = merged.join(df, how='outer')  
+        merged.reset_index(inplace=True)
+        merged.rename(columns={'index': 'time_step'}, inplace=True)
+        merged.to_csv(f'{data_predicted_dir}/graph_{cluster_type}_all_predicted.csv', index=False)
+
+        merged = None
+        for i in range(num_clusters):
+            df = pd.read_csv(f'{data_predicted_dir}/graph_{cluster_type}_cluster_{i}_actual_prediction.csv', index_col=0)
+            # df = df.add_prefix(f'cluster_{i}_')
+            if merged is None:
+                merged = df
+            else:
+                merged = merged.join(df, how='outer')  
+        merged.reset_index(inplace=True)
+        merged.rename(columns={'index': 'time_step'}, inplace=True)
+        merged.to_csv(f'{data_predicted_dir}/graph_{cluster_type}_all_actual_prediction.csv', index=False)
+    
+    merged = None
+    for i in range(num_clusters):
+        df = pd.read_csv(f'{data_predicted_dir}/graph_{cluster_type}_cluster_{i}_dataall.csv', index_col=0)
+        # df = df.add_prefix(f'cluster_{i}_')
+        if merged is None:
+            merged = df
+        else:
+            merged = merged.join(df, how='outer')  
+    merged.reset_index(inplace=True)
+    merged.rename(columns={'index': 'time_step'}, inplace=True)
+    merged.to_csv(f'{data_predicted_dir}/graph_{cluster_type}_all_dataall.csv', index=False)
+
+    merged = None
+    for i in range(num_clusters):
+        df = pd.read_csv(f'{data_predicted_dir}/graph_{cluster_type}_cluster_{i}_dataall_nontrans.csv', index_col=0)
+        # df = df.add_prefix(f'cluster_{i}_')
+        if merged is None:
+            merged = df
+        else:
+            merged = merged.join(df, how='outer')  
+    merged.reset_index(inplace=True)
+    merged.rename(columns={'index': 'time_step'}, inplace=True)
+    merged.to_csv(f'{data_predicted_dir}/graph_{cluster_type}_all_dataall_nontrans.csv', index=False)
 
     if use_baseline is True:
         metric_names[0] = 'bray-curtis'
@@ -1210,7 +998,7 @@ def find_best_idec(data, iterations, num_clusters, tolerance, results_dir):
         outfile.write('IDEC: ' + str(best_performance[0]) + '\n')
 
 
-def make_prediction(data, lstm_model, use_baseline, use_timestamps, use_temperature):
+def make_prediction(data, lstm_model, use_baseline, use_timestamps, use_temperature, predict_timestamp):
     actual_prediction = data.all[-data.window_width:].to_numpy().reshape([1, data.window_width, -1, 1])
     if use_timestamps:
         _, T_, N_, _ = actual_prediction.shape
@@ -1225,70 +1013,57 @@ def make_prediction(data, lstm_model, use_baseline, use_timestamps, use_temperat
         actual_prediction = np.concatenate((actual_prediction, data_temperature), axis=3)
 
     actual_prediction = lstm_model.predict(actual_prediction)
+    actual_prediction_dict = {}
     if use_baseline is False:
-        actual_prediction_10 = actual_prediction[:,:10,:]
-        actual_prediction_5 = actual_prediction[:,10:15,:]
-        actual_prediction_3 = actual_prediction[:,15:18,:]
-        actual_prediction_1 = actual_prediction[:,18:19,:]
-        actual_prediction_10 = actual_prediction_10.reshape([10, -1])
-        actual_prediction_5 = actual_prediction_5.reshape([5, -1])
-        actual_prediction_3 = actual_prediction_3.reshape([3, -1])
-        actual_prediction_1 = actual_prediction_1.reshape([1, -1])
+        now = 0
+        for i in predict_timestamp:
+            actual_prediction_i = actual_prediction[:, now:now+i, :]
+            actual_prediction_i = actual_prediction_i.reshape([i, -1])
+            actual_prediction_dict[i] = actual_prediction_i
+            now += i
     else:
         actual_prediction = actual_prediction.reshape([data.predict_timestamp, -1])
     
     prediction = lstm_model.predict(data.all_batched)
+    prediction_dict = {}
     if use_baseline is False:
-        prediction_10 = prediction[:,0]
-        prediction_5 = prediction[:,10]
-        prediction_3 = prediction[:,15]
-        prediction_1 = prediction[:,18]
+        now = 0
+        for i in predict_timestamp:
+            prediction_dict[i] = prediction[:, now]          # 保持原逻辑：取单个时间步
+            now += i
     else:
         prediction = prediction[:, 0]
     index_pred = data.all.index[data.window_width:]
 
     val_prediction = lstm_model.predict(data.val_batched)
     test_prediction = lstm_model.predict(data.test_batched)
+    val_prediction_dict = {}
+    test_prediction_dict = {}
+    y_pred_dict = {}
     if use_baseline is False:
-        val_prediction_10 = val_prediction[:,:10,:]
-        test_prediction_10 = test_prediction[:,:10,:]
-        val_prediction_5 = val_prediction[:,10:15,:]
-        test_prediction_5 = test_prediction[:,10:15,:]
-        val_prediction_3 = val_prediction[:,15:18,:]
-        test_prediction_3 = test_prediction[:,15:18,:]
-        val_prediction_1 = val_prediction[:,18:19,:]
-        test_prediction_1 = test_prediction[:,18:19,:]
-
-        y_pred_10 = np.concatenate([val_prediction_10, test_prediction_10], axis=0)
-        y_pred_10 = np.reshape(y_pred_10, [y_pred_10.shape[0] * y_pred_10.shape[1], y_pred_10.shape[2]])
-        y_pred_5 = np.concatenate([val_prediction_5, test_prediction_5], axis=0)
-        y_pred_5 = np.reshape(y_pred_5, [y_pred_5.shape[0] * y_pred_5.shape[1], y_pred_5.shape[2]])
-        y_pred_3 = np.concatenate([val_prediction_3, test_prediction_3], axis=0)
-        y_pred_3 = np.reshape(y_pred_3, [y_pred_3.shape[0] * y_pred_3.shape[1], y_pred_3.shape[2]])
-        y_pred_1 = np.concatenate([val_prediction_1, test_prediction_1], axis=0)
-        y_pred_1 = np.reshape(y_pred_1, [y_pred_1.shape[0] * y_pred_1.shape[1], y_pred_1.shape[2]])
+        now = 0
+        for i in predict_timestamp:
+            val_prediction_dict[i] = val_prediction[:, now:now+i, :]
+            test_prediction_dict[i] = test_prediction[:, now:now+i, :]
+            now += i
+        for i in predict_timestamp:
+            y_pred_i = np.concatenate([val_prediction_dict[i], test_prediction_dict[i]], axis=0)
+            y_pred_i = np.reshape(y_pred_i, [y_pred_i.shape[0] * y_pred_i.shape[1], y_pred_i.shape[2]])
+            y_pred_dict[i] = y_pred_i
     else:
         y_pred = np.concatenate([val_prediction, test_prediction], axis=0)
         y_pred = np.reshape(y_pred, [y_pred.shape[0] * y_pred.shape[1], y_pred.shape[2]])
 
     current_i = 0
+    test_true = {}  
     for ___, test_i in data.test_batched:
         if use_baseline is False:
-            test_i_10 = test_i[:,:10,:]
-            test_i_5 = test_i[:,:5,:]
-            test_i_3 = test_i[:,:3,:]
-            test_i_1 = test_i[:,:1,:]
-            if current_i == 0:
-                test_true_10 = test_i_10
-                test_true_5 = test_i_5
-                test_true_3 = test_i_3
-                test_true_1 = test_i_1
-                current_i += 1
-            else:
-                test_true_10 = np.concatenate([test_true_10, test_i_10], axis=0)
-                test_true_5 = np.concatenate([test_true_5, test_i_5], axis=0)
-                test_true_3 = np.concatenate([test_true_3, test_i_3], axis=0)
-                test_true_1 = np.concatenate([test_true_1, test_i_1], axis=0)
+            for i in predict_timestamp:
+                sliced = test_i[:, :i, :]
+                if i not in test_true:
+                    test_true[i] = sliced   # 第一个批次直接赋值
+                else:
+                    test_true[i] = np.concatenate([test_true[i], sliced], axis=0)
         else:
             if current_i == 0:
                 test_true = test_i
@@ -1297,23 +1072,15 @@ def make_prediction(data, lstm_model, use_baseline, use_timestamps, use_temperat
                 test_true = np.concatenate([test_true, test_i], axis=0)
 
     current_i = 0
+    val_true = {}
     for ___, val_i in data.val_batched:
         if use_baseline is False:
-            val_i_10 = val_i[:,:10,:]
-            val_i_5 = val_i[:,:5,:]
-            val_i_3 = val_i[:,:3,:]
-            val_i_1 = val_i[:,:1,:]
-            if current_i == 0:
-                val_true_10 = val_i_10
-                val_true_5 = val_i_5
-                val_true_3 = val_i_3
-                val_true_1 = val_i_1
-                current_i += 1
-            else:
-                val_true_10 = np.concatenate([val_true_10, val_i_10], axis=0)
-                val_true_5 = np.concatenate([val_true_5, val_i_5], axis=0)
-                val_true_3 = np.concatenate([val_true_3, val_i_3], axis=0)
-                val_true_1 = np.concatenate([val_true_1, val_i_1], axis=0)
+            for i in predict_timestamp:
+                sliced = val_i[:, :i, :]
+                if i not in val_true:
+                    val_true[i] = sliced   # 第一个批次直接赋值
+                else:
+                    val_true[i] = np.concatenate([val_true[i], sliced], axis=0)
         else:
             if current_i == 0:
                 val_true = val_i
@@ -1322,47 +1089,24 @@ def make_prediction(data, lstm_model, use_baseline, use_timestamps, use_temperat
                 val_true = np.concatenate([val_true, val_i], axis=0)
 
     if use_baseline is False:
-        y_true_10 = np.concatenate([val_true_10, test_true_10], axis=0)
-        y_true_10 = np.reshape(y_true_10, [y_true_10.shape[0]*y_true_10.shape[1], y_true_10.shape[2]])
-        model_10 = LinearRegression().fit(y_pred_10, y_true_10)
-        y_pred_10 = model_10.predict(y_pred_10)
-        r2_10 = r2_score(y_true_10, y_pred_10, multioutput='raw_values')
-        r2_10 = np.reshape(r2_10, [1, r2_10.shape[0]])
+        predictionpd_dict = {}
+        R_square_dict = {}
+        actual_dict = {}
+        for i in predict_timestamp:
+            y_true_i = np.concatenate([val_true[i], test_true[i]], axis=0)
+            y_true_i = np.reshape(y_true_i, [y_true_i.shape[0]*y_true_i.shape[1], y_true_i.shape[2]])
+            model_i = LinearRegression().fit(y_pred_dict[i], y_true_i)
+            y_pred_ii = model_i.predict(y_pred_dict[i])
+            r2_i = r2_score(y_true_i, y_pred_ii, multioutput='raw_values')
+            r2_i = np.reshape(r2_i, [1, r2_i.shape[0]])
 
-        predictionpd_10 = pd.DataFrame(data=prediction_10, index=index_pred, columns=data.all.columns)
-        R_square_10 = pd.DataFrame(data=r2_10, index=['R_square 1:1'], columns=data.all.columns)
-        
-        y_true_5 = np.concatenate([val_true_5, test_true_5], axis=0)
-        y_true_5 = np.reshape(y_true_5, [y_true_5.shape[0]*y_true_5.shape[1], y_true_5.shape[2]])
-        model_5 = LinearRegression().fit(y_pred_5, y_true_5)
-        y_pred_5 = model_5.predict(y_pred_5)
-        r2_5 = r2_score(y_true_5, y_pred_5, multioutput='raw_values')
-        r2_5 = np.reshape(r2_5, [1, r2_5.shape[0]])
-
-        predictionpd_5 = pd.DataFrame(data=prediction_5, index=index_pred, columns=data.all.columns)
-        R_square_5 = pd.DataFrame(data=r2_5, index=['R_square 1:1'], columns=data.all.columns)
-        
-        y_true_3 = np.concatenate([val_true_3, test_true_3], axis=0)
-        y_true_3 = np.reshape(y_true_3, [y_true_3.shape[0]*y_true_3.shape[1], y_true_3.shape[2]])
-        model_3 = LinearRegression().fit(y_pred_3, y_true_3)
-        y_pred_3 = model_3.predict(y_pred_3)
-        r2_3 = r2_score(y_true_3, y_pred_3, multioutput='raw_values')
-        r2_3 = np.reshape(r2_3, [1, r2_3.shape[0]])
-
-        predictionpd_3 = pd.DataFrame(data=prediction_3, index=index_pred, columns=data.all.columns)
-        R_square_3 = pd.DataFrame(data=r2_3, index=['R_square 1:1'], columns=data.all.columns)
-        
-        y_true_1 = np.concatenate([val_true_1, test_true_1], axis=0)
-        y_true_1 = np.reshape(y_true_1, [y_true_1.shape[0]*y_true_1.shape[1], y_true_1.shape[2]])
-        model_1 = LinearRegression().fit(y_pred_1, y_true_1)
-        y_pred_1 = model_1.predict(y_pred_1)
-        r2_1 = r2_score(y_true_1, y_pred_1, multioutput='raw_values')
-        r2_1 = np.reshape(r2_1, [1, r2_1.shape[0]])
-
-        predictionpd_1 = pd.DataFrame(data=prediction_1, index=index_pred, columns=data.all.columns)
-        R_square_1 = pd.DataFrame(data=r2_1, index=['R_square 1:1'], columns=data.all.columns)
-        
-        return predictionpd_10, predictionpd_5, predictionpd_3, predictionpd_1, pd.DataFrame(data = actual_prediction_10, columns = data.all.columns), pd.DataFrame(data = actual_prediction_5, columns = data.all.columns), pd.DataFrame(data = actual_prediction_3, columns = data.all.columns), pd.DataFrame(data = actual_prediction_1, columns = data.all.columns), R_square_10, R_square_5, R_square_3, R_square_1
+            predictionpd_i = pd.DataFrame(data=prediction_dict[i], index=index_pred, columns=data.all.columns)
+            R_square_i = pd.DataFrame(data=r2_i, index=['R_square 1:1'], columns=data.all.columns)
+            predictionpd_dict[i] = predictionpd_i
+            R_square_dict[i] = R_square_i
+            actual_dict[i] =pd.DataFrame(data = actual_prediction_dict[i], columns = data.all.columns)
+      
+        return predictionpd_dict, actual_dict, R_square_dict
 
     else:
         y_true = np.concatenate([val_true, test_true], axis=0)

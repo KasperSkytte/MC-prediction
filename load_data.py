@@ -59,8 +59,13 @@ def load_data(config):
 
     # if config['use_temperature'] or config['con_temperature']:
     valid_mask = meta[config['metadata_temperature_col']].notna()
-    meta = meta[valid_mask]
-        
+    meta1 = meta[valid_mask]
+    if meta1.empty:
+       print("No temperature data available for this dataset. Using all data without temperature.")
+       print("use_temperature automatically set to false due to missing data")
+       config['use_temperature'] = False
+    else:
+       meta = meta[valid_mask] 
     # also sort samples in abund chronologically according to metadata
     abund = abund.reindex(index=meta.index, copy=False)
 
