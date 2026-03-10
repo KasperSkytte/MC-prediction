@@ -23,7 +23,7 @@
     "iterations": 10,
     "max_epochs": 200,
     "window_size": 10,
-    "predict_timestamp": 10,
+    "predict_timestamp": [1,3,5,10],
     "num_clusters_idec": 40,
     "tolerance_idec": 0.001,
     "transform": "divmean",

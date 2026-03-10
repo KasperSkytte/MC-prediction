@@ -4,7 +4,10 @@ import tensorflow as tf
 from load_data import load_data, smooth, transform
 from sklearn.covariance import GraphicalLasso, EmpiricalCovariance
 from sklearn import preprocessing
+import warnings
+from sklearn.exceptions import ConvergenceWarning
 
+warnings.filterwarnings("ignore", category=ConvergenceWarning)
 class DataHandler:
     def __init__(
         self,
@@ -29,7 +32,9 @@ class DataHandler:
         self.window_batch_size = window_batch_size  # can find a best from 8 10 16
         self.max_num_features = num_features
         self.num_per_group = num_per_group
-        self.predict_timestamp = predict_timestamp
+        self.predict_timestamp_list = predict_timestamp
+        self.predict_timestamp = max(predict_timestamp)
+        # print(self.predict_timestamp)
         self.clusters = None
         self.clusters_func = None
         self.clusters_idec = None
@@ -127,7 +132,10 @@ class DataHandler:
         if self.use_temperature:
             data_temperature = np.repeat(data_temperature, N_, 1)
             input_data = np.concatenate((input_data, data_temperature), axis=2)
-
+        # print(dataset)
+        if T_ < self.window_width + self.predict_timestamp:
+            print("The length of the test or valid dataset is insufficient for the requested prediction horizons.")
+            print(f"length: {T_}")
         if endindex:
             return tf.keras.preprocessing.sequence.TimeseriesGenerator(
                 data=input_data,
