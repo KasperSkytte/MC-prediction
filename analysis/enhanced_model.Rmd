@@ -1,5 +1,5 @@
 ---
-title: "analysis"
+title: "enhanced model"
 author: "KSA"
 date: "`r format(Sys.time(), '%Y-%m-%d')`"
 output: md_document
@@ -25,26 +25,24 @@ if (interactive()) {
   renv::load("..")
 }
 
-require("patchwork")
-require("rmarkdown")
-require("data.table")
 require("ampvis2")
-require("magrittr")
-require("stringr")
-require("lubridate")
-require("tidygraph")
-require("ggraph")
-require("igraph")
+require("data.table")
 require("patchwork")
+#require("rmarkdown")
+require("lubridate")
+#require("tidygraph")
+#require("ggraph")
+#require("igraph")
 require("tune")
-require("scales")
-require("stats")
+#require("stats")
+# if using vscode
+require("languageserver")
 
 source("functions.R")
 set.seed(42)
 # main batch run using run_loopdatasets.bash or run_predwindows.bash
 # wrapper scripts. Prediction windows tests are hard coded
-results_batch_dir <- "results/allwwtps"
+results_batch_dir <- "results/enhanced"
 
 # cluster type to use for examples
 cluster_type <- "graph"
@@ -63,245 +61,16 @@ dataset_colors <- c(
 )
 ```
 
-# five number statistics of sum of reads per data set
-```{r fivenum_reads}
-datasets <- list.dirs(
-  results_batch_dir,
-  full.names = TRUE,
-  recursive = FALSE
-)
-readstats <- datasets %>%
-  lapply(function(dataset) {
-    abund <- fread(
-      file.path(dataset, "data_reformatted", "abundances.csv"),
-      drop = 1
-    )
-    fivenum(rowSums(abund))
-  })
-names(readstats) <- basename(datasets)
-as.data.frame(readstats, check.names = FALSE)
-```
-
 # Prediction accuracy across WWTPs
 ## Bray-Curtis only (Figure 2)
 ```{r}
 bp_all_list <- boxplot_all(
   results_batch_dir,
   save = TRUE,
+  error_metrics = "Bray Curtis",
+  cluster_types = "Graph",
   plot_width = 360,
   plot_height = 370
-)
-
-## Bray-Curtis only, flip x and y (otherwise too big plot for manuscript)
-runs <- list.dirs(
-  results_batch_dir,
-  full.names = TRUE,
-  recursive = FALSE
-)
-
-d_list <- lapply(
-  runs,
-  read_performance,
-  add_dataset_info = "numsamples"
-)
-names(d_list) <- runs
-combined <- rbindlist(
-  d_list,
-  idcol = "results_folder",
-  fill = TRUE
-)[
-  !is.na(cluster_type) & value > 0
-]
-
-# copied from boxplot_all() just for this plot
-#order datasets by the number of samples (extracted from dataset names)
-combined[,unique(dataset)] %>%
-  stringi::stri_extract_all_regex("\\(.*$", "") %>%
-  stringi::stri_extract_all_regex("[0-9]+") %>%
-  as.numeric -> nsamples
-datasets_ordered <- combined[
-  ,
-  unique(dataset)
-][
-  order(nsamples, decreasing = F)
-]
-plot_data <- combined[error_metric == "Bray Curtis"]
-plot_data[, dataset := factor(gsub(" \\(", "\n(", dataset), levels = gsub(" \\(", "\n(", datasets_ordered))]
-bp_all_BC <- ggplot(
-  plot_data,
-  aes(
-    value,
-    cluster_type,
-    color = cluster_type,
-    fill = cluster_type
-  )
-) +
-  geom_boxplot(
-    outlier.shape = 19,
-    outlier.size = 1,
-    alpha = 0.4,
-    linewidth = 0.25
-  ) +
-  facet_wrap(~dataset, ncol = 2, strip.position = "right", dir = "v") +
-  #facet_grid(rows = vars(dataset), scales = "free") +
-  theme_bw() +
-  theme(
-    legend.position = "bottom",
-    legend.title = element_blank(),
-    legend.text = element_text(size = 10),
-    axis.text.y = element_blank(),
-    axis.text.x = element_text(size = 10, angle = 90, vjust = 0.5),
-    axis.title = element_blank(), 
-    axis.ticks.y = element_blank(),
-    #strip.text.x = element_blank(),
-    strip.text.y = element_text(size = 10, angle = 0),
-    panel.grid.major.y = element_blank(),
-    panel.grid.minor.x = element_blank(),
-    panel.grid.major.x = element_line(color = "gray70"),
-    panel.background = element_rect(fill = "white")
-  ) +
-  scale_x_continuous(
-    trans = "sqrt",
-    breaks = c(0.0, 0.05, 0.1, 0.15, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8)
-  ) +
-  scale_colour_manual(values = cluster_type_colors) +
-  scale_fill_manual(values = cluster_type_colors)
-
-ggsave(
-  file.path(results_batch_dir, "Figure 2.pdf"),
-  plot = bp_all_BC,
-  width = 180,
-  height = 185,
-  units = "mm",
-  dpi = 600
-)
-
-# write out plot data
-# embedded new-lines (\n) were added above for plot appearance, remove
-# them before writing out or else they will create new lines in the output file as well
-out <- data.table(bp_all_BC$data)
-out[] <- lapply(out, gsub, pattern = "\n", replacement = " ")
-fwrite(
-  out,
-  file.path(results_batch_dir, "Figure 2.csv")
-)
-```
-
-## Bray-Curtis and graph clusters only
-```{r}
-bp_all_BC_graph <- ggplot(
-  combined[error_metric == "Bray Curtis" & cluster_type == "Graph"],
-  aes(
-    value,
-    dataset,
-    group = dataset
-  )
-) +
-  geom_boxplot(
-    outlier.shape = 1,
-    outlier.size = 1
-  ) +
-  theme_bw() +
-  theme(
-    legend.position = "bottom",
-    legend.title = element_blank(),
-    legend.text = element_text(size = 14),
-    #axis.text.y = element_blank(),
-    axis.text.x = element_text(size = 14),
-    axis.title = element_blank(),
-    axis.ticks.y = element_blank(),
-    #strip.text.x = element_blank(),
-    strip.text.y = element_text(size = 14, angle = 0),
-    panel.grid.major.y = element_blank(),
-    panel.grid.minor.x = element_blank(),
-    panel.grid.major.x = element_line(color = "gray70"),
-    panel.background = element_rect(fill = "white")
-  ) +
-  scale_x_continuous(
-    trans = "sqrt",
-    breaks = c(0.0, 0.05, 0.1, 0.15, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8)
-  ) +
-  scale_color_brewer(palette = "Set2")
-
-ggsave(
-  file.path(results_batch_dir, "boxplot_all_BC_graph.pdf"),
-  plot = bp_all_BC_graph,
-  width = 180,
-  height = 180,
-  units = "mm",
-  dpi = 600
-)
-```
-
-## BC+MAE+MSE (Figure S4)
-```{r}
-bp_all_list <- boxplot_all(
-  results_batch_dir,
-  save = FALSE
-)
-
-# customize axis breaks a bit for the specific data
-bp_all_list[["Bray Curtis"]] <- bp_all_list[["Bray Curtis"]] +
-  scale_y_continuous(
-    trans = "sqrt",
-    breaks = c(0.5, 0.1, 0.15, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8)
-  )
-bp_all_list[["Mean Absolute Error"]] <- bp_all_list[["Mean Absolute Error"]] +
-  scale_y_continuous(
-    trans = "sqrt",
-    breaks = c(0, 0.2, 0.4, 0.6, 0.8, 1.0, 2, 3, 4, 5, 6)
-  )
-bp_all_list[["Mean Squared Error"]] <- bp_all_list[["Mean Squared Error"]] +
-  scale_y_continuous(
-    trans = "sqrt",
-    breaks = c(0.5, 1, 5, 10, 20, 30, 40)
-  )
-
-# Compose all plots in the list using patchwork
-bp_all_plot <- purrr::reduce(
-  bp_all_list,
-  `/`
-)
-ggsave(
-  file.path(results_batch_dir, "Figure S4.png"),
-  plot = bp_all_plot,
-  width = 300,
-  height = 300,
-  units = "mm",
-  dpi = 600
-)
-
-# write out plot data
-fwrite(
-  bp_all_plot$data,
-  file.path(results_batch_dir, "Figure S4.csv")
-)
-```
-
-## Check some clusters from AAE
-```{r}
-plot_performance(
-  file.path(results_batch_dir, "Aalborg E")
-)
-```
-
-# Prediction window test
-(note: not using results_batch_dir variable)
-## Aalborg East
-```{r}
-boxplot_all(
-  "results/predwindow_aae",
-  add_dataset_info = "predwindow"
-)
-```
-
-## Randers
-```{r}
-boxplot_all(
-  "results/predwindow_randers",
-  add_dataset_info = "predwindow",
-  plot_width = 8,
-  plot_height = 8
 )
 ```
 
@@ -362,28 +131,6 @@ ggsave(
   height = 180,
   units = "mm",
   dpi = 600
-)
-```
-
-## Dataset length test (Figure S5)
-```{r}
-plot_list <- boxplot_all(
-  "results/nsamplestest",
-  filename = "Figure S5.png",
-  plot_width = 220,
-  plot_height = 260
-)
-
-# Compose all plots in the list using patchwork
-plot <- purrr::reduce(
-  plot_list,
-  `/`
-)
-
-# write out plot data
-fwrite(
-  plot$data,
-  file.path("results/nsamplestest", "Figure S5.csv")
 )
 ```
 
@@ -655,187 +402,6 @@ fwrite(
 )
 ```
 
-# All WWTPs test data (real+pred) combined (Figure S6)
-```{r}
-wwtp_results_dirs <- list.dirs(
-  results_batch_dir,
-  full.names = TRUE,
-  recursive = FALSE
-)#[8] # Egå sometimes has multiple samples per week
-
-#list of all data (train+val+test) from all WWTPs
-allwwtps_testcompare_list <- lapply(
-  wwtp_results_dirs,
-  function(results_dir) {
-    d <- combine_abund(
-      results_dir,
-      cluster_type = cluster_type
-    )
-    test_predicted <- suppressMessages({
-      amp_filter_samples(
-        d,
-        split_dataset %in% "test",
-        predicted %in% "predicted"
-      )
-    })
-    test_real <- suppressMessages({
-      amp_filter_samples(
-        d,
-        split_dataset %in% "real",
-        Date %in% test_predicted$metadata$Date
-      )
-    })
-    test_combined <- amp_merge_ampvis2(
-      test_predicted,
-      test_real,
-      by_refseq = FALSE
-    )
-    test_combined$metadata$predicted <- factor(
-      test_combined$metadata$predicted,
-      levels = c("real", "predicted")
-    )
-    test_combined_long <- amp_export_long(
-      test_combined,
-      tax_levels = "OTU",
-      metadata_vars = c("Date", "predicted")
-    )
-
-    # if/when there are multiple samples per time point, use the mean, and go cast straight away
-    test_combined_long <- dcast(
-      test_combined_long[, .(count = mean(count)), by = c("predicted", "OTU", "Date")],
-      Date+OTU ~ predicted,
-      value.var = "count"
-    )
-    OTU_functions <- fread(
-      file.path(results_dir, "data_reformatted", "taxonomy_wfunctions.csv"),
-      select = c(1, 9:13),
-      data.table = FALSE
-    )
-    test_combined_long_func <- merge(
-      test_combined_long,
-      OTU_functions,
-      by = "OTU",
-      all.x = TRUE,
-      all.y = FALSE
-    )
-    return(test_combined_long_func)
-  }
-)
-names(allwwtps_testcompare_list) <- basename(wwtp_results_dirs)
-allwwtps_testcompare <- rbindlist(allwwtps_testcompare_list, idcol = "dataset")
-allwwtps_testcompare <- tidyr::separate(allwwtps_testcompare, col = "OTU", into = c("OTU", "Species", "Genus"), sep = "; ")
-setDT(allwwtps_testcompare)
-allwwtps_testcompare[AOB == "POS", genus_function := "AOB"]
-allwwtps_testcompare[NOB == "POS", genus_function := "NOB"]
-allwwtps_testcompare[PAO == "POS", genus_function := "PAO"]
-allwwtps_testcompare[GAO == "POS", genus_function := "GAO"]
-allwwtps_testcompare[Filamentous == "POS", genus_function := "Filamentous"]
-allwwtps_testcompare[, dataset := as.factor(dataset)]
-allwwtps_testcompare[, genus_function := as.factor(genus_function)]
-allwwtps_testcompare <- allwwtps_testcompare[real > 0]
-allwwtps_testcompare[predicted == 0, predicted := 0.001]
-allwwtps_testcompare[
-  !is.na(genus_function),
-  MSE := mean((real - predicted)^2),
-  by = c("dataset", "genus_function", "OTU")
-]
-allwwtps_testcompare[
-  !is.na(genus_function),
-  MAE := mean(abs(real - predicted)),
-  by = c("dataset", "genus_function", "OTU")
-]
-allwwtps_testcompare[
-  !is.na(genus_function),
-  AE := abs(real - predicted),
-  by = c("dataset", "genus_function", "OTU")
-]
-allwwtps_testcompare[
-  !is.na(genus_function),
-  MAPE := mean(abs((real - predicted)) / real) * 100,
-  by = c("dataset", "genus_function", "OTU")
-]
-
-# summary of real/predicted errors, all datasets
-allwwtps_testcompare[
-  !is.na(genus_function),
-  .(
-    medianMSE = median(MSE, na.rm = TRUE),
-    medianMAE = median(MAE, na.rm = TRUE),
-    medianAE = median(AE, na.rm = TRUE),
-    medianMAPE = median(MAPE, na.rm = TRUE)
-  ),
-  by = c("genus_function", "dataset")
-]
-
-# summary of real/predicted errors, genus functions only
-allwwtps_testcompare[
-  !is.na(genus_function),
-  .(
-    medianMSE = median(MSE, na.rm = TRUE),
-    medianMAE = median(MAE, na.rm = TRUE),
-    medianAE = median(AE, na.rm = TRUE),
-    medianMAPE = median(MAPE, na.rm = TRUE)
-  ),
-  by = c("genus_function")
-]
-
-# summary of taxonomy
-allwwtps_testcompare[
-  ,
-  .(
-    uniqueOTU = uniqueN(OTU, na.rm = TRUE),
-    uniqueGenus = uniqueN(Genus, na.rm = TRUE),
-    uniqueSpecies = uniqueN(Species, na.rm = TRUE)
-  ),
-  by = "dataset"
-]
-
-# number of unique ASVs with a known function across ALL datasets
-allwwtps_testcompare[!is.na(genus_function), uniqueN(OTU)]
-
-# total unique ASVs  across ALL datasets
-allwwtps_testcompare[, uniqueN(OTU)]
-
-# plotty plot
-plot_genus_func <- ggplot(
-  allwwtps_testcompare[!is.na(genus_function)],
-  aes(x = MAPE, y = dataset, group = dataset)
-) +
-  geom_boxplot() +
-  scale_x_log10(breaks = c(5, 10, 20, 50, 100, 300)) +
-  facet_grid(cols = vars(genus_function)) +
-  theme(axis.title.y = element_blank()) +
-  theme(panel.grid.minor = element_blank())
-levels(plot_genus_func$data$genus_function) <- c("AOB","NOB","PAO","GAO","Filamentous")
-
-ggsave(
-  plot = plot_genus_func,
-  filename = file.path(
-    results_batch_dir,
-    "Figure S6.png"
-  ),
-  width = 300,
-  height = 250,
-  units = "mm",
-  dpi = 600
-)
-
-# write out plot data
-fwrite(
-  plot_genus_func$data,
-  file.path(results_batch_dir, "Figure S6.csv")
-)
-
-ggplot(
-  allwwtps_testcompare[!is.na(genus_function)],
-  aes(x = MAPE, y = genus_function, group = genus_function)
-) +
-  geom_boxplot() +
-  scale_x_log10(breaks = c(5, 10, 20, 50, 100, 300)) +
-  theme(axis.title.y = element_blank()) +
-  theme(panel.grid.minor = element_blank())
-plot_genus_func
-```
 
 # Time Series examples (Figure 3)
 ```{r timeseries}

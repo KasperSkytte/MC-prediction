@@ -522,7 +522,15 @@ combine_abund <- function(results_dir, cluster_type) {
     metadata[, split_dataset := "predicted"]
   }
 
-  #read true/historic abundance table
+  #read predicted abundance tables (from train+val+test)
+  pred_abund <- read_abund(
+    results_dir = results_dir,
+    pattern = paste0("(graph|lstm)_", cluster_type, "_all_predicted_[0-9]+\\.csv$"),
+    sample_prefix = "pred_"
+  )
+  colnames(pred_abund)[1] <- new_metadata_sampleid_col
+
+  #read true/historic abundance table (do this AFTER read_abund() has been called at least once above)
   true_abund <- fread(
     list.files(
       file.path(results_dir, "data_predicted"),
@@ -548,14 +556,6 @@ combine_abund <- function(results_dir, cluster_type) {
   true_metadata[["split_dataset"]] <- "real"
   true_metadata[["predicted"]] <- "real"
   true_metadata[["predwindow"]] <- 0L
-
-  #read predicted abundance tables (from train+val+test)
-  pred_abund <- read_abund(
-    results_dir = results_dir,
-    pattern = paste0("(graph|lstm)_", cluster_type, "_all_predicted_[0-9]+\\.csv$"),
-    sample_prefix = "pred_"
-  )
-  colnames(pred_abund)[1] <- new_metadata_sampleid_col
 
   # generate predicted metadata
   pred_metadata <- data.table(unique(pred_abund[[1]]))
