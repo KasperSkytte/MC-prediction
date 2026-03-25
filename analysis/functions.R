@@ -584,7 +584,7 @@ combine_abund <- function(results_dir, cluster_type) {
   future_metadata[["split_dataset"]] <- "future"
   # generate estimated future time stamps based on the sampling interval in the original dataset
   sampling_interval <- ceiling(mean(diff(sort(unique(true_metadata[predicted == "real", Date])))))
-  future_metadata[["Date"]] <- max(true_metadata$Date) + seq_len(nrow(future_metadata)) * sampling_interval
+  future_metadata[, Date := max(true_metadata$Date) + seq_len(.N) * sampling_interval, by = predwindow]
 
   # combine the datasets
   abund <- rbindlist(list(true_abund, pred_abund, future_abund), fill = TRUE)
