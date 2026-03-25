@@ -459,12 +459,13 @@ read_abund <- function(results_dir, pattern, sample_prefix = "") {
 #'
 #' @examples fucking ugly but it does the job
 combine_abund <- function(results_dir, cluster_type) {
-  cluster_types <- c("abund", "func", "idec", "graph")
-  if (length(cluster_type) != 1L || !any(cluster_type %in% cluster_types)) {
+  cluster_types <- tolower(c("abund", "func", "idec", "graph"))
+  if (length(cluster_type) != 1L || !any(tolower(cluster_type) %in% cluster_types)) {
     stop(
       "cluster_type must be one of: ",
       paste0(cluster_types, collapse = ", "))
   }
+  cluster_type <- tolower(cluster_type)
 
   #read dates and sample IDs and use as metadata,
   #dates per sample are the same for all,
@@ -560,9 +561,11 @@ combine_abund <- function(results_dir, cluster_type) {
   # generate predicted metadata
   pred_metadata <- data.table(unique(pred_abund[[1]]))
   colnames(pred_metadata)[[1]] <- new_metadata_sampleid_col
-  pred_metadata[[metadata_sampleid_col]] <- gsub("^.*_", "", pred_metadata[[new_metadata_sampleid_col]])
+  # be consistent with naming conventions for this regex to work
+  pred_metadata[[metadata_sampleid_col]] <- gsub("^.*[0-9]+samples_", "", pred_metadata[[new_metadata_sampleid_col]])
   pred_metadata[["predwindow"]] <- as.integer(gsub("samples_.+$", "", gsub("^[^_]+_", "", pred_metadata[[1]])))
   pred_metadata[["predicted"]] <- "predicted"
+  # merge
   pred_metadata <- metadata[pred_metadata, on = metadata_sampleid_col]
   
   #read actual future prediction tables
