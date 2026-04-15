@@ -458,7 +458,7 @@ read_abund <- function(results_dir, pattern, sample_prefix = "") {
 #' @export
 #'
 #' @examples fucking ugly but it does the job
-combine_abund <- function(results_dir, cluster_type) {
+combine_abund <- function(results_dir, cluster_type = "graph") {
   cluster_types <- tolower(c("abund", "func", "idec", "graph"))
   if (length(cluster_type) != 1L || !any(tolower(cluster_type) %in% cluster_types)) {
     stop(
@@ -608,7 +608,6 @@ combine_abund <- function(results_dir, cluster_type) {
   return(combined)
 }
 
-
 plot_timeseries <- function(
   data,
   filename = paste0(deparse(substitute(data)), "_timeseries.png"),
@@ -675,19 +674,22 @@ plot_timeseries <- function(
       "black",
       "#bd2929",
       "#e0b01c",
-      "#16a085"
+      "#16a085",
+      "blue"
     )[1:data[, length(unique(split_dataset))]],
     labels = c(
       real = "Real",
       train = "Prediction-Train",
       val = "Prediction-Validation",
-      test = "Prediction-Test"
+      test = "Prediction-Test",
+      future = "Prediction-Future"
     )[1:data[, length(unique(split_dataset))]],
     breaks = c(
       "real",
       "train",
       "val",
-      "test"
+      "test",
+      "future"
     )[1:data[, length(unique(split_dataset))]]
   ) +
   #breaks should start from january, regardless of data
@@ -730,12 +732,15 @@ plot_timeseries <- function(
 }
 
 plot_obs_pred <- function(ampvis2_long) {
-  # cast dataset
+  # cast dataset, dynamic sample ID col
+  ampvis2_long <- ds
+  sampleid_col <- gsub("^\\.", "", colnames(ampvis2_long)[[1]])
   carsten <- dcast(
-    ampvis2_long[, Sample := gsub("true_|pred_", "", Sample)],
-    Sample + OTU ~ predicted,
-    value.var = "count"
-  )[!is.na(predicted)]
+    ampvis2_long[!is.na(eval(parse(text = sampleid_col)))], #[, .thiscolnamewillprobablynotbutmostlikelyneverbeseeninanydataset := gsub("true_|pred_", "", eval(parse(text = sampleid_col)))],
+    eval(parse(text = sampleid_col)) + OTU ~ predicted,
+    value.var = "count",
+    fun.aggregate = sum
+  )[!is.na(predicted) & predicted > 0 & !is.na(real) & real > 0]
 
   #calc trendline/regression between obs+pred for each OTU
   trendy_carsten <- carsten[
@@ -754,9 +759,9 @@ plot_obs_pred <- function(ampvis2_long) {
     },
     by = OTU
   ]
-  d <- carsten
+
   ggplot(
-    d,
+    carsten,
     aes(x = predicted, y = real)
   ) +
     geom_point() +

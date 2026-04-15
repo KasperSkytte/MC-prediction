@@ -62,15 +62,62 @@ dataset_colors <- c(
 ```
 
 # Prediction accuracy across WWTPs
-## Bray-Curtis only (Figure 2)
+## Bray-Curtis only
 ```{r}
 bp_all_list <- boxplot_all(
-  results_batch_dir,
+  "results/enhanced",
   save = TRUE,
   error_metrics = "Bray Curtis",
   cluster_types = "Graph",
   plot_width = 360,
   plot_height = 370
+)
+bp_all_list <- boxplot_all(
+  "results/enhanced_wtemp",
+  save = TRUE,
+  error_metrics = "Bray Curtis",
+  cluster_types = "Graph",
+  plot_width = 360,
+  plot_height = 370
+)
+
+```
+
+# Viby test
+```{r}
+#results_dir <- "/home/bio.aau.dk/ksa/projects/midasdashboard/data-raw/prediction/output/predictions/Viby-3"
+#results_dir <- "/home/bio.aau.dk/ksa/projects/midasdashboard/data-raw/prediction/output/predictions/Aalborg Vest-LT1"
+#OTU_regex <- "^FLASV3\\." # Ca. Microthrix parvicella
+results_dir <- "results/enhanced/Aalborg W"
+OTU_regex <- "^ASV2;" # Ca. Microthrix parvicella
+
+d <- amp_export_long(
+  combine_abund(
+    results_dir
+  )
+)
+# historic/real values all have 0 in predwindow
+ds <- d[grepl(OTU_regex, OTU) & (predwindow == 0 | predwindow == 10)]
+
+plot <- plot_timeseries(
+  ds,
+  save = FALSE
+) +
+  theme(
+    legend.position = "bottom",
+    legend.text = element_text(size = 10, hjust = 1)
+  ) +
+  ggtitle(ds$OTU[[1]]) +
+  plot_obs_pred(
+    ds[!split_dataset %chin% "future"]
+  ) +
+  plot_layout(widths = c(3, NA))
+
+ggsave(
+  file.path(results_dir, paste0(unique(gsub(";.*$", "", ds$OTU)), ".png")),
+  plot = plot,
+  width = 12,
+  height = 5
 )
 ```
 
@@ -412,7 +459,7 @@ wwtp_results_dirs <- list.dirs(
 )
 
 # overwriting again to select only the one used in the paper
-wwtp_results_dirs <- "results/allwwtps/Mariagerfjord"
+wwtp_results_dirs <- "/home/bio.aau.dk/ksa/projects/midasdashboard/data-raw/prediction/output/predictions/Viby-3"
 
 #list of all data (train+val+test) from all WWTPs
 plots <- lapply(
@@ -431,7 +478,7 @@ plots <- lapply(
     #check normal distribution
     #qqplot(ASV1, rnorm(1000, mean = mean(ASV1), sd = sd(ASV1)))
     #qqplot(ASV2, rnorm(1000, mean = mean(ASV2), sd = sd(ASV2)))
-    ASV1 <- long[grepl("^ASV1;", OTU)]
+    FLASV3 <- long[grepl("^FLASV3.1527;", OTU)]
     if(nrow(ASV1) > 0) {
       #time series plot
       plot_ts_asv1 <- plot_timeseries(ASV1, save = FALSE) +
@@ -451,7 +498,7 @@ plots <- lapply(
       plot_obs_pred_asv1 <- plot_spacer()
     }
 
-    ASV2 <- long[grepl("^ASV2;", OTU)]
+    ASV2 <- long[grepl("^FLASV9592.1533;", OTU)]
     if(nrow(ASV2) > 0) {
       plot_ts_asv2 <- plot_timeseries(ASV2, save = FALSE) +
         theme(
@@ -469,7 +516,7 @@ plots <- lapply(
       plot_obs_pred_asv2 <- plot_spacer()
     }
 
-    ASV24 <- long[grepl("^ASV24;", OTU)]
+    ASV24 <- long[grepl("^FLASV4.1481;", OTU)]
     if(nrow(ASV24) > 0) {
       plot_ts_asv24 <- plot_timeseries(ASV24, save = FALSE) +
         theme(
@@ -548,532 +595,4 @@ for (i in seq(1,6,2)) {
   )
 }
 
-```
-
-# SSelect analysis (Aalborg W + Viby, Figure S12)
-```{r}
-wwtp_results_dirs <- c(
-  "results/allwwtps/Aalborg W",
-  "results/allwwtps/Viby"
-)
-
-# When was SSelect first implemented (Aalborg W + Viby) ?
-# this was done manually in the data generation markdown
-# not pretty, I know, but just for a supplementary figure
-#metadata[SSelect == "SSelect",.(min(Date)), by = "Plant"]
-#Aalborg W: 2019-11-05
-#Viby: 2020-01-02
-
-#list of all data (train+val+test) from all WWTPs
-plots <- lapply(
-  wwtp_results_dirs,
-  function(wwtp) {
-    combined <- combine_abund(
-      wwtp,
-      cluster_type = "abund"
-    )
-    long <- amp_export_long(
-      combined,
-      tax_levels = "OTU",
-      metadata_vars = c("Date", "split_dataset", "predicted")
-    )
-    
-    #check normal distribution
-    #qqplot(ASV1, rnorm(1000, mean = mean(ASV1), sd = sd(ASV1)))
-    #qqplot(ASV2, rnorm(1000, mean = mean(ASV2), sd = sd(ASV2)))
-    ASV1 <- long[grepl("^ASV1;", OTU)]
-    if(nrow(ASV1) > 0) {
-      #time series plot
-      plot_ts_asv1 <- plot_timeseries(ASV1, save = FALSE) +
-        theme(
-          legend.position = "none",
-          axis.text.x = element_blank(),
-          axis.ticks.x = element_blank(),
-          axis.title.y = element_blank()
-        ) +
-        ggtitle("ASV1 - Tetrasphaera midas_s_5") +
-        scale_y_continuous(breaks = scales::breaks_pretty(n = 5)) +
-        geom_vline(xintercept = as.Date(switch(basename(wwtp), "Aalborg W" = "2019-11-05", "Viby" = "2020-01-02")), linetype="dashed", color = "blue", size = 1)
-
-      # obs vs pred plot
-      plot_obs_pred_asv1 <- plot_obs_pred(ASV1)
-    } else {
-      plot_ts_asv1 <- plot_spacer()
-      plot_obs_pred_asv1 <- plot_spacer()
-    }
-
-    ASV2 <- long[grepl("^ASV2;", OTU)]
-    if(nrow(ASV2) > 0) {
-      plot_ts_asv2 <- plot_timeseries(ASV2, save = FALSE) +
-        theme(
-          legend.position = "none",
-          axis.text.x = element_blank(),
-          axis.ticks.x = element_blank()
-        ) +
-        ggtitle("ASV2 - Ca. Microthrix parvicella") +
-        scale_y_continuous(breaks = scales::breaks_pretty(n = 5)) +
-        geom_vline(xintercept = as.Date(switch(basename(wwtp), "Aalborg W" = "2019-11-05", "Viby" = "2020-01-02")), linetype="dashed", color = "blue", size = 1)
-      
-      # obs vs pred plot
-      plot_obs_pred_asv2 <- plot_obs_pred(ASV2)
-    } else {
-      plot_ts_asv2 <- plot_spacer()
-      plot_obs_pred_asv2 <- plot_spacer()
-    }
-
-    ASV24 <- long[grepl("^ASV24;", OTU)]
-    if(nrow(ASV24) > 0) {
-      plot_ts_asv24 <- plot_timeseries(ASV24, save = FALSE) +
-        theme(
-          legend.position = "bottom",
-          legend.text = element_text(size = 12),
-          axis.title.y = element_blank()
-        ) +
-        ggtitle("ASV24 - Nitrospira defluvii") +
-        scale_y_continuous(breaks = scales::breaks_pretty(n = 5)) +
-        geom_vline(xintercept = as.Date(switch(basename(wwtp), "Aalborg W" = "2019-11-05", "Viby" = "2020-01-02")), linetype="dashed", color = "blue", size = 1)
-      
-      # obs vs pred plot
-      plot_obs_pred_asv24 <- plot_obs_pred(ASV24)
-    } else {
-      plot_ts_asv24 <- plot_spacer()
-      plot_obs_pred_asv24 <- plot_spacer()
-    }
-
-    plot <- plot_ts_asv1 + plot_obs_pred_asv1 +
-      plot_ts_asv2 + plot_obs_pred_asv2 +
-      plot_ts_asv24 + plot_obs_pred_asv24 +
-      plot_layout(
-        ncol = 2,
-        nrow = 3,
-        heights = 4,
-        widths = c(
-          6, 2,
-          6, 2,
-          6, 2
-        )
-      )
-    ggsave(
-      plot = plot,
-      filename = file.path(
-        results_batch_dir,
-        paste0("timeseries example - ", basename(wwtp), ".pdf")
-      ),
-      width = 250,
-      height = 250,
-      units = "mm",
-      dpi = 600
-    )
-
-    #plot_timeseries(ASV1, save = TRUE)
-    #plot_timeseries(ASV2, save = TRUE)
-    #plot_timeseries(ASV3, save = TRUE)
-    return(plot)
-  }
-)
-names(plots) <- basename(wwtp_results_dirs)
-
-# save plot again to make it clear that it's Figure 3 for the paper
-ggsave(
-  filename = file.path(
-    results_batch_dir,
-    "Figure S12.png"
-  ),
-  plot = plots[["Viby"]],
-  width = 250,
-  height = 250,
-  units = "mm",
-  dpi = 600
-)
-
-# write out plot data
-for (i in seq(1,6,2)) {
-  fwrite(
-    plots[["Viby"]][[i]]$data,
-    file.path(
-      results_batch_dir,
-      paste0(
-        "Figure S12 - ",
-        gsub(";.*", "", unique(plots[["Viby"]][[i]]$data$OTU)),
-        ".csv"
-      )
-    )
-  )
-}
-```
-
-# Heatmap of real vs predicted (Figure 4)
-```{r}
-results_dir <- file.path(results_batch_dir, "Mariagerfjord")
-d <- combine_abund(
-  results_dir,
-  cluster_type = cluster_type
-)
-test_predicted <- amp_filter_samples(
-  d,
-  split_dataset %in% "test",
-  predicted %in% "predicted"
-)
-test_real <- amp_filter_samples(
-  d,
-  split_dataset %in% "real",
-  Date %in% test_predicted$metadata$Date
-)
-test_combined <- amp_merge_ampvis2(
-  test_predicted,
-  test_real,
-  by_refseq = FALSE
-)
-test_combined$metadata$predicted <- factor(
-  test_combined$metadata$predicted,
-  levels = c("real", "predicted")
-)
-
-# manually clean up long taxonomy strings and reverse the order
-# this is NOT generic for other datasets, it's just for the manuscript
-clean_tax <- function(charfctr) {
-  charfctr <- gsub(
-    "s__|g__|Ca_[^_]+_|Sulfuritalea_",
-    "",
-    charfctr
-  )
-  charfctr <- sapply(
-    strsplit(
-      charfctr,
-      "; "
-    ),
-    function(x)
-      paste0(rev(x), collapse = "; "),
-    simplify = TRUE
-  )
-  return(charfctr)
-}
-test_combined$tax$OTU <- clean_tax(test_combined$tax$OTU)
-rownames(test_combined$tax) <- clean_tax(rownames(test_combined$tax))
-rownames(test_combined$abund) <- clean_tax(rownames(test_combined$abund))
-
-realvspredictedheatmap <- amp_heatmap(
-  test_combined,
-  tax_aggregate = "OTU",
-  group_by = c("predicted"),
-  normalise = FALSE,
-  tax_show = 30,
-  plot_values = FALSE,
-  facet_by = "Date"
-) +
-  theme(
-    strip.text = element_text(angle = 90, size = 14),
-    axis.text.x = element_text(size = 14),
-    axis.text.y = element_text(size = 16),
-    legend.text = element_text(size = 14),
-    legend.title = element_text(size = 18),
-    legend.position = "bottom"
-  ) +
-    labs(fill = "% Relative Abundance") +
-    scale_fill_gradientn(
-      colours = rev(RColorBrewer::brewer.pal(3, "RdYlBu")),
-      trans = "sqrt",
-      na.value = "#67A9CF",
-      oob = scales::squish,
-      limits = c(0, 5),
-      breaks = c(0, 1, 2, 3, 5),
-      labels = c(0, 1, 2, 3, 5)
-    ) +
-    guides(fill = guide_colourbar(ticks.colour = "black"))
-
-#realvspredictedheatmap$data$Display <- gsub("[; ]+", " ", realvspredictedheatmap$data$Display)
-
-ggsave(
-  plot = realvspredictedheatmap,
-  filename = file.path(
-    results_batch_dir,
-    "Figure 4.pdf"
-  ),
-  width = 450,
-  height = 300,
-  units = "mm",
-  dpi = 600
-)
-
-# write out plot data
-fwrite(
-  realvspredictedheatmap$data,
-  file.path(results_batch_dir, "Figure 4.csv")
-)
-```
-
-# Network plots (Figure S3)
-```{r}
-graph_matrix_dir <- file.path(results_batch_dir, "Mariagerfjord/graph_matrix")
-graph_matrix_list <- list.files(
-  graph_matrix_dir,
-  pattern = "graph_cluster_*",
-  full.names = TRUE
-)
-#list is sorted lexicographically, reorder numerically
-order <- graph_matrix_list %>%
-  basename %>%
-  stringi::stri_extract_all_regex("[0-9]+") %>%
-  unlist(use.names = FALSE) %>%
-  as.integer %>%
-  order
-graph_matrix_list <- graph_matrix_list[order]
-
-plot_list <- lapply(
-  graph_matrix_list[1:4],
-  plot_graph
-)
-
-#plots are named after the filenames
-plot <- wrap_plots(
-  plot_list,
-  guides = "collect",
-  tag_level = "keep"
-)
-plot
-ggsave(
-  plot = plot,
-  filename = file.path(
-    results_batch_dir,
-    "Figure S3.png"
-  ),
-  width = 300,
-  height = 300,
-  units = "mm",
-  dpi = 600
-)
-
-# write out plot data
-fwrite(
-  plot$data,
-  file.path(results_batch_dir, "Figure S3.csv")
-)
-```
-
-# Statistical tests of real vs predicted
-```{r}
-wwtp_results <- list.dirs(
-  results_batch_dir,
-  full.names = TRUE,
-  recursive = FALSE
-)
-statistics <- lapply(
-  wwtp_results,
-  function(wwtp) {
-    cli::cat_print(wwtp)
-    #read predicted data (incl train+val)
-    combined <- combine_abund(
-      wwtp,
-      cluster_type = cluster_type
-    )
-    combined
-    if(is.null(combined))
-      return(NULL)
-    #extract predicted samples (test set only)
-    predicted <- suppressMessages({
-      amp_filter_samples(
-      combined,
-      split_dataset %in% "test",
-      predicted %in% "predicted"
-    )
-    })
-    #extract real samples from the same dates as the predicted
-    dates <- predicted[["metadata"]][["Date"]]
-    real <- suppressMessages({
-      amp_filter_samples(
-      combined,
-      split_dataset %in% "real",
-      Date %in% dates
-    )
-    })
-    combined_test <- amp_merge_ampvis2(
-      predicted,
-      real,
-      by_refseq = FALSE
-    )
-    combined_test$metadata$predicted <- factor(
-      combined_test$metadata$predicted,
-      levels = c("real", "predicted")
-    )
-
-    #compare real vs predicted (ANOSIM, bray-curtis)
-    anosimBC <- vegan::anosim(
-      t(combined_test$abund),
-      combined_test$metadata$predicted,
-      distance = "bray",
-      parallel = 30
-    )
-
-    #compare real vs predicted (PERMANOVA)
-    permanova <- vegan::adonis2(
-      t(combined_test$abund) ~ predicted,
-      data = combined_test$metadata,
-      parallel = 10
-    )
-    return(
-      list(
-        anosimBC = anosimBC,
-        permanova = permanova
-      )
-    )
-  }
-)
-names(statistics) <- basename(wwtp_results)
-anosimBC_Rstatistics <- sort(
-  unlist(
-    lapply(
-      statistics,
-      function(x) x[["anosimBC"]][["statistic"]]
-    )
-  )
-)
-anosimBC_Rstatistics
-
-anosimBC_signifs <- sort(
-  unlist(
-    lapply(
-      statistics,
-      function(x) x[["anosimBC"]][["signif"]]
-    )
-  )
-)
-anosimBC_signifs
-
-permanova <- sort(
-  unlist(
-    lapply(
-      statistics,
-      function(x) x[["permanova"]]
-    )
-  )
-)
-permanova
-```
-
-# Prediction accuracy five number stats for all WWTPs+cluster types+error metrics
-```{r fivenum_BC_ASV}
-runs <- list.dirs(
-  results_batch_dir,
-  full.names = TRUE,
-  recursive = FALSE
-)
-
-d_list <- lapply(runs, read_performance)
-names(d_list) <- runs
-combined <- rbindlist(
-  d_list,
-  idcol = "results_folder",
-  fill = TRUE
-)[
-  !is.na(cluster_type) & value > 0
-]
-#prediction accuracies for each cluster for each dataset+cluster type+error metric
-stats <- combined[, .(fivenum_stats = fivenum(value)), by = .(dataset, cluster_type, error_metric)]
-
-# extract medians for BC
-mediansBC <- stats[error_metric == "Bray Curtis", .(median = .SD[3,fivenum_stats]), by = c("dataset", "cluster_type")]
-mediansBC[, nsamples := as.integer(gsub("[^0-9]", "", dataset))]
-
-# linear relationship between BC+graph accuracy and number of samples
-summary(lm(nsamples ~ median, data = mediansBC[cluster_type == "Graph"]))
-```
-
-# Sampling interval as an extra variable test (Figure S7)
-```{r}
-# just copied from Figure 2, sorry again
-results_batch_dir <- "results/allwwtps_wts"
-
-## Bray-Curtis only, flip x and y (otherwise too big plot for manuscript)
-runs <- list.dirs(
-  results_batch_dir,
-  full.names = TRUE,
-  recursive = FALSE
-)
-
-d_list <- lapply(
-  runs,
-  read_performance,
-  add_dataset_info = "numsamples"
-)
-names(d_list) <- runs
-combined <- rbindlist(
-  d_list,
-  idcol = "results_folder",
-  fill = TRUE
-)[
-  !is.na(cluster_type) & value > 0
-]
-
-# copied from boxplot_all() just for this plot
-#order datasets by the number of samples (extracted from dataset names)
-combined[,unique(dataset)] %>%
-  stringi::stri_extract_all_regex("\\(.*$", "") %>%
-  stringi::stri_extract_all_regex("[0-9]+") %>%
-  as.numeric -> nsamples
-datasets_ordered <- combined[
-  ,
-  unique(dataset)
-][
-  order(nsamples, decreasing = F)
-]
-plot_data <- combined[error_metric == "Bray Curtis"]
-plot_data[, dataset := factor(gsub(" \\(", "\n(", dataset), levels = gsub(" \\(", "\n(", datasets_ordered))]
-bp_all_BC <- ggplot(
-  plot_data,
-  aes(
-    value,
-    cluster_type,
-    color = cluster_type,
-    fill = cluster_type
-  )
-) +
-  geom_boxplot(
-    outlier.shape = 19,
-    outlier.size = 1,
-    alpha = 0.4,
-    linewidth = 0.25
-  ) +
-  facet_wrap(~dataset, ncol = 2, strip.position = "right", dir = "v") +
-  #facet_grid(rows = vars(dataset), scales = "free") +
-  theme_bw() +
-  theme(
-    legend.position = "bottom",
-    legend.title = element_blank(),
-    legend.text = element_text(size = 10),
-    axis.text.y = element_blank(),
-    axis.text.x = element_text(size = 10, angle = 90, vjust = 0.5),
-    axis.title = element_blank(), 
-    axis.ticks.y = element_blank(),
-    #strip.text.x = element_blank(),
-    strip.text.y = element_text(size = 10, angle = 0),
-    panel.grid.major.y = element_blank(),
-    panel.grid.minor.x = element_blank(),
-    panel.grid.major.x = element_line(color = "gray70"),
-    panel.background = element_rect(fill = "white")
-  ) +
-  scale_x_continuous(
-    trans = "sqrt",
-    breaks = c(0.0, 0.05, 0.1, 0.15, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8)
-  ) +
-  scale_colour_manual(values = cluster_type_colors) +
-  scale_fill_manual(values = cluster_type_colors)
-
-ggsave(
-  file.path(results_batch_dir, "Figure S7.png"),
-  plot = bp_all_BC,
-  width = 180,
-  height = 185,
-  units = "mm",
-  dpi = 600
-)
-
-# write out plot data
-# embedded new-lines (\n) were added above for plot appearance, remove
-# them before writing out or else they will create new lines in the output file as well
-out <- data.table(bp_all_BC$data)
-out[] <- lapply(out, gsub, pattern = "\n", replacement = " ")
-fwrite(
-  out,
-  file.path(results_batch_dir, "Figure S7.csv")
-)
 ```
