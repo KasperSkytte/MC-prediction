@@ -23,7 +23,7 @@
     "iterations": 10,
     "max_epochs": 200,
     "window_size": 10,
-    "predict_timestamp": [1,3,5,10],
+    "predict_timestamp": [1, 3, 5, 10],
     "num_clusters_idec": 40,
     "tolerance_idec": 0.001,
     "transform": "divmean",
@@ -32,8 +32,7 @@
     "cluster_abund": false,
     "cluster_graph": true,
     "use_baseline": false,
-    "use_timestamps": true,
-    "use_temperature": true,
+    "use_temperature_and_timestamps": true,
     "smoothing_factor": 4,
     "splits": [
         0.80,
