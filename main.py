@@ -26,7 +26,7 @@ config = ConfigProto()
 config.gpu_options.allow_growth = True
 session = InteractiveSession(config=config)
 
-graph_sparsity = 0.09  #0.01 can find from 0.01 ~ 0.1, the graph_sparsity is bigger, the learned graph is more sparse
+graph_sparsity = 0.01  #0.01 can find from 0.01 ~ 0.1, the graph_sparsity is bigger, the learned graph is more sparse
 dropout_conf = 0  #0.1 can find from 0, 0.1, 0.2, 0.3
 kernel_size_conf = 4  #3 can find from 2, 3, 4
 residual_channels = 8  #8 can find from 4, 8, 16
@@ -213,18 +213,26 @@ def create_graph_model(num_features, predict_timestamp, graph, window_width, use
             x_glb_ori = x_glb
             mlp_output = mlp(cov, training=True)
             if mlp_output.shape[2] != x_glb.shape[2]:
-                mlp_output = tf.keras.layers.AveragePooling2D(
-                    pool_size=(1, mlp_output.shape[2]),  # 在第三个维度上池化
-                    strides=(1, mlp_output.shape[2] // x_glb.shape[2]),
-                    padding='valid'
+                # mlp_output = tf.keras.layers.AveragePooling2D(
+                #     pool_size=(1, mlp_output.shape[2]),  # 在第三个维度上池化
+                #     strides=(1, mlp_output.shape[2] // x_glb.shape[2]),
+                #     padding='valid'
+                # )(mlp_output)
+                stride_t = mlp_output.shape[2] // x_glb.shape[2]
+                mlp_output = tf.keras.layers.Conv2D(
+                    filters=mlp_output.shape[-1],
+                    kernel_size=(1, stride_t),
+                    strides=(1, stride_t),
+                    padding='valid',
+                    kernel_initializer='he_normal'
                 )(mlp_output)
             gamma_beta, alpha = tf.split(mlp_output, 
                                     [2 * residual_channels, residual_channels], 
                                     axis=-1)
             gamma, beta = tf.split(gamma_beta, 2, axis=-1)
-            x_glb = gamma + (1 + beta) * x_glb
+            x_glb = gamma + (1.0 + beta) * x_glb
             x_glb = head(x_glb)
-            x_glb = (1+alpha) * x_glb
+            x_glb = (1.0+alpha) * x_glb
             x = tf.concat([x[:,:,:-3,:],x_glb],axis=2)
 
         s = x
@@ -1355,8 +1363,8 @@ if __name__ == '__main__':
             'idec',
             predict_timestamp=config['predict_timestamp'],
             use_baseline=config['use_baseline'],
-            use_timestamps=config['use_timestamps'],
-            use_temperature=config['use_temperature']
+            use_timestamps=config['use_temperature_and_timestamps'],
+            use_temperature=config['use_temperature_and_timestamps']
         )
     
     if config['cluster_func'] == True:
@@ -1369,8 +1377,8 @@ if __name__ == '__main__':
             'func',
             predict_timestamp=config['predict_timestamp'],
             use_baseline=config['use_baseline'],
-            use_timestamps=config['use_timestamps'],
-            use_temperature=config['use_temperature']
+            use_timestamps=config['use_temperature_and_timestamps'],
+            use_temperature=config['use_temperature_and_timestamps']
         )
     
     if config['cluster_abund'] == True:
@@ -1383,8 +1391,8 @@ if __name__ == '__main__':
             'abund',
             predict_timestamp=config['predict_timestamp'],
             use_baseline=config['use_baseline'],
-            use_timestamps=config['use_timestamps'],
-            use_temperature=config['use_temperature']
+            use_timestamps=config['use_temperature_and_timestamps'],
+            use_temperature=config['use_temperature_and_timestamps']
         )
 
     if config['cluster_graph'] == True:
@@ -1398,8 +1406,8 @@ if __name__ == '__main__':
             'graph',
             predict_timestamp=config['predict_timestamp'],
             use_baseline=config['use_baseline'],
-            use_timestamps=config['use_timestamps'],
-            use_temperature=config['use_temperature']
+            use_timestamps=config['use_temperature_and_timestamps'],
+            use_temperature=config['use_temperature_and_timestamps']
         )
     print("Finished processing, enjoy!")
   # clusters_abund_size   [N / num_features]
