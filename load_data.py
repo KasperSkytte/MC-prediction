@@ -62,8 +62,8 @@ def load_data(config):
     meta1 = meta[valid_mask]
     if meta1.empty:
        print("No temperature data available for this dataset. Using all data without temperature.")
-       print("use_temperature automatically set to false due to missing data")
-       config['use_temperature'] = False
+       print("use_temperature_and_timestamps automatically set to false due to missing data")
+       config['use_temperature_and_timestamps'] = False
     else:
        meta = meta[valid_mask] 
     # also sort samples in abund chronologically according to metadata

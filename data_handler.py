@@ -274,12 +274,12 @@ class DataHandler:
         data_timestamps = meta[config['metadata_date_col']].to_numpy().astype('float32', copy=False).reshape([-1, 1, 1])
         data_timestamps = data_timestamps / data_timestamps.max()
         self.data_timestamps = data_timestamps
-        self.use_timestamps = config['use_timestamps']
+        self.use_timestamps = config['use_temperature_and_timestamps']
         
         data_temperature = meta[config['metadata_temperature_col']].to_numpy().astype('float32', copy=False).reshape([-1, 1, 1])
         data_temperature = data_temperature / data_temperature.max()
         self.data_temperature = data_temperature
-        self.use_temperature = config['use_temperature']
+        self.use_temperature = config['use_temperature_and_timestamps']
         
 
         data_raw = data_raw[:self.max_num_features]
