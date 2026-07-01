@@ -1,7 +1,7 @@
 {
     "abund_file": "data/datasets/Aalborg E/ASVtable.csv",
     "taxonomy_file": "data/datasets/Aalborg E/taxonomy.csv",
-    "metadata_file": "data/metadata.csv",
+    "metadata_file": "data/datasets/Aalborg E/metadata.csv",
     "results_dir": "results",
     "metadata_date_col": "Date",
     "metadata_temperature_col": "week_mean_temperature",
