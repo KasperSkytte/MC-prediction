@@ -160,3 +160,6 @@ data/sra_submit/
 analysis/results.zip
 midasok*
 *.sif
+
+# macOS
+.DS_Store
