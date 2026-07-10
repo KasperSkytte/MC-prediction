@@ -1,6 +1,6 @@
 {
-  "r.rterm.linux": "${userHome}/.conda/envs/mc-prediction/bin/R",
-  "r.rpath.linux": "${userHome}/.conda/envs/mc-prediction/bin/R",
-  "python.defaultInterpreterPath": "${userHome}/.conda/envs/mc-prediction/bin/python",
+  "r.rterm.linux": "/opt/conda/envs/mc-prediction/bin/R",
+  "r.rpath.linux": "/opt/conda/envs/mc-prediction/bin/R",
+  "python.defaultInterpreterPath": "/opt/conda/envs/mc-prediction/bin/python",
   "git.ignoreLimitWarning": true
 }

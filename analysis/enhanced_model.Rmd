@@ -28,15 +28,8 @@ if (interactive()) {
 require("ampvis2")
 require("data.table")
 require("patchwork")
-#require("rmarkdown")
 require("lubridate")
-#require("tidygraph")
-#require("ggraph")
-#require("igraph")
 require("tune")
-#require("stats")
-# if using vscode
-require("languageserver")
 
 source("functions.R")
 set.seed(42)

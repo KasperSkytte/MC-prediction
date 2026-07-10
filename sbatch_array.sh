@@ -75,14 +75,11 @@ EOF
 # First pull container manually before submitting job:
 #   apptainer pull mc-prediction.sif docker://ghcr.io/kasperskytte/mc-prediction:main
 # Mount config.json when running in parallel to avoid overwriting files across jobs.
-# Also remember to comment out the renv line in .Rprofile or remove the file 
-# to ensure the library inside the container is used. Or mount over with an empty file like below.
 apptainer exec \
   --no-home \
   --cleanenv \
   -B "${PWD}" \
   -B "${config_file}:${PWD}/config.json" \
-  -B "$(mktemp):${PWD}/.Rprofile" \
   mc-prediction.sif \
   conda run -n mc-prediction bash ./run.bash
 
