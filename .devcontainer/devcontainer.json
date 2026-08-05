@@ -2,16 +2,16 @@
 // https://github.com/microsoft/vscode-dev-containers/tree/v0.194.0/containers/docker-existing-dockerfile
 {
 	"name": "mc-prediction",
-	// "image": "ghcr.io/kasperskytte/mc-prediction:main",
+	"image": "ghcr.io/kasperskytte/mc-prediction:main",
 
-	"build": {
-		// Sets the run context to one level up instead of the .devcontainer folder.
-		"context": "..",
-		// Update the 'dockerFile' property if you aren't using the standard 'Dockerfile' filename.
-	 	"dockerfile": "../Dockerfile"
-	},
+	// "build": {
+	// 	// Sets the run context to one level up instead of the .devcontainer folder.
+	// 	"context": "..",
+	// 	// Update the 'dockerFile' property if you aren't using the standard 'Dockerfile' filename.
+	//  	"dockerfile": "../Dockerfile"
+	// },
 
-	// "initializeCommand": "docker pull ghcr.io/kasperskytte/mc-prediction:main",
+	"initializeCommand": "docker pull ghcr.io/kasperskytte/mc-prediction:main",
 
 	// Set *default* container specific settings.json values on container create.
 	"settings": {
@@ -23,19 +23,14 @@
 		"r.lsp.diagnostics": true,
 		"r.rterm.option": [
 			"--no-save",
-			"--no-restore",
-			"--r-binary=/opt/conda/envs/mc-prediction/bin/R"
+			"--no-restore"
 	  ]
 	},
 
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
 		"REditorSupport.r",
-		"ms-python.python",
-		"christian-kohler.path-intellisense",
-		"TianyiShi.rmarkdown",
-		"tomoki1207.pdf",
-		"tht13.html-preview-vscode"
+		"ms-python.python"
 	],
 
 	// Enable GPU support for CUDA

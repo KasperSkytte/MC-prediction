@@ -32,18 +32,47 @@ class DataHandler:
         self.window_batch_size = window_batch_size  # can find a best from 8 10 16
         self.max_num_features = num_features
         self.num_per_group = num_per_group
-        self.predict_timestamp_list = predict_timestamp
-        self.predict_timestamp = max(predict_timestamp)
-        # print(self.predict_timestamp)
         self.clusters = None
         self.clusters_func = None
         self.clusters_idec = None
-        
+
         self._load_data(config)
         self.use_splits(splits)
+        self._validate_predict_timestamps(predict_timestamp)
         self.clusters_abund, self.clusters_abund_size = self._make_abundance_clusters()
         self.clusters_graph, self.clusters_graph_size = self._make_graph_clusters()
         assert self.clusters_abund_size == self.clusters_graph_size
+
+    def _validate_predict_timestamps(self, predict_timestamp):
+        """Drop any requested prediction horizon the test split can't actually support,
+           instead of letting a single too-large horizon crash the entire run partway
+           through training. All prediction horizons are trained jointly in one model per
+           cluster, and the windowed train/val/test datasets (see _make_batched_dataset())
+           require window_width + horizon samples to fit within the test split - so the
+           feasible max only depends on how many samples fall after _val_test_index.
+
+           Mutates `predict_timestamp` in place: main.py/config.json share this same list
+           object (see the NOTE in create_graph_model() about that), so every downstream
+           consumer needs to observe the same validated list."""
+        num_samples = self._all.shape[0]
+        max_feasible = num_samples - self._val_test_index
+        feasible = [p for p in predict_timestamp if p <= max_feasible]
+        infeasible = [p for p in predict_timestamp if p > max_feasible]
+        if infeasible:
+            print(
+                f"WARNING: dropping predict_timestamp value(s) {infeasible} - the test "
+                f"split only has {max_feasible} sample(s) after the window, so these "
+                f"horizons can't be evaluated. Continuing with predict_timestamp={feasible}."
+            )
+        if not feasible:
+            raise ValueError(
+                f"None of the requested predict_timestamp horizons {predict_timestamp} fit "
+                f"within the test split ({max_feasible} usable sample(s)). Reduce "
+                f"predict_timestamp or increase the test split size."
+            )
+        predict_timestamp[:] = feasible
+        self.predict_timestamp_list = predict_timestamp
+        self.predict_timestamp = max(predict_timestamp)
     
     @property
     def train(self):
