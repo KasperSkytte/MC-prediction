@@ -533,8 +533,16 @@ def merge_cluster_csvs(pattern, num_clusters, out_path):
        the index restored as a 'time_step' column."""
     merged = None
     for c in range(num_clusters):
-        df = pd.read_csv(pattern.format(c=c), index_col=0)
+        file = pattern.format(c=c)
+        if not path.exists(file):
+            # clusters without any taxa are skipped during fitting, so they have no CSV
+            print(f'No file for cluster {c}, skipping: {file}')
+            continue
+        df = pd.read_csv(file, index_col=0)
         merged = df if merged is None else merged.join(df, how='outer')
+    if merged is None:
+        print(f'No cluster files found matching {pattern}, skipping {out_path}')
+        return
     merged.reset_index(inplace=True)
     merged.rename(columns={'index': 'time_step'}, inplace=True)
     merged.to_csv(out_path, index=False)
@@ -559,7 +567,7 @@ def find_best_graph(data, iterations, num_clusters, max_epochs, early_stopping, 
             print(f'Empty cluster, skipping')
             continue
         elif data.all.shape[1] == 1:
-            c = sub(';.*$', '', data.all.columns[0])
+            print(sub(';.*$', '', data.all.columns[0]))
             graph_matrix = np.ones(shape=(1, 1))
         elif data.all.shape[1] > 1:
             print(data.all.columns.values)
@@ -615,7 +623,7 @@ def find_best_graph(data, iterations, num_clusters, max_epochs, early_stopping, 
                     best_model = graph_model
                     best_performance = test_performance
 
-        best_performances.append(best_performance)
+        best_performances.append((c, best_performance))
         print("best_performance:",best_performance)
         best_model.save_weights(f'{results_dir}/graph_{cluster_type}_weights/cluster_{c}')
 
@@ -718,14 +726,12 @@ def find_best_graph(data, iterations, num_clusters, max_epochs, early_stopping, 
         f'{data_predicted_dir}/graph_{cluster_type}_all_dataall_nontrans.csv'
     )
 
-    if use_baseline is True:
+    if use_baseline is True and metric_names:
         metric_names[0] = 'bray-curtis'
     with open(f'{results_dir}/graph_{cluster_type}_performance.txt', 'w') as outfile:
-        c = 0
         outfile.write(str(metric_names) + '\n')
-        for performance in best_performances:
+        for c, performance in best_performances:
             outfile.write(str(c) + ': ' + str(performance) + '\n')
-            c += 1
 
 
 def create_tsne(data, num_clusters):
