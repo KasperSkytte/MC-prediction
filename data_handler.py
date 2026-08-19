@@ -305,10 +305,18 @@ class DataHandler:
         self.data_timestamps = data_timestamps
         self.use_timestamps = config['use_temperature_and_timestamps']
         
-        data_temperature = meta[config['metadata_temperature_col']].to_numpy().astype('float32', copy=False).reshape([-1, 1, 1])
-        data_temperature = data_temperature / data_temperature.max()
-        self.data_temperature = data_temperature
+        # load_data() disables this if the temperature column is missing or empty
         self.use_temperature = config['use_temperature_and_timestamps']
+        if self.use_temperature:
+            data_temperature = meta[config['metadata_temperature_col']].to_numpy().astype('float32', copy=False).reshape([-1, 1, 1])
+            max_temperature = data_temperature.max()
+            if max_temperature != 0:
+                data_temperature = data_temperature / max_temperature
+        else:
+            # the batching code slices this regardless of use_temperature, so it still
+            # needs to be an array of the right length
+            data_temperature = np.zeros([meta.shape[0], 1, 1], dtype='float32')
+        self.data_temperature = data_temperature
         
 
         data_raw = data_raw[:self.max_num_features]
