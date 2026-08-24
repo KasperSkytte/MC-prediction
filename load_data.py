@@ -57,6 +57,23 @@ def load_data(config):
     meta = pd.read_csv(pp_dir + 'metadata.csv', index_col=0, parse_dates=['Date'])
     meta.sort_values(by='Date', inplace=True)
 
+    # Temperature is optional: the column is only required when the model actually uses
+    # it, and not every dataset has one. Fall back to running without it instead of
+    # failing, so the same config can be reused across datasets.
+    temperature_col = config.get('metadata_temperature_col')
+    if config['use_temperature_and_timestamps']:
+        if temperature_col not in meta.columns:
+            print(f"Column '{temperature_col}' not found in the metadata. Using all data without temperature.")
+            print("use_temperature_and_timestamps automatically set to false due to missing column")
+            config['use_temperature_and_timestamps'] = False
+        else:
+            valid_mask = meta[temperature_col].notna()
+            if not valid_mask.any():
+                print("No temperature data available for this dataset. Using all data without temperature.")
+                print("use_temperature_and_timestamps automatically set to false due to missing data")
+                config['use_temperature_and_timestamps'] = False
+            else:
+                meta = meta[valid_mask]
     # also sort samples in abund chronologically according to metadata
     abund = abund.reindex(index=meta.index, copy=False)
 

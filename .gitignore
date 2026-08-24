@@ -147,8 +147,6 @@ analysis_Rproj/analysis_files/
 
 renv/
 
-.Rprofile
-
 ansible-venv/
 
 **_weights/
@@ -159,3 +157,7 @@ results_*/
 data/sra_submit/
 analysis/results.zip
 midasok*
+*.sif
+
+# macOS
+.DS_Store

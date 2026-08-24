@@ -4,7 +4,10 @@ import tensorflow as tf
 from load_data import load_data, smooth, transform
 from sklearn.covariance import GraphicalLasso, EmpiricalCovariance
 from sklearn import preprocessing
+import warnings
+from sklearn.exceptions import ConvergenceWarning
 
+warnings.filterwarnings("ignore", category=ConvergenceWarning)
 class DataHandler:
     def __init__(
         self,
@@ -29,16 +32,47 @@ class DataHandler:
         self.window_batch_size = window_batch_size  # can find a best from 8 10 16
         self.max_num_features = num_features
         self.num_per_group = num_per_group
-        self.predict_timestamp = predict_timestamp
         self.clusters = None
         self.clusters_func = None
         self.clusters_idec = None
-        
+
         self._load_data(config)
         self.use_splits(splits)
+        self._validate_predict_timestamps(predict_timestamp)
         self.clusters_abund, self.clusters_abund_size = self._make_abundance_clusters()
         self.clusters_graph, self.clusters_graph_size = self._make_graph_clusters()
         assert self.clusters_abund_size == self.clusters_graph_size
+
+    def _validate_predict_timestamps(self, predict_timestamp):
+        """Drop any requested prediction horizon the test split can't actually support,
+           instead of letting a single too-large horizon crash the entire run partway
+           through training. All prediction horizons are trained jointly in one model per
+           cluster, and the windowed train/val/test datasets (see _make_batched_dataset())
+           require window_width + horizon samples to fit within the test split - so the
+           feasible max only depends on how many samples fall after _val_test_index.
+
+           Mutates `predict_timestamp` in place: main.py/config.json share this same list
+           object (see the NOTE in create_graph_model() about that), so every downstream
+           consumer needs to observe the same validated list."""
+        num_samples = self._all.shape[0]
+        max_feasible = num_samples - self._val_test_index
+        feasible = [p for p in predict_timestamp if p <= max_feasible]
+        infeasible = [p for p in predict_timestamp if p > max_feasible]
+        if infeasible:
+            print(
+                f"WARNING: dropping predict_timestamp value(s) {infeasible} - the test "
+                f"split only has {max_feasible} sample(s) after the window, so these "
+                f"horizons can't be evaluated. Continuing with predict_timestamp={feasible}."
+            )
+        if not feasible:
+            raise ValueError(
+                f"None of the requested predict_timestamp horizons {predict_timestamp} fit "
+                f"within the test split ({max_feasible} usable sample(s)). Reduce "
+                f"predict_timestamp or increase the test split size."
+            )
+        predict_timestamp[:] = feasible
+        self.predict_timestamp_list = predict_timestamp
+        self.predict_timestamp = max(predict_timestamp)
     
     @property
     def train(self):
@@ -81,24 +115,24 @@ class DataHandler:
     def train_batched(self):
         """Batches of training data."""
         return self._make_batched_dataset(self._all.iloc[:self._train_val_index+self.predict_timestamp, self.clusters],
-                                          True, self.data_timestamps[:self._train_val_index+self.predict_timestamp])
+                                          True, self.data_timestamps[:self._train_val_index+self.predict_timestamp], self.data_temperature[:self._train_val_index+self.predict_timestamp])
 
     @property
     def val_batched(self):
         """Batches of validation data."""
         return self._make_batched_dataset(self._all.iloc[self._train_val_index-self.window_width:self._val_test_index+self.predict_timestamp,
-                       self.clusters], True, self.data_timestamps[self._train_val_index-self.window_width:self._val_test_index+self.predict_timestamp])
+                       self.clusters], True, self.data_timestamps[self._train_val_index-self.window_width:self._val_test_index+self.predict_timestamp], self.data_temperature[self._train_val_index-self.window_width:self._val_test_index+self.predict_timestamp])
 
     @property
     def test_batched(self):
         """Batches of test data."""
         return self._make_batched_dataset(self._all.iloc[self._val_test_index-self.window_width:, self.clusters], True,
-                                          self.data_timestamps[self._val_test_index-self.window_width:])
+                                          self.data_timestamps[self._val_test_index-self.window_width:], self.data_temperature[self._val_test_index-self.window_width:])
 
     @property
     def all_batched(self):
         """Batches of all the data."""
-        return self._make_batched_dataset(self.all, False, self.data_timestamps)
+        return self._make_batched_dataset(self.all, False, self.data_timestamps, self.data_temperature)
 
     @property
     def num_features(self):
@@ -110,7 +144,7 @@ class DataHandler:
         else:
             return np.min((self._all.shape[1], self.max_num_features))
 
-    def _make_batched_dataset(self, dataset, endindex, data_timestamps):
+    def _make_batched_dataset(self, dataset, endindex, data_timestamps, data_temperature):
         """Create a windowed and batched dataset."""
         dataset = dataset.to_numpy()
         T_, N_ = dataset.shape
@@ -124,6 +158,13 @@ class DataHandler:
             data_timestamps = np.repeat(data_timestamps, N_, 1)
             input_data = np.concatenate((input_data, data_timestamps), axis=2)
         
+        if self.use_temperature:
+            data_temperature = np.repeat(data_temperature, N_, 1)
+            input_data = np.concatenate((input_data, data_temperature), axis=2)
+        # print(dataset)
+        if T_ < self.window_width + self.predict_timestamp:
+            print("The length of the test or valid dataset is insufficient for the requested prediction horizons.")
+            print(f"length: {T_}")
         if endindex:
             return tf.keras.preprocessing.sequence.TimeseriesGenerator(
                 data=input_data,
@@ -262,8 +303,22 @@ class DataHandler:
         data_timestamps = meta[config['metadata_date_col']].to_numpy().astype('float32', copy=False).reshape([-1, 1, 1])
         data_timestamps = data_timestamps / data_timestamps.max()
         self.data_timestamps = data_timestamps
-        self.use_timestamps = config['use_timestamps']
+        self.use_timestamps = config['use_temperature_and_timestamps']
         
+        # load_data() disables this if the temperature column is missing or empty
+        self.use_temperature = config['use_temperature_and_timestamps']
+        if self.use_temperature:
+            data_temperature = meta[config['metadata_temperature_col']].to_numpy().astype('float32', copy=False).reshape([-1, 1, 1])
+            max_temperature = data_temperature.max()
+            if max_temperature != 0:
+                data_temperature = data_temperature / max_temperature
+        else:
+            # the batching code slices this regardless of use_temperature, so it still
+            # needs to be an array of the right length
+            data_temperature = np.zeros([meta.shape[0], 1, 1], dtype='float32')
+        self.data_temperature = data_temperature
+        
+
         data_raw = data_raw[:self.max_num_features]
         func_tax = func_tax[:self.max_num_features]
         clusters_func = clusters_func[:self.max_num_features]

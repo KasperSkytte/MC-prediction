@@ -106,39 +106,3 @@ def create_boxplot(data, label, cluster_type):
     plt.title(f"{label} for each {cluster_type} cluster")
     plt.savefig(_fig_dir + 'boxplot_' + cluster_type.lower() + '.png', bbox_inches='tight')
     plt.close()
-
-
-if __name__ == "__main__":
-    from load_data import load_data, smooth, normalize
-    from correlation import calc_cluster_correlations, print_corr_results
-    from idec.IDEC import IDEC
-
-    import json
-    with open('config.json', 'r') as config_file:
-        config = json.load(config_file)
-
-    x, func_tax, clusters_func, _ = load_data(config['abund_file'], config)
-    x = smooth(x, factor = config['smoothing_factor'])
-
-    n_clusters = 5
-    plt.rcParams['figure.figsize'] = (12,8)
-
-    idec = IDEC(dims=[x.shape[-1], 500, 500, 2000, 10], n_clusters=n_clusters)
-    idec.load_weights(config['results_dir'] + '/idec/IDEC_best.h5')
-    idec_clusters = idec.predict_clusters(x)
-
-    print('\nfunction clustering:')
-    cluster_sizes, r_values, p_values = calc_cluster_correlations(x, clusters_func, n_clusters)
-    print_corr_results(cluster_sizes, r_values, p_values)
-    create_boxplot(r_values, 'abs(r-values)', 'func')
-    create_boxplot(p_values, 'p-values', 'func')
-    plot_tsne(x, clusters_func, n_clusters, 'func')
-    plot_abundance_within_clusters(x, clusters_func, func_tax)
-
-    print('\nIDEC clustering:')
-    cluster_sizes, r_values, p_values = calc_cluster_correlations(x, idec_clusters, n_clusters)
-    print_corr_results(cluster_sizes, r_values, p_values)
-    create_boxplot(r_values, 'abs(r-values)', 'idec')
-    create_boxplot(p_values, 'p-values', 'idec')
-    plot_tsne(x, idec_clusters, n_clusters, 'idec')
-    plot_abundance_within_clusters(x, idec_clusters, func_tax)

@@ -131,14 +131,16 @@ parse_performance <- function(file) {
   }
 
   dt <- fread(file)
+  # header is a python list
   colnames(dt) <- stringi::stri_replace_all_regex(
     colnames(dt),
     pattern = "[\\[\\'\\]]",
     replacement = ""
   )
+  # cluster IDs before brackets
   dt$cluster_no <- stringi::stri_replace_all_regex(dt[[1]], ":.*$", "")
 
-
+  # remove brackets and cluster IDs
   dt[] <- lapply(
     dt,
     stringi::stri_replace_all_regex,
@@ -146,14 +148,18 @@ parse_performance <- function(file) {
     replacement = ""
   )
   dt[] <- lapply(dt, as.numeric)
+  dt[,loss := NULL]
 
   dt <- melt(
     dt,
-    id.vars = NULL,
-    measure.vars = 1:3,
+    id.vars = "cluster_no",
     variable.name = "error_metric",
     value = "value"
   )
+
+  # extract predwindow from error_metric
+  dt[, predwindow := as.integer(gsub("^.*_", "", error_metric))]
+  dt[, error_metric := gsub("_[0-9]+$", "", error_metric)]
 
   return(dt)
 }
@@ -170,11 +176,7 @@ parse_performance <- function(file) {
 #' @examples
 read_performance <- function(
   results_dir,
-  add_dataset_info = c(
-    "numsamples",
-    "predwindow",
-    "noneorwhateverelse"
-  )[1]
+  add_numsamples = TRUE
 ) {
   filenames <- c(
     "lstm_idec_performance.txt",
@@ -196,40 +198,12 @@ read_performance <- function(
 
   dt$dataset <- basename(results_dir)
 
-  #read metadata to get the number of samples to append dataset names
-  metadata <- fread(
-    file.path(results_dir, "data_reformatted", "metadata.csv")
-  )
-
-  if (length(add_dataset_info) != 1) {
-    if(!is.character(add_dataset_info)) {
-      stop("add_dataset_info must be a character vector of length 1")
-    }
-  }
-
-  if (add_dataset_info == "numsamples") {
+  if (isTRUE(add_numsamples)) {
+    #read metadata to get the number of samples to append dataset names
+    metadata <- fread(
+      file.path(results_dir, "data_reformatted", "metadata.csv")
+    )
     dt$dataset <- paste0(dt$dataset, " (", nrow(metadata), ")")
-  } else if(add_dataset_info == "predwindow") {
-    logfile <- fread(
-      list.files(
-        results_dir,
-        pattern = "log_[0-9]*_[0-9]*\\.txt",
-        full.names = TRUE
-      ),
-      sep = "\n",
-      header = FALSE,
-      col.names = "line"
-    )
-    dt$dataset <- paste0(
-      dt$dataset,
-      " (",
-      gsub(
-        "[^0-9]*",
-        "",
-        logfile[grepl("predict_timestamp", line), line]
-      ),
-      " P.S.)"
-    )
   }
 
   dt$cluster_type <- stringr::str_replace_all(
@@ -248,9 +222,9 @@ read_performance <- function(
   dt$error_metric <- stringr::str_replace_all(
     dt$error_metric,
     pattern = c(
-      "bray-curtis" = "Bray Curtis",
-      "mean_squared_error" = "Mean Squared Error",
-      "mean_absolute_error" = "Mean Absolute Error"
+      "bray_curtis" = "Bray Curtis",
+      "mse" = "Mean Squared Error",
+      "mae" = "Mean Absolute Error"
     )
   )
   return(dt)
@@ -267,9 +241,11 @@ read_performance <- function(
 #' @examples
 boxplot_all <- function(
   results_batch_dir,
-  add_dataset_info = "numsamples",
+  add_numsamples = TRUE,
   filename = "boxplot_all.png",
   save = TRUE,
+  error_metrics = c("Bray Curtis", "Mean Squared Error", "Mean Absolute Error"),
+  cluster_types = c("Graph", "IDEC", "Ranked abundance", "Biological function"),
   plot_width = 180,
   plot_height = 185,
   cluster_type_colors = c(
@@ -288,7 +264,7 @@ boxplot_all <- function(
     stop("No results folders found, wrong working directory?")
   }
 
-  d_list <- lapply(runs, read_performance, add_dataset_info)
+  d_list <- lapply(runs, read_performance, add_numsamples = add_numsamples)
   names(d_list) <- runs
   combined <- rbindlist(
     d_list,
@@ -298,6 +274,7 @@ boxplot_all <- function(
     !is.na(cluster_type) & value > 0
   ]
 
+  combined <- combined[error_metric %chin% error_metrics & cluster_type %chin% cluster_types]
   #order datasets by the number of samples (extracted from dataset names)
   combined[,unique(dataset)] %>%
     stringi::stri_extract_all_regex("\\(.*$", "") %>%
@@ -313,7 +290,7 @@ boxplot_all <- function(
 
   # create a list of plots for each error metric
   plot_list <- combined %>%
-    split(.[["error_metric"]]) %>%
+    split(.[["predwindow"]]) %>%
     lapply(
       function(dt) {
         ggplot(
@@ -332,7 +309,7 @@ boxplot_all <- function(
             linewidth = 0.25
           ) +
           facet_grid(
-            rows = vars(error_metric),
+            rows = vars(error_metric, predwindow),
             cols = vars(dataset),
             scales = "free"
           ) +
@@ -364,14 +341,14 @@ boxplot_all <- function(
     ) +
     scale_y_continuous(
       trans = "sqrt",
-      breaks = breaks_pretty(n = 7)
+      breaks = scales::breaks_pretty(n = 7)
     )
 
   # Increase the number of axis breaks for the middle plot
   plot_list[[2]] <- plot_list[[2]] +
   scale_y_continuous(
     trans = "sqrt",
-    breaks = breaks_pretty(n = 7)
+    breaks = scales::breaks_pretty(n = 7)
   )
 
   # The last plot will be at the bottom and
@@ -386,7 +363,7 @@ boxplot_all <- function(
     ) +
     scale_y_continuous(
       trans = "sqrt",
-      breaks = breaks_pretty(n = 7)
+      breaks = scales::breaks_pretty(n = 7)
     ) +
     labs(color = "Clustering type", fill = "Clustering type")
 
@@ -417,7 +394,7 @@ boxplot_all <- function(
 #' @param pattern A regex pattern for file names to search for
 #' @param sample_prefix Prefix for sample names (i.e. true_ or predicted_)
 #'
-#' @return A data.table
+#' @return A (melted) data.table
 #' @export
 #'
 #' @examples
@@ -437,7 +414,7 @@ read_abund <- function(results_dir, pattern, sample_prefix = "") {
     abund_files,
     function(file) {
       #first read each file
-      file <- fread(
+      dt <- fread(
         file,
         sep = ",",
         header = TRUE
@@ -445,34 +422,30 @@ read_abund <- function(results_dir, pattern, sample_prefix = "") {
 
       #melt to be able to rowbind all files
       abund <- melt(
-        file,
-        id.vars = names(file)[[1]],
+        dt,
+        id.vars = names(dt)[[1]],
         variable.name = "OTU",
         value.name = "abundance"
       )
-      abund[[1]] <- paste0(sample_prefix, abund[[1]])
+      # TODO: use stri_extract_all_regex() instead of gsub
+      predwindow <- gsub("^.*_", "", gsub(".csv$", "", file))
+      abund[[1]] <- paste0(sample_prefix, predwindow, "samples_", abund[[1]])
       return(abund)
     }
   )
 
-  abund_dt <- rbindlist(abund_list)
+  abund_long <- rbindlist(abund_list)
 
   #negative abundances doesn't make sense
-  sub_zeros <- abund_dt$abundance < 0L
+  sub_zeros <- abund_long$abundance < 0L
   if (sum(sub_zeros) > 0) {
     warning(
       sum(sub_zeros),
       " negative abundance values have been set to 0"
     )
-    abund_dt$abundance[sub_zeros] <- 0L
+    abund_long$abundance[sub_zeros] <- 0L
   }
-  abund <- dcast(
-    abund_dt,
-    OTU~eval(parse(text = colnames(abund_dt)[1])),
-    value.var = "abundance"
-  )
-
-  return(abund)
+  return(abund_long)
 }
 
 #' @title Read and combine both true and predicted abundance data
@@ -484,38 +457,19 @@ read_abund <- function(results_dir, pattern, sample_prefix = "") {
 #' @return An ampvis2 class object
 #' @export
 #'
-#' @examples
-combine_abund <- function(results_dir, cluster_type) {
-  cluster_types <- c("abund", "func", "idec", "graph")
-  if (length(cluster_type) != 1L || !any(cluster_type %in% cluster_types)) {
+#' @examples fucking ugly but it does the job
+combine_abund <- function(results_dir, cluster_type = "graph") {
+  cluster_types <- tolower(c("abund", "func", "idec", "graph"))
+  if (length(cluster_type) != 1L || !any(tolower(cluster_type) %in% cluster_types)) {
     stop(
       "cluster_type must be one of: ",
       paste0(cluster_types, collapse = ", "))
   }
-  #read predicted abundance tables (from train+val+test)
-  pred_abund <- read_abund(
-    results_dir = results_dir,
-    pattern = paste0("(graph|lstm)_", cluster_type, "_cluster_.+_predicted\\.csv$"),
-    sample_prefix = "pred_"
-  )
+  cluster_type <- tolower(cluster_type)
 
-  #read true abundance tables
-  true_abund <- read_abund(
-    results_dir = results_dir,
-    pattern = paste0("(graph|lstm)_", cluster_type, "_cluster_.+_dataall_nontrans\\.csv$"),
-    sample_prefix = "true_"
-  )
-
-  #read actual future prediction tables
-  future_abund <- read_abund(
-    results_dir = results_dir,
-    pattern = paste0("(graph|lstm)_", cluster_type, "_cluster_.+_actual_prediction\\.csv$"),
-    sample_prefix = "future_"
-  )
-
-  #read dates and sample IDs and use as metadata
-  #dates per sample are the same for all
-  #just use the first file as metadata for all
+  #read dates and sample IDs and use as metadata,
+  #dates per sample are the same for all,
+  #just use the first file as metadata for all abundance tables
   metadata <- fread(
     list.files(
       file.path(results_dir, "data_splits"),
@@ -525,7 +479,10 @@ combine_abund <- function(results_dir, cluster_type) {
       full.names = TRUE
     )[[1]]
   )
-  sampleid_col <- names(metadata)[[1]]
+  # need to be able to reliably distinguish original metadata sample IDs 
+  # and new synthetic ones in order to merge different tables with both
+  metadata_sampleid_col <- colnames(metadata)[[1]]
+  new_metadata_sampleid_col <- paste0(".", metadata_sampleid_col)
 
   #add a split_dataset column with whether
   #the particular dates are used for train, val, or test
@@ -541,99 +498,115 @@ combine_abund <- function(results_dir, cluster_type) {
           dt <- fread(
             file
           )
+          colnames(dt)[[1]] <- metadata_sampleid_col
           dt[, split_dataset := gsub(".*_|\\.csv", "", file)] #train, val, or test #nolint
-          dt
+          return(dt)
         }
       }
     )
   )
 
-  #checks for when data is produced by older versions of the pipeline
+  #checks for when data is produced by older versions of the workflow
   if (sum(dim(metadata_split_datasets)) != 0L) {
     #if using no validation data, it will be identical to test data
     #remove it
     if (
       any(
-        metadata_split_datasets[split_dataset == "val"][[sampleid_col]] %chin%
-        metadata_split_datasets[split_dataset == "test"][[sampleid_col]]
+        metadata_split_datasets[split_dataset == "val"][[metadata_sampleid_col]] %chin%
+        metadata_split_datasets[split_dataset == "test"][[metadata_sampleid_col]]
       )
     ) {
       metadata_split_datasets <- metadata_split_datasets[split_dataset != "val"]
     }
-    metadata <- metadata_split_datasets[metadata, on = c(sampleid_col, "Date")]
+    metadata <- metadata_split_datasets[metadata, on = c(metadata_sampleid_col, "Date")]
   } else if (sum(dim(metadata_split_datasets)) == 0L) {
     metadata[, split_dataset := "predicted"]
   }
 
-  #load predicted, true, and future data
-  predicted_data <- amp_load(
-    otutable = pred_abund,
-    metadata = metadata[
-      ,
-      .(
-        Sample = paste0("pred_", eval(parse(text = sampleid_col))),
-        Date,
-        predicted = "predicted",
-        split_dataset
-      )
-    ],
-    taxonomy = file.path(
-      results_dir,
-      "data_reformatted",
-      "taxonomy_wfunctions.csv"
-    )
+  #read predicted abundance tables (from train+val+test)
+  pred_abund <- read_abund(
+    results_dir = results_dir,
+    pattern = paste0("(graph|lstm)_", cluster_type, "_all_predicted_[0-9]+\\.csv$"),
+    sample_prefix = "pred_"
   )
-  true_data <- amp_load(
-    otutable = true_abund,
-    metadata = metadata[
-      ,
-      .(
-        Sample = paste0("true_", eval(parse(text = sampleid_col))),
-        Date,
-        predicted = "real",
-        #all dates here are from the original data
-        #set before split, not train, val, or test:
-        split_dataset = "real"
-      )
-    ],
-    taxonomy = file.path(
-      results_dir,
-      "data_reformatted",
-      "taxonomy_wfunctions.csv"
-    )
+  colnames(pred_abund)[1] <- new_metadata_sampleid_col
+
+  #read true/historic abundance table (do this AFTER read_abund() has been called at least once above)
+  true_abund <- fread(
+    list.files(
+      file.path(results_dir, "data_predicted"),
+      pattern = paste0("(graph|lstm)_", cluster_type, "_all_dataall_nontrans\\.csv$"),
+      recursive = FALSE,
+      include.dirs = FALSE,
+      full.names = TRUE
+    )[1],
+    sep = ",",
+    header = TRUE
   )
-  future_data <- amp_load(
-    otutable = future_abund,
-    taxonomy = file.path(
-      results_dir,
-      "data_reformatted",
-      "taxonomy_wfunctions.csv"
-    )
+  # prefix sample IDs
+  true_abund[[1]] <- paste0("true_", true_abund[[1]])
+  colnames(true_abund)[[1]] <- new_metadata_sampleid_col
+  true_abund <- melt(
+    true_abund,
+    id.vars = new_metadata_sampleid_col,
+    variable.name = "OTU",
+    value.name = "abundance"
   )
-  # generated estimated future dates based on the sampling interval in the original dataset
-  future_data$metadata$predicted <- "predicted"
-  future_data$metadata$split_dataset <- "future"
-  sampling_interval <- ceiling(mean(diff(sort(unique(true_data$metadata[true_data$metadata$predicted == "real", "Date"])))))
-  future_data$metadata$Date <- max(true_data$metadata$Date) + seq_len(nrow(future_data$metadata)) * sampling_interval
-  future_data$metadata$DummyVariable <- NULL
+  true_metadata <- copy(metadata)
+  true_metadata[[new_metadata_sampleid_col]] <- paste0("true_", true_metadata[[1]])
+  true_metadata[["split_dataset"]] <- "real"
+  true_metadata[["predicted"]] <- "real"
+  true_metadata[["predwindow"]] <- 0L
+
+  # generate predicted metadata
+  pred_metadata <- data.table(unique(pred_abund[[1]]))
+  colnames(pred_metadata)[[1]] <- new_metadata_sampleid_col
+  # be consistent with naming conventions for this regex to work
+  pred_metadata[[metadata_sampleid_col]] <- gsub("^.*[0-9]+samples_", "", pred_metadata[[new_metadata_sampleid_col]])
+  pred_metadata[["predwindow"]] <- as.integer(gsub("samples_.+$", "", gsub("^[^_]+_", "", pred_metadata[[1]])))
+  pred_metadata[["predicted"]] <- "predicted"
+  # merge
+  pred_metadata <- metadata[pred_metadata, on = metadata_sampleid_col]
+  
+  #read actual future prediction tables
+  future_abund <- read_abund(
+    results_dir = results_dir,
+    pattern = paste0("(graph|lstm)_", cluster_type, "_all_actual_prediction_[0-9]+\\.csv$"),
+    sample_prefix = "future_"
+  )
+  colnames(future_abund)[1] <- new_metadata_sampleid_col
+
+  # generate future metadata
+  future_metadata <- data.table(unique(future_abund[[1]]))
+  colnames(future_metadata)[[1]] <- new_metadata_sampleid_col
+  future_metadata[["predwindow"]] <- as.integer(gsub("samples_.+$", "", gsub("^[^_]+_", "", future_metadata[[1]])))
+  future_metadata[["predicted"]] <- "predicted"
+  future_metadata[["split_dataset"]] <- "future"
+  # generate estimated future time stamps based on the sampling interval in the original dataset
+  sampling_interval <- ceiling(mean(diff(sort(unique(true_metadata[predicted == "real", Date])))))
+  future_metadata[, Date := max(true_metadata$Date) + seq_len(.N) * sampling_interval, by = predwindow]
 
   # combine the datasets
-  combined <- amp_merge_ampvis2(
-    predicted_data,
-    true_data,
-    future_data,
-    by_refseq = FALSE
-  )
-
+  abund <- rbindlist(list(true_abund, pred_abund, future_abund), fill = TRUE)
+  metadata <- rbindlist(list(true_metadata, pred_metadata, future_metadata), fill = TRUE)
   # Order dataset type (split_dataset) by real-train-val-test-future
-  combined$metadata$split_dataset <- factor(
-    combined$metadata$split_dataset,
+  metadata[["split_dataset"]] <- factor(
+    metadata[["split_dataset"]],
     levels = c("real", "train", "val", "test", "future")
+  )
+  combined <- amp_load(
+    otutable = dcast(abund, OTU~eval(parse(text = new_metadata_sampleid_col)), value.var = "abundance"),
+    # reorder metadata to have new sample IDs in the first column
+    metadata = metadata[, .SD, by = new_metadata_sampleid_col],
+    taxonomy = file.path(
+      results_dir,
+      "data_reformatted",
+      "taxonomy_wfunctions.csv"
+    )
   )
 
   return(combined)
 }
-
 
 plot_timeseries <- function(
   data,
@@ -701,19 +674,22 @@ plot_timeseries <- function(
       "black",
       "#bd2929",
       "#e0b01c",
-      "#16a085"
+      "#16a085",
+      "blue"
     )[1:data[, length(unique(split_dataset))]],
     labels = c(
       real = "Real",
       train = "Prediction-Train",
       val = "Prediction-Validation",
-      test = "Prediction-Test"
+      test = "Prediction-Test",
+      future = "Prediction-Future"
     )[1:data[, length(unique(split_dataset))]],
     breaks = c(
       "real",
       "train",
       "val",
-      "test"
+      "test",
+      "future"
     )[1:data[, length(unique(split_dataset))]]
   ) +
   #breaks should start from january, regardless of data
@@ -756,12 +732,15 @@ plot_timeseries <- function(
 }
 
 plot_obs_pred <- function(ampvis2_long) {
-  # cast dataset
+  # cast dataset, dynamic sample ID col
+  ampvis2_long <- ds
+  sampleid_col <- gsub("^\\.", "", colnames(ampvis2_long)[[1]])
   carsten <- dcast(
-    ampvis2_long[, Sample := gsub("true_|pred_", "", Sample)],
-    Sample + OTU ~ predicted,
-    value.var = "count"
-  )[!is.na(predicted)]
+    ampvis2_long[!is.na(eval(parse(text = sampleid_col)))], #[, .thiscolnamewillprobablynotbutmostlikelyneverbeseeninanydataset := gsub("true_|pred_", "", eval(parse(text = sampleid_col)))],
+    eval(parse(text = sampleid_col)) + OTU ~ predicted,
+    value.var = "count",
+    fun.aggregate = sum
+  )[!is.na(predicted) & predicted > 0 & !is.na(real) & real > 0]
 
   #calc trendline/regression between obs+pred for each OTU
   trendy_carsten <- carsten[
@@ -780,9 +759,9 @@ plot_obs_pred <- function(ampvis2_long) {
     },
     by = OTU
   ]
-  d <- carsten
+
   ggplot(
-    d,
+    carsten,
     aes(x = predicted, y = real)
   ) +
     geom_point() +
