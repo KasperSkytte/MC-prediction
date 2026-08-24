@@ -1,4 +1,6 @@
 #!/bin/bash -l
+# run using fx:
+# rm -rf results; sbatch --job-name mc-prediction --output=/dev/null --cpus-per-task 2 --mem 8G --wrap "apptainer exec --no-home --cleanenv mc-prediction.sif conda run -n mc-prediction bash ./run.bash"
 set -eu
 #set timezone
 export TZ="Europe/Copenhagen"
