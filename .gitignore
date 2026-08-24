@@ -145,7 +145,6 @@ analysis_Rproj/analysis_files/
 
 *.html
 
-renv/
 
 ansible-venv/
 

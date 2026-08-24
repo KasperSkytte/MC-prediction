@@ -33,7 +33,7 @@ ENV PIP_EXTRA_INDEX_URL 'https://pypi.nvidia.com'
 ENV CONDA_DIR /opt/conda
 ENV PATH=${CONDA_DIR}/bin:$PATH
 
-COPY renv.lock environment.yml /opt/
+COPY environment.yml /opt/
 
 RUN export DEBIAN_FRONTEND=noninteractive \
 && apt-get update -qqy \
@@ -74,17 +74,13 @@ RUN wget --quiet https://github.com/conda-forge/miniforge/releases/download/24.1
 # Make RUN commands use the new environment
 SHELL ["conda", "run", "-n", "mc-prediction", "/bin/bash", "-c"]
 
-#install R pkgs from lock file
-RUN R -e "renv::restore(clean = TRUE, lockfile = '/opt/renv.lock', prompt = FALSE)"
-
 # clean up after yourself, mommy doesn't work here
 RUN export DEBIAN_FRONTEND=noninteractive \
   && apt-get update -qqy \
   && apt-get clean -y \
   && rm -rf \
     /tmp/* \
-    /opt/environment.yml \
-    /opt/renv.lock
+    /opt/environment.yml
 
 # Install (minimal) LaTeX binaries for R, for the default user only
 RUN R -e "tinytex::install_tinytex()"

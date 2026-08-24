@@ -21,12 +21,17 @@ Adjust the settings in `config.json` and then run the wrapper script `run.bash`.
 apptainer exec --no-home --cleanenv  docker://ghcr.io/kasperskytte/mc-prediction:main conda run -n mc-prediction bash ./run.bash
 ```
 
+Note that the workflow is currently NOT included in the container, so you need to clone this repo first.
+
 ## Requirements
 ### Data
 The required data must be in the typical amplicon data format with an abundance table for each ASV/OTU, taxonomy table, and sample metadata. The sample metadata **must contain** at least one variable with **sampling dates** in year-month-day format. As long as the data can be loaded succesfully using the [ampvis2](https://kasperskytte.github.io/ampvis2/) R package, everything should "just run" as long as there is enough data (preferably 100+, but ideally more samples). The data and results used for the article is available under `data/` and can be used as example data.
 
 ### Python and R packages
-Use the conda `environment.yml` file to create an environment with the required software. To installed required R packages, use the `renv.lock` file to restore the R library using the [`renv`](https://rstudio.github.io/renv/articles/renv.html) package.
+Use the conda `environment.yml` file to create an environment with all required software, both Python and R packages:
+```
+conda env create -f environment.yml
+```
 For GPU support ensure you have a version of Tensorflow that matches your nvidia drivers and CUDA. It's also necessary to set an environment variable before creating the environment in order to install some required NVIDIA dependencies for network inference: `export PIP_EXTRA_INDEX_URL='https://pypi.nvidia.com'`.
 
 ### Docker container

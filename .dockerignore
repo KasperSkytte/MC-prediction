@@ -2,6 +2,5 @@
 **
 
 #except env files
-!renv.lock
 !environment.yml
 !.devcontainer/
