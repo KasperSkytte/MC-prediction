@@ -3,7 +3,7 @@
 # MC-prediction
 Predicting microbial community dynamics from time series of environmental samples using graph neural network models. Community abundance data is all that's needed, but supplementing it with environmental variables such as temperature measurements can improve prediction accuracy. Accurate predictions as far as 6 months or more into the future have been obtained. Initially developed for data from activated sludge from full-scale wastewater treatment plants, but works just as well on data from other environments as well, such as the human gut, as demonstrated in the published article. The prediction models themselves are implemented in Python, while R is used to pre-format the data and analyze the results.
 
-Now with a **new and improved model design** that is even more accurate compared to the one used in the published article.
+✨ Now with a **new and improved model design** that is even more accurate compared to the one used in the published article.
 
 Published Nature Communications article here: https://www.nature.com/articles/s41467-025-64175-7
 
