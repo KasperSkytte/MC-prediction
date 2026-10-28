@@ -1,0 +1,68 @@
+---
+title: "Time series and observed vs. predicted - Aalborg Vest-LT1"
+author: "KSA"
+date: "`r format(Sys.time(), '%Y-%m-%d')`"
+output: md_document
+params:
+  results_dir: "results/Aalborg Vest-LT1"
+  cluster_type: "graph"
+  # prediction window (number of samples ahead) to show, one of 1, 5, 10, 15, 20
+  predwindow: 10
+  # regex matched against the OTU column
+  OTU_regex: "^FLASV3\\.1527;|^FLASV9592\\.1533;|^FLASV4\\.1481;"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  message = FALSE,
+  warning = FALSE,
+  error = FALSE,
+  fig.width = 12,
+  fig.height = 5,
+  cache = FALSE
+)
+
+# when knitting the working directory is always the folder of the Rmd file
+if (interactive() && !grepl("analysis$", getwd())) {
+  setwd("analysis")
+}
+
+library("ampvis2")
+library("data.table")
+library("patchwork")
+library("lubridate")
+library("tune")
+
+source("functions.R")
+set.seed(42)
+```
+
+Real and predicted relative abundance over time (left), and real vs. predicted abundance (right) for selected ASVs in `r basename(params$results_dir)`, predicting `r params$predwindow` samples ahead. The vertical line marks the start of the test period. Plots are also saved as PNG files in the `figures` subfolder of the results.
+
+```{r load}
+long <- amp_export_long(
+  combine_abund(params$results_dir, params$cluster_type, params$predwindow)
+)
+OTUs <- unique(long[grepl(params$OTU_regex, OTU), OTU])
+```
+
+```{r plots, results="asis"}
+for (otu in OTUs) {
+  plot <- plot_ts_obs_pred(long[OTU == otu])
+
+  ggsave(
+    file.path(
+      params$results_dir,
+      "figures",
+      paste0(sub(";.*$", "", otu), "_predwindow", params$predwindow, ".png")
+    ),
+    plot = plot,
+    width = 12,
+    height = 5
+  )
+
+  cat("\n\n# ", otu_label(otu), "\n\n", sep = "")
+  print(plot)
+}
+```

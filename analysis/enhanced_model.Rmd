@@ -1,8 +1,18 @@
 ---
-title: "enhanced model"
+title: "Enhanced model"
 author: "KSA"
 date: "`r format(Sys.time(), '%Y-%m-%d')`"
 output: md_document
+params:
+  # one subfolder per WWTP, each produced by run.bash
+  batch_dir: "results/enhanced"
+  # same as batch_dir, but with temperature and timestamps as model input
+  batch_dir_wtemp: "results/enhanced_wtemp"
+  # Mariagerfjord predicted with different prediction windows
+  predwindow_dir: "results/predwindow_mariagerfjord"
+  cluster_type: "graph"
+  # prediction window (number of samples ahead) used for the examples
+  predwindow: 10
 ---
 
 ```{r setup, include=FALSE}
@@ -16,576 +26,184 @@ knitr::opts_chunk$set(
   cache = FALSE
 )
 
-#when knitting will always be done in the context of the Rmd file, otherwise not
-if (interactive()) {
-  if (!grepl("analysis$", getwd())) {
-    setwd("analysis")
-  }
-} else {
-  renv::load("..")
+# when knitting the working directory is always the folder of the Rmd file
+if (interactive() && !grepl("analysis$", getwd())) {
+  setwd("analysis")
 }
 
-require("ampvis2")
-require("data.table")
-require("patchwork")
-require("lubridate")
-require("tune")
+library("ampvis2")
+library("data.table")
+library("patchwork")
+library("lubridate")
+library("tune")
 
 source("functions.R")
 set.seed(42)
-# main batch run using run_loopdatasets.bash or run_predwindows.bash
-# wrapper scripts. Prediction windows tests are hard coded
-results_batch_dir <- "results/enhanced"
-
-# cluster type to use for examples
-cluster_type <- "graph"
-
-cluster_type_colors <- c(
-  "Biological function" = "#422537",
-  "Graph" = "#D58078",
-  "IDEC" = "#86A556",
-  "Ranked abundance" = "#624FB0"
-)
-dataset_colors <- c(
-  "Real" = "#000000",
-  "Prediction - Train" = "#bd2929" ,
-  "Prediction - Validation" = "#e0b01c",
-  "Prediction - Test" = "#16a085"
-)
 ```
+
+Figures for the paper. The results folders and the prediction window used for the examples are set in the YAML header. Each figure is saved as a PDF/PNG together with a CSV file of the data behind it, next to the results it's made from.
 
 # Prediction accuracy across WWTPs
-## Bray-Curtis only
-```{r}
-bp_all_list <- boxplot_all(
-  "results/enhanced",
-  save = TRUE,
-  error_metrics = "Bray Curtis",
-  cluster_types = "Graph",
-  plot_width = 360,
-  plot_height = 370
-)
-bp_all_list <- boxplot_all(
-  "results/enhanced_wtemp",
-  save = TRUE,
-  error_metrics = "Bray Curtis",
-  cluster_types = "Graph",
-  plot_width = 360,
-  plot_height = 370
-)
 
+Bray-Curtis dissimilarity between real and predicted abundances for each graph cluster. One row per prediction window, one column per WWTP (number of samples in parentheses).
+
+```{r accuracy, fig.width=14, fig.height=14}
+accuracy <- boxplot_all(
+  params$batch_dir,
+  error_metrics = "Bray Curtis",
+  cluster_types = "Graph",
+  plot_width = 360,
+  plot_height = 370
+)
+accuracy
 ```
 
-# Viby test
-```{r}
-#results_dir <- "/home/bio.aau.dk/ksa/projects/midasdashboard/data-raw/prediction/output/predictions/Viby-3"
-#results_dir <- "/home/bio.aau.dk/ksa/projects/midasdashboard/data-raw/prediction/output/predictions/Aalborg Vest-LT1"
-#OTU_regex <- "^FLASV3\\." # Ca. Microthrix parvicella
-results_dir <- "results/enhanced/Aalborg W"
-OTU_regex <- "^ASV2;" # Ca. Microthrix parvicella
+## With temperature and timestamps as input
 
-d <- amp_export_long(
-  combine_abund(
-    results_dir
-  )
+```{r accuracy_wtemp, fig.width=14, fig.height=14}
+accuracy_wtemp <- boxplot_all(
+  params$batch_dir_wtemp,
+  error_metrics = "Bray Curtis",
+  cluster_types = "Graph",
+  plot_width = 360,
+  plot_height = 370
 )
-# historic/real values all have 0 in predwindow
-ds <- d[grepl(OTU_regex, OTU) & (predwindow == 0 | predwindow == 10)]
+accuracy_wtemp
+```
 
-plot <- plot_timeseries(
-  ds,
-  save = FALSE
-) +
-  theme(
-    legend.position = "bottom",
-    legend.text = element_text(size = 10, hjust = 1)
-  ) +
-  ggtitle(ds$OTU[[1]]) +
-  plot_obs_pred(
-    ds[!split_dataset %chin% "future"]
-  ) +
-  plot_layout(widths = c(3, NA))
+# Example: a single ASV
 
+Real and predicted relative abundance of *Ca.* Microthrix parvicella (ASV2) in Aalborg W over time (left), and real vs. predicted abundance (right). The vertical line marks the start of the test period.
+
+```{r single_asv, fig.height=5}
+aalborg_w_dir <- file.path(params$batch_dir, "Aalborg W")
+aalborg_w <- amp_export_long(
+  combine_abund(aalborg_w_dir, params$cluster_type, params$predwindow)
+)
+microthrix <- aalborg_w[grepl("^ASV2;", OTU)]
+
+single_asv <- plot_ts_obs_pred(microthrix)
+single_asv
 ggsave(
-  file.path(results_dir, paste0(unique(gsub(";.*$", "", ds$OTU)), ".png")),
-  plot = plot,
+  file.path(aalborg_w_dir, "ASV2.png"),
+  plot = single_asv,
   width = 12,
   height = 5
 )
 ```
 
-## Mariagerfjord (Figure 6)
-```{r}
-bp_mar_predwin_list <- boxplot_all(
-  "results/predwindow_mariagerfjord",
-  add_dataset_info = "predwindow",
-  save = FALSE
+# Figure 3: Time series examples
+
+The same plot for three ASVs from Aalborg Vest-LT1.
+
+```{r figure3}
+figure3_dir <- "results/Aalborg Vest-LT1"
+figure3_asvs <- c("FLASV3.1527", "FLASV9592.1533", "FLASV4.1481")
+
+figure3_long <- amp_export_long(
+  combine_abund(figure3_dir, params$cluster_type, params$predwindow)
+)
+figure3_data <- lapply(
+  figure3_asvs,
+  function(asv) figure3_long[startsWith(OTU, paste0(asv, ";"))]
 )
 
-bp_mar_predwin_list[["Bray Curtis"]] <- bp_mar_predwin_list[["Bray Curtis"]] +
+figure3 <- stack_ts_obs_pred(figure3_data)
+figure3
+save_figure(
+  figure3,
+  data = rbindlist(figure3_data),
+  path = file.path(figure3_dir, "Figure 3.pdf")
+)
+```
+
+# Figure 5: PCoA
+
+PCoA (Bray-Curtis) of real and predicted samples from Mariagerfjord. Each line connects a real sample with the prediction for the same date.
+
+```{r figure5, fig.width=10}
+figure5 <- plot_pcoa(
+  file.path(params$batch_dir, "Mariagerfjord"),
+  cluster_type = params$cluster_type,
+  predwindow = params$predwindow
+)
+figure5
+save_figure(
+  figure5,
+  data = figure5$data,
+  path = file.path(params$batch_dir, "Figure 5.pdf")
+)
+```
+
+# Figure 6: Prediction accuracy vs. prediction window
+
+Bray-Curtis dissimilarity between real and predicted abundances for each graph cluster in Mariagerfjord, by how many samples ahead were predicted.
+
+```{r figure6, fig.width=8, fig.height=6}
+predwindow_runs <- list.dirs(params$predwindow_dir, recursive = FALSE)
+
+figure6_data <- rbindlist(
+  lapply(predwindow_runs, read_performance, add_numsamples = FALSE)
+)[cluster_type == "Graph" & error_metric == "Bray Curtis" & value > 0]
+
+figure6 <- ggplot(figure6_data, aes(factor(predwindow), value)) +
+  geom_boxplot(color = "#D58078", fill = "#D58078", alpha = 0.4) +
   scale_y_continuous(
     trans = "sqrt",
     breaks = c(0.0, 0.05, 0.1, 0.15, 0.2, 0.3, 0.5, 0.7)
-  ) + expand_limits(y = 0.0)
-bp_mar_predwin_list[["Mean Absolute Error"]] <- bp_mar_predwin_list[["Mean Absolute Error"]] +
-  scale_y_continuous(
-    trans = "sqrt",
-    breaks = c(0.0, 0.5, 1.0, 2.0, 3.0, 4.0)
-  ) + expand_limits(y = 0.0)
-bp_mar_predwin_list[["Mean Squared Error"]] <- bp_mar_predwin_list[["Mean Squared Error"]] +
-  scale_y_continuous(
-    trans = "sqrt",
-    breaks = c(0, 1, 5, 10, 20, 30, 50, 80)
-  ) + expand_limits(y = 0.0)
-bp_mar_predwin_plot <- purrr::reduce(
-  bp_mar_predwin_list,
-  `/`
-)
-
-bp_mar_predwin_bc <- bp_mar_predwin_list[["Bray Curtis"]] +
-  theme(legend.position = "bottom")
-bp_mar_predwin_bc$data$dataset <- gsub("[^0-9]", "", bp_mar_predwin_bc$data$dataset)
-order <- order(as.numeric(unique(bp_mar_predwin_bc$data$dataset)))
-bp_mar_predwin_bc$data$dataset <- paste(bp_mar_predwin_bc$data$dataset, "samples")
-levels <- unique(bp_mar_predwin_bc$data$dataset)[order]
-bp_mar_predwin_bc$data$dataset <- factor(bp_mar_predwin_bc$data$dataset, levels = levels)
-
-ggsave(
-  "results/predwindow_mariagerfjord/Figure 6.pdf",
-  plot = bp_mar_predwin_bc,
+  ) +
+  expand_limits(y = 0) +
+  labs(x = "Prediction window (samples ahead)", y = "Bray Curtis") +
+  theme_bw()
+figure6
+save_figure(
+  figure6,
+  data = figure6_data,
+  path = file.path(params$predwindow_dir, "Figure 6.pdf"),
   width = 180,
-  height = 180,
-  units = "mm",
-  dpi = 600
-)
-
-# write out plot data
-fwrite(
-  bp_mar_predwin_bc$data,
-  "results/predwindow_mariagerfjord/Figure 6.csv"
-)
-ggsave(
-  "results/predwindow_mariagerfjord/boxplot_all.pdf",
-  plot = bp_mar_predwin_plot,
-  width = 180,
-  height = 180,
-  units = "mm",
-  dpi = 600
+  height = 180
 )
 ```
 
-## Timeseries examples (predwindow) (Figure 7 + Figure S8)
-```{r}
-dir <- "results/predwindow_mariagerfjord"
-runs <- list.dirs(
-  dir,
-  recursive = FALSE,
-  full.names = TRUE
-)
-predwindowtest <- lapply(
-  runs,
-  function(rundir) {
-    d <- amp_export_long(
-      combine_abund(
-        rundir,
-        cluster_type = cluster_type
-      ),
-      tax_levels = "OTU",
-      metadata_vars = c("Date", "split_dataset", "predicted")
-    )
-    d[, dataset := basename(rundir)]
-  }
-)
-d <- rbindlist(predwindowtest)
-d[, dataset := gsub("^[^0-9]* +", "", dataset)]
-d[, dataset := factor(
-  dataset,
-  levels = unique(dataset)[order(as.integer(gsub("[^0-9]*", "", unique(dataset))))])
-]
+# Figure 7 and S8: Time series by prediction window
 
-#ASV1
-ASV1 <- d[grepl("^ASV1;", OTU)]
-plots <- lapply(
-  split(ASV1, ASV1$dataset),
-  function(dataset) {
-    plot_timeseries(
-      dataset,
-      save = FALSE
-    ) +
-    theme(
-      legend.position = "none",
-      axis.text.x = element_blank(),
-      axis.ticks.x = element_blank(),
-      axis.title.y = element_blank()
-    ) +
-    ggtitle(unique(dataset$dataset)) +
-    plot_obs_pred(dataset) +
-    theme(
-      axis.title = element_blank()
-    ) +
-    scale_y_continuous(position = "right")
-  }
-)
-# legend and axis ticks for the last plot
-plots[[length(plots)]][[1]] <- plots[[length(plots)]][[1]] +
-  theme(
-    legend.position = "bottom",
-    legend.text = element_text(size = 16),
-    axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5),
-    axis.ticks.x = element_line()
-  )
-plots[[length(plots)]][[2]] <- plots[[length(plots)]][[2]] +
-  theme(axis.title.x = element_text(size = 14))
-plots[[3]][[1]] <- plots[[3]][[1]] +
-  theme(
-    axis.title.y = element_text(size = 14)
-  )
-plots[[3]][[2]] <- plots[[3]][[2]] +
-  theme(
-    axis.title.y = element_text(size = 14)
-  )
+Real and predicted abundance of a single ASV in Mariagerfjord, one row per prediction window.
 
-plot_asv1 <- wrap_plots(
-  plots,
-  ncol = 1,
-  heights = 4,
-  widths = c(6, 2),
-  guides = "auto"
+```{r predwindow_data}
+predwindow_long <- lapply(
+  predwindow_runs,
+  function(run) amp_export_long(combine_abund(run, params$cluster_type))
 )
+```
 
-ggsave(
-  file = file.path(
-    dir,
-    "Figure 7.pdf"
-  ),
-  plot = plot_asv1,
+## Figure 7: ASV1
+
+```{r figure7, fig.height=14}
+figure7_data <- predwindow_panels(predwindow_long, "^ASV1;")
+figure7 <- stack_ts_obs_pred(figure7_data) +
+  plot_annotation(title = otu_label(figure7_data[[1]]$OTU[[1]]))
+figure7
+save_figure(
+  figure7,
+  data = rbindlist(figure7_data, idcol = "panel"),
+  path = file.path(params$predwindow_dir, "Figure 7.pdf"),
   width = 300,
-  height = 350,
-  units = "mm",
-  dpi = 600
+  height = 350
 )
+```
 
-# write out plot data, for once a for loop is useful
-for (i in seq_along(plots)) {
-  fwrite(
-    plots[[i]]$data,
-    file.path(
-      dir,
-      paste0("Figure 7 - ", names(plots[i]), ".csv")
-    )
-  )
-}
+## Figure S8: ASV24
 
-#ASV2
-
-#ASV24 (COPY PASTED FROM ASV1, sorry, but just for the submission, once in a lifetime)
-ASV24 <- d[grepl("^ASV24;", OTU)]
-plots <- lapply(
-  split(ASV24, ASV24$dataset),
-  function(dataset) {
-    plot_timeseries(
-      dataset,
-      save = FALSE
-    ) +
-    theme(
-      legend.position = "none",
-      axis.text.x = element_blank(),
-      axis.ticks.x = element_blank(),
-      axis.title.y = element_blank()
-    ) +
-    ggtitle(unique(dataset$dataset)) +
-    plot_obs_pred(dataset) +
-    theme(
-      axis.title = element_blank()
-    ) +
-    scale_y_continuous(position = "right")
-  }
-)
-# legend and axis ticks for the last plot
-plots[[length(plots)]][[1]] <- plots[[length(plots)]][[1]] +
-  theme(
-    legend.position = "bottom",
-    legend.text = element_text(size = 16),
-    axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5),
-    axis.ticks.x = element_line()
-  )
-plots[[length(plots)]][[2]] <- plots[[length(plots)]][[2]] +
-  theme(axis.title.x = element_text(size = 14))
-plots[[3]][[1]] <- plots[[3]][[1]] +
-  theme(
-    axis.title.y = element_text(size = 14)
-  )
-plots[[3]][[2]] <- plots[[3]][[2]] +
-  theme(
-    axis.title.y = element_text(size = 14)
-  )
-
-plot_asv24 <- wrap_plots(
-  plots,
-  ncol = 1,
-  heights = 4,
-  widths = c(6, 2),
-  guides = "auto"
-)
-
-ggsave(
-  file = file.path(
-    dir,
-    "Figure S8.png"
-  ),
-  plot = plot_asv24,
+```{r figureS8, fig.height=14}
+figureS8_data <- predwindow_panels(predwindow_long, "^ASV24;")
+figureS8 <- stack_ts_obs_pred(figureS8_data) +
+  plot_annotation(title = otu_label(figureS8_data[[1]]$OTU[[1]]))
+figureS8
+save_figure(
+  figureS8,
+  data = rbindlist(figureS8_data, idcol = "panel"),
+  path = file.path(params$predwindow_dir, "Figure S8.png"),
   width = 300,
-  height = 350,
-  units = "mm",
-  dpi = 600
+  height = 350
 )
-
-# write out plot data, for once a for loop is useful
-for (i in seq_along(plots)) {
-  fwrite(
-    plots[[i]]$data,
-    file.path(
-      dir,
-      paste0("Figure S8 - ", names(plots[i]), ".csv")
-    )
-  )
-}
-```
-
-# PCoA (all WWTPs loop) (Figure 5)
-```{r PCOA_colored_all}
-wwtp_results_dirs <- list.dirs(
-  results_batch_dir,
-  full.names = TRUE,
-  recursive = FALSE
-)[18]
-
-plots <- lapply(
-  wwtp_results_dirs,
-  function(wwtp) {
-    plot <- wwtp %>%
-      combine_abund(cluster_type = cluster_type) %>%
-      amp_ordinate(
-        type = "pcoa",
-        distmeasure = "bray",
-        transform = "none",
-        filter_species = 0,
-        sample_color_by = "split_dataset",
-        sample_trajectory = "Date",
-        sample_trajectory_group = "Date"
-      ) +
-      scale_color_manual(
-        values = unname(dataset_colors), #c("grey80", RColorBrewer::brewer.pal(3, "Set2")[c(2,3,1)]),
-        labels = c(
-          real = "Real",
-          train = "Prediction - Train",
-          val = "Prediction - Validation",
-          test = "Prediction - Test"
-        ),
-        breaks = c(
-          "real",
-          "train",
-          "val",
-          "test"
-        )
-      ) +
-      scale_x_continuous(breaks = scales::breaks_pretty(n = 3)) +
-      scale_y_continuous(breaks = scales::breaks_pretty(n = 3)) +
-      theme(
-        legend.title = element_blank(),
-        legend.text = element_text(size = 16),
-        axis.text = element_text(size = 16),
-        axis.title = element_text(size = 16),
-        legend.position = "bottom"
-      ) +
-      coord_fixed(ratio = 1)
-
-    # real_data <- data.table(plot$data)[predicted == "real"]
-    # # extract first and last row (corresponds to first and last sample in time)
-    # labels_data <- rbindlist(list(real_data[1, ], real_data[.N, ]))
-    # plot <- plot + geom_text(aes(label = Date, color = "black"), data = labels_data)
-
-    ggsave(
-      filename = file.path(
-        results_batch_dir,
-        paste0("PCoA - ", basename(wwtp), ".pdf")
-      ),
-      plot = plot,
-      width = 250,
-      height = 250,
-      units = "mm",
-      dpi = 600
-    )
-    return(plot)
-  }
-)
-names(plots) <- basename(wwtp_results_dirs)
-#hideme <- lapply(plots, print)
-
-# save Mariagerfjord plot again to make it clear that it's Figure 5 for the paper
-ggsave(
-  filename = file.path(
-    results_batch_dir,
-    "Figure 5.pdf"
-  ),
-  plot = plots[["Mariagerfjord"]],
-  width = 250,
-  height = 250,
-  units = "mm",
-  dpi = 600
-)
-
-# write out plot data
-fwrite(
-  plots[["Mariagerfjord"]]$data,
-  file.path(results_batch_dir, "Figure 5.csv")
-)
-```
-
-
-# Time Series examples (Figure 3)
-```{r timeseries}
-wwtp_results_dirs <- list.dirs(
-  results_batch_dir,
-  full.names = TRUE,
-  recursive = FALSE
-)
-
-# overwriting again to select only the one used in the paper
-wwtp_results_dirs <- "/home/bio.aau.dk/ksa/projects/midasdashboard/data-raw/prediction/output/predictions/Viby-3"
-
-#list of all data (train+val+test) from all WWTPs
-plots <- lapply(
-  wwtp_results_dirs,
-  function(wwtp) {
-    combined <- combine_abund(
-      wwtp,
-      cluster_type = cluster_type
-    )
-    long <- amp_export_long(
-      combined,
-      tax_levels = "OTU",
-      metadata_vars = c("Date", "split_dataset", "predicted")
-    )
-    
-    #check normal distribution
-    #qqplot(ASV1, rnorm(1000, mean = mean(ASV1), sd = sd(ASV1)))
-    #qqplot(ASV2, rnorm(1000, mean = mean(ASV2), sd = sd(ASV2)))
-    FLASV3 <- long[grepl("^FLASV3.1527;", OTU)]
-    if(nrow(ASV1) > 0) {
-      #time series plot
-      plot_ts_asv1 <- plot_timeseries(ASV1, save = FALSE) +
-        theme(
-          legend.position = "none",
-          axis.text.x = element_blank(),
-          axis.ticks.x = element_blank(),
-          axis.title.y = element_blank()
-        ) +
-        ggtitle("ASV1 - Tetrasphaera midas_s_5") +
-        scale_y_continuous(breaks = scales::breaks_pretty(n = 5))
-
-      # obs vs pred plot
-      plot_obs_pred_asv1 <- plot_obs_pred(ASV1)
-    } else {
-      plot_ts_asv1 <- plot_spacer()
-      plot_obs_pred_asv1 <- plot_spacer()
-    }
-
-    ASV2 <- long[grepl("^FLASV9592.1533;", OTU)]
-    if(nrow(ASV2) > 0) {
-      plot_ts_asv2 <- plot_timeseries(ASV2, save = FALSE) +
-        theme(
-          legend.position = "none",
-          axis.text.x = element_blank(),
-          axis.ticks.x = element_blank()
-        ) +
-        ggtitle("ASV2 - Ca. Microthrix parvicella") +
-        scale_y_continuous(breaks = scales::breaks_pretty(n = 5))
-      
-      # obs vs pred plot
-      plot_obs_pred_asv2 <- plot_obs_pred(ASV2)
-    } else {
-      plot_ts_asv2 <- plot_spacer()
-      plot_obs_pred_asv2 <- plot_spacer()
-    }
-
-    ASV24 <- long[grepl("^FLASV4.1481;", OTU)]
-    if(nrow(ASV24) > 0) {
-      plot_ts_asv24 <- plot_timeseries(ASV24, save = FALSE) +
-        theme(
-          legend.position = "bottom",
-          legend.text = element_text(size = 12),
-          axis.title.y = element_blank()
-        ) +
-        ggtitle("ASV24 - Nitrospira defluvii") +
-        scale_y_continuous(breaks = scales::breaks_pretty(n = 5))
-      
-      # obs vs pred plot
-      plot_obs_pred_asv24 <- plot_obs_pred(ASV24)
-    } else {
-      plot_ts_asv24 <- plot_spacer()
-      plot_obs_pred_asv24 <- plot_spacer()
-    }
-
-    plot <- plot_ts_asv1 + plot_obs_pred_asv1 +
-      plot_ts_asv2 + plot_obs_pred_asv2 +
-      plot_ts_asv24 + plot_obs_pred_asv24 +
-      plot_layout(
-        ncol = 2,
-        nrow = 3,
-        heights = 4,
-        widths = c(
-          6, 2,
-          6, 2,
-          6, 2
-        )
-      )
-    ggsave(
-      plot = plot,
-      filename = file.path(
-        results_batch_dir,
-        paste0("timeseries example - ", basename(wwtp), ".pdf")
-      ),
-      width = 250,
-      height = 250,
-      units = "mm",
-      dpi = 600
-    )
-
-    #plot_timeseries(ASV1, save = TRUE)
-    #plot_timeseries(ASV2, save = TRUE)
-    #plot_timeseries(ASV3, save = TRUE)
-    return(plot)
-  }
-)
-names(plots) <- basename(wwtp_results_dirs)
-
-# save Mariagerfjord plot again to make it clear that it's Figure 3 for the paper
-ggsave(
-  filename = file.path(
-    results_batch_dir,
-    "Figure 3.pdf"
-  ),
-  plot = plots[["Mariagerfjord"]],
-  width = 250,
-  height = 250,
-  units = "mm",
-  dpi = 600
-)
-
-# write out plot data
-for (i in seq(1,6,2)) {
-  fwrite(
-    plots[["Mariagerfjord"]][[i]]$data,
-    file.path(
-      dir,
-      paste0(
-        "Figure 3 - ",
-        gsub(";.*", "", unique(plots[["Mariagerfjord"]][[i]]$data$OTU)),
-        ".csv"
-      )
-    )
-  )
-}
-
 ```

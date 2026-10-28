@@ -1,0 +1,29 @@
+Bootstrap: docker
+From: mambaorg/micromamba:2.0.5
+
+# Minimal R environment for knitting the Rmd files in analysis/
+# Build: apptainer build analysis/rmarkdown.sif analysis/rmarkdown.def
+# Knit:  apptainer exec analysis/rmarkdown.sif Rscript -e 'rmarkdown::render("analysis/<file>.Rmd")'
+
+%post
+  micromamba install -y -n base -c conda-forge -c bioconda \
+    r-base=4.4 \
+    bioconda::r-ampvis2 \
+    r-data.table \
+    r-ggplot2 \
+    r-patchwork \
+    r-lubridate \
+    r-tune \
+    r-rmarkdown \
+    r-knitr \
+    r-ragg \
+    r-igraph \
+    r-tidygraph \
+    r-ggraph \
+    pandoc
+  micromamba clean -a -y
+
+%environment
+  export PATH=/opt/conda/bin:$PATH
+  export LANG=C.UTF-8
+  export LC_ALL=C.UTF-8

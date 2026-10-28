@@ -1,83 +1,23 @@
-#' @title Function to plot prediction accuracy for each clustering type
-#'
-#' @param results_dir Output results folder as produced from a single run of run.bash
-#' @param tablename Name of object assigned to the global environment
-#'
-#' @return
-#' @export
-#'
-#' @examples
-plot_performance <- function(results_dir, tablename = "performance_table") {
-  files <- list.files(
-    results_dir,
-    pattern = ".*_performance.txt",
-    full.names = TRUE
-  )
-  list <- lapply(
-    files,
-    function(filepath) {
-      dt <- fread(filepath)
-      colnames(dt) <- gsub("[\\['\\]]*", "", colnames(dt))
-      dt[, cluster := gsub(":.*$", "", `bray-curtis`)]
-      dt <- dt[
-        ,
-        lapply(
-          .SD,
-          gsub,
-          pattern = "^[0-9]+:.*\\[|\\]$",
-          replacement = ""
-        )
-      ]
-      dt <- dt[
-        ,
-        lapply(.SD, as.numeric)
-      ]
-      dt <- melt(
-        dt,
-        id.vars = "cluster",
-        variable.name = "errorfunc",
-        value.name = "value"
-      )
-      dt[
-        ,
-        clustertype := tools::file_path_sans_ext(basename(filepath))
-      ]
-      dt[
-        ,
-        name := basename(results_dir)
-      ]
-      dt
-    }
-  )
-  dt <- rbindlist(list)
-  if (!exists(tablename, .GlobalEnv)) {
-    assign(tablename, dt, .GlobalEnv)
-  } else {
-    assign(
-      tablename,
-      rbindlist(list(get(tablename, .GlobalEnv), dt)),
-      .GlobalEnv
-    )
-  }
-  plot <- ggplot(
-    dt,
-    aes(
-      x = cluster,
-      y = value,
-      group = clustertype,
-      color = clustertype,
-      fill = clustertype
-    )
-  ) +
-    geom_col(position = "dodge2") +
-    scale_color_brewer(palette = "Set2") +
-    facet_grid(rows = vars(errorfunc), cols = vars(clustertype)) +
-    ylim(0, 1)
-  print(plot)
-  cluster_info_file <- file.path(results_dir, "clusters.txt")
-  if(file.exists(cluster_info_file))
-    cli::cat_line(readLines(cluster_info_file))
-}
+# Helper functions sourced by the R markdown files in this folder.
+# Requires ampvis2, data.table, ggplot2, patchwork, lubridate and tune to be
+# attached, and igraph, tidygraph and ggraph to be installed for plot_graph().
+
+# Colors and legend labels for real data and each part of the predicted data,
+# in the order they should appear in legends
+split_dataset_colors <- c(
+  real = "black",
+  train = "#bd2929",
+  val = "#e0b01c",
+  test = "#16a085",
+  future = "blue"
+)
+split_dataset_labels <- c(
+  real = "Real",
+  train = "Prediction-Train",
+  val = "Prediction-Validation",
+  test = "Prediction-Test",
+  future = "Prediction-Future"
+)
 
 #' @title Read reformatted amplicon data from a results folder
 #' @description Read the amplicon data in the data_reformatted subfolder of a results run into an ampvis2 object
@@ -85,33 +25,20 @@ plot_performance <- function(results_dir, tablename = "performance_table") {
 #' @param results_dir Output results folder as produced from a single run of run.bash
 #'
 #' @return An ampvis2 class object
-#' @export
-#'
-#' @examples
 load_data_reformatted <- function(results_dir) {
   abund <- fread(
     file.path(results_dir, "data_reformatted/abundances.csv"),
     data.table = FALSE
-  ) %>%
-    t() %>%
-    as.data.frame() %>% {
-      colnames(.) <- .[1, ]
-      . <- .[-1, ]
-      .[] <- lapply(., as.numeric)
-      .[["ASV"]] <- rownames(.)
-      .
-    }
+  )
+  # samples are rows, taxa are columns
+  otutable <- as.data.frame(t(abund[, -1]))
+  colnames(otutable) <- abund[[1]]
+  otutable$ASV <- rownames(otutable)
 
   amp_load(
-    otutable = abund,
-    metadata = file.path(
-      results_dir,
-      "data_reformatted/metadata.csv"
-    ),
-    taxonomy = file.path(
-      results_dir,
-      "data_reformatted/taxonomy_wfunctions.csv"
-    )
+    otutable = otutable,
+    metadata = file.path(results_dir, "data_reformatted/metadata.csv"),
+    taxonomy = file.path(results_dir, "data_reformatted/taxonomy_wfunctions.csv")
   )
 }
 
@@ -120,16 +47,8 @@ load_data_reformatted <- function(results_dir) {
 #'
 #' @param file File path to a *_performance.txt file
 #'
-#' @return A data.table
-#' @export
-#'
-#' @examples
+#' @return A data.table with columns cluster_no, error_metric, value, predwindow
 parse_performance <- function(file) {
-  if (!file.exists(file)) {
-    warning("file ", file, " doesn't exist, skipping...")
-    return(NULL)
-  }
-
   dt <- fread(file)
   # header is a python list
   colnames(dt) <- stringi::stri_replace_all_regex(
@@ -148,16 +67,18 @@ parse_performance <- function(file) {
     replacement = ""
   )
   dt[] <- lapply(dt, as.numeric)
-  dt[,loss := NULL]
+  if ("loss" %in% colnames(dt)) {
+    dt[, loss := NULL]
+  }
 
   dt <- melt(
     dt,
     id.vars = "cluster_no",
     variable.name = "error_metric",
-    value = "value"
+    value.name = "value"
   )
 
-  # extract predwindow from error_metric
+  # extract predwindow from error_metric, e.g. bray_curtis_10
   dt[, predwindow := as.integer(gsub("^.*_", "", error_metric))]
   dt[, error_metric := gsub("_[0-9]+$", "", error_metric)]
 
@@ -168,77 +89,55 @@ parse_performance <- function(file) {
 #' @description Read ALL performance summary files from a single run, reformat, prettify and combine into a single data table
 #'
 #' @param results_dir Path to a results folder as produced by run.bash
-#' @param add_dataset_info If TRUE paste the number of predicted samples to each dataset. If FALSE show the number of samples instead.
+#' @param add_numsamples If TRUE append the number of samples in the dataset to the dataset name, e.g. "Aalborg W (300)"
 #'
 #' @return A data.table
-#' @export
-#'
-#' @examples
-read_performance <- function(
-  results_dir,
-  add_numsamples = TRUE
-) {
-  filenames <- c(
-    "lstm_idec_performance.txt",
-    "lstm_abund_performance.txt",
-    "lstm_func_performance.txt",
-    "graph_idec_performance.txt",
-    "graph_abund_performance.txt",
-    "graph_func_performance.txt",
-    "graph_graph_performance.txt"
+read_performance <- function(results_dir, add_numsamples = TRUE) {
+  files <- list.files(
+    results_dir,
+    pattern = "_performance\\.txt$",
+    full.names = TRUE
   )
-
-  results_list <- lapply(
-    file.path(results_dir, filenames),
-    parse_performance
-  )
-  names(results_list) <- gsub("_performance.txt$", "", filenames)
+  results_list <- lapply(files, parse_performance)
+  names(results_list) <- sub("_performance\\.txt$", "", basename(files))
 
   dt <- rbindlist(results_list, idcol = "cluster_type")
 
   dt$dataset <- basename(results_dir)
 
   if (isTRUE(add_numsamples)) {
-    #read metadata to get the number of samples to append dataset names
     metadata <- fread(
       file.path(results_dir, "data_reformatted", "metadata.csv")
     )
     dt$dataset <- paste0(dt$dataset, " (", nrow(metadata), ")")
   }
 
-  dt$cluster_type <- stringr::str_replace_all(
-    dt$cluster_type,
-    pattern = c(
-      "lstm_abund" = "Ranked abundance",
-      "lstm_func" = "Biological function",
-      "lstm_idec" = "IDEC",
-      "graph_abund" = "Ranked abundance",
-      "graph_func" = "Biological function",
-      "graph_idec" = "IDEC",
-      "graph_graph" = "Graph"
-    )
+  cluster_type_names <- c(
+    lstm_abund = "Ranked abundance",
+    lstm_func = "Biological function",
+    lstm_idec = "IDEC",
+    graph_abund = "Ranked abundance",
+    graph_func = "Biological function",
+    graph_idec = "IDEC",
+    graph_graph = "Graph"
   )
+  error_metric_names <- c(
+    bray_curtis = "Bray Curtis",
+    mse = "Mean Squared Error",
+    mae = "Mean Absolute Error"
+  )
+  dt[, cluster_type := unname(cluster_type_names[cluster_type])]
+  dt[, error_metric := unname(error_metric_names[error_metric])]
 
-  dt$error_metric <- stringr::str_replace_all(
-    dt$error_metric,
-    pattern = c(
-      "bray_curtis" = "Bray Curtis",
-      "mse" = "Mean Squared Error",
-      "mae" = "Mean Absolute Error"
-    )
-  )
   return(dt)
 }
 
 #' @title Boxplot of model accuracy per batch (produced by loop_datasets.bash)
-#' @description Read all performance summary files from a batch of multiple runs (i.e. WWTPs) and plot a summary boxplot. Will also save the plot to a PDF file in each folder.
+#' @description Read all performance summary files from a batch of multiple runs (i.e. WWTPs) and plot a summary boxplot with one row per prediction window. Optionally saves the plot in results_batch_dir.
 #'
 #' @param results_batch_dir Path to a folder containing one or more subfolders, each produced by run.bash (i.e. produced by loop_datasets.bash)
 #'
-#' @return A ggplot2 object
-#' @export
-#'
-#' @examples
+#' @return A patchwork object (invisibly)
 boxplot_all <- function(
   results_batch_dir,
   add_numsamples = TRUE,
@@ -261,121 +160,89 @@ boxplot_all <- function(
     recursive = FALSE
   )
   if (length(runs) == 0) {
-    stop("No results folders found, wrong working directory?")
+    stop("No results folders found in \"", results_batch_dir, "\", wrong working directory?")
   }
 
-  d_list <- lapply(runs, read_performance, add_numsamples = add_numsamples)
-  names(d_list) <- runs
   combined <- rbindlist(
-    d_list,
-    idcol = "results_folder",
+    lapply(runs, read_performance, add_numsamples = add_numsamples),
     fill = TRUE
-  )[
-    !is.na(cluster_type) & value > 0
+  )
+  combined <- combined[
+    value > 0 &
+      error_metric %chin% error_metrics &
+      cluster_type %chin% cluster_types
   ]
 
-  combined <- combined[error_metric %chin% error_metrics & cluster_type %chin% cluster_types]
-  #order datasets by the number of samples (extracted from dataset names)
-  combined[,unique(dataset)] %>%
-    stringi::stri_extract_all_regex("\\(.*$", "") %>%
-    stringi::stri_extract_all_regex("[0-9]+") %>%
-    as.numeric -> nsamples
-  datasets_ordered <- combined[
-    ,
-    unique(dataset)
-  ][
-    order(nsamples, decreasing = F)
-  ]
-  combined[, dataset := factor(dataset, levels = datasets_ordered)]
+  # order datasets by the number of samples (in parentheses), then by name
+  datasets <- unique(combined$dataset)
+  nsamples <- as.numeric(
+    stringi::stri_match_last_regex(datasets, "\\(([0-9]+)\\)$")[, 2]
+  )
+  combined[, dataset := factor(dataset, levels = datasets[order(nsamples, datasets)])]
 
-  # create a list of plots for each error metric
-  plot_list <- combined %>%
-    split(.[["predwindow"]]) %>%
-    lapply(
-      function(dt) {
-        ggplot(
-          dt,
-          aes(
-            cluster_type,
-            value,
-            color = cluster_type,
-            fill = cluster_type
-          )
+  # one plot per prediction window, stacked on top of each other
+  plot_list <- lapply(
+    split(combined, by = "predwindow", sorted = TRUE),
+    function(dt) {
+      ggplot(
+        dt,
+        aes(
+          cluster_type,
+          value,
+          color = cluster_type,
+          fill = cluster_type
+        )
+      ) +
+        geom_boxplot(
+          outlier.shape = 19,
+          outlier.size = 1,
+          alpha = 0.4,
+          linewidth = 0.25
         ) +
-          geom_boxplot(
-            outlier.shape = 19,
-            outlier.size = 1,
-            alpha = 0.4,
-            linewidth = 0.25
-          ) +
-          facet_grid(
-            rows = vars(error_metric, predwindow),
-            cols = vars(dataset),
-            scales = "free"
-          ) +
-          theme_bw() +
-          theme(
-            legend.position = "none",
-            legend.title = element_blank(),
-            axis.text.x = element_blank(),
-            axis.text.y = element_text(size = 12),
-            axis.title = element_blank(),
-            axis.ticks.x = element_blank(),
-            strip.text.x = element_blank(),
-            strip.text.y = element_text(size = 10),
-            panel.grid.minor = element_blank(),
-            panel.grid.major.x = element_blank(),
-            panel.grid.major.y = element_line(color = "gray70")
-          ) +
-          scale_colour_manual(values = cluster_type_colors) +
-          scale_fill_manual(values = cluster_type_colors)
-      }
-    )
-
-  # The first plot will be at the top and show facet strips but no x axis text
-  # Bray-Curtis axis breaks must be set between 0 - 1
-  plot_list[[1]] <- plot_list[[1]] +
-    theme(
-      axis.ticks.x = element_blank(),
-      strip.text.x = element_text(angle = 90, size = 12)
-    ) +
-    scale_y_continuous(
-      trans = "sqrt",
-      breaks = scales::breaks_pretty(n = 7)
-    )
-
-  # Increase the number of axis breaks for the middle plot
-  plot_list[[2]] <- plot_list[[2]] +
-  scale_y_continuous(
-    trans = "sqrt",
-    breaks = scales::breaks_pretty(n = 7)
+        facet_grid(
+          rows = vars(error_metric, predwindow),
+          cols = vars(dataset),
+          scales = "free"
+        ) +
+        scale_y_continuous(
+          trans = "sqrt",
+          breaks = scales::breaks_pretty(n = 7)
+        ) +
+        scale_colour_manual(values = cluster_type_colors) +
+        scale_fill_manual(values = cluster_type_colors) +
+        theme_bw() +
+        theme(
+          legend.position = "none",
+          legend.title = element_blank(),
+          axis.text.x = element_blank(),
+          axis.text.y = element_text(size = 12),
+          axis.title = element_blank(),
+          axis.ticks.x = element_blank(),
+          strip.text.x = element_blank(),
+          strip.text.y = element_text(size = 10),
+          panel.grid.minor = element_blank(),
+          panel.grid.major.x = element_blank(),
+          panel.grid.major.y = element_line(color = "gray70")
+        )
+    }
   )
 
-  # The last plot will be at the bottom and
-  # show no facet strips but will show x axis text
-  # increase the number of axis breaks
+  # dataset names only on the top plot, legend only on the bottom plot
+  plot_list[[1]] <- plot_list[[1]] +
+    theme(strip.text.x = element_text(angle = 90, size = 12))
   plot_list[[length(plot_list)]] <- plot_list[[length(plot_list)]] +
     theme(
-      strip.text.x = element_blank(),
       legend.position = "bottom",
       legend.title = element_text(size = 12),
       legend.text = element_text(size = 14)
     ) +
-    scale_y_continuous(
-      trans = "sqrt",
-      breaks = scales::breaks_pretty(n = 7)
-    ) +
     labs(color = "Clustering type", fill = "Clustering type")
 
-  # Compose all plots in the list using patchwork
-  plot <- purrr::reduce(
-    plot_list,
-    `/`
-  )
+  plot <- wrap_plots(plot_list, ncol = 1)
 
-  if(isTRUE(save)) {
+  if (isTRUE(save)) {
     ggsave(
-      file.path(dirname(combined[1, results_folder]), filename),
+      file.path(results_batch_dir, filename),
       plot = plot,
       width = plot_width,
       height = plot_height,
@@ -384,26 +251,21 @@ boxplot_all <- function(
     )
   }
 
-  invisible(plot_list)
+  invisible(plot)
 }
 
 #' @title Read predicted abundance files from a single run
-#' @description Read all predicted abundance tables (across all cluster types) for a single run and combine
+#' @description Read all predicted abundance tables matching a pattern for a single run and combine
 #'
 #' @param results_dir Path to a results folder as produced by run.bash
-#' @param pattern A regex pattern for file names to search for
+#' @param pattern A regex pattern for file names to search for, must end with _<predwindow>.csv
 #' @param sample_prefix Prefix for sample names (i.e. true_ or predicted_)
 #'
-#' @return A (melted) data.table
-#' @export
-#'
-#' @examples
+#' @return A (melted) data.table. Sample IDs are prefixed with "<sample_prefix><predwindow>samples_"
 read_abund <- function(results_dir, pattern, sample_prefix = "") {
   abund_files <- list.files(
     file.path(results_dir, "data_predicted"),
     pattern = pattern,
-    recursive = FALSE,
-    include.dirs = FALSE,
     full.names = TRUE
   )
 
@@ -413,22 +275,16 @@ read_abund <- function(results_dir, pattern, sample_prefix = "") {
   abund_list <- lapply(
     abund_files,
     function(file) {
-      #first read each file
-      dt <- fread(
-        file,
-        sep = ",",
-        header = TRUE
-      )
+      dt <- fread(file, sep = ",", header = TRUE)
 
-      #melt to be able to rowbind all files
+      # melt to be able to rowbind all files
       abund <- melt(
         dt,
         id.vars = names(dt)[[1]],
         variable.name = "OTU",
         value.name = "abundance"
       )
-      # TODO: use stri_extract_all_regex() instead of gsub
-      predwindow <- gsub("^.*_", "", gsub(".csv$", "", file))
+      predwindow <- stringi::stri_match_last_regex(file, "_([0-9]+)\\.csv$")[, 2]
       abund[[1]] <- paste0(sample_prefix, predwindow, "samples_", abund[[1]])
       return(abund)
     }
@@ -436,224 +292,202 @@ read_abund <- function(results_dir, pattern, sample_prefix = "") {
 
   abund_long <- rbindlist(abund_list)
 
-  #negative abundances doesn't make sense
-  sub_zeros <- abund_long$abundance < 0L
-  if (sum(sub_zeros) > 0) {
-    warning(
-      sum(sub_zeros),
-      " negative abundance values have been set to 0"
-    )
-    abund_long$abundance[sub_zeros] <- 0L
+  # negative abundances doesn't make sense
+  n_negative <- abund_long[abundance < 0, .N]
+  if (n_negative > 0) {
+    warning(n_negative, " negative abundance values have been set to 0")
+    abund_long[abundance < 0, abundance := 0]
   }
   return(abund_long)
 }
 
 #' @title Read and combine both true and predicted abundance data
-#' @description read and combine both original and predicted abundance data (incl metadata+tax) from all cluster types into a single ampvis2 object
+#' @description Read and combine real, predicted (train/val/test) and future predicted abundances incl. metadata+taxonomy into a single ampvis2 object.
+#' Real samples get a new sample ID prefixed with "true_", predicted samples "pred_<predwindow>samples_" and future ones "future_<predwindow>samples_".
+#' The new sample IDs are stored in the first metadata column, which is named as the original sample ID column prefixed with ".", the original sample ID column is kept to pair real and predicted samples.
 #'
 #' @param results_dir Path to a results folder as produced by run.bash
-#' @param cluster_type From which cluster type should the predicted data be from (i.e. abund, func, or idec)
+#' @param cluster_type From which cluster type should the predicted data be from (i.e. abund, func, idec, or graph)
+#' @param predwindow Only keep predictions from this prediction window (number of samples predicted ahead). NULL keeps all.
 #'
 #' @return An ampvis2 class object
-#' @export
-#'
-#' @examples fucking ugly but it does the job
-combine_abund <- function(results_dir, cluster_type = "graph") {
-  cluster_types <- tolower(c("abund", "func", "idec", "graph"))
-  if (length(cluster_type) != 1L || !any(tolower(cluster_type) %in% cluster_types)) {
-    stop(
-      "cluster_type must be one of: ",
-      paste0(cluster_types, collapse = ", "))
-  }
-  cluster_type <- tolower(cluster_type)
+combine_abund <- function(results_dir, cluster_type = "graph", predwindow = NULL) {
+  cluster_type <- match.arg(tolower(cluster_type), c("abund", "func", "idec", "graph"))
+  # avoid clashing with the predwindow column in data.table expressions
+  keep_predwindow <- predwindow
 
-  #read dates and sample IDs and use as metadata,
-  #dates per sample are the same for all,
-  #just use the first file as metadata for all abundance tables
+  # dates and sample IDs are the same for all files, use as metadata
   metadata <- fread(
     list.files(
       file.path(results_dir, "data_splits"),
-      pattern = ".*dates(_all)*\\.csv",
-      recursive = FALSE,
-      include.dirs = FALSE,
+      pattern = "dates(_all)?\\.csv$",
       full.names = TRUE
     )[[1]]
   )
-  # need to be able to reliably distinguish original metadata sample IDs 
-  # and new synthetic ones in order to merge different tables with both
-  metadata_sampleid_col <- colnames(metadata)[[1]]
-  new_metadata_sampleid_col <- paste0(".", metadata_sampleid_col)
+  sampleid_col <- colnames(metadata)[[1]]
+  new_sampleid_col <- paste0(".", sampleid_col)
+  metadata[, (sampleid_col) := as.character(get(sampleid_col))]
 
-  #add a split_dataset column with whether
-  #the particular dates are used for train, val, or test
-  metadata_split_datasets <- rbindlist(
+  # whether each date is used for train, val, or test
+  split_files <- file.path(
+    results_dir,
+    "data_splits",
+    paste0("dates_", c("train", "val", "test"), ".csv")
+  )
+  splits <- rbindlist(
     lapply(
-      file.path(
-        results_dir,
-        "data_splits",
-        c("dates_train.csv", "dates_val.csv", "dates_test.csv")
-      ),
+      split_files[file.exists(split_files)],
       function(file) {
-        if (file.exists(file)) {
-          dt <- fread(
-            file
-          )
-          colnames(dt)[[1]] <- metadata_sampleid_col
-          dt[, split_dataset := gsub(".*_|\\.csv", "", file)] #train, val, or test #nolint
-          return(dt)
-        }
+        dt <- fread(file)
+        setnames(dt, 1, sampleid_col)
+        dt[, (sampleid_col) := as.character(get(sampleid_col))]
+        dt[, split_dataset := sub("^dates_(.*)\\.csv$", "\\1", basename(file))]
       }
     )
   )
 
-  #checks for when data is produced by older versions of the workflow
-  if (sum(dim(metadata_split_datasets)) != 0L) {
-    #if using no validation data, it will be identical to test data
-    #remove it
-    if (
-      any(
-        metadata_split_datasets[split_dataset == "val"][[metadata_sampleid_col]] %chin%
-        metadata_split_datasets[split_dataset == "test"][[metadata_sampleid_col]]
-      )
-    ) {
-      metadata_split_datasets <- metadata_split_datasets[split_dataset != "val"]
+  if (nrow(splits) > 0) {
+    # if using no validation data, it will be identical to test data, remove it
+    val_ids <- splits[split_dataset == "val"][[sampleid_col]]
+    test_ids <- splits[split_dataset == "test"][[sampleid_col]]
+    if (any(val_ids %in% test_ids)) {
+      splits <- splits[split_dataset != "val"]
     }
-    metadata <- metadata_split_datasets[metadata, on = c(metadata_sampleid_col, "Date")]
-  } else if (sum(dim(metadata_split_datasets)) == 0L) {
+    metadata <- splits[metadata, on = c(sampleid_col, "Date")]
+  } else {
+    # older versions of the workflow don't write the splits
     metadata[, split_dataset := "predicted"]
   }
 
-  #read predicted abundance tables (from train+val+test)
+  # predicted abundances (from train+val+test)
   pred_abund <- read_abund(
     results_dir = results_dir,
     pattern = paste0("(graph|lstm)_", cluster_type, "_all_predicted_[0-9]+\\.csv$"),
     sample_prefix = "pred_"
   )
-  colnames(pred_abund)[1] <- new_metadata_sampleid_col
+  setnames(pred_abund, 1, new_sampleid_col)
+  pred_metadata <- unique(pred_abund[, new_sampleid_col, with = FALSE])
+  pred_metadata[, (sampleid_col) := sub("^pred_[0-9]+samples_", "", get(new_sampleid_col))]
+  pred_metadata[, predwindow := as.integer(sub("^pred_([0-9]+)samples_.*$", "\\1", get(new_sampleid_col)))]
+  pred_metadata[, predicted := "predicted"]
+  pred_metadata <- metadata[pred_metadata, on = sampleid_col]
 
-  #read true/historic abundance table (do this AFTER read_abund() has been called at least once above)
+  # real abundances (do this AFTER read_abund() to get a meaningful error if the run failed)
   true_abund <- fread(
     list.files(
       file.path(results_dir, "data_predicted"),
       pattern = paste0("(graph|lstm)_", cluster_type, "_all_dataall_nontrans\\.csv$"),
-      recursive = FALSE,
-      include.dirs = FALSE,
       full.names = TRUE
-    )[1],
+    )[[1]],
     sep = ",",
     header = TRUE
   )
-  # prefix sample IDs
-  true_abund[[1]] <- paste0("true_", true_abund[[1]])
-  colnames(true_abund)[[1]] <- new_metadata_sampleid_col
+  setnames(true_abund, 1, new_sampleid_col)
+  true_abund[, (new_sampleid_col) := paste0("true_", get(new_sampleid_col))]
   true_abund <- melt(
     true_abund,
-    id.vars = new_metadata_sampleid_col,
+    id.vars = new_sampleid_col,
     variable.name = "OTU",
     value.name = "abundance"
   )
   true_metadata <- copy(metadata)
-  true_metadata[[new_metadata_sampleid_col]] <- paste0("true_", true_metadata[[1]])
-  true_metadata[["split_dataset"]] <- "real"
-  true_metadata[["predicted"]] <- "real"
-  true_metadata[["predwindow"]] <- 0L
+  true_metadata[, (new_sampleid_col) := paste0("true_", get(sampleid_col))]
+  true_metadata[, `:=`(split_dataset = "real", predicted = "real", predwindow = 0L)]
 
-  # generate predicted metadata
-  pred_metadata <- data.table(unique(pred_abund[[1]]))
-  colnames(pred_metadata)[[1]] <- new_metadata_sampleid_col
-  # be consistent with naming conventions for this regex to work
-  pred_metadata[[metadata_sampleid_col]] <- gsub("^.*[0-9]+samples_", "", pred_metadata[[new_metadata_sampleid_col]])
-  pred_metadata[["predwindow"]] <- as.integer(gsub("samples_.+$", "", gsub("^[^_]+_", "", pred_metadata[[1]])))
-  pred_metadata[["predicted"]] <- "predicted"
-  # merge
-  pred_metadata <- metadata[pred_metadata, on = metadata_sampleid_col]
-  
-  #read actual future prediction tables
+  # actual future predictions
   future_abund <- read_abund(
     results_dir = results_dir,
     pattern = paste0("(graph|lstm)_", cluster_type, "_all_actual_prediction_[0-9]+\\.csv$"),
     sample_prefix = "future_"
   )
-  colnames(future_abund)[1] <- new_metadata_sampleid_col
+  setnames(future_abund, 1, new_sampleid_col)
+  future_metadata <- unique(future_abund[, new_sampleid_col, with = FALSE])
+  future_metadata[, predwindow := as.integer(sub("^future_([0-9]+)samples_.*$", "\\1", get(new_sampleid_col)))]
+  future_metadata[, `:=`(predicted = "predicted", split_dataset = "future")]
+  # estimate future dates based on the average sampling interval of the real data
+  sampling_interval <- as.integer(ceiling(mean(diff(sort(unique(metadata$Date))))))
+  future_metadata[, Date := max(metadata$Date) + seq_len(.N) * sampling_interval, by = predwindow]
 
-  # generate future metadata
-  future_metadata <- data.table(unique(future_abund[[1]]))
-  colnames(future_metadata)[[1]] <- new_metadata_sampleid_col
-  future_metadata[["predwindow"]] <- as.integer(gsub("samples_.+$", "", gsub("^[^_]+_", "", future_metadata[[1]])))
-  future_metadata[["predicted"]] <- "predicted"
-  future_metadata[["split_dataset"]] <- "future"
-  # generate estimated future time stamps based on the sampling interval in the original dataset
-  sampling_interval <- ceiling(mean(diff(sort(unique(true_metadata[predicted == "real", Date])))))
-  future_metadata[, Date := max(true_metadata$Date) + seq_len(.N) * sampling_interval, by = predwindow]
-
-  # combine the datasets
-  abund <- rbindlist(list(true_abund, pred_abund, future_abund), fill = TRUE)
+  abund <- rbindlist(list(true_abund, pred_abund, future_abund))
   metadata <- rbindlist(list(true_metadata, pred_metadata, future_metadata), fill = TRUE)
-  # Order dataset type (split_dataset) by real-train-val-test-future
-  metadata[["split_dataset"]] <- factor(
-    metadata[["split_dataset"]],
-    levels = c("real", "train", "val", "test", "future")
-  )
-  combined <- amp_load(
-    otutable = dcast(abund, OTU~eval(parse(text = new_metadata_sampleid_col)), value.var = "abundance"),
-    # reorder metadata to have new sample IDs in the first column
-    metadata = metadata[, .SD, by = new_metadata_sampleid_col],
-    taxonomy = file.path(
-      results_dir,
-      "data_reformatted",
-      "taxonomy_wfunctions.csv"
-    )
-  )
+  metadata[, split_dataset := factor(split_dataset, levels = names(split_dataset_colors))]
+  setcolorder(metadata, new_sampleid_col)
 
-  return(combined)
+  if (!is.null(keep_predwindow)) {
+    metadata <- metadata[predwindow %in% c(0L, keep_predwindow)]
+    abund <- abund[get(new_sampleid_col) %chin% metadata[[new_sampleid_col]]]
+  }
+
+  amp_load(
+    otutable = dcast(
+      abund,
+      as.formula(paste0("OTU ~ `", new_sampleid_col, "`")),
+      value.var = "abundance"
+    ),
+    metadata = metadata,
+    taxonomy = file.path(results_dir, "data_reformatted", "taxonomy_wfunctions.csv")
+  )
 }
 
+#' @title Short readable label for an OTU
+#' @description "FLASV3.1527; s__Ca_Microthrix_parvicella; g__Ca_Microthrix" becomes "FLASV3.1527 - Ca. Microthrix parvicella", MiDAS placeholder species are prefixed with the genus, e.g. "FLASV4.1481 - Trichococcus midas_s_4"
+#'
+#' @param otu Character vector of OTU names as in the taxonomy
+#'
+#' @return Character vector
+otu_label <- function(otu) {
+  id <- sub(";.*$", "", otu)
+  species <- stringi::stri_match_first_regex(otu, "s__([^;]+)")[, 2]
+  genus <- stringi::stri_match_first_regex(otu, "g__([^;]+)")[, 2]
+  name <- ifelse(
+    grepl("^midas_", species),
+    paste(sub("^Ca_", "Ca. ", genus), species),
+    gsub("_", " ", sub("^Ca_", "Ca. ", species))
+  )
+  ifelse(is.na(species), id, paste(id, "-", name))
+}
+
+#' @title Time series plot of real and predicted abundances
+#'
+#' @param data Long format data.table from amp_export_long(combine_abund()) for a single OTU and a single prediction window
+#' @param date_limits Range of the x axis, defaults to the range of the data. Set to align stacked plots
+#'
+#' @return A ggplot object
 plot_timeseries <- function(
   data,
   filename = paste0(deparse(substitute(data)), "_timeseries.png"),
   save = TRUE,
   plot_width = 180,
   plot_height = 185,
-  add_bg_shades = TRUE
+  add_bg_shades = TRUE,
+  date_limits = range(data$Date)
 ) {
-  if(isTRUE(add_bg_shades)) {
-    #generate a data frame with x coordinates for
-    #alternating background shades for each year
-    bg_ranges <- data.frame(
-      xmin = seq(
-        from = floor_date(min(data$Date), "year"),
-        to = floor_date(max(data$Date), "year"),
-        by = "2 years"
-      ),
-      xmax = seq(
-        from = floor_date(min(data$Date), "year"),
-        to = floor_date(max(data$Date), "year"),
-        by = "2 years"
-      ) + years(1)
-    )
-
-    #always start at odd years, if data starts at an even year
-    #add 1 year and delete the last row to skew
-    if (year(min(bg_ranges$xmin)) %% 2 == 0) {
-      bg_ranges[] <- lapply(bg_ranges, `+`, years(1))
-      bg_ranges[-nrow(bg_ranges), ]
-    }
-  }
+  # from the start of the first quarter to the end of the last
+  date_limits <- as.Date(c(
+    floor_date(min(date_limits), "3 months"),
+    ceiling_date(max(date_limits), "3 months")
+  ))
+  real <- data[split_dataset == "real"]
+  predicted <- data[split_dataset != "real"]
 
   plot <- ggplot(
-  data,
-  aes(
-    x = Date,
-    y = count,
-    color = split_dataset
+    data,
+    aes(
+      x = Date,
+      y = count,
+      color = split_dataset
+    )
   )
-) +
-  geom_line(data = data[split_dataset == "real"]) +
-  geom_point(data = data[split_dataset == "real"]) +
-  geom_line(data = data[split_dataset != "real"], alpha = 0.9) +
-  geom_point(data = data[split_dataset != "real"], alpha = 0.9) +
-  {
-    if(isTRUE(add_bg_shades)) {
+
+  if (isTRUE(add_bg_shades)) {
+    # shade every odd year
+    years <- seq(year(date_limits[1]), year(date_limits[2]))
+    years <- years[years %% 2 == 1]
+    bg_ranges <- data.frame(
+      xmin = pmax(make_date(years), date_limits[1]),
+      xmax = pmin(make_date(years + 1), date_limits[2])
+    )
+    plot <- plot +
       geom_rect(
         data = bg_ranges,
         aes(
@@ -666,56 +500,45 @@ plot_timeseries <- function(
         inherit.aes = FALSE,
         show.legend = FALSE
       )
-    }
-  } +
-  geom_vline(xintercept = data[split_dataset == "test", min(Date)]) +
-  scale_color_manual(
-    values = c(
-      "black",
-      "#bd2929",
-      "#e0b01c",
-      "#16a085",
-      "blue"
-    )[1:data[, length(unique(split_dataset))]],
-    labels = c(
-      real = "Real",
-      train = "Prediction-Train",
-      val = "Prediction-Validation",
-      test = "Prediction-Test",
-      future = "Prediction-Future"
-    )[1:data[, length(unique(split_dataset))]],
-    breaks = c(
-      "real",
-      "train",
-      "val",
-      "test",
-      "future"
-    )[1:data[, length(unique(split_dataset))]]
-  ) +
-  #breaks should start from january, regardless of data
-  scale_x_date(
-    breaks = function(limits) {
-      seq(
-        from = floor_date(limits[1], "year"),
-        to = ceiling_date(limits[2], "year"),
-        by = "3 months"
-      )
-    },
-    limits = c(
-      floor_date(min(data$Date), "3 months"),
-      ceiling_date(max(data$Date), "3 months")
-    ),
-    date_labels =  "%Y %b"
-  ) +
-  theme(
-    legend.position = "bottom",
-    legend.title = element_blank(),
-    legend.text = element_text(size = 12),
-    axis.title.x = element_blank(),
-    axis.title.y = element_text(size = 12),
-    axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5)
-  ) +
-  ylab("% Relative Abundance")
+  }
+
+  plot <- plot +
+    geom_line(data = real) +
+    geom_point(data = real) +
+    geom_line(data = predicted, alpha = 0.9) +
+    geom_point(data = predicted, alpha = 0.9)
+
+  # mark the start of the test period
+  if (any(data$split_dataset == "test", na.rm = TRUE)) {
+    plot <- plot + geom_vline(xintercept = min(data[split_dataset == "test", Date]))
+  }
+
+  plot <- plot +
+    scale_color_manual(
+      values = split_dataset_colors,
+      labels = split_dataset_labels
+    ) +
+    # breaks should start from january, regardless of data
+    scale_x_date(
+      breaks = function(limits) {
+        seq(
+          from = floor_date(limits[1], "year"),
+          to = ceiling_date(limits[2], "year"),
+          by = "3 months"
+        )
+      },
+      limits = date_limits,
+      date_labels = "%Y %b"
+    ) +
+    theme(
+      legend.position = "bottom",
+      legend.title = element_blank(),
+      legend.text = element_text(size = 12),
+      axis.title.x = element_blank(),
+      axis.title.y = element_text(size = 12),
+      axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5)
+    ) +
+    ylab("% Relative Abundance")
 
   if (isTRUE(save)) {
     ggsave(
@@ -731,37 +554,39 @@ plot_timeseries <- function(
   return(plot)
 }
 
-plot_obs_pred <- function(ampvis2_long) {
-  # cast dataset, dynamic sample ID col
-  ampvis2_long <- ds
-  sampleid_col <- gsub("^\\.", "", colnames(ampvis2_long)[[1]])
-  carsten <- dcast(
-    ampvis2_long[!is.na(eval(parse(text = sampleid_col)))], #[, .thiscolnamewillprobablynotbutmostlikelyneverbeseeninanydataset := gsub("true_|pred_", "", eval(parse(text = sampleid_col)))],
-    eval(parse(text = sampleid_col)) + OTU ~ predicted,
-    value.var = "count",
-    fun.aggregate = sum
-  )[!is.na(predicted) & predicted > 0 & !is.na(real) & real > 0]
+#' @title Scatter plot of real vs. predicted abundances
+#' @description Real and predicted samples are paired by the original sample ID. Pairs where either value is 0 are left out.
+#' The annotated R^2 values are from a normal linear regression and from the 1:1 line (prediction == real).
+#'
+#' @param data Long format data.table from amp_export_long(combine_abund()) for a single OTU and a single prediction window. All metadata variables must be kept.
+#'
+#' @return A ggplot object
+plot_obs_pred <- function(data) {
+  # the original sample IDs are in the column named as the first column without the leading "."
+  sampleid_col <- sub("^\\.", "", colnames(data)[[1]])
+  if (!sampleid_col %in% colnames(data)) {
+    stop("Column \"", sampleid_col, "\" with the original sample IDs is missing, keep all metadata variables in amp_export_long()")
+  }
+  # future predictions have no original sample ID
+  data <- data[!is.na(get(sampleid_col))]
+  if (uniqueN(data$OTU) != 1L) {
+    stop("data must contain exactly one OTU")
+  }
+  if (anyDuplicated(data[, c(sampleid_col, "predicted"), with = FALSE])) {
+    stop("data contains more than one prediction window, filter by predwindow first")
+  }
 
-  #calc trendline/regression between obs+pred for each OTU
-  trendy_carsten <- carsten[
-    ,
-    {
-      ss_total <- sum((real - mean(real))^2) # Total sum of squares
-      ss_residual <- sum((real - predicted)^2) # Residual sum of squares compared to 1:1 line
-      rsq <- 1 - (ss_residual / ss_total) # R-squared for the 1:1 line
-      model = lm(predicted ~ real) # normal linear regression model
-      list(
-        rsq_1to1 = rsq,
-        lm_intercept = coef(model)[[1]],
-        lm_slope = coef(model)[[2]],
-        lm_rsq = summary(model)$r.squared
-      )
-    },
-    by = OTU
-  ]
+  obs_pred <- dcast(
+    data,
+    as.formula(paste0("`", sampleid_col, "` ~ predicted")),
+    value.var = "count"
+  )[predicted > 0 & real > 0]
+
+  rsq_lm <- summary(lm(real ~ predicted, data = obs_pred))$r.squared
+  rsq_1to1 <- obs_pred[, 1 - sum((real - predicted)^2) / sum((real - mean(real))^2)]
 
   ggplot(
-    carsten,
+    obs_pred,
     aes(x = predicted, y = real)
   ) +
     geom_point() +
@@ -774,8 +599,8 @@ plot_obs_pred <- function(ampvis2_long) {
       label = as.expression(
         bquote(
           atop(
-            R^2 == .(round(trendy_carsten$lm_rsq, 3)),
-            R[1:1]^2 == .(round(trendy_carsten$rsq_1to1, 3))
+            R^2 == .(round(rsq_lm, 3)),
+            R[1:1]^2 == .(round(rsq_1to1, 3))
           )
         )
       ),
@@ -787,11 +612,159 @@ plot_obs_pred <- function(ampvis2_long) {
       x = "Prediction",
       y = "Real"
     ) +
-    #coord_fixed() +
-    #theme(aspect.ratio = 1) +
     tune::coord_obs_pred()
 }
 
+#' @title Time series plot next to a real vs. predicted plot
+#'
+#' @param data Long format data.table from amp_export_long(combine_abund()) for a single OTU and a single prediction window
+#' @param title Plot title, defaults to the OTU name
+#' @param legend,x_axis,y_title Whether to show the legend, x axis text, and y axis titles. Hide them when stacking plots
+#' @param date_limits Passed on to plot_timeseries()
+#'
+#' @return A patchwork object
+plot_ts_obs_pred <- function(
+  data,
+  title = otu_label(data$OTU[[1]]),
+  legend = TRUE,
+  x_axis = TRUE,
+  y_title = TRUE,
+  date_limits = range(data$Date)
+) {
+  if (uniqueN(data[predwindow > 0, predwindow]) > 1L) {
+    stop("data contains more than one prediction window, filter by predwindow first")
+  }
+  ts <- plot_timeseries(data, save = FALSE, date_limits = date_limits) +
+    ggtitle(title) +
+    scale_y_continuous(breaks = scales::breaks_pretty(n = 5)) +
+    theme(legend.position = if (legend) "bottom" else "none")
+  obs_pred <- plot_obs_pred(data)
+
+  if (!x_axis) {
+    ts <- ts + theme(axis.text.x = element_blank(), axis.ticks.x = element_blank())
+    obs_pred <- obs_pred + theme(axis.title.x = element_blank())
+  }
+  if (!y_title) {
+    ts <- ts + theme(axis.title.y = element_blank())
+    obs_pred <- obs_pred + theme(axis.title.y = element_blank())
+  }
+
+  ts + obs_pred + plot_layout(widths = c(3, 1))
+}
+
+#' @title Stack several plot_ts_obs_pred() plots on top of each other
+#' @description All plots share the same x axis, only the bottom plot shows the legend and x axis text, only the middle plot shows y axis titles
+#'
+#' @param data_list Named list of data.tables, each passed on to plot_ts_obs_pred()
+#' @param titles Plot titles, defaults to the list names, or the OTU names if the list is unnamed
+#'
+#' @return A patchwork object
+stack_ts_obs_pred <- function(data_list, titles = names(data_list)) {
+  if (is.null(titles)) {
+    titles <- vapply(data_list, function(data) otu_label(data$OTU[[1]]), character(1))
+  }
+  n <- length(data_list)
+  date_limits <- range(rbindlist(data_list)$Date)
+  plots <- lapply(
+    seq_len(n),
+    function(i) {
+      plot_ts_obs_pred(
+        data_list[[i]],
+        title = titles[[i]],
+        legend = i == n,
+        x_axis = i == n,
+        y_title = i == ceiling(n / 2),
+        date_limits = date_limits
+      )
+    }
+  )
+  wrap_plots(plots, ncol = 1)
+}
+
+#' @title Split data by prediction window
+#' @description Split long format data into one data.table per prediction window, each including the real data
+#'
+#' @param data Long format data.table from amp_export_long(combine_abund())
+#'
+#' @return A list of data.tables named e.g. "10 samples ahead"
+split_predwindows <- function(data) {
+  windows <- sort(unique(data[predwindow > 0, predwindow]))
+  setNames(
+    lapply(windows, function(w) data[predwindow %in% c(0L, w)]),
+    paste(windows, ifelse(windows == 1, "sample", "samples"), "ahead")
+  )
+}
+
+#' @title Data for a single OTU per prediction window across several runs
+#'
+#' @param long_list List of long format data.tables from amp_export_long(combine_abund()), e.g. one per run
+#' @param otu_regex Regular expression matching a single OTU
+#'
+#' @return A list of data.tables, see split_predwindows(), sorted by prediction window
+predwindow_panels <- function(long_list, otu_regex) {
+  panels <- do.call(
+    c,
+    lapply(long_list, function(long) split_predwindows(long[grepl(otu_regex, OTU)]))
+  )
+  panels[order(as.integer(sub(" .*$", "", names(panels))))]
+}
+
+#' @title Save a figure and the data behind it
+#' @description Saves the plot and writes the data to a csv file with the same name
+#'
+#' @param plot A ggplot or patchwork object
+#' @param data A data.frame with the data used for the plot
+#' @param path File path to save the plot to, the file extension determines the format
+#' @param width,height Size in mm
+save_figure <- function(plot, data, path, width = 250, height = 250) {
+  ggsave(path, plot = plot, width = width, height = height, units = "mm", dpi = 600)
+  fwrite(data, sub("\\.[[:alnum:]]+$", ".csv", path))
+}
+
+#' @title PCoA of real and predicted samples
+#' @description Real and predicted samples from the same date are connected by a line. Future predictions are left out.
+#'
+#' @param results_dir Path to a results folder as produced by run.bash
+#' @param cluster_type,predwindow Passed on to combine_abund()
+#'
+#' @return A ggplot object
+plot_pcoa <- function(results_dir, cluster_type = "graph", predwindow = 10) {
+  data <- combine_abund(results_dir, cluster_type = cluster_type, predwindow = predwindow)
+  data <- amp_filter_samples(data, split_dataset != "future")
+
+  amp_ordinate(
+    data,
+    type = "pcoa",
+    distmeasure = "bray",
+    transform = "none",
+    filter_species = 0,
+    sample_color_by = "split_dataset",
+    sample_trajectory = "Date",
+    sample_trajectory_group = "Date"
+  ) +
+    scale_color_manual(
+      values = split_dataset_colors,
+      labels = split_dataset_labels
+    ) +
+    scale_x_continuous(breaks = scales::breaks_pretty(n = 3)) +
+    scale_y_continuous(breaks = scales::breaks_pretty(n = 3)) +
+    theme(
+      legend.title = element_blank(),
+      legend.text = element_text(size = 16),
+      axis.text = element_text(size = 16),
+      axis.title = element_text(size = 16),
+      legend.position = "bottom"
+    ) +
+    guides(color = guide_legend(nrow = 2)) +
+    coord_fixed(ratio = 1)
+}
+
+#' @title Plot a graph adjacency matrix from the graph model
+#'
+#' @param graph_matrix_file Path to a csv file in the graph_matrix subfolder of a results folder
+#' @param plot_title Plot title, defaults to the file name
+#'
+#' @return A ggplot object
 plot_graph <- function(
   graph_matrix_file,
   plot_title = gsub("^.*/|\\.csv$", "", graph_matrix_file)
@@ -806,26 +779,27 @@ plot_graph <- function(
   graph_cluster[] <- lapply(graph_cluster, round, 3)
   graph_cluster[graph_cluster == 0] <- 0.001 #pseudo-zero
 
-  graph <- graph_cluster %>%
-    as.matrix %>%
-    graph.adjacency(
-      mode = "undirected",
-      weighted = TRUE,
-      diag = FALSE
-    ) %>%
-    as_tbl_graph(directed = FALSE)
+  graph <- igraph::graph_from_adjacency_matrix(
+    as.matrix(graph_cluster),
+    mode = "undirected",
+    weighted = TRUE,
+    diag = FALSE
+  ) |>
+    tidygraph::as_tbl_graph(directed = FALSE)
 
-  #use non-negative values for the layout, but keep originals for labels
-  E(graph)$weight.orig <- E(graph)$weight
-  E(graph)$weight <- abs(E(graph)$weight)
+  # use non-negative values for the layout, but keep originals for labels
+  igraph::E(graph)$weight.orig <- igraph::E(graph)$weight
+  igraph::E(graph)$weight <- abs(igraph::E(graph)$weight)
 
-  #Fruchterman-Reingold layout graph
-  ggraph(
+  colors <- rev(RColorBrewer::brewer.pal(n = 3, name = "RdBu"))
+
+  # GEM force-directed layout
+  ggraph::ggraph(
     graph,
     layout = "igraph",
     algorithm = "gem"
   ) +
-    geom_edge_link(
+    ggraph::geom_edge_link(
       aes(
         label = weight.orig,
         color = weight.orig
@@ -833,20 +807,17 @@ plot_graph <- function(
       width = 2,
       show.legend = FALSE
     ) +
-    geom_node_point(size = 3) +
-    geom_node_label(
+    ggraph::geom_node_point(size = 3) +
+    ggraph::geom_node_label(
       aes(label = name),
       repel = TRUE
-    ) + {
-      colors <- rev(RColorBrewer::brewer.pal(n = 3, name = "RdBu"))
-      scale_edge_color_gradient2(
-        low = colors[1],
-        mid = "grey80",
-        high = colors[3],
-        breaks = c(-Inf, 0, Inf),
-        #labels = c("Negative", "Zero", "Positive")
-      )
-    } +
+    ) +
+    ggraph::scale_edge_color_gradient2(
+      low = colors[1],
+      mid = "grey80",
+      high = colors[3],
+      guide = "none"
+    ) +
     theme_void() +
     ggtitle(plot_title)
 }
